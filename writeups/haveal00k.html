@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<title>Bruno Teixeira</title>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link href="../css.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+<body>
+<div id="topbar">
+  <div class="content">
+    <div class="url"></div>
+  </div>
+</div>
+<div id="top">
+  <div class="content">
+    <div id="menu">
+      <ul>
+        <li><a href="../index.html"><span>Home</span></a></li>
+        <li><a href="../projects.html"><span>Projects</span></a></li>
+        <li><a href="../writeups.html"><span>Writeups</span></a></li>
+        <li><a href="../about.html"><span>About Me</span></a></li>
+      </ul>
+    </div>
+    <h1><a href = "../index.html">Bruno Teixeira</a></h1>
+<a style="font-size:18px;" href="https://www.facebook.com/brunoteixeiraze" class="fa fa-facebook"></a>
+<a style="font-size:18px;" href="https://twitter.com/BrunoTeixeira49" class="fa fa-twitter"></a>
+<a style="font-size:18px;" href="https://www.linkedin.com/in/bruno-teixeira-1553b4a1/" class="fa fa-linkedin"></a>
+<a style="font-size:18px;" href="https://github.com/BrunoTeixeira1996" class="fa fa-github"></a>
+
+  </div>
+</div>
+<div class="content">
+  <p style="font-size:24px"><h2>Have a l00k</h2>
+  <p class="normal2" style="font-size:16px;">This first challenge was all about having a l00k(literally). They gave an URL("http://summerchallenge.apl3b.com") to work with. When I opened the page I saw a video and a button.<br>
+  <br><img src="/img/saw1.png" alt="saw1" class="centerimg" style="width:40%"><br>
+  <p class="normal2" style="font-size:16px;">I pressed that button and the website redirected to another page as shown below.The new page
+  contained a video and nothing more. I noticed that the URL was diferent so maybe that would mean something.<br>
+  <br><img src="/img/saw2.png" alt="saw2" class="centerimg" style="width:100%"><br>
+  <p class="normal2" style="font-size:16px;">I decided to run <a href="https://github.com/maurosoria/dirsearch">dirsearch</a> and I found
+  a git repo with some interesting content such has index. I checked all the files, but the index was the file that caught my attention.<br>
+  <br><img src="/img/gitcmd.png" alt="gitcmd" class="centerimg3"> <img src="/img/git.png" alt="git" class="centerimg3"><br>
+  <br><p class="normal2" style="font-size:16px;">Next thing I did was to download index file to my Desktop. After that I used "strings" to see if there was anything useful for me. The result from "strings" is down below and shows us one page(8JUCv3fZ44.html).<br>
+  <br><img src="/img/link.png" alt="link" class="centerimg" style="width:40%"><br>
+  <p class="normal2" style="font-size:16px;">Copied and pasted the output link and then another page with a video of Jigsaw is shown. Hmmmm but how about the flag?
+    Well, I tried to see if there was anything in the source code, and we got our flag.<br>
+  <br><img src="/img/flag1.png" alt="flag1" class="centerimg" style="width:40%"><br>
+  <p class="flag">flag{Bro_Do_you_even_git?}<br>
+  <br>
+</div>
+
+<div class="footerposts">
+  <p>Copyright © 2018 - Bruno Teixeira
+  <div class="downbar">
+  </div>
+</div>
+</body>
+</html>
