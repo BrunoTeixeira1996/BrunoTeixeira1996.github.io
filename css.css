@@ -1,25 +1,23 @@
 body {
-padding : 0;
 margin : 0;
 font : 0.74em Arial, sans-serif;
 line-height : 1.5em;
 background : #393939;
 color : #fff;
-position: relative;
-
+}
+.backButton{
+	width: 130px;
+  	height: 40px;
+  	background: #393939;
+  	border: solid;
+  	border-radius: 5px;
+	color: #d0eb55;
+	font-weight: 600;
+	font-size: 15px; 
+	display: block;
+	margin: 0 auto;
 }
 
-#centerlala{
-
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	width: 500px;
-	height: 500px;
-	margin-top: -250px; /* Half the height */
-	margin-left: -250px; /* Half the width */
-
-}
 #loader-wrapper{
 	position: fixed;
 	top:0;
@@ -214,14 +212,6 @@ position: relative;
 	border-radius: 2%
 }
 
-.profile {
-	float:right;
-	margin-right: 50px;
-	width: 35% ;
-	border-radius:5%
-
-
-}
 .aboutf{
 	position:fixed;
 	bottom: 0;
@@ -391,8 +381,7 @@ border : 0;
 hr {
 height : 1px;
 border-style : none;
-color : #d0d0d0;
-background-color : #c0c0c0;
+background-color : #d0eb55;
 margin : 10px 0;
 }
 ol {
@@ -504,7 +493,6 @@ height : 23px;
 margin-top : 35px;
 }
 #menu a {
-color : #fff;
 background : inherit;
 text-decoration : none;
 padding-left : 10px;
