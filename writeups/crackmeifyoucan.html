@@ -1,61 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
-<title>Bruno Teixeira</title>
+  <title>Bruno Teixeira</title>
 
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link href="../css.css" rel="stylesheet" type="text/css" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <link href="../css.css" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 </head>
+
 <body>
-<div id="topbar">
-  <div class="content">
-    <div class="url"></div>
-  </div>
-</div>
-<div id="top">
-  <div class="content">
-    <div id="menu">
-      <ul>
-        <li><a href="../index.html"><span>Home</span></a></li>
-        <li><a href="../projects.html"><span>Projects</span></a></li>
-        <li><a href="../writeups.html"><span>Writeups</span></a></li>
-        <li><a href="../about.html"><span>About Me</span></a></li>
-      </ul>
+  <div id="topbar">
+    <div class="content">
+      <div class="url"></div>
     </div>
-    <h1><a href = "../index.html">Bruno Teixeira</a></h1>
-<a style="font-size:18px;" href="https://www.facebook.com/brunoteixeiraze" class="fa fa-facebook"></a>
-<a style="font-size:18px;" href="https://twitter.com/BrunoTeixeira49" class="fa fa-twitter"></a>
-<a style="font-size:18px;" href="https://www.linkedin.com/in/bruno-teixeira-1553b4a1/" class="fa fa-linkedin"></a>
-<a style="font-size:18px;" href="https://github.com/BrunoTeixeira1996" class="fa fa-github"></a>
-
   </div>
-</div>
-<div class="content">
-  <p style="font-size:24px"><h2>Crack me if you Can</h2>
-  <p class="normal2" style="font-size:16px;">Next challenge was pretty straight forward and not that hard.
-    The page had a video, a message (threatening) and a file to crack.<br>
-  <br><img src="/img/crackmesaw.png" alt="crackmesaw" class="centerimg" style="width:40%"><br>
-  <p class="normal2" style="font-size:16px;">I downloaded the file and checked what kind of file I was going to work on. With file command i was able to see his format. "file crackmeifucan"<br>
-  <br><img src="/img/file.png" alt="filecrack" class="centerimg" width="40"><br>
-  <p class="normal2" style="font-size:16px;">I assigned runing permissions on the executable (sudo chmod +x crackmeifucan) to run it. The program asked a password, but I didnt knew what was that password so I just randomly typed "qwerty". LOGIN FAILED!!! I decided to use strings command."strings crackmeifucan"<br>
-  <br><img src="/img/executable.png" class="centerimg3" alt="executable" style="width:40%"><img src="/img/file1.png" class="centerimg3" alt="file1" width="30"><br>
-  <br><p class="normal2" style="font-size:16px;"> Then I cleaned that string and the final result was "Rev3ngineering1sc00l". I double checked the program once again and I even used bless to see if I was right. And finally another flag!!!
-<br>
-  <br><img src="/img/flagcrackmeifucan.png" alt="flagcrackmeifucan" class="centerimg" style="width:50%"><br>
-  <p class="flag">flag{RevEng_FTW}<br>
-  <br>
-  <button class="backButton"onclick="goBack()">Go Back</button>
-  <br>
-</div>
-<script src="/js/functions.js"></script>
+  <div id="top">
+    <div class="content">
+      <div id="menu">
+        <ul>
+          <li><a href="../index.html"><span>Home</span></a></li>
+          <li><a href="../projects.html"><span>Projects</span></a></li>
+          <li><a href="../writeups.html"><span>Writeups</span></a></li>
+          <li><a href="../about.html"><span>About Me</span></a></li>
+        </ul>
+      </div>
+      <h1><a href="../index.html">Bruno Teixeira</a></h1>
+      <a style="font-size:18px;" href="https://www.facebook.com/brunoteixeiraze" class="fa fa-facebook"></a>
+      <a style="font-size:18px;" href="https://twitter.com/BrunoTeixeira49" class="fa fa-twitter"></a>
+      <a style="font-size:18px;" href="https://www.linkedin.com/in/bruno-teixeira-1553b4a1/" class="fa fa-linkedin"></a>
+      <a style="font-size:18px;" href="https://github.com/BrunoTeixeira1996" class="fa fa-github"></a>
 
-<div class="footerposts">
-  <p>Copyright © 2018 - Bruno Teixeira
-  <div class="downbar">
+    </div>
   </div>
-</div>
+  <div class="content">
+    <p style="font-size:24px">
+      <h2>Crack me if you Can</h2>
+      <p class="normal2" style="font-size:16px;">Next challenge was pretty straight forward and not that hard.
+        The page had a video, a message (threatening) and a file to crack.<br>
+        <br><img src="/img/crackmesaw.png" alt="crackmesaw" class="centerimg" style="width:40%"><br>
+        <p class="normal2" style="font-size:16px;">I downloaded the file and checked what kind of file I was going to
+          work on. With file command i was able to see his format. "file crackmeifucan"<br>
+          <br><img src="/img/file.png" alt="filecrack" class="centerimg" width="40"><br>
+          <p class="normal2" style="font-size:16px;">I assigned runing permissions on the executable (sudo chmod +x
+            crackmeifucan) to run it. The program asked a password, but I didnt knew what was that password so I just
+            randomly typed "qwerty". LOGIN FAILED!!! I decided to use strings command."strings crackmeifucan"<br>
+            <br><img src="/img/executable.png" class="centerimg3" alt="executable" style="width:40%"><img src="/img/file1.png"
+              class="centerimg3" alt="file1" width="30"><br>
+            <br>
+            <p class="normal2" style="font-size:16px;"> Then I cleaned that string and the final result was
+              "Rev3ngineering1sc00l". I double checked the program once again and I even used bless to see if I was
+              right. And finally another flag!!!
+              <br>
+              <br><img src="/img/flagcrackmeifucan.png" alt="flagcrackmeifucan" class="centerimg" style="width:50%"><br>
+              <p class="flag">flag{RevEng_FTW}<br>
+                <br>
+                <br>
+  </div>
+  <button class="backButton" onclick="goBack()">Go Back</button><br>
+  <script src="/js/functions.js"></script>
+
+  <div class="footerposts">
+    <p>Copyright © 2018 - Bruno Teixeira
+      <div class="downbar">
+      </div>
+  </div>
 </body>
+
 </html>
