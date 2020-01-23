@@ -2,75 +2,73 @@
 <html lang="en">
 
 <head>
-
+  
   <title>Bruno Teixeira</title>
-
+  
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <meta name="viewport" content="initial-scale=1.0, width=device-width">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <link href="../css.css" rel="stylesheet" type="text/css" />
+  <link href="../newcss.css" rel="stylesheet" type="text/css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 </head>
-
+<nav class="navbar navbar-expand-lg navbar-dark nav-Bar">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="../index.html">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="../projects.html">Projects</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="../writeups.html">Writeups</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="../about.html">About Me</a>
+      </li>
+    </ul>
+  </div>
+  <div class="iconNav">
+    <a href="https://www.facebook.com/brunoteixeiraze" class="fa fa-facebook"></a>
+    <a href="https://twitter.com/BrunoTeixeira49" class="fa fa-twitter"></a>
+    <a href="https://www.linkedin.com/in/bruno-teixeira-1553b4a1/" class="fa fa-linkedin"></a>
+    <a href="https://github.com/BrunoTeixeira1996" class="fa fa-github"></a>
+  </div>
+</nav>
 <body>
-  <div id="topbar">
-    <div class="content">
-      <div class="url"></div>
-    </div>
-  </div>
-  <div id="top">
-    <div class="content">
-      <div id="menu">
-        <ul>
-          <li><a href="../index.html"><span>Home</span></a></li>
-          <li><a href="../projects.html"><span>Projects</span></a></li>
-          <li><a href="../writeups.html"><span>Writeups</span></a></li>
-          <li><a href="../about.html"><span>About Me</span></a></li>
-        </ul>
-      </div>
-      <h1><a href="../index.html">Bruno Teixeira</a></h1>
-      <a style="font-size:18px;" href="https://www.facebook.com/brunoteixeiraze" class="fa fa-facebook"></a>
-      <a style="font-size:18px;" href="https://twitter.com/BrunoTeixeira49" class="fa fa-twitter"></a>
-      <a style="font-size:18px;" href="https://www.linkedin.com/in/bruno-teixeira-1553b4a1/" class="fa fa-linkedin"></a>
-      <a style="font-size:18px;" href="https://github.com/BrunoTeixeira1996" class="fa fa-github"></a>
-
-    </div>
-  </div>
-  <div class="content">
-    <p style="font-size:24px">
-      <h2>Lost in Translation</h2>
-      <br>
-      <p class="normal2" style="font-size:16px;">The second challenge was called "Lost in Translation". I noticed why
-        the title was called that
-        way since i couldnt understand anything that was displayed in the challenge page. I see another video and some
-        "random" chars.<br>
-        <br><img src="/img/lostsaw.png" alt="lostsaw" class="centerimg" style="width:40%">
-        <br>
-        <p class="normal2" style="font-size:16px;">I was confused, I looked everywhere and nothing ... then I asked for
-          some hints in Slack and they
-          said "Programming with 8 instructions can fuck your brain up". Copy and pasted that hint to google and the
-          first result was "BrainFuck".<br>
-          <br><img src="/img/brainfuck.png" alt="brainfuck" class="centerimg3" /> <img src="/img/brainfuckwiki.png" alt="brainfuckwiki"
-            class="centerimg3" /><br>
-          <br>
-          <p class="normal2" style="font-size:16px;">Tricky uh? After reading about <a href="https://en.wikipedia.org/wiki/Brainfuck">BrainFuck</a>
-            and understanding the problem, I simply used an <a href="https://www.splitbrain.org/_static/ook/">online
-              decoder</a> and i got another flag!!!<br>
-            <br><img src="/img/decodebrainfuck.png" alt="decodebrainfuck" class="centerimg" style="width:50%" />
-            <br>
-            <p class="flag">flag{Brain_F*ck_is_Beautiful}<br>
-              <br>
-              <br>
-  </div>
-  <button class="backButton" onclick="goBack()">Go Back</button><br>
-  <script src="/js/functions.js"></script>
-
-  <div class="footerposts">
-    <p>Copyright © 2018 - Bruno Teixeira</p>
-    <div class="downbar">
-    </div>
-  </div>
+<br>
+<br>
+<div class="container-fluido">
+  <h2 class="d-flex">Lost in Translation</h2>
+  <br>
+  <div class="d-flex justify-content-center">
+    <kbd class="tipedContent">The second challenge was called "Lost in Translation". I noticed why
+                              the title was called that
+                              way since i couldnt understand anything that was displayed in the challenge page. I see another video and some
+                              "random" chars.</kbd></div><br>
+  <br><img src="../img/lostsaw.png" alt="lostsaw" class="centerimg" style="width:40%">
+  <br>
+  <div class="d-flex justify-content-center">
+    <kbd class="tipedContent">I was confused, I looked everywhere and nothing ... then I asked for
+                              some hints in Slack and they
+                              said "Programming with 8 instructions can fuck your brain up". Copy and pasted that hint to google and the
+                              first result was "BrainFuck".</kbd></div><br>
+  <br><img src="../img/brainfuck.png" alt="brainfuck" class="centerimg" style="width: 70%"/>
+  <br><img src="../img/brainfuckwiki.png" alt="brainfuckwiki" class="centerimg" style="width: 70%"/><br>
+  <br>
+  <div class="d-flex justify-content-center">
+    <kbd class="tipedContent">Tricky uh? After reading about <a href="https://en.wikipedia.org/wiki/Brainfuck">BrainFuck</a>
+                              and understanding the problem, I simply used an <a href="https://www.splitbrain.org/_static/ook/">online
+                                                                                                                                decoder</a> and i got another flag!!!</kbd></div></br>
+  <br><img src="../img/decodebrainfuck.png" alt="decodebrainfuck" class="centerimg" style="width:50%" />
+  <br>
+  <div class="d-flex justify-content-center">
+    <kbd class="tipedContent">flag{Brain_F*ck_is_Beautiful}</kbd></div><br>
+</div>
 </body>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

@@ -7,53 +7,54 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <meta name="viewport" content="initial-scale=1.0, width=device-width">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <link href="../css.css" rel="stylesheet" type="text/css" />
+  <link href="../newcss.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-</head>
-<body>
-<div id="topbar">
-  <div class="content">
-    <div class="url"></div>
-  </div>
-</div>
-<div id="top">
-  <div class="content">
-    <div id="menu">
-      <ul>
-        <li><a href="../index.html"><span>Home</span></a></li>
-        <li><a href="../projects.html"><span>Projects</span></a></li>
-        <li><a href="../writeups.html"><span>Writeups</span></a></li>
-        <li><a href="../about.html"><span>About Me</span></a></li>
+  
+  
+  <nav class="navbar navbar-expand-lg navbar-dark nav-Bar">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="../index.html">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../projects.html">Projects</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../writeups.html">Writeups</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../about.html">About Me</a>
+        </li>
       </ul>
     </div>
-    <h1><a href = "../index.html">Bruno Teixeira</a></h1>
-<a style="font-size:18px;" href="https://www.facebook.com/brunoteixeiraze" class="fa fa-facebook"></a>
-<a style="font-size:18px;" href="https://twitter.com/BrunoTeixeira49" class="fa fa-twitter"></a>
-<a style="font-size:18px;" href="https://www.linkedin.com/in/bruno-teixeira-1553b4a1/" class="fa fa-linkedin"></a>
-<a style="font-size:18px;" href="https://github.com/BrunoTeixeira1996" class="fa fa-github"></a>
-
-  </div>
-</div>
-<div class="content">
-  <h2>Yelp Restaurant Searcher</h2>
-  <p class ="normal" style="font-size:16px">I had an idea about making a script with python that could be usefull to me.
+    <div class="iconNav">
+      <a href="https://www.facebook.com/brunoteixeiraze" class="fa fa-facebook"></a>
+      <a href="https://twitter.com/BrunoTeixeira49" class="fa fa-twitter"></a>
+      <a href="https://www.linkedin.com/in/bruno-teixeira-1553b4a1/" class="fa fa-linkedin"></a>
+      <a href="https://github.com/BrunoTeixeira1996" class="fa fa-github"></a>
+    </div>
+  </nav>
+</head>
+<body>
+<br>
+<br>
+<div class="container-fluido">
+  <h3 class="d-flex">Yelp Restaurant Searcher</h3>
+  <br>
+  <div class="d-flex justify-content-center">
+  <kbd class="tipedContent">I had an idea about making a script with python that could be usefull to me.
   I was reading <a href="https://developers.zomato.com/documentation">documentation from zomato API</a> and i decided to give it a try. I spent a couple of hours building that project but i wasnt happy at all. The api wasn't bad but had alot of restrictions(1000 calls/day).
   I googled <a href="https://en.softonic.com/solutions/similar/zomato">"Apps like zomato"</a> and i found Yelp. I readed the <a href="https://www.yelp.com/developers/documentation/v3">API documentation</a> and i put my hands to the business. From this project i learned some cool new stuff
   (how should i use <a href="https://www.pythonforbeginners.com/system/python-sys-argv">sys.argv</a> to user input,  how to work with the <a href="https://realpython.com/python-json/">json response</a>, how to work with <a href="http://docs.python-requests.org/en/master/">requests</a>). Like always the most important thing is to pratice and keep learning new things, because those things will be important in the end.
-  Like always the source code is on my <a href="https://github.com/BrunoTeixeira1996/Yelp-Restaurant-Searcher">github.</a><br>
+                            Like always the source code is on my <a href="https://github.com/BrunoTeixeira1996/Yelp-Restaurant-Searcher">github</a>.</kbd></div><br>
 
-  <br><img src="/img/yelpp.png" width="407" alt="yelp"> <img src="/img/yelps.png" width="588" alt="yelps"><br>
-  <br>
-  <br>
+  <br><img src="../img/yelpp.png" class="img-fluid centerimg" style="width: 50%" alt="yelp"><br>
 </div>
-<button class="backButton"onclick="goBack()">Go Back</button><br>
-<script src="/js/functions.js"></script>
-<div class="footerposts">
-  <p>Copyright © 2018 - Bruno Teixeira</p>
-  <div class="downbar">
-  </div>
-</div>
+
 </body>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

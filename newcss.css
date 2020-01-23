@@ -54,19 +54,16 @@ a:hover{
   width: 150px;
 }
 
+.centerimg{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 90%;
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
+.tipedContent{
+  font-size: 18px;
+}
 
 /* loader */
 #loader-wrapper {

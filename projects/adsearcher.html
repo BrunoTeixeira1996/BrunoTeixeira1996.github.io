@@ -1,61 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-<title>Bruno Teixeira</title>
-
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  
+  <title>Bruno Teixeira</title>
+  
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <meta name="viewport" content="initial-scale=1.0, width=device-width">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <link href="../css.css" rel="stylesheet" type="text/css" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="../newcss.css" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 </head>
+
+<nav class="navbar navbar-expand-lg navbar-dark nav-Bar">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="../index.html">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="../projects.html">Projects</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="../writeups.html">Writeups</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="../about.html">About Me</a>
+      </li>
+    </ul>
+  </div>
+  <div class="iconNav">
+    <a href="https://www.facebook.com/brunoteixeiraze" class="fa fa-facebook"></a>
+    <a href="https://twitter.com/BrunoTeixeira49" class="fa fa-twitter"></a>
+    <a href="https://www.linkedin.com/in/bruno-teixeira-1553b4a1/" class="fa fa-linkedin"></a>
+    <a href="https://github.com/BrunoTeixeira1996" class="fa fa-github"></a>
+  </div>
+</nav>
 <body>
-<div id="topbar">
-  <div class="content">
-    <div class="url"></div>
-  </div>
-</div>
-<div id="top">
-  <div class="content">
-    <div id="menu">
-      <ul>
-        <li><a href="../index.html"><span>Home</span></a></li>
-        <li><a href="../projects.html"><span>Projects</span></a></li>
-        <li><a href="../writeups.html"><span>Writeups</span></a></li>
-        <li><a href="../about.html"><span>About Me</span></a></li>
-      </ul>
-    </div>
-    <h1><a href = "../index.html">Bruno Teixeira</a></h1>
-<a style="font-size:18px;" href="https://www.facebook.com/brunoteixeiraze" class="fa fa-facebook"></a>
-<a style="font-size:18px;" href="https://twitter.com/BrunoTeixeira49" class="fa fa-twitter"></a>
-<a style="font-size:18px;" href="https://www.linkedin.com/in/bruno-teixeira-1553b4a1/" class="fa fa-linkedin"></a>
-<a style="font-size:18px;" href="https://github.com/BrunoTeixeira1996" class="fa fa-github"></a>
+<br>
+<br>
 
-  </div>
+<div class="container-fluido">
+  <h3 class="d-flex">Active Directory Searcher</h3>
+  <br>
+  <div class="d-flex justify-content-center">
+    <kbd class="tipedContent"> One of my collegues at work built a script in batch with psexec to search for users attributes in Active Directory.
+                               That tool is realy helpful because we need to see whats happening on an account when someone calls us telling that cant login in their windows account.
+                               So, i saw the batch script and i was thinking if i could build something better with python.
+                               Finally i created the Active Directory Searcher based on that batch script.
+                               Learned alot while building the script and it works like a charm at work.
+      <a href="https://github.com/BrunoTeixeira1996/Active-Directory-Searcher">Github repository</a><br></kbd></div><br>
+  <br>
+  <img src="../img/adsearcher.png" alt="ad" class="img-fluid centerimg" style="width: 50%">
+  <br>
+  <br>
 </div>
-<div class="content">
-  <h2>Active Directory Searcher</h2>
-  <p class="normal" style="font-size:16px"> One of my collegues at work built a script in batch with psexec to search for users attributes in Active Directory. 
-    That tool is realy helpful because we need to see whats happening on an account when someone calls us telling that cant login in their windows account.
-    So, i saw the batch script and i was thinking if i could build something better with python.
-    Finally i created the Active Directory Searcher based on that batch script.
-    Learned alot while building the script and it works like a charm at work.<br>
-    <a href="https://github.com/BrunoTeixeira1996/Active-Directory-Searcher">Github repository</a><br>
-    <br> 
-    <div style="width:450px;margin:0 auto;"><img src="/img/adsearcher.png" alt="ad" width="455"></div>
-    <br>
-    <br>
-  </div>
-<button class="backButton"onclick="goBack()">Go Back</button><br>
-<script src="/js/functions.js"></script>
 
-<div class="footerposts">
-  <p>Copyright © 2018 - Bruno Teixeira</p>
-  <div class="downbar">
-  </div>
-</div>
 </body>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

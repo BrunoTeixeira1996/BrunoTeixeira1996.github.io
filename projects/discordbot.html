@@ -7,55 +7,59 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <meta name="viewport" content="initial-scale=1.0, width=device-width">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <link href="../css.css" rel="stylesheet" type="text/css" />
+  <link href="../newcss.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 </head>
-<body>
-<div id="topbar">
-  <div class="content">
-    <div class="url"></div>
-  </div>
-</div>
-<div id="top">
-  <div class="content">
-    <div id="menu">
-      <ul>
-        <li><a href="../index.html"><span>Home</span></a></li>
-        <li><a href="../projects.html"><span>Projects</span></a></li>
-        <li><a href="../writeups.html"><span>Writeups</span></a></li>
-        <li><a href="../about.html"><span>About Me</span></a></li>
-      </ul>
-    </div>
-    <h1><a href = "../index.html">Bruno Teixeira</a></h1>
-<a style="font-size:18px;" href="https://www.facebook.com/brunoteixeiraze" class="fa fa-facebook"></a>
-<a style="font-size:18px;" href="https://twitter.com/BrunoTeixeira49" class="fa fa-twitter"></a>
-<a style="font-size:18px;" href="https://www.linkedin.com/in/bruno-teixeira-1553b4a1/" class="fa fa-linkedin"></a>
-<a style="font-size:18px;" href="https://github.com/BrunoTeixeira1996" class="fa fa-github"></a>
 
+<nav class="navbar navbar-expand-lg navbar-dark nav-Bar">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="../index.html">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="../projects.html">Projects</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="../writeups.html">Writeups</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="../about.html">About Me</a>
+      </li>
+    </ul>
   </div>
-</div>
-<div class="content">
-  <h2>A Bot to Discord</h2>
-  <p class="normal" style="font-size:16px">A Bot made with python to do some data analysis on a discord server. 
+  <div class="iconNav">
+    <a href="https://www.facebook.com/brunoteixeiraze" class="fa fa-facebook"></a>
+    <a href="https://twitter.com/BrunoTeixeira49" class="fa fa-twitter"></a>
+    <a href="https://www.linkedin.com/in/bruno-teixeira-1553b4a1/" class="fa fa-linkedin"></a>
+    <a href="https://github.com/BrunoTeixeira1996" class="fa fa-github"></a>
+  </div>
+</nav>
+
+<body>
+<br>
+<br>
+
+<div class="container-fluido">
+  <h3 class="d-flex">A Bot to Discord</h3>
+  <br>
+  <div class="d-flex justify-content-center">
+  <kbd class="tipedContent">A Bot made with python to do some data analysis on a discord server.
     The main purpose is to analyse the time that most people are online on the server.
     I built some basic commands as it shows in the <a href="https://github.com/BrunoTeixeira1996/Discord-Bot">repository</a>.
     There is a cronjob that tracks every 15 seconds how many people are online, iddle and offline in the server.
     The final result is supercool, since i was able to work with new libraries that i never used such as <a href="https://pandas.pydata.org/">pandas</a>
     and <a href="https://matplotlib.org/">matplotlib</a>.
-    To use this bot you need to change some values and you need to create a new bot in <a href="https://discordapp.com/developers">discord API</a>.
+                            To use this bot you need to change some values and you need to create a new bot in <a href="https://discordapp.com/developers">discord API</a>.</kbd></div>
+  <br>
     <br>
-    <img src="/img/discordbot.png" alt="sub" class="centerimg"><br>
-    <br>
+    <img src="../img/discordbot.png" alt="sub" class="centerimg"><br>
   </div>
-  <button class="backButton"onclick="goBack()">Go Back</button><br>
-  <script src="/js/functions.js"></script>
 
-<div class="footerposts">
-  <p>Copyright © 2018 - Bruno Teixeira</p>
-  <div class="downbar">
-  </div>
-</div>
 </body>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

@@ -7,54 +7,61 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <meta name="viewport" content="initial-scale=1.0, width=device-width">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <link href="../css.css" rel="stylesheet" type="text/css" />
+  <link href="../newcss.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 </head>
-<body>
-<div id="topbar">
-  <div class="content">
-    <div class="url"></div>
-  </div>
-</div>
-<div id="top">
-  <div class="content">
-    <div id="menu">
-      <ul>
-        <li><a href="../index.html"><span>Home</span></a></li>
-        <li><a href="../projects.html"><span>Projects</span></a></li>
-        <li><a href="../writeups.html"><span>Writeups</span></a></li>
-        <li><a href="../about.html"><span>About Me</span></a></li>
-      </ul>
-    </div>
-    <h1><a href = "../index.html">Bruno Teixeira</a></h1>
-<a style="font-size:18px;" href="https://www.facebook.com/brunoteixeiraze" class="fa fa-facebook"></a>
-<a style="font-size:18px;" href="https://twitter.com/BrunoTeixeira49" class="fa fa-twitter"></a>
-<a style="font-size:18px;" href="https://www.linkedin.com/in/bruno-teixeira-1553b4a1/" class="fa fa-linkedin"></a>
-<a style="font-size:18px;" href="https://github.com/BrunoTeixeira1996" class="fa fa-github"></a>
 
+<nav class="navbar navbar-expand-lg navbar-dark nav-Bar">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="../index.html">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="../projects.html">Projects</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="../writeups.html">Writeups</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="../about.html">About Me</a>
+      </li>
+    </ul>
   </div>
-</div>
-<div class="content">
-  <h2>SubNet Calculator</h2>
-  <p class="normal" style="font-size:16px">This time i decided to make something different from the previous projects. 
+  <div class="iconNav">
+    <a href="https://www.facebook.com/brunoteixeiraze" class="fa fa-facebook"></a>
+    <a href="https://twitter.com/BrunoTeixeira49" class="fa fa-twitter"></a>
+    <a href="https://www.linkedin.com/in/bruno-teixeira-1553b4a1/" class="fa fa-linkedin"></a>
+    <a href="https://github.com/BrunoTeixeira1996" class="fa fa-github"></a>
+  </div>
+</nav>
+
+<body>
+<br>
+<br>
+<div class="container-fluido">
+  <h3 class="d-flex">SubNet Calculator</h3>
+  <br>
+  <div class="d-flex justify-content-center">
+  <kbd class="tipedContent">This time i decided to make something different from the previous projects.
     I had to work with subnets in my school and that was a pain at first to learn. When i managed to learn that, i decided
     to do a quick and dirty script in python to automate that task. I used <a href="https://docs.python.org/3/library/sys.html">sys</a> and <a href="https://docs.python.org/3/library/ipaddress.html">ipaddress</a>
-    libraries to help me build the script. If that is helpful to you, you can download from my <a href="https://github.com/BrunoTeixeira1996/SubNet-Calc/blob/master/subnetcal.py">repository</a>.
+                            libraries to help me build the script. If that is helpful to you, you can download from my <a href="https://github.com/BrunoTeixeira1996/SubNet-Calc/blob/master/subnetcal.py">repository</a>.</kbd></div>
     <br>
-    <br><img src="/img/subpy.png" alt="sub" class="centerimg"><br>
-    <img src="/img/sub.png" alt="sub" class="centerimg"><br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <img src="../img/sub.png" alt="sub" style="width: 80%" class="centerimg"><br>
     <br>
     <br>
   </div>
-  <button class="backButton"onclick="goBack()">Go Back</button><br>
-<script src="/js/functions.js"></script>
 
-<div class="footerposts">
-  <p>Copyright © 2018 - Bruno Teixeira</p>
-  <div class="downbar">
-  </div>
-</div>
 </body>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
