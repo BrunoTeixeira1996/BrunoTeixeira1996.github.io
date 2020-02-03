@@ -50,7 +50,7 @@
   <div class="d-flex justify-content-center">
     <kbd class="tipedContent">The next challenge was a Web-type challenge. They gave us a wordpress site and we had to find a way to exploit it. The site had some posts and some pictures.</kbd><br>
   </div>
-  <br><img src="../img/wordpress1.png" alt="wordpress1" class="centerimg img-fluid" style="width:40%"><br>
+  <br><img src="../img/wordpress1.png" alt="wordpress1" class="centerimg img-fluid" style="width:312px"><br>
   <div class="d-flex justify-content-center">
     <kbd class="tipedContent"> I used dirsearch and i've found some cool stuff like a directory
                                list but it was useless because I couldn't extract any information from those files. Then I looked for
@@ -59,23 +59,23 @@
                                admin was "admin" since I only got the "wrong password" error. Next step was to use wpscan and I found a <a
           href="https://www.exploit-db.com/exploits/4721/">WordPress 2.3.1 - Charset SQL Injection Vuln
                                                            (CVE-2007-6318)</a>.</kbd></div><br>
-  <br><img src="../img/vulnsql.png" alt="vulnsql" class="centerimg" style="width:60%"><br>
+  <br><img src="../img/vulnsql.png" alt="vulnsql" class="centerimg" style="width:337px"><br>
   <div class="d-flex justify-content-center">
     <kbd class="tipedContent">After that I injected the payload in the search field and the
                               output looked like a md5 hash. Decoding the hash gave me the result:P@ssw0rd123.</kbd></div><br>
-  <br><img src="../img/payloadsql.png" alt="payloadsql" class="centerimg img-fluid" style="width: 60%">
-  <br><img src="../img/md5sql.png" alt="md5sql" class="centerimg img-fluid" style="width: 60%"><br>
-  <br><img src="../img/loginwordpress.png" alt="loginwordpress" class="centerimg img-fluid" style="width:60%">
+  <br><img src="../img/payloadsql.png" alt="payloadsql" class="centerimg img-fluid" style="width: 600px">
+  <br><img src="../img/md5sql.png" alt="md5sql" class="centerimg img-fluid" style="width: 344px"><br>
+  <br><img src="../img/loginwordpress.png" alt="loginwordpress" class="centerimg img-fluid" style="width:330px">
   <br>
   <div class="d-flex justify-content-center">
     <kbd class="tipedContent">Next step was to find the flag. I looked in the backoffice but I
                               was looking in the wrong place. After googling a bit I decided that I should upload a shell. To locate
                               the flag I used a locate comand to find any txt file in the root dir.</kbd></div><br>
-  <br><img src="../img/locateflag.png" alt="locateflag" class="centerimg img-fluid" style="width:40%"><br>
+  <br><img src="../img/locateflag.png" alt="locateflag" class="centerimg img-fluid" style="width:330px"><br>
   <div class="d-flex justify-content-center">
     <kbd class="tipedContent">I noticed that the first result was the flag so the next thing
                               I did was use cat to see the content of that text file and move to another challenge.</kbd></div>
-  <br><img src="../img/flagwordpress.png" alt="flagwordpress" class="centerimg img-fluid" style="width:40%"><br>
+  <br><img src="../img/flagwordpress.png" alt="flagwordpress" class="centerimg img-fluid" style="width:332px"><br>
   <div class="d-flex justify-content-center">
     <kbd>flag{AinT_Wordpress_Secure?}</kbd>
   </div><br>

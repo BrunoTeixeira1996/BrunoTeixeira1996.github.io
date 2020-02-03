@@ -1,3 +1,4 @@
+
 body {
   background: #393939;
   color: #fff;
@@ -62,7 +63,7 @@ a:hover{
 }
 
 .tipedContent{
-  font-size: 18px;
+  font-size: 16px;
 }
 
 /* loader */
