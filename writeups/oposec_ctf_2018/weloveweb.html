@@ -3,12 +3,12 @@
 
 <head>
   
-  <title>Bruno Teixeira</title>
+  <title>We love web 2.0</title>
   
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <meta name="viewport" content="initial-scale=1.0, width=device-width">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <link href="../newcss.css" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" href="../../static/stylesheet/css.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 </head>
@@ -19,16 +19,16 @@
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" href="../index.html">Home</a>
+        <a class="nav-link" href="../../index.html">Home</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="../projects.html">Projects</a>
+        <a class="nav-link" href="../../projects.html">Projects</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="../writeups.html">Writeups</a>
+        <a class="nav-link" href="../../writeups.html">Writeups</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="../about.html">About Me</a>
+        <a class="nav-link" href="../../about.html">About Me</a>
       </li>
     </ul>
   </div>
@@ -50,7 +50,7 @@
   <div class="d-flex justify-content-center">
     <kbd class="tipedContent">The next challenge was a Web-type challenge. They gave us a wordpress site and we had to find a way to exploit it. The site had some posts and some pictures.</kbd><br>
   </div>
-  <br><img src="../img/wordpress1.png" alt="wordpress1" class="centerimg img-fluid" style="width:312px"><br>
+  <br><img src="../../static/img/oposec_ctf_2018/wordpress1.png" alt="wordpress1" class="centerimg img-fluid" style="width:312px"><br>
   <div class="d-flex justify-content-center">
     <kbd class="tipedContent"> I used dirsearch and i've found some cool stuff like a directory
                                list but it was useless because I couldn't extract any information from those files. Then I looked for
@@ -59,23 +59,23 @@
                                admin was "admin" since I only got the "wrong password" error. Next step was to use wpscan and I found a <a
           href="https://www.exploit-db.com/exploits/4721/">WordPress 2.3.1 - Charset SQL Injection Vuln
                                                            (CVE-2007-6318)</a>.</kbd></div><br>
-  <br><img src="../img/vulnsql.png" alt="vulnsql" class="centerimg" style="width:337px"><br>
+  <br><img src="../../static/img/oposec_ctf_2018/vulnsql.png" alt="vulnsql" class="centerimg" style="width:337px"><br>
   <div class="d-flex justify-content-center">
     <kbd class="tipedContent">After that I injected the payload in the search field and the
                               output looked like a md5 hash. Decoding the hash gave me the result:P@ssw0rd123.</kbd></div><br>
-  <br><img src="../img/payloadsql.png" alt="payloadsql" class="centerimg img-fluid" style="width: 600px">
-  <br><img src="../img/md5sql.png" alt="md5sql" class="centerimg img-fluid" style="width: 344px"><br>
-  <br><img src="../img/loginwordpress.png" alt="loginwordpress" class="centerimg img-fluid" style="width:330px">
+  <br><img src="../../static/img/oposec_ctf_2018/payloadsql.png" alt="payloadsql" class="centerimg img-fluid" style="width: 600px">
+  <br><img src="../../static/img/oposec_ctf_2018/md5sql.png" alt="md5sql" class="centerimg img-fluid" style="width: 344px"><br>
+  <br><img src="../../static/img/oposec_ctf_2018/loginwordpress.png" alt="loginwordpress" class="centerimg img-fluid" style="width:330px">
   <br>
   <div class="d-flex justify-content-center">
     <kbd class="tipedContent">Next step was to find the flag. I looked in the backoffice but I
                               was looking in the wrong place. After googling a bit I decided that I should upload a shell. To locate
                               the flag I used a locate comand to find any txt file in the root dir.</kbd></div><br>
-  <br><img src="../img/locateflag.png" alt="locateflag" class="centerimg img-fluid" style="width:330px"><br>
+  <br><img src="../../static/img/oposec_ctf_2018/locateflag.png" alt="locateflag" class="centerimg img-fluid" style="width:330px"><br>
   <div class="d-flex justify-content-center">
     <kbd class="tipedContent">I noticed that the first result was the flag so the next thing
                               I did was use cat to see the content of that text file and move to another challenge.</kbd></div>
-  <br><img src="../img/flagwordpress.png" alt="flagwordpress" class="centerimg img-fluid" style="width:332px"><br>
+  <br><img src="../../static/img/oposec_ctf_2018/flagwordpress.png" alt="flagwordpress" class="centerimg img-fluid" style="width:332px"><br>
   <div class="d-flex justify-content-center">
     <kbd>flag{AinT_Wordpress_Secure?}</kbd>
   </div><br>
