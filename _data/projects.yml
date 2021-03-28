@@ -1,0 +1,27 @@
+projects:
+  - title: Active-Directory-Searcher
+    link: "https://github.com/BrunoTeixeira1996/Active-Directory-Searcher"
+    tags: [Windows Server, Python3, LDAP, Active Directory]
+
+
+  - title: SubNet Calculator
+    link: "https://github.com/BrunoTeixeira1996/SubNet-Calc"
+    tags: [Python3, Networking]
+
+  - title: Yelp Restaurant Searcher
+    link: "https://github.com/BrunoTeixeira1996/Yelp-Restaurant-Searcher"
+    tags: [Python3]
+
+  - title: Discogs API PHP Project
+    link: "https://github.com/BrunoTeixeira1996/Asymptotic"
+    tags: [PHP, cURL]
+
+  - title: A Bot to Discord
+    link: "https://github.com/BrunoTeixeira1996/Discord-Bot"
+    tags: [Python3, Discord]
+
+
+
+
+
+
