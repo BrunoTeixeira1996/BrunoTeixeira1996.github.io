@@ -5,7 +5,7 @@ title: "home"
 
 ## About Me
 
-> My name is Bruno Teixeira, BsC Informatics Engineering student @ ISEC - Coimbra.
+> My name is Bruno Teixeira, BsC Computer Engineering student @ ISEC - Coimbra.
 Focused on learning Information Security and Systems Administration.
 Always doing some side projects to improve my coding skills and learn new technologies on the way.
 
