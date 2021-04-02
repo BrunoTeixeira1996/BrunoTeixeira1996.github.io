@@ -1,12 +1,15 @@
 projects:
+  - title: Random Bots
+    link : "https://github.com/BrunoTeixeira1996/random_bots"
+    tags : [Python3, Telegram, Covid, News]
+    
   - title: Active-Directory-Searcher
     link: "https://github.com/BrunoTeixeira1996/Active-Directory-Searcher"
     tags: [Windows Server, Python3, LDAP, Active Directory]
-
-
-  - title: SubNet Calculator
-    link: "https://github.com/BrunoTeixeira1996/SubNet-Calc"
-    tags: [Python3, Networking]
+  
+  - title: Network Scripts
+    link: "https://github.com/BrunoTeixeira1996/network-scripts"
+    tags: [Python3, Networking, VLSM, Subnet]
 
   - title: Yelp Restaurant Searcher
     link: "https://github.com/BrunoTeixeira1996/Yelp-Restaurant-Searcher"
