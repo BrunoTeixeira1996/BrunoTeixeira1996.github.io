@@ -17,7 +17,7 @@ Always doing some side projects to improve my coding skills and learn new techno
 
 #### Education
 
-- BsC Informatics Engineering @ [ISEC Coimbra](https://www.isec.pt) 
+- BsC Computer Engineering @ [ISEC Coimbra](https://www.isec.pt) 
 - CET Network and Systems @ [CINEL Porto](https://www.cinel.pt)
 - IT & Programming @ [EISnt, High School](https://eisnt.com/)
 
