@@ -1,7 +1,7 @@
 projects:
-  - title: Random Bots
-    link : "https://github.com/BrunoTeixeira1996/random_bots"
-    tags : [Python3, Telegram, Covid, News]
+  - title: A Bot to Telegram
+    link : "https://github.com/BrunoTeixeira1996/TelegramBot"
+    tags : [Python3, Telegram, Covid, News, ESXi, Spotify]
     
   - title: Active-Directory-Searcher
     link: "https://github.com/BrunoTeixeira1996/Active-Directory-Searcher"
