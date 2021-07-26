@@ -30,11 +30,13 @@ nav:
    link: "/projects/"
  - name: "writeups"
    link: "/writeups"
- - name: "research"
-   link: "/research"
+ - name: "publications"
+   link: "/publications"
 
 collections:
   writeups:
+    output: true
+  publications:
     output: true
     
 social:
