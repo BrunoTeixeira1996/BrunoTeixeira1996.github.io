@@ -1,10 +1,10 @@
 :root {
-  --main-headers-color: #fe5c35;
+  --main-headers-color: #d64937;
   --main-bg-color: #202020;
   --main-font-color: rgba(255, 255, 255, 0.8);
   --hr-border-settings: 2px solid rgba(255, 255, 255, 0.3);
-  --code-bg-color: #202020;
-  --code-font-color: #d0d0d0;
+  --code-bg-color: #2d2d2d;
+  --code-font-color: #dcdcdc;
 }
 html {
   height: 100%;
@@ -15,7 +15,7 @@ html {
 body {
   margin: 0;
   color: var(--main-font-color);
-  font-family: 'Fira Mono',monospace;
+  font-family: 'Inconsolata',monospace;
   font-size: 0.95em;
   font-weight: 300;
   letter-spacing: .03em;
