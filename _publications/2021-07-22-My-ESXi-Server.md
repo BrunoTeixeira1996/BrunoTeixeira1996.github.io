@@ -7,6 +7,7 @@ year: 2021
 description: ESXi Server builted for virtualization
 ---
 
+
 Since I joined college I had a need to have more than one operating system available for some classes so I had a few options.
 
 First I could simply run [Oracle VM VirtualBox](https://www.virtualbox.org/) or [VMware Workstation Player](https://www.vmware.com/products/workstation-player.html).
@@ -26,7 +27,7 @@ dont have a rack. So I moved to HP products and found HP Z620. Two weeks have pa
 
 | Hardware | Brand                                                                                                                  |
 |------|----------------------------------------------------------------------------------------------------------------------------|
-| CPU    | [2x Xeon E2600 3.10GHz Eight 8-Core](https://ark.intel.com/content/www/us/en/ark/products/series/59138/intel-xeon-processor-e5-family.html)                   |
+| CPU    | [2x Xeon E5-2670 2.60GHz Eight 8-Core](https://ark.intel.com/content/www/us/en/ark/products/series/59138/intel-xeon-processor-e5-family.html)                   |
 | RAM    | 24 GB RAM 1600MHz Kingston            |
 | GPU    | ATI Radeon HD-3470 256 MB GDDR2                                                                                      |
 
@@ -40,9 +41,85 @@ help online.
     <img style="width:200px" src="/images/my_esxi_server/esxi_server.jpeg">
 </div>
 
-After making the usb stick bootable with ESXi, the server was up and running like a charm.
+Then I had to see if the hardware of the server was compatible with ESXi, and it wasn't (NIC was not compatible) but then I found some [custom ESXi ISOs](https://rodrigolira.eti.br/isos-esxi-customizadas/). The next step was to make a bootable usb using the custom iso and for that I used [etcher](https://www.balena.io/etcher/).
 
-Even having a nice UI in VMware ESXi Web Interface I had to monitor ESXi outside of my LAN so I made a python script to help me on that job.
+ESXi boots up and the only thing I needed to change was the ip address and make sure the NIC was working properly with the custom iso (I could see the NIC was working because it reached my home router).
+
+After making that, the server was up and running like a charm and the next step was to create some VMs.
+
+<div style="text-align:center">
+    <img style="width:900px" src="/images/my_esxi_server/esxi_gui.png">
+</div>
+
+## Backup ESXi Host
+
+Having healthy ESXi hosts is a key to success when running virtual machines. That’s why it is better to back up ESXi configuration. Thus, if something goes wrong with an ESXi host, its configuration can be restored in a few minutes without spending a lot of time to configure an ESXi server from scratch.
+
+### Using ESXi Command Line To Backup ESXi Host
+
+ESXi configuration is saved every hour automatically to the **/bootblank/state.tgz** file. So I needed to run two commands, one to do the backup and the other one to get a link to the specific backup.
+
+```bash
+vim-cmd hostsvc/firmware/sync_config
+vim-cmd hostsvc/firmware/backup_config
+```
+
+Then I downloaded the **tgz** file stored in **/scratch/downloads**.
+
+### Automate The Backup
+
+#### Create a directory to store backup files on your ESXi datastore
+
+```bash
+mkdir /vmfs/volumes/datastore1/ESXi_backup
+```
+
+#### Create a script to backup ESXi configuration
+
+```bash
+vi /vmfs/volumes/datastore1/ESXi_backup/esxi_backup.sh
+```
+
+#### Add the following lines to the script
+
+```bash
+vim-cmd hostsvc/firmware/sync_config
+vim-cmd hostsvc/firmware/backup_config
+find /scratch/downloads/ -name \*.tgz -exec cp {} /vmfs/volumes/datastore1/ESXi_backup/ESXi_config_backup_$(date +'%Y%m%d_%H%M%S').tgz \;
+```
+
+#### Make the script executable
+
+```bash
+chmod +x /vmfs/volumes/datastore1/ESXi_backup/esxi_backup.sh
+```
+
+#### Run the script
+
+```bash
+cd /vmfs/volumes/datastore1/ESXi_backup/
+./esxi_backup.sh
+```
+
+<div style="text-align:center">
+    <img style="width:650px" src="/images/my_esxi_server/esxi_1.png">
+</div>
+
+#### Edit scheduler to make sure the backup ESXi host script is running automatically
+
+```bash
+vi /var/spool/cron/crontabs/root
+```
+
+#### Add the following string to backup everyday at 02:10 AM and save the changes
+
+```bash
+10 02 * * * /vmfs/volumes/datastore1/ESXi_backup/esxi_backup.sh
+```
+
+## Monitoring ESXi
+
+Even having a nice UI in VMware ESXi Web Interface I had to monitor ESXi outside of my LAN and, for security reasons, I didn't want to make the server public to the WAN so I made a python script to help me on that job. The script can be find on my [TelegramBot repository](https://github.com/BrunoTeixeira1996/TelegramBot/blob/main/src/modules/esxi.py).
 
 
 <div style="text-align:right">
@@ -52,3 +129,10 @@ Even having a nice UI in VMware ESXi Web Interface I had to monitor ESXi outside
 
 
 
+
+## References
+
+* https://www.vmware.com/products/esxi-and-esx.html
+* https://www.pendrivelinux.com/etcher-usb-iso-burner-and-clone-tool/
+* https://www.bargainhardware.co.uk/
+* http://www.fabfile.org/
