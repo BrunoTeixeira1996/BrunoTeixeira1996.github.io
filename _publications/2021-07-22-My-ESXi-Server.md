@@ -7,6 +7,15 @@ year: 2021
 description: ESXi Server builted for virtualization
 ---
 
+## Index
+
+- [Introduction](#introduction)
+- [Server Specifications](#hp-z620-specifications)
+- [Backup ESXi Host](#backup-esxi-host)
+- [Monitoring ESXi](#monitoring-esxi)
+
+
+## Introduction
 
 Since I joined college I had a need to have more than one operating system available for some classes so I had a few options.
 
