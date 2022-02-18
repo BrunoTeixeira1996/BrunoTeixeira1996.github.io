@@ -7,7 +7,7 @@ title: "writeups"
 
 
 <ul class="fa-ul">
-    {% for write in site.writeups %}
+    {% for write in site.writeups reversed %}
     <li>
       <h2>
           <a href="{{ write.url }}" _target="blank">{{ write.title }}</a>
