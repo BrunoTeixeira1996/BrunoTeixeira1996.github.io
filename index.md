@@ -5,12 +5,13 @@ title: "home"
 
 ## About Me
 
-> My name is Bruno Teixeira, BsC Computer Engineering student @ ISEC - Coimbra.
+> My name is Bruno Teixeira, Cyber Security Analyst.
 Focused on learning Information Security and Systems Administration.
 Always doing some side projects to improve my coding skills and learn new technologies on the way.
 
 #### Work Experience
 
+- Cyber Security Analyst @ [ArtResilia](https://artresilia.com/)
 - Technical Support / Service Desk @ [CGI](https://www.cgi.com/en)
 - Military @ [Exército Português](https://www.exercito.pt/pt)
 
@@ -22,14 +23,8 @@ Always doing some side projects to improve my coding skills and learn new techno
 - IT & Programming @ [EISnt, High School](https://eisnt.com/)
 
 
-
 #### Work Experience as a Trainee
 
 - IT and Network department @ [ISLA Gaia](https://www.islagaia.pt/pt/)
 - Hardware & Software Maintenance @ [Assistência 35 LDA](http://assistencia35.com/)
 - Hardware Maintenance @ [DOTcenter](https://www.lojasehorarios.com.pt/dotcenter-informatica-soc-unip-lda/porto/c-58637a1332cff589d8187aa3)
-
-<br>
-<img class="new-image" src="https://www.hackthebox.com/badge/image/59575" alt="htb" style="width:270px;"/>
-<br>
-<img class="new-image" src="https://www.codewars.com/users/BrunoTeixeira1996/badges/large" alt="codewars" style="width:400px;"/>

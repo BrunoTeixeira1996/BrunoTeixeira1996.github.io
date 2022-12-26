@@ -26,8 +26,8 @@ footer: yes
 nav:
  - name: "about"  
    link: "/"
- - name: "projects"
-   link: "/projects/"
+ # - name: "projects"
+ #   link: "/projects/"
  - name: "writeups"
    link: "/writeups"
  - name: "publications"
@@ -49,3 +49,6 @@ social:
   - name: github/BrunoTeixeira1996
     icon: fab fa-github
     url: https://github.com/BrunoTeixeira1996
+  - name: htb/zebisnaga
+    icon: fa-solid fa-cube
+    url: https://app.hackthebox.com/profile/59575

@@ -1,7 +1,7 @@
 :root {
-  --main-headers-color: #d64937;
-  --main-bg-color: #202020;
-  --main-font-color: rgba(255, 255, 255, 0.8);
+  --main-headers-color: #c74434;
+  --main-bg-color: #181818;
+  --main-font-color: #e4e4ef;
   --hr-border-settings: 2px solid rgba(255, 255, 255, 0.3);
   --code-bg-color: #2d2d2d;
   --code-font-color: #dcdcdc;
@@ -233,15 +233,15 @@ ul.pager li {
   border-radius: 5px;
 }
 .shield-grey {
-  background-color: #495057;
+  background-color: #5a635f;
   color: white;
 }
 .shield-blue {
-  background-color: #297fb8;
+  background-color: #5973ab;
   color: white;
 }
 .shield-yellow {
-  background-color: #d8a509;
+  background-color: #ffdd33;
   color: white;
 }
 .shield-red {
@@ -249,7 +249,7 @@ ul.pager li {
   color: white;
 }
 .shield-green {
-  background-color: #35aa12;
+  background-color: #73c936;
   color: white;
 }
 .shield span {
