@@ -2,6 +2,7 @@ baseURL: http://example.org/
 languageCode: en-us
 title: Bruno Blog
 theme: PaperMod
+paginate: 5
 
 params:
   disableReadOtherPosts: false
