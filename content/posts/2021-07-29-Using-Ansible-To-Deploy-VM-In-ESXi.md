@@ -126,11 +126,14 @@ First I specified the host (**localhost** because it's already specified in the 
     register: deploy_vm
 ```
 
+## Final Result
+
 Finally the last thing was to execute the playbook using `ansible-playbook <playbook name>`.
 
 <div style="text-align:center">
-    <img style="width:900px" src="/images/deploy_vm_ansible_esxi/run_playbook_ansible.png">
+    <img style="width:900px" src="/deploy_vm_ansible_esxi/run_playbook_ansible.png">
 </div>
+
 
 
 Doing this was extremely helpful because now I can spin up virtual machines (either Windows or Linux) in a faster and easier way.
