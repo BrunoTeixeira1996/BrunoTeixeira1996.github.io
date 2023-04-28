@@ -1,10 +1,10 @@
 ---
-layout: post
-title:  "Using Ansible To Deploy a VM In ESXi"
-categories: [publications]
-tags: [ESXi, VMWARE, Ansible]
-year: 2021
-description: Deploying a VM in ESXi using an iso file with Ansible 
+title: "Using Ansible To Deploy a VM In ESXi"
+date: 2021-10-21
+draft: false
+toc: true
+tags:
+  - Homelab
 ---
 
 ## Index
@@ -132,11 +132,6 @@ Finally the last thing was to execute the playbook using `ansible-playbook <play
     <img style="width:900px" src="/images/deploy_vm_ansible_esxi/run_playbook_ansible.png">
 </div>
 
-## Final Result
-
-<div style="text-align:center">
-    <img style="width:900px" src="/images/deploy_vm_ansible_esxi/vm_created.png">
-</div>
 
 Doing this was extremely helpful because now I can spin up virtual machines (either Windows or Linux) in a faster and easier way.
 

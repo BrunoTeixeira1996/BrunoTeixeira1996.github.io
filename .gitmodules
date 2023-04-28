@@ -1,0 +1,12 @@
+[submodule "themes/ananke"]
+	path = themes/ananke
+	url = https://github.com/theNewDynamic/gohugo-theme-ananke
+[submodule "a/themes/ananke"]
+	path = a/themes/ananke
+	url = https://github.com/theNewDynamic/gohugo-theme-ananke
+[submodule "a/themes/hello-friend-ng"]
+	path = a/themes/hello-friend-ng
+	url = https://github.com/rhazdon/hugo-theme-hello-friend-ng.git
+[submodule "a/brun0-blog/themes/hello-friend-ng"]
+	path = a/brun0-blog/themes/hello-friend-ng
+	url = https://github.com/rhazdon/hugo-theme-hello-friend-ng.git

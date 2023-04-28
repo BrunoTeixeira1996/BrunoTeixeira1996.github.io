@@ -1,0 +1,30 @@
+baseURL: http://example.org/
+languageCode: en-us
+title: Bruno Blog
+theme: PaperMod
+
+params:
+  disableReadOtherPosts: false
+  enableSharingButtons: true
+  showPostNavLinks: true
+  
+
+
+menu:
+  main:
+    - identifier: posts
+      name : Posts
+      url: /posts/
+      weight: 10
+    - identifier: tags
+      name : Tags
+      url: /tags/
+      weight: 20
+    - name: About
+      url: /about/
+      weight: 30
+
+markup:
+  goldmark:
+    renderer:
+      unsafe: true

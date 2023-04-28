@@ -1,10 +1,10 @@
 ---
-layout: post
-title:  "My ESXi Server"
-categories: [publications]
-tags: [ESXi, VMWARE]
-year: 2021
-description: ESXi Server builted for virtualization
+title: "My ESXi Server"
+date: 2021-08-21
+draft: false
+toc: true
+tags:
+  - Homelab
 ---
 
 ## Index
@@ -46,9 +46,9 @@ Then I needed to choose between ESXi or Proxmox. After reading some tips from a 
 a usb stick since ESXi OS goes to RAM on boot making almost no read/writes into the usb stick and the second reason was that VMware is well known and has a bigger community making easier to find
 help online.
 
-<div style="text-align:center">
-    <img style="width:200px" src="/images/my_esxi_server/esxi_server.jpeg">
-</div>
+
+{{< figure src="/my_esxi_server/esxi_server.jpeg" class="post-image" >}}
+
 
 Then I had to see if the hardware of the server was compatible with ESXi, and it wasn't (NIC was not compatible) but then I found some [custom ESXi ISOs](https://rodrigolira.eti.br/isos-esxi-customizadas/). The next step was to make a bootable usb using the custom iso and for that I used [etcher](https://www.balena.io/etcher/).
 
@@ -56,9 +56,8 @@ ESXi boots up and the only thing I needed to change was the ip address and make 
 
 After making that, the server was up and running like a charm and the next step was to create some VMs.
 
-<div style="text-align:center">
-    <img style="width:900px" src="/images/my_esxi_server/esxi_gui.png">
-</div>
+{{< figure src="/my_esxi_server/esxi_gui.png" class="post-80-image" >}}
+
 
 ## Backup ESXi Host
 
@@ -110,9 +109,8 @@ cd /vmfs/volumes/datastore1/ESXi_backup/
 ./esxi_backup.sh
 ```
 
-<div style="text-align:center">
-    <img style="width:650px" src="/images/my_esxi_server/esxi_1.png">
-</div>
+{{< figure src="/my_esxi_server/esxi_1.png" class="post-80-image" >}}
+
 
 #### Edit scheduler to make sure the backup ESXi host script is running automatically
 
@@ -130,10 +128,7 @@ vi /var/spool/cron/crontabs/root
 
 Even having a nice UI in VMware ESXi Web Interface I had to monitor ESXi outside of my LAN and, for security reasons, I didn't want to make the server public to the WAN so I made a python script to help me on that job. The script can be find on my [TelegramBot repository](https://github.com/BrunoTeixeira1996/TelegramBot/blob/main/src/modules/esxi.py).
 
-
-<div style="text-align:right">
-    <img style="width:650px" src="/images/my_esxi_server/esxi_monitor.jpg">
-</div>
+{{< figure src="/my_esxi_server/esxi_monitor.jpg" class="post-80-image" >}}
 
 
 
