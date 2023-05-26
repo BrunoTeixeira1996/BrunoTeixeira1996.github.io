@@ -8,6 +8,8 @@ params:
   disableReadOtherPosts: false
   enableSharingButtons: true
   showPostNavLinks: true
+  assets:
+    disableHLJS: true
   
 
 
@@ -26,6 +28,8 @@ menu:
       weight: 30
 
 markup:
+  highlight:
+      style: solarized-dark
   goldmark:
     renderer:
       unsafe: true
