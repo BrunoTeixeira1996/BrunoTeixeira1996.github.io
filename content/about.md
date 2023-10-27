@@ -18,6 +18,7 @@ _My name is Bruno Teixeira and I am an Offensive Cyber Security Analyst. Focused
 
 &nbsp;
 
+- Pentester @ [Layer8](https://www.layer8.pt) (Current)
 - Offensive Cyber Security Analyst @ [ArtResilia](https://artresilia.com/)
 - Technical Support / Service Desk @ [CGI](https://www.cgi.com/en)
 - Military @ [Exército Português](https://www.exercito.pt/pt)
