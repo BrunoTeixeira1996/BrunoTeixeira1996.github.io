@@ -16,7 +16,7 @@ tags:
 
 ## Introduction
 
-- This presentation is about load balancers and how they are important to new infrastructures. The aim here is to learn more about some network protocols (like VRRP) and how can we maximize the uptime when dealing with webservers. 
+- This presentation is about load balancers and how they are important to new infrastructures. The aim here is to learn more about some network protocols (like VRRP) and how can we maximize the uptime when dealing with webservers. Note that this presentation is in Portuguese. 
 
 ## Presentation
 
@@ -24,7 +24,7 @@ tags:
 .responsive-wrap iframe{ max-width: 100%;}
 </style>
 <div class="responsive-wrap">
-<iframe src="https://docs.google.com/presentation/d/e/2PACX-1vQwE6V_g72T950Q-W-AEwSrh8dNGQ4ygZhxAS0_DhNnGYtUcE9EsNA85h_H-loJyDDLOS9qETh_PMfn/embed?start=false&loop=false&delayms=60000" frameborder="0" width="960" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+<iframe src="https://docs.google.com/presentation/d/e/2PACX-1vR6AtBQHBWOoPTlr4cG39Av3VwRF9ozMdTb0MeSUe01BuyvW93ejajwG6gMgDcAyA/embed?start=false&loop=false&delayms=3000" frameborder="0" width="960" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
 </div>
 
 ## Resources
