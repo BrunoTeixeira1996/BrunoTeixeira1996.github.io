@@ -1,6 +1,6 @@
 ---
 title: "Spying on my dog without a SD Card"
-date: 2024-06-30
+date: 2024-06-11
 draft: false
 toc: true
 tags:
