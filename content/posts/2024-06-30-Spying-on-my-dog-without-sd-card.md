@@ -4,7 +4,7 @@ date: 2024-06-11
 draft: false
 toc: true
 tags:
-  - Go
+  - Golang
 ---
 
 ## Index
@@ -30,7 +30,7 @@ I decided to use the following:
 
 After enumerating all parts I built the following architecture:
 
-![Untitled-2024-06-11-1602](https://github.com/BrunoTeixeira1996/gocam/assets/12052283/1a85532c-0d32-4704-8ec0-8a08a937ed72)
+{{< figure src="/gocam/arc.svg" class="post-image" >}}
 
 The main goal of this project was:
 - To be able to record multiple cameras simultaneously
