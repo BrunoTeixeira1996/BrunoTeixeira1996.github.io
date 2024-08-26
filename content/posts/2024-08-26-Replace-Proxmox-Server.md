@@ -1,6 +1,6 @@
 ---
 title: "Replace Proxmox Server"
-date: 2023-08-26
+date: 2024-08-26
 draft: false
 toc: true
 tags:
