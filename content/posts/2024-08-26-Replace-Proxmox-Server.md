@@ -110,4 +110,4 @@ With these considerations in mind, I started developing a new backup plan—one 
 
 In the next blog post, I'll explain my thought process and outline my new approach for a refined backup mechanism. This new system will back up everything and ensure easy restoration, all while maintaining a reasonable amount of space on a new machine (spoiler alert:)).
 
-Yes, I plan to use a pre-built NAS with affordable, compact components to back up everything I consider important. This will include a new version of the [gbackup](github.com/BrunoTeixeira1996/gbackup) utility and a new, efficient computer that will serve as the NAS.
+Yes, I plan to use a pre-built NAS with affordable, compact components to back up everything I consider important. This will include a new version of the [gbackup](https://github.com/BrunoTeixeira1996/gbackup) utility and a new, efficient computer that will serve as the NAS.
