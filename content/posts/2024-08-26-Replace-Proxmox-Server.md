@@ -100,7 +100,7 @@ To fix this, I create a privileged LXC without nesting and then go to Proxmox an
 
 The restore process for the LXC went smoothly. I created a new LXC container and used `rsync` to transfer the backup configuration files, which worked perfectly.
 
-The situation with the VMs was different, as I hadn't been backing them up due to limited space in my previous setup.
+The situation with the VMs were different, as I hadn't been backing them up due to limited space in my previous setup.
 
 This experience made me realize that I need to revise my approach with the new setup to better prepare for scenarios similar to those I encountered with the old server.
 
