@@ -236,7 +236,7 @@ Once the backup process is complete, Gbackup powers off the NAS to conserve ener
 Obs: In the future, a second external hard drive will be connected to Pinute. Once a month, Gbackup will create a tarball of the `backupProxmox` and `backupExternal` folders on the NAS.
 These compressed backups will be saved to the secondary hard drive as an additional layer of redundancy.
 
-{{< figure src="/new_nas/test.png" class="post-image" >}}
+{{< figure src="/new_nas/gbackup.svg" class="post-image" >}}
 
 
 ## Disaster Recovery
