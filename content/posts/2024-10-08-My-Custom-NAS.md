@@ -91,13 +91,28 @@ To configure my NAS, I followed these steps:
 
 - Install zfs tools
 - Create zfs Pool
-  - `sudo zpool create -f -o ashift=12 brun0nas1 /dev/disk/by-id/ata-KINGSTON_SA400S37240G_50026B76861689C2 /dev/disk/by-id/ata-KINGSTON_SV300S37A240G_50026B766A04AC5E`
+
+```
+sudo zpool create -f -o ashift=12 brun0nas1 /dev/disk/by-id/ata-KINGSTON_SA400S37240G_50026B76861689C2 /dev/disk/by-id/ata-KINGSTON_SV300S37A240G_50026B766A04AC5E
+```
+
 - Create two datasets
-  - `sudo zfs create brun0nas1/backupExternal && sudo zfs create brun0nas1/backupProxmox`
+
+```
+sudo zfs create brun0nas1/backupExternal && sudo zfs create brun0nas1/backupProxmox
+```
+
 - Activate autotrim
-  - `sudo zpool set autotrim=on brun0nas1`
+
+```
+sudo zpool set autotrim=on brun0nas1
+```
+
 - Activate [zfs scrub](https://wiki.archlinux.org/title/ZFS#Scrubbing)
- - `sudo systemctl enable --now zfs-scrub@brun0nas1.timer`
+
+```
+sudo systemctl enable --now zfs-scrub@brun0nas1.timer
+```
 
 ```
 \# /etc/systemd/system/zfs-scrub@brun0nas1.timer
@@ -153,7 +168,7 @@ brun0nas1/backupProxmox     96K   430G    96K  /mnt/datastore/backupProxmox
 ```
 - Add mount points into PBS Datastore
 
-{{< figure src="/new_nas/add_mounts.png" class="post-image" >}}
+{{< figure src="/new_nas/addmounts.png" class="post-image" >}}
 	
 - Add PBS to Proxmox
   - Go to Proxmox and Datacenter -> Storage -> Add Proxmox Backup Server
@@ -187,22 +202,22 @@ brun0nas1/backupProxmox     96K   430G    96K  /mnt/datastore/backupProxmox
 The following steps outline how the incremental backup process occurs each Friday:
 
 ```
-	12:50 PM:
-    Gbackup sends a Wake-on-LAN (WoL) signal to power on the NAS
+12:50 PM:
+Gbackup sends a Wake-on-LAN (WoL) signal to power on the NAS
 
-    1:00 PM:
-    Proxmox Backup Server (PBS) performs an incremental backup of Proxmox virtual machines (VMs) and containers, saving the data to /backupProxmox
-    Gbackup uses the Proxmox API to check the status and results of the Proxmox backups for the current day
+1:00 PM:
+Proxmox Backup Server (PBS) performs an incremental backup of Proxmox virtual machines (VMs) and containers, saving the data to /backupProxmox
+Gbackup uses the Proxmox API to check the status and results of the Proxmox backups for the current day
 	
-	After PBS Backup Completion:
-    Gbackup backs up important directories from gokrazy, worklatop, pinute, ...
-    These are backed up to the external hard drive mounted at /mnt/external
+After PBS Backup Completion:
+Gbackup backs up important directories from gokrazy, worklatop, pinute, ...
+These are backed up to the external hard drive mounted at /mnt/external
 
-    Mirror Backup to NAS:
-    Gbackup then copies the contents of /mnt/external (which includes the aforementioned directories) to the NAS under /backupExternal
+Mirror Backup to NAS:
+Gbackup then copies the contents of /mnt/external (which includes the aforementioned directories) to the NAS under /backupExternal
 
-    Shutdown NAS:
-    Once the backup process is complete, Gbackup powers off the NAS to conserve energy
+Shutdown NAS:
+Once the backup process is complete, Gbackup powers off the NAS to conserve energy
 ```
 
 ### Final backup structure
