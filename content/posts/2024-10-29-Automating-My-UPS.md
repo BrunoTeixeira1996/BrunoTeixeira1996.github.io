@@ -15,6 +15,7 @@ tags:
 - [Prometheus Nut exporter](#prometheus-nut-exporter)
 - [Alert Manager](#alert-manager)
 - [NutGMonitor](#nutgmonitor)
+- [Conclusion](#conclusion)
 
 ## Introduction
 
@@ -223,3 +224,10 @@ The power-off mechanism used in NutGMonitor is customized for the target system.
 Once all targets are powered down, NutGMonitor makes sure to shutdown itself, effectively disconnecting it from the UPS.
 
 NutGMonitor also accounts for brief power losses followed by quick restorations that can occur before the 2-minute threshold is reached, potentially preventing Alertmanager from receiving updates. To tackle this issue, I monitor these power off/on events using upslog within the NUT Docker container, as shown previously.
+
+
+## Conclusion
+
+I've set up a reliable system that keeps me safe during unexpected power outages (it works for me :)), even when I'm away from home. With the integration of a Prometheus exporter, I can monitor my UPS in real-time, allowing me to define new metrics and visualize them whenever I want.
+
+While I can safely shut down all devices when I'm at home, I can't always be there when the power goes out. That's where NutGMonitor comes in; it helps me manage and gracefully shut down every device connected to my UPS. This not only eases my mind during outages but also protects my equipment from potential damage caused by abrupt shutdowns. Overall, this setup gives me peace of mind, knowing that I’m prepared for any power interruptions, whether I'm home or away.
