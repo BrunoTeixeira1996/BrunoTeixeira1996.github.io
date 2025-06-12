@@ -2,19 +2,9 @@
 title: "TinyGo in Microcontrollers"
 date: 2023-05-26
 draft: false
-toc: true
 tags:
   - Golang
 ---
-
-## Index
-
-- [Introduction](#introduction)
-- [TinyGo](#tinygo)
-- [XIAO](#xiao)
-- [Flashing](#flashing)
-- [Reset](#reset)
-- [Resources](#resources)
 
 ## Introduction
 

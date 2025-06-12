@@ -2,19 +2,9 @@
 title: "My Custom NAS"
 date: 2024-10-08
 draft: false
-toc: true
 tags:
   - Homelab
 ---
-
-## Index
-
-- [Introduction](#introduction)
-- [Why](#why)
-- [NAS Components](#nas-components)
-- [NAS Configuration](#nas-configuration)
-- [Gbackupv2](#gbackupv2)
-- [Disaster recovery](#disaster-recovery)
 
 ## Introduction
 
@@ -92,29 +82,29 @@ To configure my NAS, I followed these steps:
 - Install zfs tools
 - Create zfs Pool
 
-```
+```console
 sudo zpool create -f -o ashift=12 brun0nas1 /dev/disk/by-id/ata-KINGSTON_SA400S37240G_50026B76861689C2 /dev/disk/by-id/ata-KINGSTON_SV300S37A240G_50026B766A04AC5E
 ```
 
 - Create two datasets
 
-```
+```console
 sudo zfs create brun0nas1/backupExternal && sudo zfs create brun0nas1/backupProxmox
 ```
 
 - Activate autotrim
 
-```
+```console
 sudo zpool set autotrim=on brun0nas1
 ```
 
 - Activate [zfs scrub](https://wiki.archlinux.org/title/ZFS#Scrubbing)
 
-```
+```console
 sudo systemctl enable --now zfs-scrub@brun0nas1.timer
 ```
 
-```
+```console
 \# /etc/systemd/system/zfs-scrub@brun0nas1.timer
 
 [Unit]
@@ -136,7 +126,7 @@ WantedBy=multi-user.target
 
 - [Install PBS in debian](https://pbs.proxmox.com/docs/installation.html)
 
-```
+```console
 wget https://enterprise.proxmox.com/debian/proxmox-release-bookworm.gpg -O /etc/apt/trusted.gpg.d/proxmox-release-bookworm.gpg
 
 \# added this to /etc/apt/sources.list
@@ -148,7 +138,7 @@ s apt install proxmox-backup-server
 
 - Configure mount point (backupExternal was optional here, I added but it is not used in PBS)
 
-```
+```console
 mkdir -p /mnt/datastore/backupExternal
 mkdir -p /mnt/datastore/backupProxmox
 
@@ -158,7 +148,7 @@ s zfs set mountpoint=/mnt/datastore/backupProxmox brun0nas1/backupExternal
 
 - Verify mount point
 
-```
+```console
 zfs list
 
 NAME                       USED  AVAIL  REFER  MOUNTPOINT
@@ -201,7 +191,7 @@ brun0nas1/backupProxmox     96K   430G    96K  /mnt/datastore/backupProxmox
 
 The following steps outline how the incremental backup process occurs each Friday:
 
-```
+```console
 12:50 PM:
 Gbackup sends a Wake-on-LAN (WoL) signal to power on the NAS
 

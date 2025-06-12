@@ -1,275 +1,585 @@
 <!DOCTYPE html>
-<html lang="en" dir="auto">
+<html lang="en"
+  x-data
+  :class="$store.darkMode.class()"
+  :data-theme="$store.darkMode.theme()">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CTF | Bruno Blog</title>
 
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="noindex, nofollow">
-<title>CTF | Bruno Blog</title>
-<meta name="keywords" content="">
-<meta name="description" content="">
-<meta name="author" content="">
-<link rel="canonical" href="http://localhost:1313/tags/ctf/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.8fe10233a706bc87f2e08b3cf97b8bd4c0a80f10675a143675d59212121037c0.css" integrity="sha256-j&#43;ECM6cGvIfy4Is8&#43;XuL1MCoDxBnWhQ2ddWSEhIQN8A=" rel="preload stylesheet" as="style">
-<link rel="icon" href="http://localhost:1313/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
-<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
-<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
-<meta name="theme-color" content="#2e2e33">
-<meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="http://localhost:1313/tags/ctf/index.xml">
-<link rel="alternate" hreflang="en" href="http://localhost:1313/tags/ctf/">
-<noscript>
-    <style>
-        #theme-toggle,
-        .top-link {
-            display: none;
-        }
-
-    </style>
-    <style>
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --theme: rgb(29, 30, 32);
-                --entry: rgb(46, 46, 51);
-                --primary: rgb(218, 218, 219);
-                --secondary: rgb(155, 156, 157);
-                --tertiary: rgb(65, 66, 68);
-                --content: rgb(196, 196, 197);
-                --code-block-bg: rgb(46, 46, 51);
-                --code-bg: rgb(55, 56, 62);
-                --border: rgb(51, 51, 51);
-            }
-
-            .list {
-                background: var(--theme);
-            }
-
-            .list:not(.dark)::-webkit-scrollbar-track {
-                background: 0 0;
-            }
-
-            .list:not(.dark)::-webkit-scrollbar-thumb {
-                border-color: var(--theme);
-            }
-        }
-
-    </style>
-</noscript>
-</head>
-
-<body class="list" id="top">
-<script>
-    if (localStorage.getItem("pref-theme") === "dark") {
-        document.body.classList.add('dark');
-    } else if (localStorage.getItem("pref-theme") === "light") {
-        document.body.classList.remove('dark')
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.body.classList.add('dark');
-    }
-
-</script>
-
-<header class="header">
-    <nav class="nav">
-        <div class="logo">
-            <a href="http://localhost:1313/" accesskey="h" title="Bruno Blog (Alt + H)">Bruno Blog</a>
-            <div class="logo-switches">
-                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
-                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="5"></circle>
-                        <line x1="12" y1="1" x2="12" y2="3"></line>
-                        <line x1="12" y1="21" x2="12" y2="23"></line>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                        <line x1="1" y1="12" x2="3" y2="12"></line>
-                        <line x1="21" y1="12" x2="23" y2="12"></line>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                    </svg>
-                </button>
-            </div>
-        </div>
-        <ul id="menu">
-            <li>
-                <a href="http://localhost:1313/posts/" title="Posts">
-                    <span>Posts</span>
-                </a>
-            </li>
-            <li>
-                <a href="http://localhost:1313/tags/" title="Tags">
-                    <span>Tags</span>
-                </a>
-            </li>
-            <li>
-                <a href="http://localhost:1313/search/" title="Search (Alt &#43; /)" accesskey=/>
-                    <span>Search</span>
-                </a>
-            </li>
-            <li>
-                <a href="http://localhost:1313/about/" title="About">
-                    <span>About</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
-</header>
-<main class="main"> 
-<header class="page-header">
-  <h1>
-    CTF
-  </h1>
-</header>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">0xOPOSEC Summer Challenge 2023
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>“Based in Porto, the 0xOPOSEC group was started by g33ks who are passionate about security. The meetup primary mission is to discuss and tackle upsurging security issues by leveraging the expertise and know-how of members of the group.”
-Index The Flag Dispenser {WEB} Recon All The Things {WEB} The Poor Man Proxy {WEB} Whois? {WEB} This Looks Familiar {WEB} Healthy {CRYPTO} Kadabra used Substitute! {CRYPTO} It Is All About Magic {CRYPTO} I Forgot My Phone Number {CRYPTO} A Different Kind of Flag {MISC} No One Can Read This! {MISC} Are You a Good Scientist? {MISC} Thirty-Two {TRIVIA} No Google {TRIVIA} The Most Beautiful Woman in Film {TRIVIA} Java Nightmare! {TRIVIA} Conclusion Web The Flag Dispenser “Your first step is to fool our Flag Dispenser into thinking you’re an admin. http://flagdispenser.0d.al/ Good luck!”
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2023-08-21 00:00:00 +0000 UTC'>August 21, 2023</span>&nbsp;·&nbsp;13 min</footer>
-  <a class="entry-link" aria-label="post link to 0xOPOSEC Summer Challenge 2023" href="http://localhost:1313/posts/2023-08-21-0xoposec/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">0xOPOSEC Christmas Challenge 2022
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>“Based in Porto, the 0xOPOSEC group was started by g33ks who are passionate about security. The meetup primary mission is to discuss and tackle upsurging security issues by leveraging the expertise and know-how of members of the group.”
-Index Black Hole {MISC} A Programming Language {MISC} Find The Typo {MISC} Back Me Up! {MISC} 867 CFR {NETWORK} Who’s There {NETWORK} My Network Is Secure! {NETWORK} Mmmm…Donuts… {CRYPTO} Lets Share! {CRYPTO} The Folt {WEB} In Passwords, We Trust, and in PHP, We Believe! {WEB} Who? {TRIVIA} The Great Hack {TRIVIA} Misc Black Hole “An exception is an abnormal event or error that occurs during the execution of a program. Exceptions are typically used to handle unexpected or exceptional co nditions, such as runtime errors or input-output errors. When an exception occurs, it is typically represented as an object that is thrown, and it can be caug ht and handled by the program using a try-catch block.”
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2022-12-31 00:00:00 +0000 UTC'>December 31, 2022</span>&nbsp;·&nbsp;17 min</footer>
-  <a class="entry-link" aria-label="post link to 0xOPOSEC Christmas Challenge 2022" href="http://localhost:1313/posts/2022-12-31-0xoposec/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">0xOPOSEC Summer Challenge 2022
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>“Based in Porto, the 0xOPOSEC group was started by g33ks who are passionate about security. The meetup primary mission is to discuss and tackle upsurging security issues by leveraging the expertise and know-how of members of the group.”
-Index Larapios Group Access {RECON} Spread Your Hacks {RECON} Big Dollar Spender {WINDOWS} Other Os Are People 2 {RECON} CAPtain Pwn! {LINUX} SO Cute! {LINUX} Stairway To Heaven {WINDOWS} Conclusion First recon Larapios Group Access “Larapios Group states that they access to our core infrastructure! They claim that our security is lacking and have credentials to access our systems. Quickly, grab the access and gain access to one of the internal machines!”
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2022-08-21 00:00:00 +0000 UTC'>August 21, 2022</span>&nbsp;·&nbsp;10 min</footer>
-  <a class="entry-link" aria-label="post link to 0xOPOSEC Summer Challenge 2022" href="http://localhost:1313/posts/2022-08-21-0xoposec/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">0xOPOSEC 24/02/2022 Challenge
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>Index Challenge Description Solving Challenge References Description “I just got this new keyboard from Vodaphone Portugal, but it looks like something fishy is going on. Could you help me?”
-Solving Opening the pcap file It turns out to be a USB communication capture The file was small and had USB_INTERRUPT events that encode key presses
-After a little bit of google fu, I found that the Leftover Capture Data field has a series of 8 bytes strung together (the third byte is the Usage ID for the key pressed)
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2022-02-24 00:00:00 +0000 UTC'>February 24, 2022</span>&nbsp;·&nbsp;2 min</footer>
-  <a class="entry-link" aria-label="post link to 0xOPOSEC 24/02/2022 Challenge" href="http://localhost:1313/posts/2022-02-24-0xoposec/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">0xOPOSEC Summer Challenge 2018
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>“Based in Porto, the 0xOPOSEC group was started by g33ks who are passionate about security. The meetup primary mission is to discuss and tackle upsurging security issues by leveraging the expertise and know-how of members of the group.”
-Index Have a l00k {RECON} Lost in Translation {MISC} Crack me if you can! {REVERSE} We love web 2.0 {WEB} Recon Have_a_l00k This first challenge was all about having a l00k(literally). They gave an URL to work with. When I opened the page I saw a video and a button.
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2018-08-21 00:00:00 +0000 UTC'>August 21, 2018</span>&nbsp;·&nbsp;4 min</footer>
-  <a class="entry-link" aria-label="post link to 0xOPOSEC Summer Challenge 2018" href="http://localhost:1313/posts/2018-08-21-0xoposec/"></a>
-</article>
-    </main>
     
-<footer class="footer">
-        <span>&copy; 2025 <a href="http://localhost:1313/">Bruno Blog</a></span> · 
+  
+    <link href="/favicon.ico" rel="icon" type="image/x-icon" />
+  
 
-    <span>
-        Powered by
-        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
-        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
-    </span>
-</footer>
-<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
-        <path d="M12 6H0l6-6z" />
-    </svg>
+
+<link rel="canonical" href="http://localhost:1313/tags/ctf/" />
+
+
+
+<meta name="author" content="" />
+<meta name="description" content="" />
+
+
+
+<meta name="generator" content="Hugo 0.147.0">
+
+
+<meta property="og:url" content="http://localhost:1313/tags/ctf/">
+  <meta property="og:site_name" content="Bruno Blog">
+  <meta property="og:title" content="CTF">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="website">
+
+
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="CTF">
+
+
+
+
+<link rel="stylesheet" href="/css/output.css" />
+
+
+
+
+     
+
+    
+
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3/dist/cdn.min.js" integrity="sha256-PtHu0lJIiSHfZeNj1nFd6wTX+Squ255SGZ/fc8seCtM=" crossorigin="anonymous"></script>
+  </head>
+
+  <body x-data="{
+    flip: false,
+  }">
+    
+    <div id="dream-global-bg"></div>
+
+    
+<nav x-data="{ isSticky: false }"
+  x-init="window.addEventListener('scroll', () => { isSticky = window.scrollY > 30 })"
+  class="sticky top-0 z-30 mt-4 lg:mt-8 py-4"
+  :class="{ 'bg-base-100 shadow-lg dark:border-b dark:border-base-content/30': isSticky }">
+
+  
+  <div class="container flex justify-between max-w-[65ch] mx-auto px-4 md:px-0">
+  
+    <section class="flex items-center gap-4">
+      <div class="avatar cursor-pointer hover:avatar-online" @click="flip = !flip" title="Flip it!">
+        <div class="h-10 rounded-full">
+          <img src="/favicon.ico" alt="Bruno Blog" />
+        </div>
+      </div>
+
+      
+      <div>
+        
+        <a href="http://localhost:1313/" class="text-lg font-semibold cursor-pointer">
+          Bruno Blog
+        </a>
+        
+        
+      </div>
+      
+    </section>
+
+    
+    
+
+    <div class="dropdown dropdown-end sm:hidden">
+      <div tabindex="0" role="button" class="btn btn-ghost btn-square" aria-label="Select an option">
+        <ion-icon name="menu" class="text-2xl"></ion-icon>
+      </div>
+      <ul tabindex="0" class="dropdown-content menu w-36 bg-base-100 rounded-box z-1 shadow-md">
+        
+
+
+
+
+
+
+
+<li>
+  <div role="link" tabindex="0" class="inline-flex items-center p-2 cursor-pointer" @click="flip = !flip" title="About">
+    <ion-icon name="information-circle"></ion-icon>About</div>
+</li>
+
+
+
+
+
+
+
+<li>
+  <a class="group inline-flex items-center p-2 cursor-pointer" href="/search" title="Search">
+    <ion-icon name="search"></ion-icon>
+    Search
+  </a>
+</li>
+
+
+
+
+
+
+
+
+
+
+
+<li>
+  <a class="inline-flex items-center p-2 cursor-pointer" href="/posts" title="Archives">
+    <ion-icon name="archive"></ion-icon>
+    Archives
+  </a>
+</li>
+
+
+
+
+
+
+
+
+
+
+
+<li>
+  <a class="inline-flex items-center p-2 cursor-pointer" href="/tags" title="All Tags">
+    <ion-icon name="pricetags"></ion-icon>
+    All Tags
+  </a>
+</li>
+
+
+
+
+
+
+      </ul>
+    </div>
+    <section class="hidden sm:flex sm:items-center sm:gap-2 md:gap-4">
+      
+
+      
+      
+
+
+
+
+<div role="link" tabindex="0" class="text-sm font-semibold cursor-pointer hover:underline" @click="flip = !flip" title="About">About</div>
+
+
+
+
+
+      
+      
+<a class="group inline-flex items-center p-2 rounded-full cursor-pointer hover:bg-primary" href="/search" title="Search">
+  <ion-icon class="group-hover:text-primary-content" name="search"></ion-icon>
 </a>
 
-<script>
-    let menu = document.getElementById('menu')
-    if (menu) {
-        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
-        menu.onscroll = function () {
-            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
-        }
-    }
 
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener("click", function (e) {
-            e.preventDefault();
-            var id = this.getAttribute("href").substr(1);
-            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
-                    behavior: "smooth"
-                });
-            } else {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
-            }
-            if (id === "top") {
-                history.replaceState(null, null, " ");
-            } else {
-                history.pushState(null, null, `#${id}`);
-            }
-        });
-    });
+      
+      
 
+
+
+
+
+      
+      
+<a class="group inline-flex items-center p-2 rounded-full cursor-pointer hover:bg-primary" href="/posts" title="Archives">
+  <ion-icon class="group-hover:text-primary-content" name="archive"></ion-icon>
+</a>
+
+
+      
+      
+
+
+
+
+
+      
+      
+<a class="group inline-flex items-center p-2 rounded-full cursor-pointer hover:bg-primary" href="/tags" title="All Tags">
+  <ion-icon class="group-hover:text-primary-content" name="pricetags"></ion-icon>
+</a>
+
+
+      
+
+      
+
+      
+    </section>
+  </div>
+</nav>
+
+
+    <div class="flip-container" :class="{ 'flip-it': flip }">
+      <div class="flipper">
+        <div class="front">
+          <div class="container">
+            
+
+
+<div class="max-w-[65ch] mt-4 mx-auto">
+
+  <div class="md:basis-[200px] lg:basis-[300px] p-4 prose dark:prose-invert">
+    <h1 class="text-2xl">CTF</h1>
+    <p class="text-sm">5 articles</p>
+    <div class="flex flex-wrap gap-4 mt-6">
+      
+
+      
+      
+      <span class="badge h-6 badge-primary">
+        CTF
+      </span>
+      
+      
+      
+      <a href="/tags/golang/" class="badge h-6 no-underline hover:badge-primary">
+        Golang
+      </a>
+      
+      
+      
+      <a href="/tags/homelab/" class="badge h-6 no-underline hover:badge-primary">
+        Homelab
+      </a>
+      
+      
+      
+      <a href="/tags/red-teaming/" class="badge h-6 no-underline hover:badge-primary">
+        Red Teaming
+      </a>
+      
+      
+    </div>
+  </div>
+  
+  <div class="divider divider-vertical"></div>
+  
+  <div class="flex-1">
+    
+
+    
+      <div class="dream-zen-posts px-4 space-y-8">
+        
+          <a class="flex justify-between items-center gap-4" href="/posts/2023-08-21-0xoposec/">
+  <div>
+    <h2 class="text-lg font-medium underline">0xOPOSEC Summer Challenge 2023</h2>
+    <span class="date text-base-content/60 text-sm">
+    
+      Monday, Aug 21, 2023
+    
+    </span>
+  </div>
+
+  
+</a>
+
+        
+          <a class="flex justify-between items-center gap-4" href="/posts/2022-12-31-0xoposec/">
+  <div>
+    <h2 class="text-lg font-medium underline">0xOPOSEC Christmas Challenge 2022</h2>
+    <span class="date text-base-content/60 text-sm">
+    
+      Saturday, Dec 31, 2022
+    
+    </span>
+  </div>
+
+  
+</a>
+
+        
+          <a class="flex justify-between items-center gap-4" href="/posts/2022-08-21-0xoposec/">
+  <div>
+    <h2 class="text-lg font-medium underline">0xOPOSEC Summer Challenge 2022</h2>
+    <span class="date text-base-content/60 text-sm">
+    
+      Sunday, Aug 21, 2022
+    
+    </span>
+  </div>
+
+  
+</a>
+
+        
+          <a class="flex justify-between items-center gap-4" href="/posts/2022-02-24-0xoposec/">
+  <div>
+    <h2 class="text-lg font-medium underline">0xOPOSEC 24/02/2022 Challenge</h2>
+    <span class="date text-base-content/60 text-sm">
+    
+      Thursday, Feb 24, 2022
+    
+    </span>
+  </div>
+
+  
+</a>
+
+        
+          <a class="flex justify-between items-center gap-4" href="/posts/2018-08-21-0xoposec/">
+  <div>
+    <h2 class="text-lg font-medium underline">0xOPOSEC Summer Challenge 2018</h2>
+    <span class="date text-base-content/60 text-sm">
+    
+      Tuesday, Aug 21, 2018
+    
+    </span>
+  </div>
+
+  
+</a>
+
+        
+      </div>
+    
+
+    
+  </div>
+</div>
+
+
+
+            
+<footer class="flex justify-between items-center gap-2 max-w-[65ch] mx-auto px-4 md:px-0 py-12">
+
+  <div>
+  
+  <p>
+    © 2018 - 2025 Bruno Blog
+  </p>
+  
+
+  
+  <p class="text-sm">
+    🌱
+    <span class="text-base-content/60">
+      Powered by <a class="hover:underline" href="https://gohugo.io/" target="_blank">Hugo</a> with theme
+      <a class="hover:underline" href="https://github.com/g1eny0ung/hugo-theme-dream" target="_blank">Dream</a>.</span
+    >
+  </p>
+  
+</div>
+
+  <div
+  x-data="{ icons: [
+    { name: 'sunny', status: 'n' },
+    { name: 'moon', status: 'y' },
+    { name: 'desktop', status: 'auto' }
+  ] }"
+  class="flex items-center gap-2 h-[32px] px-2 bg-base-100 border border-base-content/30 rounded-full"
+>
+  <template x-for="icon in icons">
+    <div
+      role="button"
+      tabindex="0"
+      :aria-label="'Select ' + icon.name + ' mode'"
+      class="group inline-flex justify-center items-center p-1 rounded-full cursor-pointer hover:bg-primary"
+      :class="$store.darkMode.icon() === icon.name && 'bg-primary'"
+      @click="$store.darkMode.toggle(icon.status)"
+    >
+      <ion-icon
+        :name="`${icon.name}-outline`"
+        class="group-hover:text-primary-content"
+        :class="$store.darkMode.icon() === icon.name && 'text-primary-content'"
+      >
+      </ion-icon>
+    </div>
+  </template>
+</div>
+
+</footer>
+
+          </div>
+        </div>
+        <div class="back">
+          <div class="container">
+            
+            <div class="max-w-[65ch] mt-8 mx-auto px-4">
+  
+  
+  
+  <div>
+    <div class="mb-4 text-lg font-medium"></div>
+
+    <div class="prose dark:prose-invert">
+      <h1 id="about-me">About me</h1>
+<p><em>My name is Bruno Teixeira and I am an Offensive Cyber Security Analyst. Focused on learning Information Security and Systems Administration. Always doing some side projects to improve my coding skills and learn new technologies on the way.</em></p>
+<h2 id="work-experience">Work Experience</h2>
+<ul>
+<li>Pentester @ <a href="https://www.pt.logicalis.com/pt-pt" target="_blank">Logicalis PT</a>
+ (Current)</li>
+<li>Pentester @ <a href="https://www.layer8.pt" target="_blank">Layer8</a>
+</li>
+<li>Offensive Cyber Security Analyst @ <a href="https://artresilia.com/" target="_blank">ArtResilia</a>
+</li>
+<li>Technical Support / Service Desk @ <a href="https://www.cgi.com/en" target="_blank">CGI</a>
+</li>
+<li>Military @ <a href="https://www.exercito.pt/pt" target="_blank">Exército Português</a>
+</li>
+</ul>
+<h2 id="education">Education</h2>
+<ul>
+<li>BsC Computer Engineering @ <a href="https://www.isec.pt" target="_blank">ISEC Coimbra</a>
+</li>
+<li>CET Network and Systems @ <a href="https://www.cinel.pt" target="_blank">CINEL Porto</a>
+</li>
+<li>IT &amp; Programming @ <a href="https://eisnt.com/" target="_blank">EISnt, High School</a>
+</li>
+</ul>
+<h2 id="work-experience-as-a-trainee">Work Experience as a Trainee</h2>
+<ul>
+<li>IT and Network department @ <a href="https://www.islagaia.pt/pt/" target="_blank">ISLA Gaia</a>
+</li>
+<li>Hardware &amp; Software Maintenance @ <a href="http://assistencia35.com/" target="_blank">Assistência 35 LDA</a>
+</li>
+<li>Hardware Maintenance @ <a href="https://www.lojasehorarios.com.pt/dotcenter-informatica-soc-unip-lda/porto/c-58637a1332cff589d8187aa3" target="_blank">DOTcenter</a>
+</li>
+</ul>
+
+    </div>
+  </div>
+  <div class="divider divider-vertical"></div>
+  
+  
+
+  
+  
+  <div class="pb-4">
+  
+    <div class="mb-4 text-lg font-medium">Social Links</div>
+
+    <ul class="menu menu-horizontal flex-wrap w-full px-0 [&_ion-icon]:text-lg">
+  
+  <li>
+    <a href="mailto:brunoalexandre3@hotmail.com" title="Email">
+      <ion-icon name="mail"></ion-icon>
+    </a>
+  </li>
+  
+
+  
+  <li>
+    <a href="https://github.com/BrunoTeixeira1996" target="_blank" title="GitHub">
+      <ion-icon name="logo-github"></ion-icon>
+    </a>
+  </li>
+  
+  <li>
+    <a href="https://x.com/zebisnaga3" target="_blank" title="X">
+      <ion-icon name="logo-x"></ion-icon>
+    </a>
+  </li>
+  
+  <li>
+    <a href="https://www.linkedin.com/in/bruno-teixeira-1553b4a1/" target="_blank" title="Linkedin">
+      <ion-icon name="logo-linkedin"></ion-icon>
+    </a>
+  </li>
+  
+</ul>
+
+  </div>
+  
+
+  
+</div>
+
+            
+
+            
+<footer class="flex justify-between items-center gap-2 max-w-[65ch] mx-auto px-4 md:px-0 py-12">
+
+  <div>
+  
+  <p>
+    © 2018 - 2025 Bruno Blog
+  </p>
+  
+
+  
+  <p class="text-sm">
+    🌱
+    <span class="text-base-content/60">
+      Powered by <a class="hover:underline" href="https://gohugo.io/" target="_blank">Hugo</a> with theme
+      <a class="hover:underline" href="https://github.com/g1eny0ung/hugo-theme-dream" target="_blank">Dream</a>.</span
+    >
+  </p>
+  
+</div>
+
+  <div
+  x-data="{ icons: [
+    { name: 'sunny', status: 'n' },
+    { name: 'moon', status: 'y' },
+    { name: 'desktop', status: 'auto' }
+  ] }"
+  class="flex items-center gap-2 h-[32px] px-2 bg-base-100 border border-base-content/30 rounded-full"
+>
+  <template x-for="icon in icons">
+    <div
+      role="button"
+      tabindex="0"
+      :aria-label="'Select ' + icon.name + ' mode'"
+      class="group inline-flex justify-center items-center p-1 rounded-full cursor-pointer hover:bg-primary"
+      :class="$store.darkMode.icon() === icon.name && 'bg-primary'"
+      @click="$store.darkMode.toggle(icon.status)"
+    >
+      <ion-icon
+        :name="`${icon.name}-outline`"
+        class="group-hover:text-primary-content"
+        :class="$store.darkMode.icon() === icon.name && 'text-primary-content'"
+      >
+      </ion-icon>
+    </div>
+  </template>
+</div>
+
+</footer>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+  window.lightTheme = "emerald"
+  window.darkTheme = "forest"
 </script>
-<script>
-    var mybutton = document.getElementById("top-link");
-    window.onscroll = function () {
-        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
-            mybutton.style.visibility = "visible";
-            mybutton.style.opacity = "1";
-        } else {
-            mybutton.style.visibility = "hidden";
-            mybutton.style.opacity = "0";
-        }
-    };
 
-</script>
-<script>
-    document.getElementById("theme-toggle").addEventListener("click", () => {
-        if (document.body.className.includes("dark")) {
-            document.body.classList.remove('dark');
-            localStorage.setItem("pref-theme", 'light');
-        } else {
-            document.body.classList.add('dark');
-            localStorage.setItem("pref-theme", 'dark');
-        }
-    })
 
-</script>
-</body>
 
+
+
+<script src="/js/main.js"></script>
+
+    
+
+
+
+
+
+    
+
+    
+
+    
+
+    
+
+    <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@7.4.0/dist/ionicons/ionicons.esm.js" integrity="sha256-/IFmi82bIhdYWctu0UddSlJqpnzWm7Vh2C4CM32wF/k=" crossorigin="anonymous"></script>
+    <script nomodule src="https://cdn.jsdelivr.net/npm/ionicons@7.4.0/dist/ionicons/ionicons.js" integrity="sha256-mr7eJMX3VC3F7G32mk4oWp1C6a2tlMYxUdptfT7uKI8=" crossorigin="anonymous"></script>
+  </body>
 </html>

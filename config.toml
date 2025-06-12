@@ -1,0 +1,28 @@
+baseurl = "https://example.com"
+defaultContentLanguage = "en"
+languageCode = "en"
+title = "Bruno Blog"
+theme = "dream"
+
+[params]
+zenMode = true
+avatar = "favicon.ico"
+headerTitle = "Bruno Blog"
+lightTheme = "emerald"
+darkTheme = "forest"
+email = "brunoalexandre3@hotmail.com"
+siteStartYear = 2018
+favicon = "favicon.ico"
+flip = false
+stickyNav = true
+noDefaultSummaryCover = true
+showTableOfContents = true
+imageZoomableInPost = true
+showPrevNextPost = true
+
+
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true

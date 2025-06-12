@@ -1,0 +1,5 @@
+socials = [
+  { href = "https://github.com/BrunoTeixeira1996", target="_blank", icon = "logo-github", title = "GitHub" },
+  { href = "https://x.com/zebisnaga3", target="_blank", icon = "logo-x", title = "X" },
+  { href = "https://www.linkedin.com/in/bruno-teixeira-1553b4a1/", target="_blank", icon = "logo-linkedin", title = "Linkedin" },
+]

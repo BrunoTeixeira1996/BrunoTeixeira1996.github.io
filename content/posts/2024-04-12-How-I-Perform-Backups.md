@@ -2,29 +2,19 @@
 title: "How I Perform Backups"
 date: 2024-04-12
 draft: false
-toc: true
 tags:
   - Homelab
 ---
 
-## Index
 
-- [Introduction](#introduction)
-- [Targets & Destinations](#targets-&-destinations)
-- [Rsync](#rsync)
-- [Prometheus & Grafana](#prometheus-&-grafana)
-- [Golang](#golang)
-- [The Tool](#the-tool)
-
-
-# Introduction
+## Introduction
 
 Backups are like insurance policies for your digital life. They're copies of your important files, stored in a safe place separate from your original data. Just as you wouldn't want to risk losing everything in a fire without insurance, you don't want to risk losing your precious photos, documents, or other files without backups.
 
 In this blog post, I'll share my personal insights and strategies for maintaining comprehensive backups, ensuring that no vital information slips through the cracks while also staying organized amidst the constant flux of data changes.
 
 
-# Targets & Destinations
+## Targets & Destinations
 
 Before diving into the backup process, it's essential to define two key elements: the targets (backup sources) and the backup destinations.
 
@@ -35,21 +25,21 @@ Next, we determine where we want to store these backups, our backup destinations
 In my use case I backup all files from my work laptop, [gokrazy databases](https://github.com/gokrazy/gokrazy) and important data within LXC containers on Proxmox. This way, if there's a system failure, I can rebuild everything and upload the files for a quick recovery.
 
 
-# Rsync
+## Rsync
 
 With targets and destinations set, it's time to select the backup method. Rsync emerges as a formidable choice, boasting efficient file synchronization capabilities. Its ability to perform incremental backups minimizes data transfer, making it ideal for handling large files and slow network connections.
 
-# Prometheus & Grafana
+## Prometheus & Grafana
 
 Ensuring the integrity of our backup process requires meticulous inspection of file changes within specific date ranges, alongside gathering insightful metrics. To accomplish this, I've opted for Prometheus and Grafana, renowned for their robust monitoring and visualization capabilities.
 
 
-# Golang
+## Golang
 
 Golang's asynchronous processing capabilities make it the perfect companion for integrating data with Prometheus, ensuring seamless operation and performance optimization.
 
 
-# The Finale
+## The Finale
 
 Enter [gbackup](https://github.com/BrunoTeixeira1996/gbackup), the culmination of these efforts. This tool orchestrates the backup plan, covering essential partitions, databases, and files across various locations, ensuring data resilience. 
 

@@ -2,20 +2,9 @@
 title: "Replace Proxmox Server"
 date: 2024-08-26
 draft: false
-toc: true
 tags:
   - Homelab
 ---
-
-## Index
-
-- [Introduction](#introduction)
-- [The problem](#the-problem)
-- [New server](#new-server)
-- [Proxmox configuration](#proxmox-configuration)
-- [Troubleshooting](#Troubleshooting)
-- [Restoring](#restoring)
-- [Future](#Future)
 
 ## Introduction
 

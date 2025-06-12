@@ -1,294 +1,455 @@
 <!DOCTYPE html>
-<html lang="en" dir="auto">
+<html lang="en"
+  x-data
+  :class="$store.darkMode.class()"
+  :data-theme="$store.darkMode.theme()">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>0xOPOSEC Summer Challenge 2023 | Bruno Blog</title>
 
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="noindex, nofollow">
-<title>0xOPOSEC Summer Challenge 2023 | Bruno Blog</title>
-<meta name="keywords" content="CTF">
-<meta name="description" content="&ldquo;Based in Porto, the 0xOPOSEC group was started by g33ks who are passionate about security. The meetup primary mission is to discuss and tackle upsurging security issues by leveraging the expertise and know-how of members of the group.&rdquo;
-Index
-
-The Flag Dispenser {WEB}
-Recon All The Things {WEB}
-The Poor Man Proxy {WEB}
-Whois? {WEB}
-This Looks Familiar {WEB}
-Healthy {CRYPTO}
-Kadabra used Substitute! {CRYPTO}
-It Is All About Magic {CRYPTO}
-I Forgot My Phone Number {CRYPTO}
-A Different Kind of Flag {MISC}
-No One Can Read This! {MISC}
-Are You a Good Scientist? {MISC}
-Thirty-Two {TRIVIA}
-No Google {TRIVIA}
-The Most Beautiful Woman in Film {TRIVIA}
-Java Nightmare! {TRIVIA}
-Conclusion
-
-
-Web
-The Flag Dispenser
-&ldquo;Your first step is to fool our Flag Dispenser into thinking you&rsquo;re an admin. http://flagdispenser.0d.al/
-Good luck!&rdquo;">
-<meta name="author" content="">
-<link rel="canonical" href="http://localhost:1313/posts/2023-08-21-0xoposec/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.8fe10233a706bc87f2e08b3cf97b8bd4c0a80f10675a143675d59212121037c0.css" integrity="sha256-j&#43;ECM6cGvIfy4Is8&#43;XuL1MCoDxBnWhQ2ddWSEhIQN8A=" rel="preload stylesheet" as="style">
-<link rel="icon" href="http://localhost:1313/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
-<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
-<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
-<meta name="theme-color" content="#2e2e33">
-<meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/2023-08-21-0xoposec/">
-<noscript>
-    <style>
-        #theme-toggle,
-        .top-link {
-            display: none;
-        }
-
-    </style>
-    <style>
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --theme: rgb(29, 30, 32);
-                --entry: rgb(46, 46, 51);
-                --primary: rgb(218, 218, 219);
-                --secondary: rgb(155, 156, 157);
-                --tertiary: rgb(65, 66, 68);
-                --content: rgb(196, 196, 197);
-                --code-block-bg: rgb(46, 46, 51);
-                --code-bg: rgb(55, 56, 62);
-                --border: rgb(51, 51, 51);
-            }
-
-            .list {
-                background: var(--theme);
-            }
-
-            .list:not(.dark)::-webkit-scrollbar-track {
-                background: 0 0;
-            }
-
-            .list:not(.dark)::-webkit-scrollbar-thumb {
-                border-color: var(--theme);
-            }
-        }
-
-    </style>
-</noscript>
-</head>
-
-<body class="" id="top">
-<script>
-    if (localStorage.getItem("pref-theme") === "dark") {
-        document.body.classList.add('dark');
-    } else if (localStorage.getItem("pref-theme") === "light") {
-        document.body.classList.remove('dark')
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.body.classList.add('dark');
-    }
-
-</script>
-
-<header class="header">
-    <nav class="nav">
-        <div class="logo">
-            <a href="http://localhost:1313/" accesskey="h" title="Bruno Blog (Alt + H)">Bruno Blog</a>
-            <div class="logo-switches">
-                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
-                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="5"></circle>
-                        <line x1="12" y1="1" x2="12" y2="3"></line>
-                        <line x1="12" y1="21" x2="12" y2="23"></line>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                        <line x1="1" y1="12" x2="3" y2="12"></line>
-                        <line x1="21" y1="12" x2="23" y2="12"></line>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                    </svg>
-                </button>
-            </div>
-        </div>
-        <ul id="menu">
-            <li>
-                <a href="http://localhost:1313/posts/" title="Posts">
-                    <span>Posts</span>
-                </a>
-            </li>
-            <li>
-                <a href="http://localhost:1313/tags/" title="Tags">
-                    <span>Tags</span>
-                </a>
-            </li>
-            <li>
-                <a href="http://localhost:1313/search/" title="Search (Alt &#43; /)" accesskey=/>
-                    <span>Search</span>
-                </a>
-            </li>
-            <li>
-                <a href="http://localhost:1313/about/" title="About">
-                    <span>About</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
-</header>
-<main class="main">
-
-<article class="post-single">
-  <header class="post-header">
     
-    <h1 class="post-title entry-hint-parent">
-      0xOPOSEC Summer Challenge 2023
-    </h1>
-    <div class="post-meta"><span title='2023-08-21 00:00:00 +0000 UTC'>August 21, 2023</span>&nbsp;·&nbsp;13 min
+  
+    <link href="/favicon.ico" rel="icon" type="image/x-icon" />
+  
 
+
+<link rel="canonical" href="http://localhost:1313/posts/2023-08-21-0xoposec/" />
+
+
+
+<meta name="author" content="" />
+<meta name="description" content="&ldquo;Based in Porto, the 0xOPOSEC group was started by g33ks who are passionate about security. The meetup primary mission is to discuss and tackle upsurging security issues by leveraging the expertise and know-how of members of the group.&rdquo;
+Web The Flag Dispenser &ldquo;Your first step is to fool our Flag Dispenser into thinking you&rsquo;re an admin. http://flagdispenser.0d.al/ Good luck!&rdquo;
+By navigating to the provided URL we can see that a cookie is present with the value of plebeian.
+" />
+
+
+<meta name="keywords" content="CTF">
+
+
+
+<meta name="generator" content="Hugo 0.147.0">
+
+
+<meta property="og:url" content="http://localhost:1313/posts/2023-08-21-0xoposec/">
+  <meta property="og:site_name" content="Bruno Blog">
+  <meta property="og:title" content="0xOPOSEC Summer Challenge 2023">
+  <meta property="og:description" content="“Based in Porto, the 0xOPOSEC group was started by g33ks who are passionate about security. The meetup primary mission is to discuss and tackle upsurging security issues by leveraging the expertise and know-how of members of the group.”
+Web The Flag Dispenser “Your first step is to fool our Flag Dispenser into thinking you’re an admin. http://flagdispenser.0d.al/ Good luck!”
+By navigating to the provided URL we can see that a cookie is present with the value of plebeian.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2023-08-21T00:00:00+00:00">
+    <meta property="article:modified_time" content="2023-08-21T00:00:00+00:00">
+    <meta property="article:tag" content="CTF">
+
+
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="0xOPOSEC Summer Challenge 2023">
+  <meta name="twitter:description" content="“Based in Porto, the 0xOPOSEC group was started by g33ks who are passionate about security. The meetup primary mission is to discuss and tackle upsurging security issues by leveraging the expertise and know-how of members of the group.”
+Web The Flag Dispenser “Your first step is to fool our Flag Dispenser into thinking you’re an admin. http://flagdispenser.0d.al/ Good luck!”
+By navigating to the provided URL we can see that a cookie is present with the value of plebeian.">
+
+
+
+
+<link rel="stylesheet" href="/css/output.css" />
+
+
+
+
+    
+
+
+<style>
+  pre {
+    padding: 1em;
+    overflow: auto;
+  }
+</style>
+
+
+
+
+
+
+
+
+
+    
+
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3/dist/cdn.min.js" integrity="sha256-PtHu0lJIiSHfZeNj1nFd6wTX+Squ255SGZ/fc8seCtM=" crossorigin="anonymous"></script>
+  </head>
+
+  <body x-data="{
+    flip: false,
+  }">
+    
+    <div id="dream-global-bg"></div>
+
+    
+<nav x-data="{ isSticky: false }"
+  x-init="window.addEventListener('scroll', () => { isSticky = window.scrollY > 30 })"
+  class="sticky top-0 z-30 mt-4 lg:mt-8 py-4"
+  :class="{ 'bg-base-100 shadow-lg dark:border-b dark:border-base-content/30': isSticky }">
+
+  
+  <div class="container flex justify-between max-w-[65ch] mx-auto px-4 md:px-0">
+  
+    <section class="flex items-center gap-4">
+      <div class="avatar cursor-pointer hover:avatar-online" @click="flip = !flip" title="Flip it!">
+        <div class="h-10 rounded-full">
+          <img src="/favicon.ico" alt="Bruno Blog" />
+        </div>
+      </div>
+
+      
+      <div>
+        
+        <a href="http://localhost:1313/" class="text-lg font-semibold cursor-pointer">
+          Bruno Blog
+        </a>
+        
+        
+      </div>
+      
+    </section>
+
+    
+    
+
+    <div class="dropdown dropdown-end sm:hidden">
+      <div tabindex="0" role="button" class="btn btn-ghost btn-square" aria-label="Select an option">
+        <ion-icon name="menu" class="text-2xl"></ion-icon>
+      </div>
+      <ul tabindex="0" class="dropdown-content menu w-36 bg-base-100 rounded-box z-1 shadow-md">
+        
+
+
+
+
+
+
+
+<li>
+  <div role="link" tabindex="0" class="inline-flex items-center p-2 cursor-pointer" @click="flip = !flip" title="About">
+    <ion-icon name="information-circle"></ion-icon>About</div>
+</li>
+
+
+
+
+
+
+
+<li>
+  <a class="group inline-flex items-center p-2 cursor-pointer" href="/search" title="Search">
+    <ion-icon name="search"></ion-icon>
+    Search
+  </a>
+</li>
+
+
+
+
+
+
+
+
+
+
+
+<li>
+  <a class="inline-flex items-center p-2 cursor-pointer" href="/posts" title="Archives">
+    <ion-icon name="archive"></ion-icon>
+    Archives
+  </a>
+</li>
+
+
+
+
+
+
+
+
+
+
+
+<li>
+  <a class="inline-flex items-center p-2 cursor-pointer" href="/tags" title="All Tags">
+    <ion-icon name="pricetags"></ion-icon>
+    All Tags
+  </a>
+</li>
+
+
+
+
+
+
+      </ul>
+    </div>
+    <section class="hidden sm:flex sm:items-center sm:gap-2 md:gap-4">
+      
+
+      
+      
+
+
+
+
+<div role="link" tabindex="0" class="text-sm font-semibold cursor-pointer hover:underline" @click="flip = !flip" title="About">About</div>
+
+
+
+
+
+      
+      
+<a class="group inline-flex items-center p-2 rounded-full cursor-pointer hover:bg-primary" href="/search" title="Search">
+  <ion-icon class="group-hover:text-primary-content" name="search"></ion-icon>
+</a>
+
+
+      
+      
+
+
+
+
+
+      
+      
+<a class="group inline-flex items-center p-2 rounded-full cursor-pointer hover:bg-primary" href="/posts" title="Archives">
+  <ion-icon class="group-hover:text-primary-content" name="archive"></ion-icon>
+</a>
+
+
+      
+      
+
+
+
+
+
+      
+      
+<a class="group inline-flex items-center p-2 rounded-full cursor-pointer hover:bg-primary" href="/tags" title="All Tags">
+  <ion-icon class="group-hover:text-primary-content" name="pricetags"></ion-icon>
+</a>
+
+
+      
+
+      
+
+      
+    </section>
+  </div>
+</nav>
+
+
+    <div class="flip-container" :class="{ 'flip-it': flip }">
+      <div class="flipper">
+        <div class="front">
+          <div class="container">
+            
+<div class="lg:grid lg:grid-cols-4 gap-4 mt-4 px-4">
+  <div class="hidden lg:block">
+    
+  </div>
+
+  <div class="lg:col-span-2">
+    <article class="mx-auto prose prose-quoteless dark:prose-invert" id="dream-single-post-main" itemscope itemtype="http://schema.org/Article">
+      
+  <meta itemprop="name" content="0xOPOSEC Summer Challenge 2023">
+  <meta itemprop="description" content="“Based in Porto, the 0xOPOSEC group was started by g33ks who are passionate about security. The meetup primary mission is to discuss and tackle upsurging security issues by leveraging the expertise and know-how of members of the group.”
+Web The Flag Dispenser “Your first step is to fool our Flag Dispenser into thinking you’re an admin. http://flagdispenser.0d.al/ Good luck!”
+By navigating to the provided URL we can see that a cookie is present with the value of plebeian.">
+  <meta itemprop="datePublished" content="2023-08-21T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2023-08-21T00:00:00+00:00">
+  <meta itemprop="wordCount" content="2660">
+  <meta itemprop="keywords" content="CTF">
+
+      <header>
+        <h1 itemprop="headline">0xOPOSEC Summer Challenge 2023</h1>
+        <p class="text-sm">
+          
+            Monday, Aug 21, 2023
+          
+
+          | <span>13 minute read</span>
+
+          
+          | <span>Updated at
+            
+              Monday, Aug 21, 2023
+            </span>
+          
+        </p>
+
+        
+        <div class="flex justify-between">
+          
+
+          <div class="flex items-center gap-2">
+  
+  
+
+  
+  
+  
+  
+  
+    <a class="group inline-flex items-center p-2 rounded-full cursor-pointer hover:bg-primary"
+      href="https://x.com/intent/post?text=0xOPOSEC%20Summer%20Challenge%202023&amp;url=http://localhost:1313/posts/2023-08-21-0xoposec/" target="_blank" rel="noopener noreferrer"
+      title="Share on X">
+      <ion-icon class="group-hover:text-primary-content" name="logo-x"></ion-icon>
+    </a>
+  
+    <a class="group inline-flex items-center p-2 rounded-full cursor-pointer hover:bg-primary"
+      href="https://facebook.com/sharer/sharer.php?u=http://localhost:1313/posts/2023-08-21-0xoposec/" target="_blank" rel="noopener noreferrer"
+      title="Share on Facebook">
+      <ion-icon class="group-hover:text-primary-content" name="logo-facebook"></ion-icon>
+    </a>
+  
+    <a class="group inline-flex items-center p-2 rounded-full cursor-pointer hover:bg-primary"
+      href="https://wa.me/?text=0xOPOSEC%20Summer%20Challenge%202023%20http://localhost:1313/posts/2023-08-21-0xoposec/" target="_blank" rel="noopener noreferrer"
+      title="Share on WhatsApp">
+      <ion-icon class="group-hover:text-primary-content" name="logo-whatsapp"></ion-icon>
+    </a>
+  
+
+  
+  
 </div>
-  </header> 
-  <div class="post-content"><p>&ldquo;Based in Porto, the 0xOPOSEC group was started by g33ks who are passionate about security. The meetup primary mission is to discuss and tackle upsurging security issues by leveraging the expertise and know-how of members of the group.&rdquo;</p>
-<h2 id="index">Index<a hidden class="anchor" aria-hidden="true" href="#index">#</a></h2>
-<ul>
-<li><a href="#the-flag-dispenser">The Flag Dispenser {WEB}</a></li>
-<li><a href="#recon-all-the-things">Recon All The Things {WEB}</a></li>
-<li><a href="#the-poor-man-proxy">The Poor Man Proxy {WEB}</a></li>
-<li><a href="#whois">Whois? {WEB}</a></li>
-<li><a href="#this-looks-familiar">This Looks Familiar {WEB}</a></li>
-<li><a href="#healthy">Healthy {CRYPTO}</a></li>
-<li><a href="#kadabra-used-substitute">Kadabra used Substitute! {CRYPTO}</a></li>
-<li><a href="#it-is-all-about-magic">It Is All About Magic {CRYPTO}</a></li>
-<li><a href="#i-forgot-my-phone-number">I Forgot My Phone Number {CRYPTO}</a></li>
-<li><a href="#a-different-kind-of-flag">A Different Kind of Flag {MISC}</a></li>
-<li><a href="#no-one-can-read-this">No One Can Read This! {MISC}</a></li>
-<li><a href="#are-you-a-good-scientist">Are You a Good Scientist? {MISC}</a></li>
-<li><a href="#thirty-two">Thirty-Two {TRIVIA}</a></li>
-<li><a href="#no-google">No Google {TRIVIA}</a></li>
-<li><a href="#the-most-beautiful-woman-in-film">The Most Beautiful Woman in Film {TRIVIA}</a></li>
-<li><a href="#java-nightmare">Java Nightmare! {TRIVIA}</a></li>
-<li><a href="#conclusion">Conclusion</a></li>
-</ul>
-<br>
-<h2 id="web">Web<a hidden class="anchor" aria-hidden="true" href="#web">#</a></h2>
-<h3 id="the-flag-dispenser">The Flag Dispenser<a hidden class="anchor" aria-hidden="true" href="#the-flag-dispenser">#</a></h3>
-<p><em>&ldquo;Your first step is to fool our Flag Dispenser into thinking you&rsquo;re an admin. <a href="http://flagdispenser.0d.al/">http://flagdispenser.0d.al/</a>
+
+        </div>
+      </header>
+
+      <section id="dream-single-post-content" itemprop="articleBody">
+        
+
+        <p>&ldquo;Based in Porto, the 0xOPOSEC group was started by g33ks who are passionate about security. The meetup primary mission is to discuss and tackle upsurging security issues by leveraging the expertise and know-how of members of the group.&rdquo;</p>
+<h2 id="web">Web</h2>
+<h3 id="the-flag-dispenser">The Flag Dispenser</h3>
+<p><em>&ldquo;Your first step is to fool our Flag Dispenser into thinking you&rsquo;re an admin. <a href="http://flagdispenser.0d.al/" target="_blank">http://flagdispenser.0d.al/</a>
+
 Good luck!&rdquo;</em></p>
 <br>
 <p>By navigating to the provided URL we can see that a cookie is present with the value of <code>plebeian</code>.</p>
-<p><img alt="image" loading="lazy" src="https://github.com/BrunoTeixeira1996/BrunoTeixeira1996.github.io/assets/12052283/8c021342-f489-4f90-9b74-60af7156adf3"></p>
+<p><img src="https://github.com/BrunoTeixeira1996/BrunoTeixeira1996.github.io/assets/12052283/8c021342-f489-4f90-9b74-60af7156adf3" alt="image"></p>
 <p>After changing that value to <code>admin</code> I got the flag.</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#719e07">{</span>welcome_admin_pls_take_flag_uwu<span style="color:#719e07">}</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#f92672">{</span>welcome_admin_pls_take_flag_uwu<span style="color:#f92672">}</span>
 </span></span></code></pre></div><br>
-<h3 id="recon-all-the-things">Recon All The Things<a hidden class="anchor" aria-hidden="true" href="#recon-all-the-things">#</a></h3>
+<h3 id="recon-all-the-things">Recon All The Things</h3>
 <p><em>&ldquo;The purpose of recon is to gather insights that can be used to identify weaknesses and better understand the target environment for potential attack surfaces.&rdquo;</em>
 <em>&ldquo;Gather your tools and search for some hidden gems. http://20.185.41.52/&rdquo;</em></p>
 <br>
-<p>After reading the challenge description I immediately decided to use <a href="https://github.com/projectdiscovery/nuclei">nuclei</a>.</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ ./nuclei -u http://20.185.41.52/
+<p>After reading the challenge description I immediately decided to use <a href="https://github.com/projectdiscovery/nuclei" target="_blank">nuclei</a>
+.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ ./nuclei -u http://20.185.41.52/
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>                     __     _
-</span></span><span style="display:flex;"><span>   ____  __  _______/ /__  <span style="color:#719e07">(</span>_<span style="color:#719e07">)</span>
-</span></span><span style="display:flex;"><span>  / __ <span style="color:#cb4b16">\/</span> / / / ___/ / _ <span style="color:#cb4b16">\/</span> /
+</span></span><span style="display:flex;"><span>   ____  __  _______/ /__  <span style="color:#f92672">(</span>_<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>  / __ <span style="color:#ae81ff">\/</span> / / / ___/ / _ <span style="color:#ae81ff">\/</span> /
 </span></span><span style="display:flex;"><span> / / / / /_/ / /__/ /  __/ /
-</span></span><span style="display:flex;"><span>/_/ /_/<span style="color:#cb4b16">\_</span>_,_/<span style="color:#cb4b16">\_</span>__/_/<span style="color:#cb4b16">\_</span>__/_/   v2.9.10
+</span></span><span style="display:flex;"><span>/_/ /_/<span style="color:#ae81ff">\_</span>_,_/<span style="color:#ae81ff">\_</span>__/_/<span style="color:#ae81ff">\_</span>__/_/   v2.9.10
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>                projectdiscovery.io
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#719e07">[</span>INF<span style="color:#719e07">]</span> nuclei-templates are not installed, installing...
-</span></span><span style="display:flex;"><span><span style="color:#719e07">[</span>INF<span style="color:#719e07">]</span> Successfully installed nuclei-templates at /home/brun0/nuclei-templates
-</span></span><span style="display:flex;"><span><span style="color:#719e07">[</span>INF<span style="color:#719e07">]</span> Current nuclei version: v2.9.10 <span style="color:#719e07">(</span>latest<span style="color:#719e07">)</span>
-</span></span><span style="display:flex;"><span><span style="color:#719e07">[</span>INF<span style="color:#719e07">]</span> Current nuclei-templates version: v9.6.0 <span style="color:#719e07">(</span>latest<span style="color:#719e07">)</span>
-</span></span><span style="display:flex;"><span><span style="color:#719e07">[</span>INF<span style="color:#719e07">]</span> New templates added in latest release: <span style="color:#2aa198">33</span>
-</span></span><span style="display:flex;"><span><span style="color:#719e07">[</span>INF<span style="color:#719e07">]</span> Templates loaded <span style="color:#719e07">for</span> current scan: <span style="color:#2aa198">6461</span>
-</span></span><span style="display:flex;"><span><span style="color:#719e07">[</span>INF<span style="color:#719e07">]</span> Targets loaded <span style="color:#719e07">for</span> current scan: <span style="color:#2aa198">1</span>
-</span></span><span style="display:flex;"><span><span style="color:#719e07">[</span>INF<span style="color:#719e07">]</span> Templates clustered: <span style="color:#2aa198">1178</span> <span style="color:#719e07">(</span>Reduced <span style="color:#2aa198">1119</span> Requests<span style="color:#719e07">)</span>
-</span></span><span style="display:flex;"><span><span style="color:#719e07">[</span>php-detect<span style="color:#719e07">]</span> <span style="color:#719e07">[</span>http<span style="color:#719e07">]</span> <span style="color:#719e07">[</span>info<span style="color:#719e07">]</span> http://20.185.41.52/ <span style="color:#719e07">[</span>5.6.40<span style="color:#719e07">]</span>
-</span></span><span style="display:flex;"><span><span style="color:#719e07">[</span>openssl-detect<span style="color:#719e07">]</span> <span style="color:#719e07">[</span>http<span style="color:#719e07">]</span> <span style="color:#719e07">[</span>info<span style="color:#719e07">]</span> http://20.185.41.52/ <span style="color:#719e07">[</span>OpenSSL/1.0.2q<span style="color:#719e07">]</span>
-</span></span><span style="display:flex;"><span><span style="color:#719e07">[</span>apache-detect<span style="color:#719e07">]</span> <span style="color:#719e07">[</span>http<span style="color:#719e07">]</span> <span style="color:#719e07">[</span>info<span style="color:#719e07">]</span> http://20.185.41.52/ <span style="color:#719e07">[</span>Apache/2.4.38 <span style="color:#719e07">(</span>Win64<span style="color:#719e07">)</span> OpenSSL/1.0.2q PHP/5.6.40<span style="color:#719e07">]</span>
-</span></span><span style="display:flex;"><span><span style="color:#719e07">[</span>tech-detect:php<span style="color:#719e07">]</span> <span style="color:#719e07">[</span>http<span style="color:#719e07">]</span> <span style="color:#719e07">[</span>info<span style="color:#719e07">]</span> http://20.185.41.52/
-</span></span><span style="display:flex;"><span><span style="color:#719e07">[</span>http-trace:trace-request<span style="color:#719e07">]</span> <span style="color:#719e07">[</span>http<span style="color:#719e07">]</span> <span style="color:#719e07">[</span>info<span style="color:#719e07">]</span> http://20.185.41.52/
-</span></span><span style="display:flex;"><span><span style="color:#719e07">[</span>http-missing-security-headers:permissions-policy<span style="color:#719e07">]</span> <span style="color:#719e07">[</span>http<span style="color:#719e07">]</span> <span style="color:#719e07">[</span>info<span style="color:#719e07">]</span> http://20.185.41.52/
-</span></span><span style="display:flex;"><span><span style="color:#719e07">[</span>http-missing-security-headers:x-frame-options<span style="color:#719e07">]</span> <span style="color:#719e07">[</span>http<span style="color:#719e07">]</span> <span style="color:#719e07">[</span>info<span style="color:#719e07">]</span> http://20.185.41.52/
-</span></span><span style="display:flex;"><span><span style="color:#719e07">[</span>http-missing-security-headers:x-content-type-options<span style="color:#719e07">]</span> <span style="color:#719e07">[</span>http<span style="color:#719e07">]</span> <span style="color:#719e07">[</span>info<span style="color:#719e07">]</span> http://20.185.41.52/
-</span></span><span style="display:flex;"><span><span style="color:#719e07">[</span>http-missing-security-headers:x-permitted-cross-domain-policies<span style="color:#719e07">]</span> <span style="color:#719e07">[</span>http<span style="color:#719e07">]</span> <span style="color:#719e07">[</span>info<span style="color:#719e07">]</span> http://20.185.41.52/
-</span></span><span style="display:flex;"><span><span style="color:#719e07">[</span>http-missing-security-headers:referrer-policy<span style="color:#719e07">]</span> <span style="color:#719e07">[</span>http<span style="color:#719e07">]</span> <span style="color:#719e07">[</span>info<span style="color:#719e07">]</span> http://20.185.41.52/
-</span></span><span style="display:flex;"><span><span style="color:#719e07">[</span>http-missing-security-headers:clear-site-data<span style="color:#719e07">]</span> <span style="color:#719e07">[</span>http<span style="color:#719e07">]</span> <span style="color:#719e07">[</span>info<span style="color:#719e07">]</span> http://20.185.41.52/
-</span></span><span style="display:flex;"><span><span style="color:#719e07">[</span>http-missing-security-headers:strict-transport-security<span style="color:#719e07">]</span> <span style="color:#719e07">[</span>http<span style="color:#719e07">]</span> <span style="color:#719e07">[</span>info<span style="color:#719e07">]</span> http://20.185.41.52/
-</span></span><span style="display:flex;"><span><span style="color:#719e07">[</span>http-missing-security-headers:content-security-policy<span style="color:#719e07">]</span> <span style="color:#719e07">[</span>http<span style="color:#719e07">]</span> <span style="color:#719e07">[</span>info<span style="color:#719e07">]</span> http://20.185.41.52/
-</span></span><span style="display:flex;"><span><span style="color:#719e07">[</span>http-missing-security-headers:cross-origin-embedder-policy<span style="color:#719e07">]</span> <span style="color:#719e07">[</span>http<span style="color:#719e07">]</span> <span style="color:#719e07">[</span>info<span style="color:#719e07">]</span> http://20.185.41.52/
-</span></span><span style="display:flex;"><span><span style="color:#719e07">[</span>http-missing-security-headers:cross-origin-opener-policy<span style="color:#719e07">]</span> <span style="color:#719e07">[</span>http<span style="color:#719e07">]</span> <span style="color:#719e07">[</span>info<span style="color:#719e07">]</span> http://20.185.41.52/
-</span></span><span style="display:flex;"><span><span style="color:#719e07">[</span>http-missing-security-headers:cross-origin-resource-policy<span style="color:#719e07">]</span> <span style="color:#719e07">[</span>http<span style="color:#719e07">]</span> <span style="color:#719e07">[</span>info<span style="color:#719e07">]</span> http://20.185.41.52/
-</span></span><span style="display:flex;"><span><span style="color:#719e07">[</span>waf-detect:apachegeneric<span style="color:#719e07">]</span> <span style="color:#719e07">[</span>http<span style="color:#719e07">]</span> <span style="color:#719e07">[</span>info<span style="color:#719e07">]</span> http://20.185.41.52/
-</span></span><span style="display:flex;"><span><span style="color:#719e07">[</span>docker-compose-config<span style="color:#719e07">]</span> <span style="color:#719e07">[</span>http<span style="color:#719e07">]</span> <span style="color:#719e07">[</span>medium<span style="color:#719e07">]</span> http://20.185.41.52/docker-compose.yml
-</span></span><span style="display:flex;"><span><span style="color:#719e07">[</span>rdp-detect:win2016<span style="color:#719e07">]</span> <span style="color:#719e07">[</span>tcp<span style="color:#719e07">]</span> <span style="color:#719e07">[</span>info<span style="color:#719e07">]</span> 20.185.41.52:3389
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>INF<span style="color:#f92672">]</span> nuclei-templates are not installed, installing...
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>INF<span style="color:#f92672">]</span> Successfully installed nuclei-templates at /home/brun0/nuclei-templates
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>INF<span style="color:#f92672">]</span> Current nuclei version: v2.9.10 <span style="color:#f92672">(</span>latest<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>INF<span style="color:#f92672">]</span> Current nuclei-templates version: v9.6.0 <span style="color:#f92672">(</span>latest<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>INF<span style="color:#f92672">]</span> New templates added in latest release: <span style="color:#ae81ff">33</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>INF<span style="color:#f92672">]</span> Templates loaded <span style="color:#66d9ef">for</span> current scan: <span style="color:#ae81ff">6461</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>INF<span style="color:#f92672">]</span> Targets loaded <span style="color:#66d9ef">for</span> current scan: <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>INF<span style="color:#f92672">]</span> Templates clustered: <span style="color:#ae81ff">1178</span> <span style="color:#f92672">(</span>Reduced <span style="color:#ae81ff">1119</span> Requests<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>php-detect<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>http<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>info<span style="color:#f92672">]</span> http://20.185.41.52/ <span style="color:#f92672">[</span>5.6.40<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>openssl-detect<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>http<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>info<span style="color:#f92672">]</span> http://20.185.41.52/ <span style="color:#f92672">[</span>OpenSSL/1.0.2q<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>apache-detect<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>http<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>info<span style="color:#f92672">]</span> http://20.185.41.52/ <span style="color:#f92672">[</span>Apache/2.4.38 <span style="color:#f92672">(</span>Win64<span style="color:#f92672">)</span> OpenSSL/1.0.2q PHP/5.6.40<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>tech-detect:php<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>http<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>info<span style="color:#f92672">]</span> http://20.185.41.52/
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>http-trace:trace-request<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>http<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>info<span style="color:#f92672">]</span> http://20.185.41.52/
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>http-missing-security-headers:permissions-policy<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>http<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>info<span style="color:#f92672">]</span> http://20.185.41.52/
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>http-missing-security-headers:x-frame-options<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>http<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>info<span style="color:#f92672">]</span> http://20.185.41.52/
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>http-missing-security-headers:x-content-type-options<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>http<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>info<span style="color:#f92672">]</span> http://20.185.41.52/
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>http-missing-security-headers:x-permitted-cross-domain-policies<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>http<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>info<span style="color:#f92672">]</span> http://20.185.41.52/
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>http-missing-security-headers:referrer-policy<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>http<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>info<span style="color:#f92672">]</span> http://20.185.41.52/
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>http-missing-security-headers:clear-site-data<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>http<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>info<span style="color:#f92672">]</span> http://20.185.41.52/
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>http-missing-security-headers:strict-transport-security<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>http<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>info<span style="color:#f92672">]</span> http://20.185.41.52/
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>http-missing-security-headers:content-security-policy<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>http<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>info<span style="color:#f92672">]</span> http://20.185.41.52/
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>http-missing-security-headers:cross-origin-embedder-policy<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>http<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>info<span style="color:#f92672">]</span> http://20.185.41.52/
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>http-missing-security-headers:cross-origin-opener-policy<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>http<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>info<span style="color:#f92672">]</span> http://20.185.41.52/
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>http-missing-security-headers:cross-origin-resource-policy<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>http<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>info<span style="color:#f92672">]</span> http://20.185.41.52/
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>waf-detect:apachegeneric<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>http<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>info<span style="color:#f92672">]</span> http://20.185.41.52/
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>docker-compose-config<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>http<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>medium<span style="color:#f92672">]</span> http://20.185.41.52/docker-compose.yml
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>rdp-detect:win2016<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>tcp<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>info<span style="color:#f92672">]</span> 20.185.41.52:3389
 </span></span></code></pre></div><p>Nuclei detected a <code>yml</code> file in <code>http://20.185.41.52/docker-compose.yml</code>.</p>
 <p>The presented yml file contained a &ldquo;private repo&rdquo;.</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#268bd2">version</span>: <span style="color:#2aa198">&#39;3.6&#39;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#39;3.6&#39;</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#268bd2">services</span>:
-</span></span><span style="display:flex;"><span>  <span style="color:#268bd2">webapp</span>:
-</span></span><span style="display:flex;"><span>    <span style="color:#268bd2">build</span>:
-</span></span><span style="display:flex;"><span>      <span style="color:#268bd2">context</span>: ./.client
-</span></span><span style="display:flex;"><span>      <span style="color:#268bd2">dockerfile</span>: Dockerfile
-</span></span><span style="display:flex;"><span>    <span style="color:#268bd2">entrypoint</span>: 
-</span></span><span style="display:flex;"><span>    <span style="color:#268bd2">env_file</span>:
-</span></span><span style="display:flex;"><span>      - ./.private_file_do_not_change
-</span></span><span style="display:flex;"><span>    <span style="color:#268bd2">volumes</span>:
-</span></span><span style="display:flex;"><span>      - <span style="color:#2aa198">&#34;./.client:/app&#34;</span>
-</span></span><span style="display:flex;"><span>      - <span style="color:#2aa198">&#34;nodedata:/app/node_modules&#34;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#268bd2">ports</span>:
-</span></span><span style="display:flex;"><span>      - <span style="color:#2aa198">&#34;3000:3000&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">services</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">webapp</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">build</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">context</span>: <span style="color:#ae81ff">./.client</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">dockerfile</span>: <span style="color:#ae81ff">Dockerfile</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">entrypoint</span>: 
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">env_file</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">./.private_file_do_not_change</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">volumes</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#34;./.client:/app&#34;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#34;nodedata:/app/node_modules&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">ports</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#34;3000:3000&#34;</span>
 </span></span><span style="display:flex;"><span>  
-</span></span><span style="display:flex;"><span>  <span style="color:#268bd2">uid-sku-api</span>:
-</span></span><span style="display:flex;"><span>    <span style="color:#268bd2">build</span>:
-</span></span><span style="display:flex;"><span>      <span style="color:#268bd2">context</span>: ./
-</span></span><span style="display:flex;"><span>      <span style="color:#268bd2">dockerfile</span>: Dockerfile
-</span></span><span style="display:flex;"><span>    <span style="color:#268bd2">entrypoint</span>:
-</span></span><span style="display:flex;"><span>      - npx 
-</span></span><span style="display:flex;"><span>      - babel-node 
-</span></span><span style="display:flex;"><span>      - --presets 
-</span></span><span style="display:flex;"><span>      - <span style="color:#2aa198">&#34;@babel/preset-env&#34;</span> 
-</span></span><span style="display:flex;"><span>      - server
-</span></span><span style="display:flex;"><span>    <span style="color:#268bd2">volumes</span>:
-</span></span><span style="display:flex;"><span>      - <span style="color:#2aa198">&#34;./:/app&#34;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#268bd2">ports</span>:
-</span></span><span style="display:flex;"><span>      - <span style="color:#2aa198">&#34;3001:3001&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">uid-sku-api</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">build</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">context</span>: <span style="color:#ae81ff">./</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">dockerfile</span>: <span style="color:#ae81ff">Dockerfile</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">entrypoint</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">npx </span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">babel-node </span>
+</span></span><span style="display:flex;"><span>      - --<span style="color:#ae81ff">presets </span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#34;@babel/preset-env&#34;</span> 
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">server</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">volumes</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#34;./:/app&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">ports</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#34;3001:3001&#34;</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#268bd2">volumes</span>:
-</span></span><span style="display:flex;"><span>  <span style="color:#268bd2">nodedata</span>:
+</span></span><span style="display:flex;"><span><span style="color:#f92672">volumes</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">nodedata</span>:
 </span></span></code></pre></div><p>By navigating to <code>http://20.185.41.52/.private_file_do_not_change</code> I got the flag.</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#719e07">{</span>pr1v4t3_d0cker_f1l3<span style="color:#719e07">}</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#f92672">{</span>pr1v4t3_d0cker_f1l3<span style="color:#f92672">}</span>
 </span></span></code></pre></div><br>
-<h3 id="the-poor-man-proxy">The Poor Man Proxy<a hidden class="anchor" aria-hidden="true" href="#the-poor-man-proxy">#</a></h3>
-<p><em>&ldquo;A proxy is an intermediary server that acts as a bridge between a client and a destination server. When a client sends a request to access a resource on the internet, it first goes through the proxy server, which then forwards the request to the destination server on behalf of the client. The response from the destination server is then relayed back to the client through the proxy. URL: <a href="http://notes.0d.al/%22">http://notes.0d.al/&quot;</a></em></p>
+<h3 id="the-poor-man-proxy">The Poor Man Proxy</h3>
+<p><em>&ldquo;A proxy is an intermediary server that acts as a bridge between a client and a destination server. When a client sends a request to access a resource on the internet, it first goes through the proxy server, which then forwards the request to the destination server on behalf of the client. The response from the destination server is then relayed back to the client through the proxy. URL: <a href="http://notes.0d.al/%22" target="_blank">http://notes.0d.al/"</a>
+</em></p>
 <br>
 <p>Looking at the website we got what its seems like a static page with a TODO list.</p>
-<p><img alt="image" loading="lazy" src="https://github.com/BrunoTeixeira1996/BrunoTeixeira1996.github.io/assets/12052283/a29fbb11-71b3-41ec-8688-3b0d969800f5"></p>
+<p><img src="https://github.com/BrunoTeixeira1996/BrunoTeixeira1996.github.io/assets/12052283/a29fbb11-71b3-41ec-8688-3b0d969800f5" alt="image"></p>
 <p>After enumerating for a while, I couldn&rsquo;t find anything useful with gobuster and nuclei so I checked the challenge description again and I immediately though about <code>X-Forwarded-For</code>. When a client connects directly to a server, the client&rsquo;s IP address is sent to the server. But if a client connection passes through any forward or reverse proxies, the server only sees the final proxy&rsquo;s IP address. So X-Forwarded-For is a common method for identifying the originating IP address of a client connecting to a web server through an HTTP proxy or load balancer.</p>
 <p>Knowing this I first verified the length in bytes of the response when doing a normal request.</p>
-<p><img alt="image" loading="lazy" src="https://github.com/BrunoTeixeira1996/BrunoTeixeira1996.github.io/assets/12052283/2a298da3-7a9d-443e-8c84-561ec8f15b9e"></p>
+<p><img src="https://github.com/BrunoTeixeira1996/BrunoTeixeira1996.github.io/assets/12052283/2a298da3-7a9d-443e-8c84-561ec8f15b9e" alt="image"></p>
 <p>Then when adding the X-Forwarded-For header with the value 127.0.0.1 the response length increased and then I got the flag.</p>
-<p><img alt="image" loading="lazy" src="https://github.com/BrunoTeixeira1996/BrunoTeixeira1996.github.io/assets/12052283/3e9574f7-bc7d-450f-914e-c0a3b5ee3dc4"></p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#719e07">{</span>HTTP_XFF_FOR_THE_WIN!<span style="color:#719e07">}</span>
+<p><img src="https://github.com/BrunoTeixeira1996/BrunoTeixeira1996.github.io/assets/12052283/3e9574f7-bc7d-450f-914e-c0a3b5ee3dc4" alt="image"></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#f92672">{</span>HTTP_XFF_FOR_THE_WIN!<span style="color:#f92672">}</span>
 </span></span></code></pre></div><br>
-<h3 id="whois">Whois?<a hidden class="anchor" aria-hidden="true" href="#whois">#</a></h3>
-<p><em>&ldquo;The &ldquo;whois&rdquo; is used to query the WHOIS database to retrieve information about domain names, IP addresses, and other network resources. <a href="http://whois.0d.al:1341/%22">http://whois.0d.al:1341/&quot;</a></em></p>
+<h3 id="whois">Whois?</h3>
+<p><em>&ldquo;The &ldquo;whois&rdquo; is used to query the WHOIS database to retrieve information about domain names, IP addresses, and other network resources. <a href="http://whois.0d.al:1341/%22" target="_blank">http://whois.0d.al:1341/"</a>
+</em></p>
 <br>
 <p>I am not going to lie, I&rsquo;ve spent some time in this challenge since I had no clue what to do here. After attempting some basic injections (SSTI,SQLi,&hellip;) I got nothing.</p>
 <p>Then I tried looking at the request in Burp and it looked like a custom shell command.</p>
-<p>Running a random whois with the following URL <a href="http://whois.0d.al:1341/?host=whois.ripe.net&amp;query=something">http://whois.0d.al:1341/?host=whois.ripe.net&amp;query=something</a> got something like the image below.</p>
-<p><img alt="image" loading="lazy" src="https://github.com/BrunoTeixeira1996/BrunoTeixeira1996.github.io/assets/12052283/90cdbc13-733e-41fd-9736-5a64548a1bfe"></p>
+<p>Running a random whois with the following URL <a href="http://whois.0d.al:1341/?host=whois.ripe.net&amp;query=something" target="_blank">http://whois.0d.al:1341/?host=whois.ripe.net&query=something</a>
+ got something like the image below.</p>
+<p><img src="https://github.com/BrunoTeixeira1996/BrunoTeixeira1996.github.io/assets/12052283/90cdbc13-733e-41fd-9736-5a64548a1bfe" alt="image"></p>
 <p>After a couple of minutes I started to realize that this could be command injection, however there must be two args. With that I assumed the following:</p>
 <ul>
 <li><code>host=</code>
@@ -303,46 +464,48 @@ Good luck!&rdquo;</em></p>
 </li>
 </ul>
 <p>With this in mind I tried to inject a command in the first argument and see the output (<code>http://whois.0d.al:1341/?host=whois.ripe.net|id&amp;query=something whois|id something</code>)</p>
-<p><img alt="image" loading="lazy" src="https://github.com/BrunoTeixeira1996/BrunoTeixeira1996.github.io/assets/12052283/2dc872b0-10e3-4895-910a-3a0e543d02ef"></p>
+<p><img src="https://github.com/BrunoTeixeira1996/BrunoTeixeira1996.github.io/assets/12052283/2dc872b0-10e3-4895-910a-3a0e543d02ef" alt="image"></p>
 <p>This did not worked like I was expecting and after a couple of tries I started to think that the flag is probably inside a file so maybe I needed to first enumerate that file and then cat the content.</p>
 <p>I injected a <code>ls</code> in the first arg and a dot in the second one (<code>http://whois.0d.al:1341/?host=whois.ripe.net|ls&amp;query=. whois|ls .</code>) and got the following output.</p>
-<p><img alt="image" loading="lazy" src="https://github.com/BrunoTeixeira1996/BrunoTeixeira1996.github.io/assets/12052283/e8779995-305b-46f9-9a04-f479bba93230"></p>
+<p><img src="https://github.com/BrunoTeixeira1996/BrunoTeixeira1996.github.io/assets/12052283/e8779995-305b-46f9-9a04-f479bba93230" alt="image"></p>
 <p>Nice! Now that I now what is the file name containing the flag, I can just cat and finish the challenge (<code>http://whois.0d.al:1341/?host=whois.ripe.net|cat&amp;query=59bcc3ad6775562f845953cf01624225 whois|cat 59bcc3ad6775562f845953cf01624225</code>).</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#719e07">{</span>CMD_INJ_NINJA!<span style="color:#719e07">}</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#f92672">{</span>CMD_INJ_NINJA!<span style="color:#f92672">}</span>
 </span></span></code></pre></div><p>Now that the challenge was finished, I wanted to deep dive into the <code>.php</code> file present.</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#719e07">&lt;?</span>php
-</span></span><span style="display:flex;"><span>error_reporting(<span style="color:#2aa198">0</span>);
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">error_reporting</span>(<span style="color:#ae81ff">0</span>);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#268bd2">$output</span> <span style="color:#719e07">=</span> <span style="color:#719e07">null</span>;
-</span></span><span style="display:flex;"><span><span style="color:#268bd2">$host_regex</span> <span style="color:#719e07">=</span> <span style="color:#2aa198">&#34;/^[0-9a-zA-Z][0-9a-zA-Z\.-\|]+$/&#34;</span>;
-</span></span><span style="display:flex;"><span><span style="color:#268bd2">$query_regex</span> <span style="color:#719e07">=</span> <span style="color:#2aa198">&#34;/^[0-9a-zA-Z\. ]+$/&#34;</span>;
+</span></span><span style="display:flex;"><span>$output <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span>;
+</span></span><span style="display:flex;"><span>$host_regex <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;/^[0-9a-zA-Z][0-9a-zA-Z\.-\|]+$/&#34;</span>;
+</span></span><span style="display:flex;"><span>$query_regex <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;/^[0-9a-zA-Z\. ]+$/&#34;</span>;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#719e07">if</span> (isset(<span style="color:#268bd2">$_GET</span>[<span style="color:#2aa198">&#34;query&#34;</span>]) <span style="color:#719e07">&amp;&amp;</span> isset(<span style="color:#268bd2">$_GET</span>[<span style="color:#2aa198">&#34;host&#34;</span>]) <span style="color:#719e07">&amp;&amp;</span> is_string(<span style="color:#268bd2">$_GET</span>[<span style="color:#2aa198">&#34;query&#34;</span>]) <span style="color:#719e07">&amp;&amp;</span> is_string(<span style="color:#268bd2">$_GET</span>[<span style="color:#2aa198">&#34;host&#34;</span>]))
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">isset</span>($_GET[<span style="color:#e6db74">&#34;query&#34;</span>]) <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">isset</span>($_GET[<span style="color:#e6db74">&#34;host&#34;</span>]) <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">is_string</span>($_GET[<span style="color:#e6db74">&#34;query&#34;</span>]) <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">is_string</span>($_GET[<span style="color:#e6db74">&#34;host&#34;</span>]))
 </span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    <span style="color:#268bd2">$query</span> <span style="color:#719e07">=</span> <span style="color:#268bd2">$_GET</span>[<span style="color:#2aa198">&#34;query&#34;</span>];
-</span></span><span style="display:flex;"><span>    <span style="color:#268bd2">$host</span> <span style="color:#719e07">=</span> <span style="color:#268bd2">$_GET</span>[<span style="color:#2aa198">&#34;host&#34;</span>];
+</span></span><span style="display:flex;"><span>    $query <span style="color:#f92672">=</span> $_GET[<span style="color:#e6db74">&#34;query&#34;</span>];
+</span></span><span style="display:flex;"><span>    $host <span style="color:#f92672">=</span> $_GET[<span style="color:#e6db74">&#34;host&#34;</span>];
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#719e07">if</span> (<span style="color:#719e07">!</span>preg_match(<span style="color:#268bd2">$host_regex</span>, <span style="color:#268bd2">$host</span>) <span style="color:#719e07">||</span> <span style="color:#719e07">!</span>preg_match(<span style="color:#268bd2">$query_regex</span>, <span style="color:#268bd2">$query</span>))
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#a6e22e">preg_match</span>($host_regex, $host) <span style="color:#f92672">||</span> <span style="color:#f92672">!</span><span style="color:#a6e22e">preg_match</span>($query_regex, $query))
 </span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        <span style="color:#268bd2">$output</span> <span style="color:#719e07">=</span> <span style="color:#2aa198">&#34;Invalid query or whois host.&#34;</span>;
+</span></span><span style="display:flex;"><span>        $output <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Invalid query or whois host.&#34;</span>;
 </span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    <span style="color:#719e07">else</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>
 </span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        <span style="color:#268bd2">$output</span> <span style="color:#719e07">=</span> shell_exec(<span style="color:#2aa198">&#34;/usr/bin/whois -h </span><span style="color:#2aa198">${</span><span style="color:#268bd2">host</span><span style="color:#2aa198">}</span><span style="color:#2aa198"> </span><span style="color:#2aa198">${</span><span style="color:#268bd2">query</span><span style="color:#2aa198">}</span><span style="color:#2aa198">&#34;</span>);
+</span></span><span style="display:flex;"><span>        $output <span style="color:#f92672">=</span> <span style="color:#a6e22e">shell_exec</span>(<span style="color:#e6db74">&#34;/usr/bin/whois -h </span><span style="color:#e6db74">${</span>host<span style="color:#e6db74">}</span><span style="color:#e6db74"> </span><span style="color:#e6db74">${</span>query<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>);
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span><span style="color:#719e07">else</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span>
 </span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    <span style="color:#268bd2">$output</span> <span style="color:#719e07">=</span> <span style="color:#2aa198">&#34;host and query are required.&#34;</span>;
+</span></span><span style="display:flex;"><span>    $output <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;host and query are required.&#34;</span>;
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#719e07">?&gt;</span>
-</span></span></code></pre></div><p>As shown above , the function <code>shell_exec</code> is executing the <code>whois</code> command and looks like the only user validation they are doing is with a regex that can easily be bypassed The host regex matches a single character in the range between . (index 46) and | (index 124) (case sensitive) when using <code>\.-\|.</code> This way its possible to use <code>,</code> <code>|</code> to inject a command.</p>
-<h3 id="this-looks-familiar">This Looks Familiar<a hidden class="anchor" aria-hidden="true" href="#this-looks-familiar">#</a></h3>
-<p><em>&ldquo;The security team noticed a few security problems with the Flag Dispenser and made it much more secure! <a href="http://protectedflagdispenser.0d.al/%22">http://protectedflagdispenser.0d.al/&quot;</a></em></p>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">?&gt;</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><p>As shown above , the function <code>shell_exec</code> is executing the <code>whois</code> command and looks like the only user validation they are doing is with a regex that can easily be bypassed The host regex matches a single character in the range between . (index 46) and | (index 124) (case sensitive) when using <code>\.-\|.</code> This way its possible to use <code>,</code> <code>|</code> to inject a command.</p>
+<h3 id="this-looks-familiar">This Looks Familiar</h3>
+<p><em>&ldquo;The security team noticed a few security problems with the Flag Dispenser and made it much more secure! <a href="http://protectedflagdispenser.0d.al/%22" target="_blank">http://protectedflagdispenser.0d.al/"</a>
+</em></p>
 <br>
-<p>This was a similar to <a href="#the-flag-dispenser">The Flag Dispenser</a>, however now a JWT is being used.</p>
-<p><img alt="image" loading="lazy" src="https://github.com/BrunoTeixeira1996/BrunoTeixeira1996.github.io/assets/12052283/c70cc4b2-23d1-475c-9be6-2cb19b972f5e"></p>
+<p>This was a similar to <a href="#the-flag-dispenser">The Flag Dispenser</a>
+, however now a JWT is being used.</p>
+<p><img src="https://github.com/BrunoTeixeira1996/BrunoTeixeira1996.github.io/assets/12052283/c70cc4b2-23d1-475c-9be6-2cb19b972f5e" alt="image"></p>
 <p>I then tried tampering the jwt:</p>
 <ul>
 <li>change the alg to none</li>
@@ -350,35 +513,38 @@ Good luck!&rdquo;</em></p>
 <li>change the alg type to another one</li>
 </ul>
 <p>But none of this worked and since this was a simple jwt that didn&rsquo;t contained more details I started googling ways of breaking this.</p>
-<p>Then I came across a <a href="https://owasp.org/www-chapter-vancouver/assets/presentations/2020-01_Attacking_and_Securing_JWT.pdf">realy cool post</a> that defines various ways of attacking a JWT.</p>
+<p>Then I came across a <a href="https://owasp.org/www-chapter-vancouver/assets/presentations/2020-01_Attacking_and_Securing_JWT.pdf" target="_blank">realy cool post</a>
+ that defines various ways of attacking a JWT.</p>
 <p>Looking at the section of <code>JWT Secret Brute Forcing</code> I saw an important note: <code>A key of the same size as the hash output (for instance, 256 bits for &quot;HS256&quot;) or larger MUST be used with this algorithm. Shorter keys can be brute forced.</code>.</p>
-<p>So I started this approach by using <a href="https://github.com/brendan-rius/c-jwt-cracker">jwt cracker</a> to try to crack the jwt key. This tool worked like a charm and I got the secret(<code>1337</code>).</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ ./jwtcrack eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoicGxlYmVpYW4ifQ.Ab5jOyoJQOrpl96XvMwqmqKJrDGIryCbzqt7483yow4
-</span></span><span style="display:flex;"><span>Secret is <span style="color:#2aa198">&#34;1337&#34;</span>
+<p>So I started this approach by using <a href="https://github.com/brendan-rius/c-jwt-cracker" target="_blank">jwt cracker</a>
+ to try to crack the jwt key. This tool worked like a charm and I got the secret(<code>1337</code>).</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ ./jwtcrack eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoicGxlYmVpYW4ifQ.Ab5jOyoJQOrpl96XvMwqmqKJrDGIryCbzqt7483yow4
+</span></span><span style="display:flex;"><span>Secret is <span style="color:#e6db74">&#34;1337&#34;</span>
 </span></span></code></pre></div><p>Note that this could also be done using hashcat</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ hashcat -a <span style="color:#2aa198">0</span> -m <span style="color:#2aa198">16500</span> eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoicGxlYmVpYW4ifQ.Ab5jOyoJQOrpl96XvMwqmqKJrDGIryCbzqt7483yow4 /usr/share/wordlists/rockyou.txt
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ hashcat -a <span style="color:#ae81ff">0</span> -m <span style="color:#ae81ff">16500</span> eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoicGxlYmVpYW4ifQ.Ab5jOyoJQOrpl96XvMwqmqKJrDGIryCbzqt7483yow4 /usr/share/wordlists/rockyou.txt
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoicGxlYmVpYW4ifQ.Ab5jOyoJQOrpl96XvMwqmqKJrDGIryCbzqt7483yow4:1337
 </span></span></code></pre></div><p>After finding out the secret, I added the role <code>admin</code> by signing the JWT.</p>
-<p><img alt="image" loading="lazy" src="https://github.com/BrunoTeixeira1996/BrunoTeixeira1996.github.io/assets/12052283/7a7459cc-5f9e-46c3-8de1-4508e7dd696f"></p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#719e07">{</span>wym_a_4_digit_secret_is_not_enough?<span style="color:#719e07">}</span>
+<p><img src="https://github.com/BrunoTeixeira1996/BrunoTeixeira1996.github.io/assets/12052283/7a7459cc-5f9e-46c3-8de1-4508e7dd696f" alt="image"></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#f92672">{</span>wym_a_4_digit_secret_is_not_enough?<span style="color:#f92672">}</span>
 </span></span></code></pre></div><br>
-<h2 id="crypto">Crypto<a hidden class="anchor" aria-hidden="true" href="#crypto">#</a></h2>
-<h3 id="healthy">Healthy<a hidden class="anchor" aria-hidden="true" href="#healthy">#</a></h3>
+<h2 id="crypto">Crypto</h2>
+<h3 id="healthy">Healthy</h3>
 <p><em>&ldquo;I&rsquo;ve been on a journey to improve body and mind. I do exercise, I eat salads, and yet I have not been able to lose any weight! I found a website claiming that Caesar, the Roman Emperor, had a special secret to make any diet work. I thought I had found the solution to my weight problem, but Caesar&rsquo;s diet trick is encoded: qbabgrngqbahgf. Can you help me?&rdquo;</em></p>
 <br>
 <p>This was clearly an easy challenge for the Caesar&rsquo;s cipher with a twist.</p>
 <p>We didn&rsquo;t knew what was the shift number to decode the respective message. Don&rsquo;t get me wrong, this is not a problem as we could just brute-force the 26 possible shifts and gather the flag.</p>
-<p><img alt="image" loading="lazy" src="https://github.com/BrunoTeixeira1996/BrunoTeixeira1996.github.io/assets/12052283/e19f2ecd-80fc-432a-a2a2-af9c7004d2a8"></p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>donoteatdonuts
-</span></span></code></pre></div><h3 id="kadabra-used-substitute">Kadabra used Substitute!<a hidden class="anchor" aria-hidden="true" href="#kadabra-used-substitute">#</a></h3>
+<p><img src="https://github.com/BrunoTeixeira1996/BrunoTeixeira1996.github.io/assets/12052283/e19f2ecd-80fc-432a-a2a2-af9c7004d2a8" alt="image"></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>donoteatdonuts
+</span></span></code></pre></div><h3 id="kadabra-used-substitute">Kadabra used Substitute!</h3>
 <p><em>&ldquo;Ctsy sy i ylpycsclcsdo asktmf. Tmfm, miat zmccmf dn ctm izktipmc sy fmkziamj ph iodctmf. Ifm hdl fmijh ndf ctm nziq? Zmc&rsquo;y qd: nziq{s_tdkm_hdl_ycszz_tibm_i_nmx_gsolcmy_zmnc}&rdquo;</em></p>
 <br>
 <p>The challenge name already provide a little bit of info that this must be a substitute cipher. Adding to this we know that the format of the flag is <code>flag{}</code> meaning that <code>nziq</code> = <code>flag</code>.</p>
-<p>Using an alphabet mapping <a href="https://bobmckay.com/substituion-cipher-decoding-utility/index.php">website</a> I got the following output.</p>
+<p>Using an alphabet mapping <a href="https://bobmckay.com/substituion-cipher-decoding-utility/index.php" target="_blank">website</a>
+ I got the following output.</p>
 <p><code>this is a substitution cipher. here, each letter of the alphabet is replaced by another. are you ready for the flag? let's go: flag{i_hope_you_still_have_a_few_minutes_left}</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#719e07">{</span>i_hope_you_still_have_a_few_minutes_left<span style="color:#719e07">}</span>
-</span></span></code></pre></div><h3 id="it-is-all-about-magic">It Is All About Magic<a hidden class="anchor" aria-hidden="true" href="#it-is-all-about-magic">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#f92672">{</span>i_hope_you_still_have_a_few_minutes_left<span style="color:#f92672">}</span>
+</span></span></code></pre></div><h3 id="it-is-all-about-magic">It Is All About Magic</h3>
 <p><em>&ldquo;Can you guess the secret for this encrypted file xor not?&rdquo;</em></p>
 <br>
 <p>We got what it looks like an encripted jpg file. Reading the challenge description I can assume it was encripted using XOR.</p>
@@ -388,16 +554,17 @@ Good luck!&rdquo;</em></p>
 <li>obtain the key that was used to encrypt the file</li>
 <li>apply the xor operation to the encrypted file using the same key</li>
 </ul>
-<p>To obtain the key I used a <a href="https://github.com/AlexFSmirnov/xor-decrypt/blob/master/xor-decrypt.py">script</a> that takes an input file and tries to find the key.</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ python3 xor-decrypt/xor-decrypt.py -i <span style="color:#2aa198">&#34;magic_image.jpg.enc&#34;</span> -m <span style="color:#2aa198">32</span> -f <span style="color:#2aa198">32</span>
+<p>To obtain the key I used a <a href="https://github.com/AlexFSmirnov/xor-decrypt/blob/master/xor-decrypt.py" target="_blank">script</a>
+ that takes an input file and tries to find the key.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ python3 xor-decrypt/xor-decrypt.py -i <span style="color:#e6db74">&#34;magic_image.jpg.enc&#34;</span> -m <span style="color:#ae81ff">32</span> -f <span style="color:#ae81ff">32</span>
 </span></span><span style="display:flex;"><span>Probable key lengths: 
-</span></span><span style="display:flex;"><span>   <span style="color:#2aa198">5</span> - 4.9%
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">5</span> - 4.9%
 </span></span><span style="display:flex;"><span>Found a key: M4GIC
 </span></span></code></pre></div><p>The key made sense since the name of the challenge has the &ldquo;magic&rdquo; word in it, so the next thing to do would be to use the known key and XOR the input file again to get the decrypted file.</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ python3 xor-decrypt/xor-decrypt.py -i <span style="color:#2aa198">&#34;magic_image.jpg.enc&#34;</span> -o <span style="color:#2aa198">&#34;output.jpg&#34;</span> -k M4GIC -d
-</span></span></code></pre></div><p><img alt="image" loading="lazy" src="https://github.com/BrunoTeixeira1996/BrunoTeixeira1996.github.io/assets/12052283/40fc9d8f-1150-4bfa-af43-b4fb8ce15c4d"></p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#719e07">{</span>Y0u-kN0w-S0m3-Tr1Cks<span style="color:#719e07">}</span>
-</span></span></code></pre></div><h3 id="i-forgot-my-phone-number">I Forgot My Phone Number<a hidden class="anchor" aria-hidden="true" href="#i-forgot-my-phone-number">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ python3 xor-decrypt/xor-decrypt.py -i <span style="color:#e6db74">&#34;magic_image.jpg.enc&#34;</span> -o <span style="color:#e6db74">&#34;output.jpg&#34;</span> -k M4GIC -d
+</span></span></code></pre></div><p><img src="https://github.com/BrunoTeixeira1996/BrunoTeixeira1996.github.io/assets/12052283/40fc9d8f-1150-4bfa-af43-b4fb8ce15c4d" alt="image"></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#f92672">{</span>Y0u-kN0w-S0m3-Tr1Cks<span style="color:#f92672">}</span>
+</span></span></code></pre></div><h3 id="i-forgot-my-phone-number">I Forgot My Phone Number</h3>
 <p><em>&ldquo;Please, help me. I forgot my phone number.
 Thankfully, I found a hash of it (sha256) in some application logs.
 dd007cb8341261d248a87c58d7013b0f7bbe8e0b4172d34d561e0f5b0c84634d
@@ -406,17 +573,18 @@ Note: Don&rsquo;t forget the country prefix! It&rsquo;s a portuguese number. The
 <br>
 <p>This was the perfect challenge to show hashcat power while using masks.
 They gave us the hash and we know that the format is a sha256 and we also know that the pattern has to contain +351 and numbers. With this information, the scope starts to decrease making it possible to brute-force the hash.</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ <span style="color:#b58900">echo</span> <span style="color:#2aa198">&#34;dd007cb8341261d248a87c58d7013b0f7bbe8e0b4172d34d561e0f5b0c84634d&#34;</span> &gt; <span style="color:#b58900">hash</span>
-</span></span><span style="display:flex;"><span>$ <span style="color:#b58900">echo</span> <span style="color:#2aa198">&#34;+351?d?d?d?d?d?d?d?d?d&#34;</span> &gt; mask
-</span></span><span style="display:flex;"><span>$ hashcat -m <span style="color:#2aa198">1400</span> -a <span style="color:#2aa198">3</span> <span style="color:#b58900">hash</span> mask
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ echo <span style="color:#e6db74">&#34;dd007cb8341261d248a87c58d7013b0f7bbe8e0b4172d34d561e0f5b0c84634d&#34;</span> &gt; hash
+</span></span><span style="display:flex;"><span>$ echo <span style="color:#e6db74">&#34;+351?d?d?d?d?d?d?d?d?d&#34;</span> &gt; mask
+</span></span><span style="display:flex;"><span>$ hashcat -m <span style="color:#ae81ff">1400</span> -a <span style="color:#ae81ff">3</span> hash mask
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>dd007cb8341261d248a87c58d7013b0f7bbe8e0b4172d34d561e0f5b0c84634d:+351968210943
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>+351968210943
-</span></span></code></pre></div><h2 id="misc">Misc<a hidden class="anchor" aria-hidden="true" href="#misc">#</a></h2>
-<h3 id="a-different-kind-of-flag">A Different Kind of Flag<a hidden class="anchor" aria-hidden="true" href="#a-different-kind-of-flag">#</a></h3>
-<p><img alt="image" loading="lazy" src="https://github.com/BrunoTeixeira1996/BrunoTeixeira1996.github.io/assets/12052283/982bc358-b92d-4f78-8642-ce3c0f34c89d"></p>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>+351968210943
+</span></span></code></pre></div><h2 id="misc">Misc</h2>
+<h3 id="a-different-kind-of-flag">A Different Kind of Flag</h3>
+<p><img src="https://github.com/BrunoTeixeira1996/BrunoTeixeira1996.github.io/assets/12052283/982bc358-b92d-4f78-8642-ce3c0f34c89d" alt="image"></p>
 <br>
-<p>Searching for AACS hex in Google i&rsquo;ve found that this is AACS encryption key <a href="https://googology.fandom.com/wiki/AACS_encryption_key">controversy</a>.</p>
+<p>Searching for AACS hex in Google i&rsquo;ve found that this is AACS encryption key <a href="https://googology.fandom.com/wiki/AACS_encryption_key" target="_blank">controversy</a>
+.</p>
 <p>According to wikipedia:</p>
 <p><em>A controversy surrounding the AACS cryptographic key arose in April 2007 when the Motion Picture Association of America and the Advanced Access Content System Licensing Administrator, LLC (AACS LA) began issuing cease and desist letters[7] to websites publishing a 128-bit (16-byte) number, represented in hexadecimal as 09 F9 11 02 9D 74 E3 5B D8 41 56 C5 63 56 88 C0[8][9] (commonly referred to as 09 F9), a cryptographic key for HD DVDs and Blu-ray Discs. The letters demanded the immediate removal of the key and any links to it, citing the anti-circumvention provisions of the United States Digital Millennium Copyright Act (DMCA).</em></p>
 <p>In order to complete this challenge I used a color picker extractor tool to gather the hex values of the image. That gave me the following output:</p>
@@ -424,12 +592,13 @@ They gave us the hash and we know that the format is a sha256 and we also know t
 <li>666c61677b5f4f685f4e316e455f6546665f4e694e655f7d</li>
 </ul>
 <p>After converting from hex to ascii I got the flag.</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#719e07">{</span>_Oh_N1nE_eFf_NiNe_<span style="color:#719e07">}</span>
-</span></span></code></pre></div><h3 id="no-one-can-read-this">No One Can Read This!<a hidden class="anchor" aria-hidden="true" href="#no-one-can-read-this">#</a></h3>
-<p><em>&ldquo;Obfuscation can provide some level of protection against reverse-engineering and unauthorized access to sensitive code or algorithms. It makes it harder for attackers to understand the inner workings of the code and extract valuable information. Are you up for the challenge of breaking this highly secure code? <a href="https://pastebin.com/XLQJGZd8%22">https://pastebin.com/XLQJGZd8&quot;</a></em></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#f92672">{</span>_Oh_N1nE_eFf_NiNe_<span style="color:#f92672">}</span>
+</span></span></code></pre></div><h3 id="no-one-can-read-this">No One Can Read This!</h3>
+<p><em>&ldquo;Obfuscation can provide some level of protection against reverse-engineering and unauthorized access to sensitive code or algorithms. It makes it harder for attackers to understand the inner workings of the code and extract valuable information. Are you up for the challenge of breaking this highly secure code? <a href="https://pastebin.com/XLQJGZd8%22" target="_blank">https://pastebin.com/XLQJGZd8"</a>
+</em></p>
 <br>
 <p>Opening the pastebin link we got javascript code obfuscated.</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#268bd2">function</span> _0x18d3(){<span style="color:#268bd2">var</span> n<span style="color:#719e07">=</span>[<span style="color:#2aa198">&#34;986812zTyGkV&#34;</span>,<span style="color:#2aa198">&#34;7564912lJTdqw&#34;</span>,<span style="color:#2aa198">&#34;ZmxhZ3tUaGlzSXN&#34;</span>,<span style="color:#2aa198">&#34;1218535gGCsbz&#34;</span>,<span style="color:#2aa198">&#34;58236qqPWAI&#34;</span>,<span style="color:#2aa198">&#34;3190257ERjObe&#34;</span>,<span style="color:#2aa198">&#34;19843bqzMoy&#34;</span>,<span style="color:#2aa198">&#34;26gIYNza&#34;</span>,<span style="color:#2aa198">&#34;1330485xEwykw&#34;</span>];<span style="color:#719e07">return</span>(_0x18d3<span style="color:#719e07">=</span><span style="color:#268bd2">function</span>(){<span style="color:#719e07">return</span> n})()}<span style="color:#268bd2">function</span> _0x58e0(n,r){<span style="color:#268bd2">var</span> t<span style="color:#719e07">=</span>_0x18d3();<span style="color:#719e07">return</span>(_0x58e0<span style="color:#719e07">=</span><span style="color:#268bd2">function</span>(n,r){<span style="color:#719e07">return</span> t[n<span style="color:#719e07">-=</span><span style="color:#2aa198">358</span>]})(n,r)}<span style="color:#268bd2">function</span> _0x414243(){<span style="color:#268bd2">var</span> n<span style="color:#719e07">=</span>_0x58e0;console.log(n(<span style="color:#2aa198">366</span>)<span style="color:#719e07">+</span><span style="color:#2aa198">&#34;KU09iZnVzY2F0aW9uIX0&#34;</span>)}<span style="color:#719e07">!</span><span style="color:#268bd2">function</span>(n,r){<span style="color:#719e07">for</span>(<span style="color:#268bd2">var</span> t<span style="color:#719e07">=</span>_0x58e0,e<span style="color:#719e07">=</span>_0x18d3();;)<span style="color:#719e07">try</span>{<span style="color:#719e07">if</span>(<span style="color:#2aa198">668689</span><span style="color:#719e07">===</span><span style="color:#b58900">parseInt</span>(t(<span style="color:#2aa198">361</span>))<span style="color:#719e07">/</span><span style="color:#2aa198">1</span><span style="color:#719e07">*</span>(<span style="color:#719e07">-</span><span style="color:#b58900">parseInt</span>(t(<span style="color:#2aa198">362</span>))<span style="color:#719e07">/</span><span style="color:#2aa198">2</span>)<span style="color:#719e07">+</span><span style="color:#b58900">parseInt</span>(t(<span style="color:#2aa198">363</span>))<span style="color:#719e07">/</span><span style="color:#2aa198">3</span><span style="color:#719e07">+</span><span style="color:#b58900">parseInt</span>(t(<span style="color:#2aa198">364</span>))<span style="color:#719e07">/</span><span style="color:#2aa198">4</span><span style="color:#719e07">+-</span><span style="color:#b58900">parseInt</span>(t(<span style="color:#2aa198">358</span>))<span style="color:#719e07">/</span><span style="color:#2aa198">5</span><span style="color:#719e07">+-</span><span style="color:#b58900">parseInt</span>(t(<span style="color:#2aa198">359</span>))<span style="color:#719e07">/</span><span style="color:#2aa198">6</span><span style="color:#719e07">+-</span><span style="color:#b58900">parseInt</span>(t(<span style="color:#2aa198">360</span>))<span style="color:#719e07">/</span><span style="color:#2aa198">7</span><span style="color:#719e07">+</span><span style="color:#b58900">parseInt</span>(t(<span style="color:#2aa198">365</span>))<span style="color:#719e07">/</span><span style="color:#2aa198">8</span>)<span style="color:#719e07">break</span>;e.push(e.shift())}<span style="color:#719e07">catch</span>(n){e.push(e.shift())}}();
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">_0x18d3</span>(){<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">n</span><span style="color:#f92672">=</span>[<span style="color:#e6db74">&#34;986812zTyGkV&#34;</span>,<span style="color:#e6db74">&#34;7564912lJTdqw&#34;</span>,<span style="color:#e6db74">&#34;ZmxhZ3tUaGlzSXN&#34;</span>,<span style="color:#e6db74">&#34;1218535gGCsbz&#34;</span>,<span style="color:#e6db74">&#34;58236qqPWAI&#34;</span>,<span style="color:#e6db74">&#34;3190257ERjObe&#34;</span>,<span style="color:#e6db74">&#34;19843bqzMoy&#34;</span>,<span style="color:#e6db74">&#34;26gIYNza&#34;</span>,<span style="color:#e6db74">&#34;1330485xEwykw&#34;</span>];<span style="color:#66d9ef">return</span>(<span style="color:#a6e22e">_0x18d3</span><span style="color:#f92672">=</span><span style="color:#66d9ef">function</span>(){<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">n</span>})()}<span style="color:#66d9ef">function</span> <span style="color:#a6e22e">_0x58e0</span>(<span style="color:#a6e22e">n</span>,<span style="color:#a6e22e">r</span>){<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">t</span><span style="color:#f92672">=</span><span style="color:#a6e22e">_0x18d3</span>();<span style="color:#66d9ef">return</span>(<span style="color:#a6e22e">_0x58e0</span><span style="color:#f92672">=</span><span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">n</span>,<span style="color:#a6e22e">r</span>){<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">t</span>[<span style="color:#a6e22e">n</span><span style="color:#f92672">-=</span><span style="color:#ae81ff">358</span>]})(<span style="color:#a6e22e">n</span>,<span style="color:#a6e22e">r</span>)}<span style="color:#66d9ef">function</span> <span style="color:#a6e22e">_0x414243</span>(){<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">n</span><span style="color:#f92672">=</span><span style="color:#a6e22e">_0x58e0</span>;<span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">n</span>(<span style="color:#ae81ff">366</span>)<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;KU09iZnVzY2F0aW9uIX0&#34;</span>)}<span style="color:#f92672">!</span><span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">n</span>,<span style="color:#a6e22e">r</span>){<span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">t</span><span style="color:#f92672">=</span><span style="color:#a6e22e">_0x58e0</span>,<span style="color:#a6e22e">e</span><span style="color:#f92672">=</span><span style="color:#a6e22e">_0x18d3</span>();;)<span style="color:#66d9ef">try</span>{<span style="color:#66d9ef">if</span>(<span style="color:#ae81ff">668689</span><span style="color:#f92672">===</span>parseInt(<span style="color:#a6e22e">t</span>(<span style="color:#ae81ff">361</span>))<span style="color:#f92672">/</span><span style="color:#ae81ff">1</span><span style="color:#f92672">*</span>(<span style="color:#f92672">-</span>parseInt(<span style="color:#a6e22e">t</span>(<span style="color:#ae81ff">362</span>))<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>)<span style="color:#f92672">+</span>parseInt(<span style="color:#a6e22e">t</span>(<span style="color:#ae81ff">363</span>))<span style="color:#f92672">/</span><span style="color:#ae81ff">3</span><span style="color:#f92672">+</span>parseInt(<span style="color:#a6e22e">t</span>(<span style="color:#ae81ff">364</span>))<span style="color:#f92672">/</span><span style="color:#ae81ff">4</span><span style="color:#f92672">+-</span>parseInt(<span style="color:#a6e22e">t</span>(<span style="color:#ae81ff">358</span>))<span style="color:#f92672">/</span><span style="color:#ae81ff">5</span><span style="color:#f92672">+-</span>parseInt(<span style="color:#a6e22e">t</span>(<span style="color:#ae81ff">359</span>))<span style="color:#f92672">/</span><span style="color:#ae81ff">6</span><span style="color:#f92672">+-</span>parseInt(<span style="color:#a6e22e">t</span>(<span style="color:#ae81ff">360</span>))<span style="color:#f92672">/</span><span style="color:#ae81ff">7</span><span style="color:#f92672">+</span>parseInt(<span style="color:#a6e22e">t</span>(<span style="color:#ae81ff">365</span>))<span style="color:#f92672">/</span><span style="color:#ae81ff">8</span>)<span style="color:#66d9ef">break</span>;<span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">push</span>(<span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">shift</span>())}<span style="color:#66d9ef">catch</span>(<span style="color:#a6e22e">n</span>){<span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">push</span>(<span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">shift</span>())}}();
 </span></span></code></pre></div><p>After some minutes manualy deobfuscating the given code I came to the following better looking code.</p>
 <pre tabindex="0"><code>function _0x18d3() {
   var n = [&#34;986812zTyGkV&#34;, &#34;7564912lJTdqw&#34;, &#34;ZmxhZ3tUaGlzSXN&#34;, &#34;1218535gGCsbz&#34;, &#34;58236qqPWAI&#34;, &#34;3190257ERjObe&#34;, &#34;19843bqzMoy&#34;, &#34;26gIYNza&#34;, &#34;1330485xEwykw&#34;];
@@ -462,13 +631,14 @@ function _0x414243() {
 }();
 </code></pre><p>Looking at the code, I can see that the function <code>_0x414243()</code> is acting like the <code>main</code> function.
 After running that I got what it looked like a base64 string.</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ node a.js
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ node a.js
 </span></span><span style="display:flex;"><span>ZmxhZ3tUaGlzSXNKU09iZnVzY2F0aW9uIX0
 </span></span></code></pre></div><p>Decoded the string and got the flag.</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ <span style="color:#b58900">echo</span> <span style="color:#2aa198">&#34;ZmxhZ3tUaGlzSXNKU09iZnVzY2F0aW9uIX0&#34;</span> | base64 -d
-</span></span><span style="display:flex;"><span>flag<span style="color:#719e07">{</span>ThisIsJSObfuscation!<span style="color:#719e07">}</span>
-</span></span></code></pre></div><p>Note that there is a <a href="https://obf-io.deobfuscate.io/">cool website</a> that helps deobfuscating.</p>
-<h3 id="are-you-a-good-scientist">Are You a Good Scientist?<a hidden class="anchor" aria-hidden="true" href="#are-you-a-good-scientist">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ echo <span style="color:#e6db74">&#34;ZmxhZ3tUaGlzSXNKU09iZnVzY2F0aW9uIX0&#34;</span> | base64 -d
+</span></span><span style="display:flex;"><span>flag<span style="color:#f92672">{</span>ThisIsJSObfuscation!<span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>Note that there is a <a href="https://obf-io.deobfuscate.io/" target="_blank">cool website</a>
+ that helps deobfuscating.</p>
+<h3 id="are-you-a-good-scientist">Are You a Good Scientist?</h3>
 <p><em>&ldquo;Scientists have discovered an unknown DNA sequence that may belong to a new species, but they are stuck. Can you help them to proceed with the investigation?&rdquo;</em>
 <em>&ldquo;CGCGCGTACGACCGCTCTGTCATCATCACACGATCACACTATCACACGATAACTTC&rdquo;</em></p>
 <br>
@@ -482,117 +652,367 @@ After running that I got what it looked like a base64 string.</p>
 <p>Using this information I represented the given DNA sequence in binary.</p>
 <p>0110011001101100011000010110011101111011010011010011010001000110001101000100011100110100010001100011000001111101</p>
 <p>Then I transformed the binary data to text and got the flag.</p>
-<p><img alt="image" loading="lazy" src="https://github.com/BrunoTeixeira1996/BrunoTeixeira1996.github.io/assets/12052283/16fd542c-9056-4660-b849-a5aafb61288a"></p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#719e07">{</span>M4F4G4F0<span style="color:#719e07">}</span>
-</span></span></code></pre></div><h2 id="trivia">Trivia<a hidden class="anchor" aria-hidden="true" href="#trivia">#</a></h2>
-<h3 id="thirty-two">Thirty-Two<a hidden class="anchor" aria-hidden="true" href="#thirty-two">#</a></h3>
+<p><img src="https://github.com/BrunoTeixeira1996/BrunoTeixeira1996.github.io/assets/12052283/16fd542c-9056-4660-b849-a5aafb61288a" alt="image"></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#f92672">{</span>M4F4G4F0<span style="color:#f92672">}</span>
+</span></span></code></pre></div><h2 id="trivia">Trivia</h2>
+<h3 id="thirty-two">Thirty-Two</h3>
 <p><em>&ldquo;I was born way before NTFS. What is my maximum file size (in bytes)?&rdquo;</em></p>
 <br>
 <p>Since they are saying that they were born way before NFTS and the challenge name is thirty two I assumed that they were refering to FAT32.</p>
-<p><a href="https://pt.wikipedia.org/wiki/FAT32">I know for a fact that FAT32 maximum file size is 4,294,967,295 bytes</a> being that the flag.</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#2aa198">4294967295</span>
-</span></span></code></pre></div><h3 id="no-google">No Google<a hidden class="anchor" aria-hidden="true" href="#no-google">#</a></h3>
+<p><a href="https://pt.wikipedia.org/wiki/FAT32" target="_blank">I know for a fact that FAT32 maximum file size is 4,294,967,295 bytes</a>
+ being that the flag.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#ae81ff">4294967295</span>
+</span></span></code></pre></div><h3 id="no-google">No Google</h3>
 <p><em>&ldquo;I hold the power to shape what search engines see, Controlling the content that&rsquo;s indexed, that&rsquo;s me. With authority over visibility, I dictate the view, Influencing which parts of the website come through. What am I?&rdquo;</em></p>
 <br>
 <p>Hmmm if you are not google you must be robots.txt.</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>robots.txt
-</span></span></code></pre></div><h3 id="the-most-beautiful-woman-in-film">The Most Beautiful Woman in Film<a hidden class="anchor" aria-hidden="true" href="#the-most-beautiful-woman-in-film">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>robots.txt
+</span></span></code></pre></div><h3 id="the-most-beautiful-woman-in-film">The Most Beautiful Woman in Film</h3>
 <p><em>&ldquo;In films I mesmerized with my grace and my charm, But behind the scenes, my intellect caused alarm. So tell me, who am I, this star with brains and flair? A beauty and an inventor, a name quite rare.&rdquo;</em></p>
 <br>
-<p>This was an easy one since Google was my friend. I only copied the part &ldquo;A beauty and an inventor, a name quite rare&rdquo; and that led me to an <a href="https://www.marketplace.org/2017/11/21/inventor-changed-our-world-and-also-happened-be-famous-hollywood-star/">article</a>.</p>
+<p>This was an easy one since Google was my friend. I only copied the part &ldquo;A beauty and an inventor, a name quite rare&rdquo; and that led me to an <a href="https://www.marketplace.org/2017/11/21/inventor-changed-our-world-and-also-happened-be-famous-hollywood-star/" target="_blank">article</a>
+.</p>
 <p>Reading the article I could find that &ldquo;Hollywood actress Hedy Lamarr, &rsquo;the Angelina Jolie of her day,&rsquo; was also an avid inventor and the person behind advances in communication technology in the 1940s that led to today’s Wi-Fi, GPS, and Bluetooth&rdquo; and TIL.</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Hedy Lamarr
-</span></span></code></pre></div><h3 id="java-nightmare">Java Nightmare!<a hidden class="anchor" aria-hidden="true" href="#java-nightmare">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Hedy Lamarr
+</span></span></code></pre></div><h3 id="java-nightmare">Java Nightmare!</h3>
 <p><em>&ldquo;In the realm of Java&rsquo;s coding sphere, A silent menace, a danger unclear. A library&rsquo;s flaw, a vulnerability deep, Unleashing havoc, causing systems to weep. With its loggers and appenders, it sneaks through, Exploited by those with malicious view. What am I, this weak link in the chain?&rdquo;</em></p>
 <br>
 <p>Another easy challenge refering to log4j. However the flag was not that but <code>log4shell</code></p>
 <p>Log4Shell refers to a critical vulnerability discovered in the Apache Log4j library. Attackers exploited the vulnerability by injecting malicious code into log messages or by exploiting the library&rsquo;s JNDI (Java Naming and Directory Interface) lookup feature.</p>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>log4shell
-</span></span></code></pre></div><h2 id="conclusion">Conclusion<a hidden class="anchor" aria-hidden="true" href="#conclusion">#</a></h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>log4shell
+</span></span></code></pre></div><h2 id="conclusion">Conclusion</h2>
 <p>This year I was not able to finish all challenges as I was busy during summer. However I placed 10th which is not bad at all since I had only 2 or 3 days to explore the challenges.
 Excited to the Christmas challenge 2023!</p>
-<p><img alt="image" loading="lazy" src="https://github.com/BrunoTeixeira1996/BrunoTeixeira1996.github.io/assets/12052283/ba01f832-e7c1-48a6-8112-524e036b076c"></p>
+<p><img src="https://github.com/BrunoTeixeira1996/BrunoTeixeira1996.github.io/assets/12052283/ba01f832-e7c1-48a6-8112-524e036b076c" alt="image"></p>
 
 
+        
+      </section>
+
+      
+      <div class="divider"></div>
+      <div class="flex flex-col md:flex-row justify-between gap-4 py-4">
+        
+        <a role="button" class="btn btn-outline h-12" href="/posts/2023-11-06-redteaming-ep1/" title="Red Teaming EP1: C2 and Phishing Simulation">
+          <ion-icon name="chevron-back"></ion-icon>
+          <div class="inline-flex flex-col items-start">
+            <span class="text-base-content/60 text-xs font-normal">Previous page</span>
+            <span class="max-w-48 truncate">Red Teaming EP1: C2 and Phishing Simulation</span>
+          </div>
+        </a>
+        
+
+        
+        <a role="button" class="btn btn-outline h-12" href="/posts/2023-05-26-tinygo-in-microcontrollers/" title="TinyGo in Microcontrollers">
+          <div class="inline-flex flex-col items-end">
+            <span class="text-base-content/60 text-xs font-normal">Next page</span>
+            <span class="max-w-48 truncate">TinyGo in Microcontrollers</span>
+          </div>
+          <ion-icon name="chevron-forward"></ion-icon>
+        </a>
+        
+      </div>
+      
+
+      
+    </article>
   </div>
 
-  <footer class="post-footer">
-    <ul class="post-tags">
-      <li><a href="http://localhost:1313/tags/ctf/">CTF</a></li>
-    </ul>
-  </footer>
-</article>
-    </main>
+  <div
+    x-data="tocHighlighter()"
+    @scroll.window="debouncedScroll"
+    class="hidden lg:flex lg:flex-col lg:items-end">
     
-<footer class="footer">
-        <span>&copy; 2025 <a href="http://localhost:1313/">Bruno Blog</a></span> · 
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#web">Web</a>
+      <ul>
+        <li><a href="#the-flag-dispenser">The Flag Dispenser</a></li>
+        <li><a href="#recon-all-the-things">Recon All The Things</a></li>
+        <li><a href="#the-poor-man-proxy">The Poor Man Proxy</a></li>
+        <li><a href="#whois">Whois?</a></li>
+        <li><a href="#this-looks-familiar">This Looks Familiar</a></li>
+      </ul>
+    </li>
+    <li><a href="#crypto">Crypto</a>
+      <ul>
+        <li><a href="#healthy">Healthy</a></li>
+        <li><a href="#kadabra-used-substitute">Kadabra used Substitute!</a></li>
+        <li><a href="#it-is-all-about-magic">It Is All About Magic</a></li>
+        <li><a href="#i-forgot-my-phone-number">I Forgot My Phone Number</a></li>
+      </ul>
+    </li>
+    <li><a href="#misc">Misc</a>
+      <ul>
+        <li><a href="#a-different-kind-of-flag">A Different Kind of Flag</a></li>
+        <li><a href="#no-one-can-read-this">No One Can Read This!</a></li>
+        <li><a href="#are-you-a-good-scientist">Are You a Good Scientist?</a></li>
+      </ul>
+    </li>
+    <li><a href="#trivia">Trivia</a>
+      <ul>
+        <li><a href="#thirty-two">Thirty-Two</a></li>
+        <li><a href="#no-google">No Google</a></li>
+        <li><a href="#the-most-beautiful-woman-in-film">The Most Beautiful Woman in Film</a></li>
+        <li><a href="#java-nightmare">Java Nightmare!</a></li>
+      </ul>
+    </li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+    
+  </div>
+</div>
 
-    <span>
-        Powered by
-        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
-        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
-    </span>
+
+            
+<footer class="flex justify-between items-center gap-2 max-w-[65ch] mx-auto px-4 md:px-0 py-12">
+
+  <div>
+  
+  <p>
+    © 2018 - 2025 Bruno Blog
+  </p>
+  
+
+  
+  <p class="text-sm">
+    🌱
+    <span class="text-base-content/60">
+      Powered by <a class="hover:underline" href="https://gohugo.io/" target="_blank">Hugo</a> with theme
+      <a class="hover:underline" href="https://github.com/g1eny0ung/hugo-theme-dream" target="_blank">Dream</a>.</span
+    >
+  </p>
+  
+</div>
+
+  <div
+  x-data="{ icons: [
+    { name: 'sunny', status: 'n' },
+    { name: 'moon', status: 'y' },
+    { name: 'desktop', status: 'auto' }
+  ] }"
+  class="flex items-center gap-2 h-[32px] px-2 bg-base-100 border border-base-content/30 rounded-full"
+>
+  <template x-for="icon in icons">
+    <div
+      role="button"
+      tabindex="0"
+      :aria-label="'Select ' + icon.name + ' mode'"
+      class="group inline-flex justify-center items-center p-1 rounded-full cursor-pointer hover:bg-primary"
+      :class="$store.darkMode.icon() === icon.name && 'bg-primary'"
+      @click="$store.darkMode.toggle(icon.status)"
+    >
+      <ion-icon
+        :name="`${icon.name}-outline`"
+        class="group-hover:text-primary-content"
+        :class="$store.darkMode.icon() === icon.name && 'text-primary-content'"
+      >
+      </ion-icon>
+    </div>
+  </template>
+</div>
+
 </footer>
-<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
-        <path d="M12 6H0l6-6z" />
-    </svg>
-</a>
 
-<script>
-    let menu = document.getElementById('menu')
-    if (menu) {
-        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
-        menu.onscroll = function () {
-            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
-        }
-    }
+          </div>
+        </div>
+        <div class="back">
+          <div class="container">
+            
+            <div class="max-w-[65ch] mt-8 mx-auto px-4">
+  
+  
+  
+  <div>
+    <div class="mb-4 text-lg font-medium"></div>
 
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener("click", function (e) {
-            e.preventDefault();
-            var id = this.getAttribute("href").substr(1);
-            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
-                    behavior: "smooth"
-                });
-            } else {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
-            }
-            if (id === "top") {
-                history.replaceState(null, null, " ");
-            } else {
-                history.pushState(null, null, `#${id}`);
-            }
-        });
-    });
+    <div class="prose dark:prose-invert">
+      <h1 id="about-me">About me</h1>
+<p><em>My name is Bruno Teixeira and I am an Offensive Cyber Security Analyst. Focused on learning Information Security and Systems Administration. Always doing some side projects to improve my coding skills and learn new technologies on the way.</em></p>
+<h2 id="work-experience">Work Experience</h2>
+<ul>
+<li>Pentester @ <a href="https://www.pt.logicalis.com/pt-pt" target="_blank">Logicalis PT</a>
+ (Current)</li>
+<li>Pentester @ <a href="https://www.layer8.pt" target="_blank">Layer8</a>
+</li>
+<li>Offensive Cyber Security Analyst @ <a href="https://artresilia.com/" target="_blank">ArtResilia</a>
+</li>
+<li>Technical Support / Service Desk @ <a href="https://www.cgi.com/en" target="_blank">CGI</a>
+</li>
+<li>Military @ <a href="https://www.exercito.pt/pt" target="_blank">Exército Português</a>
+</li>
+</ul>
+<h2 id="education">Education</h2>
+<ul>
+<li>BsC Computer Engineering @ <a href="https://www.isec.pt" target="_blank">ISEC Coimbra</a>
+</li>
+<li>CET Network and Systems @ <a href="https://www.cinel.pt" target="_blank">CINEL Porto</a>
+</li>
+<li>IT &amp; Programming @ <a href="https://eisnt.com/" target="_blank">EISnt, High School</a>
+</li>
+</ul>
+<h2 id="work-experience-as-a-trainee">Work Experience as a Trainee</h2>
+<ul>
+<li>IT and Network department @ <a href="https://www.islagaia.pt/pt/" target="_blank">ISLA Gaia</a>
+</li>
+<li>Hardware &amp; Software Maintenance @ <a href="http://assistencia35.com/" target="_blank">Assistência 35 LDA</a>
+</li>
+<li>Hardware Maintenance @ <a href="https://www.lojasehorarios.com.pt/dotcenter-informatica-soc-unip-lda/porto/c-58637a1332cff589d8187aa3" target="_blank">DOTcenter</a>
+</li>
+</ul>
 
+    </div>
+  </div>
+  <div class="divider divider-vertical"></div>
+  
+  
+
+  
+  
+  <div class="pb-4">
+  
+    <div class="mb-4 text-lg font-medium">Social Links</div>
+
+    <ul class="menu menu-horizontal flex-wrap w-full px-0 [&_ion-icon]:text-lg">
+  
+  <li>
+    <a href="mailto:brunoalexandre3@hotmail.com" title="Email">
+      <ion-icon name="mail"></ion-icon>
+    </a>
+  </li>
+  
+
+  
+  <li>
+    <a href="https://github.com/BrunoTeixeira1996" target="_blank" title="GitHub">
+      <ion-icon name="logo-github"></ion-icon>
+    </a>
+  </li>
+  
+  <li>
+    <a href="https://x.com/zebisnaga3" target="_blank" title="X">
+      <ion-icon name="logo-x"></ion-icon>
+    </a>
+  </li>
+  
+  <li>
+    <a href="https://www.linkedin.com/in/bruno-teixeira-1553b4a1/" target="_blank" title="Linkedin">
+      <ion-icon name="logo-linkedin"></ion-icon>
+    </a>
+  </li>
+  
+</ul>
+
+  </div>
+  
+
+  
+</div>
+
+            
+
+            
+<footer class="flex justify-between items-center gap-2 max-w-[65ch] mx-auto px-4 md:px-0 py-12">
+
+  <div>
+  
+  <p>
+    © 2018 - 2025 Bruno Blog
+  </p>
+  
+
+  
+  <p class="text-sm">
+    🌱
+    <span class="text-base-content/60">
+      Powered by <a class="hover:underline" href="https://gohugo.io/" target="_blank">Hugo</a> with theme
+      <a class="hover:underline" href="https://github.com/g1eny0ung/hugo-theme-dream" target="_blank">Dream</a>.</span
+    >
+  </p>
+  
+</div>
+
+  <div
+  x-data="{ icons: [
+    { name: 'sunny', status: 'n' },
+    { name: 'moon', status: 'y' },
+    { name: 'desktop', status: 'auto' }
+  ] }"
+  class="flex items-center gap-2 h-[32px] px-2 bg-base-100 border border-base-content/30 rounded-full"
+>
+  <template x-for="icon in icons">
+    <div
+      role="button"
+      tabindex="0"
+      :aria-label="'Select ' + icon.name + ' mode'"
+      class="group inline-flex justify-center items-center p-1 rounded-full cursor-pointer hover:bg-primary"
+      :class="$store.darkMode.icon() === icon.name && 'bg-primary'"
+      @click="$store.darkMode.toggle(icon.status)"
+    >
+      <ion-icon
+        :name="`${icon.name}-outline`"
+        class="group-hover:text-primary-content"
+        :class="$store.darkMode.icon() === icon.name && 'text-primary-content'"
+      >
+      </ion-icon>
+    </div>
+  </template>
+</div>
+
+</footer>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+  window.lightTheme = "emerald"
+  window.darkTheme = "forest"
 </script>
-<script>
-    var mybutton = document.getElementById("top-link");
-    window.onscroll = function () {
-        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
-            mybutton.style.visibility = "visible";
-            mybutton.style.opacity = "1";
-        } else {
-            mybutton.style.visibility = "hidden";
-            mybutton.style.opacity = "0";
-        }
-    };
 
-</script>
-<script>
-    document.getElementById("theme-toggle").addEventListener("click", () => {
-        if (document.body.className.includes("dark")) {
-            document.body.classList.remove('dark');
-            localStorage.setItem("pref-theme", 'light');
-        } else {
-            document.body.classList.add('dark');
-            localStorage.setItem("pref-theme", 'dark');
-        }
-    })
 
-</script>
-</body>
 
+
+
+<script src="/js/main.js"></script>
+
+    
+
+
+
+
+
+
+
+<script src="/js/toc.js"></script>
+
+
+  
+    <script type="module">
+      import mediumZoom from 'https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/+esm';
+      mediumZoom('#dream-single-post-content img', {
+        background: 'oklch(var(--b1))',
+        margin: 24,
+      })
+    </script>
+  
+
+
+
+
+
+
+    
+
+    
+
+    
+
+    
+
+    <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@7.4.0/dist/ionicons/ionicons.esm.js" integrity="sha256-/IFmi82bIhdYWctu0UddSlJqpnzWm7Vh2C4CM32wF/k=" crossorigin="anonymous"></script>
+    <script nomodule src="https://cdn.jsdelivr.net/npm/ionicons@7.4.0/dist/ionicons/ionicons.js" integrity="sha256-mr7eJMX3VC3F7G32mk4oWp1C6a2tlMYxUdptfT7uKI8=" crossorigin="anonymous"></script>
+  </body>
 </html>

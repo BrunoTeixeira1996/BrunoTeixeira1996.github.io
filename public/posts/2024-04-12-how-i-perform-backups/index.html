@@ -1,174 +1,354 @@
 <!DOCTYPE html>
-<html lang="en" dir="auto">
+<html lang="en"
+  x-data
+  :class="$store.darkMode.class()"
+  :data-theme="$store.darkMode.theme()">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How I Perform Backups | Bruno Blog</title>
 
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="noindex, nofollow">
-<title>How I Perform Backups | Bruno Blog</title>
-<meta name="keywords" content="Homelab">
-<meta name="description" content="Index
-
-Introduction
-Targets &amp; Destinations
-Rsync
-Prometheus &amp; Grafana
-Golang
-The Tool
-
-Introduction
-Backups are like insurance policies for your digital life. They&rsquo;re copies of your important files, stored in a safe place separate from your original data. Just as you wouldn&rsquo;t want to risk losing everything in a fire without insurance, you don&rsquo;t want to risk losing your precious photos, documents, or other files without backups.
-In this blog post, I&rsquo;ll share my personal insights and strategies for maintaining comprehensive backups, ensuring that no vital information slips through the cracks while also staying organized amidst the constant flux of data changes.">
-<meta name="author" content="">
-<link rel="canonical" href="http://localhost:1313/posts/2024-04-12-how-i-perform-backups/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.8fe10233a706bc87f2e08b3cf97b8bd4c0a80f10675a143675d59212121037c0.css" integrity="sha256-j&#43;ECM6cGvIfy4Is8&#43;XuL1MCoDxBnWhQ2ddWSEhIQN8A=" rel="preload stylesheet" as="style">
-<link rel="icon" href="http://localhost:1313/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
-<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
-<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
-<meta name="theme-color" content="#2e2e33">
-<meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/2024-04-12-how-i-perform-backups/">
-<noscript>
-    <style>
-        #theme-toggle,
-        .top-link {
-            display: none;
-        }
-
-    </style>
-    <style>
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --theme: rgb(29, 30, 32);
-                --entry: rgb(46, 46, 51);
-                --primary: rgb(218, 218, 219);
-                --secondary: rgb(155, 156, 157);
-                --tertiary: rgb(65, 66, 68);
-                --content: rgb(196, 196, 197);
-                --code-block-bg: rgb(46, 46, 51);
-                --code-bg: rgb(55, 56, 62);
-                --border: rgb(51, 51, 51);
-            }
-
-            .list {
-                background: var(--theme);
-            }
-
-            .list:not(.dark)::-webkit-scrollbar-track {
-                background: 0 0;
-            }
-
-            .list:not(.dark)::-webkit-scrollbar-thumb {
-                border-color: var(--theme);
-            }
-        }
-
-    </style>
-</noscript>
-</head>
-
-<body class="" id="top">
-<script>
-    if (localStorage.getItem("pref-theme") === "dark") {
-        document.body.classList.add('dark');
-    } else if (localStorage.getItem("pref-theme") === "light") {
-        document.body.classList.remove('dark')
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.body.classList.add('dark');
-    }
-
-</script>
-
-<header class="header">
-    <nav class="nav">
-        <div class="logo">
-            <a href="http://localhost:1313/" accesskey="h" title="Bruno Blog (Alt + H)">Bruno Blog</a>
-            <div class="logo-switches">
-                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
-                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="5"></circle>
-                        <line x1="12" y1="1" x2="12" y2="3"></line>
-                        <line x1="12" y1="21" x2="12" y2="23"></line>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                        <line x1="1" y1="12" x2="3" y2="12"></line>
-                        <line x1="21" y1="12" x2="23" y2="12"></line>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                    </svg>
-                </button>
-            </div>
-        </div>
-        <ul id="menu">
-            <li>
-                <a href="http://localhost:1313/posts/" title="Posts">
-                    <span>Posts</span>
-                </a>
-            </li>
-            <li>
-                <a href="http://localhost:1313/tags/" title="Tags">
-                    <span>Tags</span>
-                </a>
-            </li>
-            <li>
-                <a href="http://localhost:1313/search/" title="Search (Alt &#43; /)" accesskey=/>
-                    <span>Search</span>
-                </a>
-            </li>
-            <li>
-                <a href="http://localhost:1313/about/" title="About">
-                    <span>About</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
-</header>
-<main class="main">
-
-<article class="post-single">
-  <header class="post-header">
     
-    <h1 class="post-title entry-hint-parent">
-      How I Perform Backups
-    </h1>
-    <div class="post-meta"><span title='2024-04-12 00:00:00 +0000 UTC'>April 12, 2024</span>&nbsp;·&nbsp;3 min
+  
+    <link href="/favicon.ico" rel="icon" type="image/x-icon" />
+  
 
+
+<link rel="canonical" href="http://localhost:1313/posts/2024-04-12-how-i-perform-backups/" />
+
+
+
+<meta name="author" content="" />
+<meta name="description" content="Introduction Backups are like insurance policies for your digital life. They&rsquo;re copies of your important files, stored in a safe place separate from your original data. Just as you wouldn&rsquo;t want to risk losing everything in a fire without insurance, you don&rsquo;t want to risk losing your precious photos, documents, or other files without backups.
+In this blog post, I&rsquo;ll share my personal insights and strategies for maintaining comprehensive backups, ensuring that no vital information slips through the cracks while also staying organized amidst the constant flux of data changes.
+" />
+
+
+<meta name="keywords" content="Homelab">
+
+
+
+<meta name="generator" content="Hugo 0.147.0">
+
+
+<meta property="og:url" content="http://localhost:1313/posts/2024-04-12-how-i-perform-backups/">
+  <meta property="og:site_name" content="Bruno Blog">
+  <meta property="og:title" content="How I Perform Backups">
+  <meta property="og:description" content="Introduction Backups are like insurance policies for your digital life. They’re copies of your important files, stored in a safe place separate from your original data. Just as you wouldn’t want to risk losing everything in a fire without insurance, you don’t want to risk losing your precious photos, documents, or other files without backups.
+In this blog post, I’ll share my personal insights and strategies for maintaining comprehensive backups, ensuring that no vital information slips through the cracks while also staying organized amidst the constant flux of data changes.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-04-12T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-04-12T00:00:00+00:00">
+    <meta property="article:tag" content="Homelab">
+
+
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="How I Perform Backups">
+  <meta name="twitter:description" content="Introduction Backups are like insurance policies for your digital life. They’re copies of your important files, stored in a safe place separate from your original data. Just as you wouldn’t want to risk losing everything in a fire without insurance, you don’t want to risk losing your precious photos, documents, or other files without backups.
+In this blog post, I’ll share my personal insights and strategies for maintaining comprehensive backups, ensuring that no vital information slips through the cracks while also staying organized amidst the constant flux of data changes.">
+
+
+
+
+<link rel="stylesheet" href="/css/output.css" />
+
+
+
+
+    
+
+
+<style>
+  pre {
+    padding: 1em;
+    overflow: auto;
+  }
+</style>
+
+
+
+
+
+
+
+
+
+    
+
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3/dist/cdn.min.js" integrity="sha256-PtHu0lJIiSHfZeNj1nFd6wTX+Squ255SGZ/fc8seCtM=" crossorigin="anonymous"></script>
+  </head>
+
+  <body x-data="{
+    flip: false,
+  }">
+    
+    <div id="dream-global-bg"></div>
+
+    
+<nav x-data="{ isSticky: false }"
+  x-init="window.addEventListener('scroll', () => { isSticky = window.scrollY > 30 })"
+  class="sticky top-0 z-30 mt-4 lg:mt-8 py-4"
+  :class="{ 'bg-base-100 shadow-lg dark:border-b dark:border-base-content/30': isSticky }">
+
+  
+  <div class="container flex justify-between max-w-[65ch] mx-auto px-4 md:px-0">
+  
+    <section class="flex items-center gap-4">
+      <div class="avatar cursor-pointer hover:avatar-online" @click="flip = !flip" title="Flip it!">
+        <div class="h-10 rounded-full">
+          <img src="/favicon.ico" alt="Bruno Blog" />
+        </div>
+      </div>
+
+      
+      <div>
+        
+        <a href="http://localhost:1313/" class="text-lg font-semibold cursor-pointer">
+          Bruno Blog
+        </a>
+        
+        
+      </div>
+      
+    </section>
+
+    
+    
+
+    <div class="dropdown dropdown-end sm:hidden">
+      <div tabindex="0" role="button" class="btn btn-ghost btn-square" aria-label="Select an option">
+        <ion-icon name="menu" class="text-2xl"></ion-icon>
+      </div>
+      <ul tabindex="0" class="dropdown-content menu w-36 bg-base-100 rounded-box z-1 shadow-md">
+        
+
+
+
+
+
+
+
+<li>
+  <div role="link" tabindex="0" class="inline-flex items-center p-2 cursor-pointer" @click="flip = !flip" title="About">
+    <ion-icon name="information-circle"></ion-icon>About</div>
+</li>
+
+
+
+
+
+
+
+<li>
+  <a class="group inline-flex items-center p-2 cursor-pointer" href="/search" title="Search">
+    <ion-icon name="search"></ion-icon>
+    Search
+  </a>
+</li>
+
+
+
+
+
+
+
+
+
+
+
+<li>
+  <a class="inline-flex items-center p-2 cursor-pointer" href="/posts" title="Archives">
+    <ion-icon name="archive"></ion-icon>
+    Archives
+  </a>
+</li>
+
+
+
+
+
+
+
+
+
+
+
+<li>
+  <a class="inline-flex items-center p-2 cursor-pointer" href="/tags" title="All Tags">
+    <ion-icon name="pricetags"></ion-icon>
+    All Tags
+  </a>
+</li>
+
+
+
+
+
+
+      </ul>
+    </div>
+    <section class="hidden sm:flex sm:items-center sm:gap-2 md:gap-4">
+      
+
+      
+      
+
+
+
+
+<div role="link" tabindex="0" class="text-sm font-semibold cursor-pointer hover:underline" @click="flip = !flip" title="About">About</div>
+
+
+
+
+
+      
+      
+<a class="group inline-flex items-center p-2 rounded-full cursor-pointer hover:bg-primary" href="/search" title="Search">
+  <ion-icon class="group-hover:text-primary-content" name="search"></ion-icon>
+</a>
+
+
+      
+      
+
+
+
+
+
+      
+      
+<a class="group inline-flex items-center p-2 rounded-full cursor-pointer hover:bg-primary" href="/posts" title="Archives">
+  <ion-icon class="group-hover:text-primary-content" name="archive"></ion-icon>
+</a>
+
+
+      
+      
+
+
+
+
+
+      
+      
+<a class="group inline-flex items-center p-2 rounded-full cursor-pointer hover:bg-primary" href="/tags" title="All Tags">
+  <ion-icon class="group-hover:text-primary-content" name="pricetags"></ion-icon>
+</a>
+
+
+      
+
+      
+
+      
+    </section>
+  </div>
+</nav>
+
+
+    <div class="flip-container" :class="{ 'flip-it': flip }">
+      <div class="flipper">
+        <div class="front">
+          <div class="container">
+            
+<div class="lg:grid lg:grid-cols-4 gap-4 mt-4 px-4">
+  <div class="hidden lg:block">
+    
+  </div>
+
+  <div class="lg:col-span-2">
+    <article class="mx-auto prose prose-quoteless dark:prose-invert" id="dream-single-post-main" itemscope itemtype="http://schema.org/Article">
+      
+  <meta itemprop="name" content="How I Perform Backups">
+  <meta itemprop="description" content="Introduction Backups are like insurance policies for your digital life. They’re copies of your important files, stored in a safe place separate from your original data. Just as you wouldn’t want to risk losing everything in a fire without insurance, you don’t want to risk losing your precious photos, documents, or other files without backups.
+In this blog post, I’ll share my personal insights and strategies for maintaining comprehensive backups, ensuring that no vital information slips through the cracks while also staying organized amidst the constant flux of data changes.">
+  <meta itemprop="datePublished" content="2024-04-12T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2024-04-12T00:00:00+00:00">
+  <meta itemprop="wordCount" content="503">
+  <meta itemprop="keywords" content="Homelab">
+
+      <header>
+        <h1 itemprop="headline">How I Perform Backups</h1>
+        <p class="text-sm">
+          
+            Friday, Apr 12, 2024
+          
+
+          | <span>3 minute read</span>
+
+          
+          | <span>Updated at
+            
+              Friday, Apr 12, 2024
+            </span>
+          
+        </p>
+
+        
+        <div class="flex justify-between">
+          
+
+          <div class="flex items-center gap-2">
+  
+  
+
+  
+  
+  
+  
+  
+    <a class="group inline-flex items-center p-2 rounded-full cursor-pointer hover:bg-primary"
+      href="https://x.com/intent/post?text=How%20I%20Perform%20Backups&amp;url=http://localhost:1313/posts/2024-04-12-how-i-perform-backups/" target="_blank" rel="noopener noreferrer"
+      title="Share on X">
+      <ion-icon class="group-hover:text-primary-content" name="logo-x"></ion-icon>
+    </a>
+  
+    <a class="group inline-flex items-center p-2 rounded-full cursor-pointer hover:bg-primary"
+      href="https://facebook.com/sharer/sharer.php?u=http://localhost:1313/posts/2024-04-12-how-i-perform-backups/" target="_blank" rel="noopener noreferrer"
+      title="Share on Facebook">
+      <ion-icon class="group-hover:text-primary-content" name="logo-facebook"></ion-icon>
+    </a>
+  
+    <a class="group inline-flex items-center p-2 rounded-full cursor-pointer hover:bg-primary"
+      href="https://wa.me/?text=How%20I%20Perform%20Backups%20http://localhost:1313/posts/2024-04-12-how-i-perform-backups/" target="_blank" rel="noopener noreferrer"
+      title="Share on WhatsApp">
+      <ion-icon class="group-hover:text-primary-content" name="logo-whatsapp"></ion-icon>
+    </a>
+  
+
+  
+  
 </div>
-  </header> 
-  <div class="post-content"><h2 id="index">Index<a hidden class="anchor" aria-hidden="true" href="#index">#</a></h2>
-<ul>
-<li><a href="#introduction">Introduction</a></li>
-<li><a href="#targets-&amp;-destinations">Targets &amp; Destinations</a></li>
-<li><a href="#rsync">Rsync</a></li>
-<li><a href="#prometheus-&amp;-grafana">Prometheus &amp; Grafana</a></li>
-<li><a href="#golang">Golang</a></li>
-<li><a href="#the-tool">The Tool</a></li>
-</ul>
-<h1 id="introduction">Introduction<a hidden class="anchor" aria-hidden="true" href="#introduction">#</a></h1>
+
+        </div>
+      </header>
+
+      <section id="dream-single-post-content" itemprop="articleBody">
+        
+
+        <h2 id="introduction">Introduction</h2>
 <p>Backups are like insurance policies for your digital life. They&rsquo;re copies of your important files, stored in a safe place separate from your original data. Just as you wouldn&rsquo;t want to risk losing everything in a fire without insurance, you don&rsquo;t want to risk losing your precious photos, documents, or other files without backups.</p>
 <p>In this blog post, I&rsquo;ll share my personal insights and strategies for maintaining comprehensive backups, ensuring that no vital information slips through the cracks while also staying organized amidst the constant flux of data changes.</p>
-<h1 id="targets--destinations">Targets &amp; Destinations<a hidden class="anchor" aria-hidden="true" href="#targets--destinations">#</a></h1>
+<h2 id="targets--destinations">Targets &amp; Destinations</h2>
 <p>Before diving into the backup process, it&rsquo;s essential to define two key elements: the targets (backup sources) and the backup destinations.</p>
 <p>Targets encompass the data we deem critical for backup. This could include documents, photos, videos, and any other files essential to our digital lives. By identifying these targets, we ensure that no vital information is overlooked during the backup process.</p>
 <p>Next, we determine where we want to store these backups, our backup destinations. This could involve a combination of options such as cloud storage services like Google Drive or Dropbox, external hard drives, network-attached storage (NAS) devices, or even dedicated backup servers. Each option offers its advantages in terms of accessibility, redundancy, and security.</p>
-<p>In my use case I backup all files from my work laptop, <a href="https://github.com/gokrazy/gokrazy">gokrazy databases</a> and important data within LXC containers on Proxmox. This way, if there&rsquo;s a system failure, I can rebuild everything and upload the files for a quick recovery.</p>
-<h1 id="rsync">Rsync<a hidden class="anchor" aria-hidden="true" href="#rsync">#</a></h1>
+<p>In my use case I backup all files from my work laptop, <a href="https://github.com/gokrazy/gokrazy" target="_blank">gokrazy databases</a>
+ and important data within LXC containers on Proxmox. This way, if there&rsquo;s a system failure, I can rebuild everything and upload the files for a quick recovery.</p>
+<h2 id="rsync">Rsync</h2>
 <p>With targets and destinations set, it&rsquo;s time to select the backup method. Rsync emerges as a formidable choice, boasting efficient file synchronization capabilities. Its ability to perform incremental backups minimizes data transfer, making it ideal for handling large files and slow network connections.</p>
-<h1 id="prometheus--grafana">Prometheus &amp; Grafana<a hidden class="anchor" aria-hidden="true" href="#prometheus--grafana">#</a></h1>
+<h2 id="prometheus--grafana">Prometheus &amp; Grafana</h2>
 <p>Ensuring the integrity of our backup process requires meticulous inspection of file changes within specific date ranges, alongside gathering insightful metrics. To accomplish this, I&rsquo;ve opted for Prometheus and Grafana, renowned for their robust monitoring and visualization capabilities.</p>
-<h1 id="golang">Golang<a hidden class="anchor" aria-hidden="true" href="#golang">#</a></h1>
+<h2 id="golang">Golang</h2>
 <p>Golang&rsquo;s asynchronous processing capabilities make it the perfect companion for integrating data with Prometheus, ensuring seamless operation and performance optimization.</p>
-<h1 id="the-finale">The Finale<a hidden class="anchor" aria-hidden="true" href="#the-finale">#</a></h1>
-<p>Enter <a href="https://github.com/BrunoTeixeira1996/gbackup">gbackup</a>, the culmination of these efforts. This tool orchestrates the backup plan, covering essential partitions, databases, and files across various locations, ensuring data resilience.</p>
+<h2 id="the-finale">The Finale</h2>
+<p>Enter <a href="https://github.com/BrunoTeixeira1996/gbackup" target="_blank">gbackup</a>
+, the culmination of these efforts. This tool orchestrates the backup plan, covering essential partitions, databases, and files across various locations, ensuring data resilience.</p>
 <p>The current backup plan is the following:</p>
 <ul>
 <li>gokrazy perm partion (resides in gokrazy)</li>
@@ -187,95 +367,314 @@ In this blog post, I&rsquo;ll share my personal insights and strategies for main
 <li>work laptop</li>
 </ul>
 <p>For the backup locations, I utilize two distinct setups. Firstly, an external hard drive directly connected to Proxmox serves as one backup destination. Secondly, I employ an internal hard drive within the Proxmox environment as a secondary backup location. This dual setup ensures redundancy and reliability in safeguarding critical data.</p>
-<figure class="post-image">
-    <img loading="lazy" src="/gbackup/arc.png"/> 
+<figure class="post-image"><img src="/gbackup/arc.png">
 </figure>
 
-<figure class="post-image">
-    <img loading="lazy" src="/gbackup/graph.png"/> 
+<figure class="post-image"><img src="/gbackup/graph.png">
 </figure>
 
 
 
+        
+      </section>
+
+      
+      <div class="divider"></div>
+      <div class="flex flex-col md:flex-row justify-between gap-4 py-4">
+        
+        <a role="button" class="btn btn-outline h-12" href="/posts/2024-06-30-spying-on-my-dog-without-sd-card/" title="Spying on my dog without a SD Card">
+          <ion-icon name="chevron-back"></ion-icon>
+          <div class="inline-flex flex-col items-start">
+            <span class="text-base-content/60 text-xs font-normal">Previous page</span>
+            <span class="max-w-48 truncate">Spying on my dog without a SD Card</span>
+          </div>
+        </a>
+        
+
+        
+        <a role="button" class="btn btn-outline h-12" href="/posts/2023-11-06-redteaming-ep1/" title="Red Teaming EP1: C2 and Phishing Simulation">
+          <div class="inline-flex flex-col items-end">
+            <span class="text-base-content/60 text-xs font-normal">Next page</span>
+            <span class="max-w-48 truncate">Red Teaming EP1: C2 and Phishing Simulation</span>
+          </div>
+          <ion-icon name="chevron-forward"></ion-icon>
+        </a>
+        
+      </div>
+      
+
+      
+    </article>
   </div>
 
-  <footer class="post-footer">
-    <ul class="post-tags">
-      <li><a href="http://localhost:1313/tags/homelab/">Homelab</a></li>
-    </ul>
-  </footer>
-</article>
-    </main>
+  <div
+    x-data="tocHighlighter()"
+    @scroll.window="debouncedScroll"
+    class="hidden lg:flex lg:flex-col lg:items-end">
     
-<footer class="footer">
-        <span>&copy; 2025 <a href="http://localhost:1313/">Bruno Blog</a></span> · 
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#targets--destinations">Targets &amp; Destinations</a></li>
+    <li><a href="#rsync">Rsync</a></li>
+    <li><a href="#prometheus--grafana">Prometheus &amp; Grafana</a></li>
+    <li><a href="#golang">Golang</a></li>
+    <li><a href="#the-finale">The Finale</a></li>
+  </ul>
+</nav>
+    
+  </div>
+</div>
 
-    <span>
-        Powered by
-        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
-        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
-    </span>
+
+            
+<footer class="flex justify-between items-center gap-2 max-w-[65ch] mx-auto px-4 md:px-0 py-12">
+
+  <div>
+  
+  <p>
+    © 2018 - 2025 Bruno Blog
+  </p>
+  
+
+  
+  <p class="text-sm">
+    🌱
+    <span class="text-base-content/60">
+      Powered by <a class="hover:underline" href="https://gohugo.io/" target="_blank">Hugo</a> with theme
+      <a class="hover:underline" href="https://github.com/g1eny0ung/hugo-theme-dream" target="_blank">Dream</a>.</span
+    >
+  </p>
+  
+</div>
+
+  <div
+  x-data="{ icons: [
+    { name: 'sunny', status: 'n' },
+    { name: 'moon', status: 'y' },
+    { name: 'desktop', status: 'auto' }
+  ] }"
+  class="flex items-center gap-2 h-[32px] px-2 bg-base-100 border border-base-content/30 rounded-full"
+>
+  <template x-for="icon in icons">
+    <div
+      role="button"
+      tabindex="0"
+      :aria-label="'Select ' + icon.name + ' mode'"
+      class="group inline-flex justify-center items-center p-1 rounded-full cursor-pointer hover:bg-primary"
+      :class="$store.darkMode.icon() === icon.name && 'bg-primary'"
+      @click="$store.darkMode.toggle(icon.status)"
+    >
+      <ion-icon
+        :name="`${icon.name}-outline`"
+        class="group-hover:text-primary-content"
+        :class="$store.darkMode.icon() === icon.name && 'text-primary-content'"
+      >
+      </ion-icon>
+    </div>
+  </template>
+</div>
+
 </footer>
-<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
-        <path d="M12 6H0l6-6z" />
-    </svg>
-</a>
 
-<script>
-    let menu = document.getElementById('menu')
-    if (menu) {
-        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
-        menu.onscroll = function () {
-            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
-        }
-    }
+          </div>
+        </div>
+        <div class="back">
+          <div class="container">
+            
+            <div class="max-w-[65ch] mt-8 mx-auto px-4">
+  
+  
+  
+  <div>
+    <div class="mb-4 text-lg font-medium"></div>
 
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener("click", function (e) {
-            e.preventDefault();
-            var id = this.getAttribute("href").substr(1);
-            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
-                    behavior: "smooth"
-                });
-            } else {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
-            }
-            if (id === "top") {
-                history.replaceState(null, null, " ");
-            } else {
-                history.pushState(null, null, `#${id}`);
-            }
-        });
-    });
+    <div class="prose dark:prose-invert">
+      <h1 id="about-me">About me</h1>
+<p><em>My name is Bruno Teixeira and I am an Offensive Cyber Security Analyst. Focused on learning Information Security and Systems Administration. Always doing some side projects to improve my coding skills and learn new technologies on the way.</em></p>
+<h2 id="work-experience">Work Experience</h2>
+<ul>
+<li>Pentester @ <a href="https://www.pt.logicalis.com/pt-pt" target="_blank">Logicalis PT</a>
+ (Current)</li>
+<li>Pentester @ <a href="https://www.layer8.pt" target="_blank">Layer8</a>
+</li>
+<li>Offensive Cyber Security Analyst @ <a href="https://artresilia.com/" target="_blank">ArtResilia</a>
+</li>
+<li>Technical Support / Service Desk @ <a href="https://www.cgi.com/en" target="_blank">CGI</a>
+</li>
+<li>Military @ <a href="https://www.exercito.pt/pt" target="_blank">Exército Português</a>
+</li>
+</ul>
+<h2 id="education">Education</h2>
+<ul>
+<li>BsC Computer Engineering @ <a href="https://www.isec.pt" target="_blank">ISEC Coimbra</a>
+</li>
+<li>CET Network and Systems @ <a href="https://www.cinel.pt" target="_blank">CINEL Porto</a>
+</li>
+<li>IT &amp; Programming @ <a href="https://eisnt.com/" target="_blank">EISnt, High School</a>
+</li>
+</ul>
+<h2 id="work-experience-as-a-trainee">Work Experience as a Trainee</h2>
+<ul>
+<li>IT and Network department @ <a href="https://www.islagaia.pt/pt/" target="_blank">ISLA Gaia</a>
+</li>
+<li>Hardware &amp; Software Maintenance @ <a href="http://assistencia35.com/" target="_blank">Assistência 35 LDA</a>
+</li>
+<li>Hardware Maintenance @ <a href="https://www.lojasehorarios.com.pt/dotcenter-informatica-soc-unip-lda/porto/c-58637a1332cff589d8187aa3" target="_blank">DOTcenter</a>
+</li>
+</ul>
 
+    </div>
+  </div>
+  <div class="divider divider-vertical"></div>
+  
+  
+
+  
+  
+  <div class="pb-4">
+  
+    <div class="mb-4 text-lg font-medium">Social Links</div>
+
+    <ul class="menu menu-horizontal flex-wrap w-full px-0 [&_ion-icon]:text-lg">
+  
+  <li>
+    <a href="mailto:brunoalexandre3@hotmail.com" title="Email">
+      <ion-icon name="mail"></ion-icon>
+    </a>
+  </li>
+  
+
+  
+  <li>
+    <a href="https://github.com/BrunoTeixeira1996" target="_blank" title="GitHub">
+      <ion-icon name="logo-github"></ion-icon>
+    </a>
+  </li>
+  
+  <li>
+    <a href="https://x.com/zebisnaga3" target="_blank" title="X">
+      <ion-icon name="logo-x"></ion-icon>
+    </a>
+  </li>
+  
+  <li>
+    <a href="https://www.linkedin.com/in/bruno-teixeira-1553b4a1/" target="_blank" title="Linkedin">
+      <ion-icon name="logo-linkedin"></ion-icon>
+    </a>
+  </li>
+  
+</ul>
+
+  </div>
+  
+
+  
+</div>
+
+            
+
+            
+<footer class="flex justify-between items-center gap-2 max-w-[65ch] mx-auto px-4 md:px-0 py-12">
+
+  <div>
+  
+  <p>
+    © 2018 - 2025 Bruno Blog
+  </p>
+  
+
+  
+  <p class="text-sm">
+    🌱
+    <span class="text-base-content/60">
+      Powered by <a class="hover:underline" href="https://gohugo.io/" target="_blank">Hugo</a> with theme
+      <a class="hover:underline" href="https://github.com/g1eny0ung/hugo-theme-dream" target="_blank">Dream</a>.</span
+    >
+  </p>
+  
+</div>
+
+  <div
+  x-data="{ icons: [
+    { name: 'sunny', status: 'n' },
+    { name: 'moon', status: 'y' },
+    { name: 'desktop', status: 'auto' }
+  ] }"
+  class="flex items-center gap-2 h-[32px] px-2 bg-base-100 border border-base-content/30 rounded-full"
+>
+  <template x-for="icon in icons">
+    <div
+      role="button"
+      tabindex="0"
+      :aria-label="'Select ' + icon.name + ' mode'"
+      class="group inline-flex justify-center items-center p-1 rounded-full cursor-pointer hover:bg-primary"
+      :class="$store.darkMode.icon() === icon.name && 'bg-primary'"
+      @click="$store.darkMode.toggle(icon.status)"
+    >
+      <ion-icon
+        :name="`${icon.name}-outline`"
+        class="group-hover:text-primary-content"
+        :class="$store.darkMode.icon() === icon.name && 'text-primary-content'"
+      >
+      </ion-icon>
+    </div>
+  </template>
+</div>
+
+</footer>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+  window.lightTheme = "emerald"
+  window.darkTheme = "forest"
 </script>
-<script>
-    var mybutton = document.getElementById("top-link");
-    window.onscroll = function () {
-        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
-            mybutton.style.visibility = "visible";
-            mybutton.style.opacity = "1";
-        } else {
-            mybutton.style.visibility = "hidden";
-            mybutton.style.opacity = "0";
-        }
-    };
 
-</script>
-<script>
-    document.getElementById("theme-toggle").addEventListener("click", () => {
-        if (document.body.className.includes("dark")) {
-            document.body.classList.remove('dark');
-            localStorage.setItem("pref-theme", 'light');
-        } else {
-            document.body.classList.add('dark');
-            localStorage.setItem("pref-theme", 'dark');
-        }
-    })
 
-</script>
-</body>
 
+
+
+<script src="/js/main.js"></script>
+
+    
+
+
+
+
+
+
+
+<script src="/js/toc.js"></script>
+
+
+  
+    <script type="module">
+      import mediumZoom from 'https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/+esm';
+      mediumZoom('#dream-single-post-content img', {
+        background: 'oklch(var(--b1))',
+        margin: 24,
+      })
+    </script>
+  
+
+
+
+
+
+
+    
+
+    
+
+    
+
+    
+
+    <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@7.4.0/dist/ionicons/ionicons.esm.js" integrity="sha256-/IFmi82bIhdYWctu0UddSlJqpnzWm7Vh2C4CM32wF/k=" crossorigin="anonymous"></script>
+    <script nomodule src="https://cdn.jsdelivr.net/npm/ionicons@7.4.0/dist/ionicons/ionicons.js" integrity="sha256-mr7eJMX3VC3F7G32mk4oWp1C6a2tlMYxUdptfT7uKI8=" crossorigin="anonymous"></script>
+  </body>
 </html>

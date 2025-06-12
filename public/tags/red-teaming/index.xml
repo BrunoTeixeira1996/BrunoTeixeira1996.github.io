@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Red Teaming on Bruno Blog</title>
     <link>http://localhost:1313/tags/red-teaming/</link>
     <description>Recent content in Red Teaming on Bruno Blog</description>
-    <generator>Hugo -- 0.147.8</generator>
-    <language>en-us</language>
+    <generator>Hugo</generator>
+    <language>en</language>
     <lastBuildDate>Thu, 12 Jun 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://localhost:1313/tags/red-teaming/index.xml" rel="self" type="application/rss+xml" />
     <item>
@@ -13,31 +13,14 @@
       <link>http://localhost:1313/posts/2025-06-12-hash-cracking-in-the-cloud/</link>
       <pubDate>Thu, 12 Jun 2025 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/2025-06-12-hash-cracking-in-the-cloud/</guid>
-      <description>&lt;h2 id=&#34;index&#34;&gt;Index&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#introduction&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#the-initial-approach-simple-but-risky&#34;&gt;The Initial Approach: Simple, but risky&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#why-it-fell-short-security-concerns&#34;&gt;Why It Fell Short: Security Concerns&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#the-improved-architecture-securing-the-setup&#34;&gt;The Improved Architecture: Securing the Setup&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#hands-on-building-the-secure-hashtopolis-cloud-setup&#34;&gt;Hands-On: Building the Secure Hashtopolis Cloud Setup&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#installing-hashtopolis-in-docker&#34;&gt;Installing Hashtopolis in Docker&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#configuring-a-secure-cloudflare-tunnel&#34;&gt;Configuring a Secure Cloudflare Tunnel&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#customizing-the-hashtopolis-agent-for-secure-headers&#34;&gt;Customizing the Hashtopolis Agent for Secure Headers&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#publishing-a-custom-docker-image&#34;&gt;Publishing a Custom Docker image&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#deploying-scalable-agents-on-vastai&#34;&gt;Deploying Scalable Agents on Vast.ai&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#starting-the-crack&#34;&gt;Starting the crack&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#conclusion&#34;&gt;Conclusion&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
-&lt;p&gt;Cracking passwords at scale requires serious GPU power — and serious money. I quickly realized that building a dedicated machine with multiple GPUs wasn&amp;rsquo;t just expensive upfront (thanks to hardware and GPU prices), but also a constant drain due to electricity costs. Worst of all, the rig would sit idle most of the time, wasting its potential. So I started looking for a smarter, more flexible setup. That led me to &lt;a href=&#34;https://github.com/hashtopolis&#34;&gt;Hashtopolis&lt;/a&gt;, a powerful tool for distributed hash cracking; &lt;a href=&#34;https://vast.ai/&#34;&gt;Vast.ai&lt;/a&gt;, a platform offering affordable on-demand GPU instances; and &lt;a href=&#34;https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/&#34;&gt;Cloudflare Tunnel&lt;/a&gt;, which lets me expose my Hashtopolis server securely to the internet — no public IP or port forwarding needed.&lt;/p&gt;</description>
+      <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;&#xA;&lt;p&gt;Cracking passwords at scale requires serious GPU power — and serious money. I quickly realized that building a dedicated machine with multiple GPUs wasn&amp;rsquo;t just expensive upfront (thanks to hardware and GPU prices), but also a constant drain due to electricity costs. Worst of all, the rig would sit idle most of the time, wasting its potential. So I started looking for a smarter, more flexible setup. That led me to &lt;a href=&#34;https://github.com/hashtopolis&#34; target=&#34;_blank&#34;&gt;Hashtopolis&lt;/a&gt;&#xA;, a powerful tool for distributed hash cracking; &lt;a href=&#34;https://vast.ai/&#34; target=&#34;_blank&#34;&gt;Vast.ai&lt;/a&gt;&#xA;, a platform offering affordable on-demand GPU instances; and &lt;a href=&#34;https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/&#34; target=&#34;_blank&#34;&gt;Cloudflare Tunnel&lt;/a&gt;&#xA;, which lets me expose my Hashtopolis server securely to the internet — no public IP or port forwarding needed.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Red Teaming EP1: C2 and Phishing Simulation</title>
       <link>http://localhost:1313/posts/2023-11-06-redteaming-ep1/</link>
       <pubDate>Mon, 06 Nov 2023 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/2023-11-06-redteaming-ep1/</guid>
-      <description>&lt;p&gt;This is the first of three articles that will be published concerning social engineering campaigns during red teaming exercises (while I was working at ArtResilia).
-Follow this &lt;a href=&#34;https://www.artresilia.com/red-teaming-ep1-c2-and-phishing-simulation/&#34;&gt;link&lt;/a&gt; for the original blog post.&lt;/p&gt;</description>
+      <description>&lt;p&gt;This is the first of three articles that will be published concerning social engineering campaigns during red teaming exercises (while I was working at ArtResilia).&#xA;Follow this &lt;a href=&#34;https://www.artresilia.com/red-teaming-ep1-c2-and-phishing-simulation/&#34; target=&#34;_blank&#34;&gt;link&lt;/a&gt;&#xA; for the original blog post.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

@@ -2,20 +2,9 @@
 title: "Automating My UPS"
 date: 2024-10-29
 draft: false
-toc: true
 tags:
   - Homelab
 ---
-
-## Index
-
-- [Introduction](#introduction)
-- [Why](#why)
-- [Nut](#nut)
-- [Prometheus Nut exporter](#prometheus-nut-exporter)
-- [Alert Manager](#alert-manager)
-- [NutGMonitor](#nutgmonitor)
-- [Conclusion](#conclusion)
 
 ## Introduction
 
@@ -34,7 +23,7 @@ To work with the UPS I am using the [Nut](https://networkupstools.org/) (Network
 
 I first found what was my `VENDORID` by using `docker run --rm --entrypoint /bin/ls instantlinux/nut-upsd /usr/lib/nut`
 
-```
+```console
 [nutdev1]
   driver = "nutdrv_qx"
     port = "auto"
@@ -47,7 +36,7 @@ I first found what was my `VENDORID` by using `docker run --rm --entrypoint /bin
 
 With this in mind, I've followed the README.md from the github repo and configured the `Dockerfile` as shown below:
 
-```yml
+```console
 FROM alpine:3.20
 MAINTAINER Rich Braun "docker@instantlinux.net"
 ARG BUILD_DATE

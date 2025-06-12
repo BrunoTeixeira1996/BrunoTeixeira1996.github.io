@@ -2,25 +2,9 @@
 title: "Hash Cracking in The Cloud"
 date: 2025-06-12
 draft: false
-toc: true
 tags:
   - Red Teaming
 ---
-
-## Index
-
-- [Introduction](#introduction)
-- [The Initial Approach: Simple, but risky](#the-initial-approach-simple-but-risky)
-- [Why It Fell Short: Security Concerns](#why-it-fell-short-security-concerns)
-- [The Improved Architecture: Securing the Setup](#the-improved-architecture-securing-the-setup)
-- [Hands-On: Building the Secure Hashtopolis Cloud Setup](#hands-on-building-the-secure-hashtopolis-cloud-setup)
-- [Installing Hashtopolis in Docker](#installing-hashtopolis-in-docker)
-- [Configuring a Secure Cloudflare Tunnel](#configuring-a-secure-cloudflare-tunnel)
-- [Customizing the Hashtopolis Agent for Secure Headers](#customizing-the-hashtopolis-agent-for-secure-headers)
-- [Publishing a Custom Docker image](#publishing-a-custom-docker-image)
-- [Deploying Scalable Agents on Vast.ai](#deploying-scalable-agents-on-vastai)
-- [Starting the crack](#starting-the-crack)
-- [Conclusion](#conclusion)
 
 ## Introduction
 
@@ -54,7 +38,9 @@ To add an extra layer of protection, we configured the tunnel to require **two c
 
 ## Hands-On: Building the Secure Hashtopolis Cloud Setup
 
-**Note:** This guide does not cover detailed Hashtopolis installation steps. It assumes you already have a running and functional Hashtopolis server ready to go.
+>[!NOTE]
+>This guide does not cover detailed Hashtopolis installation steps. It assumes you already have a running and functional Hashtopolis server ready to go.
+
 
 **To put our second - and more secure - plan into action, we needed to go through a few setup steps.** 
 
@@ -173,7 +159,7 @@ To create a Vast.ai instance using our modified Hashtopolis agent, go to the **T
 For the **Launch Mode**, select **Interactive shell server, SSH**, which gives you control over the container once it starts.
 
 Then, in the **On-start script**, enter the following to launch the agent with the required HTTP headers and connect it to your Hashtopolis server securely:
-```
+```console
 cd htpclient
 python3 hashtopolis.zip --url  https://<YOUR DOMAIN>/api/server.php --voucher <YOUR VOUCHER> --http-headers 'CF-Access-Client-Id: REDACTED, CF-Access-Client-Secret: REDACTED'
 ```
@@ -181,8 +167,10 @@ python3 hashtopolis.zip --url  https://<YOUR DOMAIN>/api/server.php --voucher <Y
 
 ### Starting the crack
 
-Now that everything is set up, it’s time to start the cracking process.  
-**Note:** This blog post won’t cover how to upload wordlists or use Hashtopolis in depth, as it assumes you’re already familiar with those basics.
+Now that everything is set up, it’s time to start the cracking process.
+
+>[!NOTE]
+>This blog post won’t cover how to upload wordlists or use Hashtopolis in depth, as it assumes you’re already familiar with those basics.
 
 First, access your Hashtopolis server (you can SSH tunnel your VPS to access it locally via `localhost`). Then, navigate to **Lists > New Hashlist**. Here, enter a name for your hashlist, select the appropriate hash type, and upload your hashes.
 

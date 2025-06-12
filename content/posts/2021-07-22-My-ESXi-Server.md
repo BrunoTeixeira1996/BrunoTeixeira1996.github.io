@@ -2,18 +2,9 @@
 title: "My ESXi Server"
 date: 2021-08-21
 draft: false
-toc: true
 tags:
   - Homelab
 ---
-
-## Index
-
-- [Introduction](#introduction)
-- [Server Specifications](#hp-z620-specifications)
-- [Backup ESXi Host](#backup-esxi-host)
-- [Monitoring ESXi](#monitoring-esxi)
-
 
 ## Introduction
 

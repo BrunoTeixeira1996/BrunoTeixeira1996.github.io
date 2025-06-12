@@ -2,17 +2,9 @@
 title: "Using Ansible To Deploy a VM In ESXi"
 date: 2021-10-21
 draft: false
-toc: true
 tags:
   - Homelab
 ---
-
-## Index
-
-- [Introduction](#introduction)
-- [Configuration](#configuration)
-- [Create The Playbook](#create-the-playbook)
-- [Final Result](#final-result)
 
 ## Introduction
 

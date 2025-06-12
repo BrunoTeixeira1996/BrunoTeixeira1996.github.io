@@ -1,355 +1,769 @@
 <!DOCTYPE html>
-<html lang="en" dir="auto">
+<html lang="en"
+  x-data
+  :class="$store.darkMode.class()"
+  :data-theme="$store.darkMode.theme()">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>0xOPOSEC Summer Challenge 2018 | Bruno Blog</title>
 
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="noindex, nofollow">
-<title>0xOPOSEC Summer Challenge 2018 | Bruno Blog</title>
-<meta name="keywords" content="CTF">
-<meta name="description" content="&ldquo;Based in Porto, the 0xOPOSEC group was started by g33ks who are passionate about security. The meetup primary mission is to discuss and tackle upsurging security issues by leveraging the expertise and know-how of members of the group.&rdquo;
-Index
-
-Have a l00k {RECON}
-Lost in Translation {MISC}
-Crack me if you can! {REVERSE}
-We love web 2.0 {WEB}
-
-
-Recon
-Have_a_l00k
-This first challenge was all about having a l00k(literally).
-They gave an URL to work with. When I opened the page I saw a video and a button.">
-<meta name="author" content="">
-<link rel="canonical" href="http://localhost:1313/posts/2018-08-21-0xoposec/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.8fe10233a706bc87f2e08b3cf97b8bd4c0a80f10675a143675d59212121037c0.css" integrity="sha256-j&#43;ECM6cGvIfy4Is8&#43;XuL1MCoDxBnWhQ2ddWSEhIQN8A=" rel="preload stylesheet" as="style">
-<link rel="icon" href="http://localhost:1313/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
-<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
-<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
-<meta name="theme-color" content="#2e2e33">
-<meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/2018-08-21-0xoposec/">
-<noscript>
-    <style>
-        #theme-toggle,
-        .top-link {
-            display: none;
-        }
-
-    </style>
-    <style>
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --theme: rgb(29, 30, 32);
-                --entry: rgb(46, 46, 51);
-                --primary: rgb(218, 218, 219);
-                --secondary: rgb(155, 156, 157);
-                --tertiary: rgb(65, 66, 68);
-                --content: rgb(196, 196, 197);
-                --code-block-bg: rgb(46, 46, 51);
-                --code-bg: rgb(55, 56, 62);
-                --border: rgb(51, 51, 51);
-            }
-
-            .list {
-                background: var(--theme);
-            }
-
-            .list:not(.dark)::-webkit-scrollbar-track {
-                background: 0 0;
-            }
-
-            .list:not(.dark)::-webkit-scrollbar-thumb {
-                border-color: var(--theme);
-            }
-        }
-
-    </style>
-</noscript>
-</head>
-
-<body class="" id="top">
-<script>
-    if (localStorage.getItem("pref-theme") === "dark") {
-        document.body.classList.add('dark');
-    } else if (localStorage.getItem("pref-theme") === "light") {
-        document.body.classList.remove('dark')
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.body.classList.add('dark');
-    }
-
-</script>
-
-<header class="header">
-    <nav class="nav">
-        <div class="logo">
-            <a href="http://localhost:1313/" accesskey="h" title="Bruno Blog (Alt + H)">Bruno Blog</a>
-            <div class="logo-switches">
-                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
-                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="5"></circle>
-                        <line x1="12" y1="1" x2="12" y2="3"></line>
-                        <line x1="12" y1="21" x2="12" y2="23"></line>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                        <line x1="1" y1="12" x2="3" y2="12"></line>
-                        <line x1="21" y1="12" x2="23" y2="12"></line>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                    </svg>
-                </button>
-            </div>
-        </div>
-        <ul id="menu">
-            <li>
-                <a href="http://localhost:1313/posts/" title="Posts">
-                    <span>Posts</span>
-                </a>
-            </li>
-            <li>
-                <a href="http://localhost:1313/tags/" title="Tags">
-                    <span>Tags</span>
-                </a>
-            </li>
-            <li>
-                <a href="http://localhost:1313/search/" title="Search (Alt &#43; /)" accesskey=/>
-                    <span>Search</span>
-                </a>
-            </li>
-            <li>
-                <a href="http://localhost:1313/about/" title="About">
-                    <span>About</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
-</header>
-<main class="main">
-
-<article class="post-single">
-  <header class="post-header">
     
-    <h1 class="post-title entry-hint-parent">
-      0xOPOSEC Summer Challenge 2018
-    </h1>
-    <div class="post-meta"><span title='2018-08-21 00:00:00 +0000 UTC'>August 21, 2018</span>&nbsp;·&nbsp;4 min
+  
+    <link href="/favicon.ico" rel="icon" type="image/x-icon" />
+  
 
+
+<link rel="canonical" href="http://localhost:1313/posts/2018-08-21-0xoposec/" />
+
+
+
+<meta name="author" content="" />
+<meta name="description" content="&ldquo;Based in Porto, the 0xOPOSEC group was started by g33ks who are passionate about security. The meetup primary mission is to discuss and tackle upsurging security issues by leveraging the expertise and know-how of members of the group.&rdquo;
+Recon Have_a_l00k This first challenge was all about having a l00k(literally). They gave an URL to work with. When I opened the page I saw a video and a button.
+I pressed the button and the website redirected me to another page as shown below.The new page contained a video and nothing more. I noticed that the URL was diferent so maybe that would mean something.
+" />
+
+
+<meta name="keywords" content="CTF">
+
+
+
+<meta name="generator" content="Hugo 0.147.0">
+
+
+<meta property="og:url" content="http://localhost:1313/posts/2018-08-21-0xoposec/">
+  <meta property="og:site_name" content="Bruno Blog">
+  <meta property="og:title" content="0xOPOSEC Summer Challenge 2018">
+  <meta property="og:description" content="“Based in Porto, the 0xOPOSEC group was started by g33ks who are passionate about security. The meetup primary mission is to discuss and tackle upsurging security issues by leveraging the expertise and know-how of members of the group.”
+Recon Have_a_l00k This first challenge was all about having a l00k(literally). They gave an URL to work with. When I opened the page I saw a video and a button.
+I pressed the button and the website redirected me to another page as shown below.The new page contained a video and nothing more. I noticed that the URL was diferent so maybe that would mean something.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2018-08-21T00:00:00+00:00">
+    <meta property="article:modified_time" content="2018-08-21T00:00:00+00:00">
+    <meta property="article:tag" content="CTF">
+
+
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="0xOPOSEC Summer Challenge 2018">
+  <meta name="twitter:description" content="“Based in Porto, the 0xOPOSEC group was started by g33ks who are passionate about security. The meetup primary mission is to discuss and tackle upsurging security issues by leveraging the expertise and know-how of members of the group.”
+Recon Have_a_l00k This first challenge was all about having a l00k(literally). They gave an URL to work with. When I opened the page I saw a video and a button.
+I pressed the button and the website redirected me to another page as shown below.The new page contained a video and nothing more. I noticed that the URL was diferent so maybe that would mean something.">
+
+
+
+
+<link rel="stylesheet" href="/css/output.css" />
+
+
+
+
+    
+
+
+<style>
+  pre {
+    padding: 1em;
+    overflow: auto;
+  }
+</style>
+
+
+
+
+
+
+
+
+
+    
+
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3/dist/cdn.min.js" integrity="sha256-PtHu0lJIiSHfZeNj1nFd6wTX+Squ255SGZ/fc8seCtM=" crossorigin="anonymous"></script>
+  </head>
+
+  <body x-data="{
+    flip: false,
+  }">
+    
+    <div id="dream-global-bg"></div>
+
+    
+<nav x-data="{ isSticky: false }"
+  x-init="window.addEventListener('scroll', () => { isSticky = window.scrollY > 30 })"
+  class="sticky top-0 z-30 mt-4 lg:mt-8 py-4"
+  :class="{ 'bg-base-100 shadow-lg dark:border-b dark:border-base-content/30': isSticky }">
+
+  
+  <div class="container flex justify-between max-w-[65ch] mx-auto px-4 md:px-0">
+  
+    <section class="flex items-center gap-4">
+      <div class="avatar cursor-pointer hover:avatar-online" @click="flip = !flip" title="Flip it!">
+        <div class="h-10 rounded-full">
+          <img src="/favicon.ico" alt="Bruno Blog" />
+        </div>
+      </div>
+
+      
+      <div>
+        
+        <a href="http://localhost:1313/" class="text-lg font-semibold cursor-pointer">
+          Bruno Blog
+        </a>
+        
+        
+      </div>
+      
+    </section>
+
+    
+    
+
+    <div class="dropdown dropdown-end sm:hidden">
+      <div tabindex="0" role="button" class="btn btn-ghost btn-square" aria-label="Select an option">
+        <ion-icon name="menu" class="text-2xl"></ion-icon>
+      </div>
+      <ul tabindex="0" class="dropdown-content menu w-36 bg-base-100 rounded-box z-1 shadow-md">
+        
+
+
+
+
+
+
+
+<li>
+  <div role="link" tabindex="0" class="inline-flex items-center p-2 cursor-pointer" @click="flip = !flip" title="About">
+    <ion-icon name="information-circle"></ion-icon>About</div>
+</li>
+
+
+
+
+
+
+
+<li>
+  <a class="group inline-flex items-center p-2 cursor-pointer" href="/search" title="Search">
+    <ion-icon name="search"></ion-icon>
+    Search
+  </a>
+</li>
+
+
+
+
+
+
+
+
+
+
+
+<li>
+  <a class="inline-flex items-center p-2 cursor-pointer" href="/posts" title="Archives">
+    <ion-icon name="archive"></ion-icon>
+    Archives
+  </a>
+</li>
+
+
+
+
+
+
+
+
+
+
+
+<li>
+  <a class="inline-flex items-center p-2 cursor-pointer" href="/tags" title="All Tags">
+    <ion-icon name="pricetags"></ion-icon>
+    All Tags
+  </a>
+</li>
+
+
+
+
+
+
+      </ul>
+    </div>
+    <section class="hidden sm:flex sm:items-center sm:gap-2 md:gap-4">
+      
+
+      
+      
+
+
+
+
+<div role="link" tabindex="0" class="text-sm font-semibold cursor-pointer hover:underline" @click="flip = !flip" title="About">About</div>
+
+
+
+
+
+      
+      
+<a class="group inline-flex items-center p-2 rounded-full cursor-pointer hover:bg-primary" href="/search" title="Search">
+  <ion-icon class="group-hover:text-primary-content" name="search"></ion-icon>
+</a>
+
+
+      
+      
+
+
+
+
+
+      
+      
+<a class="group inline-flex items-center p-2 rounded-full cursor-pointer hover:bg-primary" href="/posts" title="Archives">
+  <ion-icon class="group-hover:text-primary-content" name="archive"></ion-icon>
+</a>
+
+
+      
+      
+
+
+
+
+
+      
+      
+<a class="group inline-flex items-center p-2 rounded-full cursor-pointer hover:bg-primary" href="/tags" title="All Tags">
+  <ion-icon class="group-hover:text-primary-content" name="pricetags"></ion-icon>
+</a>
+
+
+      
+
+      
+
+      
+    </section>
+  </div>
+</nav>
+
+
+    <div class="flip-container" :class="{ 'flip-it': flip }">
+      <div class="flipper">
+        <div class="front">
+          <div class="container">
+            
+<div class="lg:grid lg:grid-cols-4 gap-4 mt-4 px-4">
+  <div class="hidden lg:block">
+    
+  </div>
+
+  <div class="lg:col-span-2">
+    <article class="mx-auto prose prose-quoteless dark:prose-invert" id="dream-single-post-main" itemscope itemtype="http://schema.org/Article">
+      
+  <meta itemprop="name" content="0xOPOSEC Summer Challenge 2018">
+  <meta itemprop="description" content="“Based in Porto, the 0xOPOSEC group was started by g33ks who are passionate about security. The meetup primary mission is to discuss and tackle upsurging security issues by leveraging the expertise and know-how of members of the group.”
+Recon Have_a_l00k This first challenge was all about having a l00k(literally). They gave an URL to work with. When I opened the page I saw a video and a button.
+I pressed the button and the website redirected me to another page as shown below.The new page contained a video and nothing more. I noticed that the URL was diferent so maybe that would mean something.">
+  <meta itemprop="datePublished" content="2018-08-21T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2018-08-21T00:00:00+00:00">
+  <meta itemprop="wordCount" content="753">
+  <meta itemprop="keywords" content="CTF">
+
+      <header>
+        <h1 itemprop="headline">0xOPOSEC Summer Challenge 2018</h1>
+        <p class="text-sm">
+          
+            Tuesday, Aug 21, 2018
+          
+
+          | <span>4 minute read</span>
+
+          
+          | <span>Updated at
+            
+              Tuesday, Aug 21, 2018
+            </span>
+          
+        </p>
+
+        
+        <div class="flex justify-between">
+          
+
+          <div class="flex items-center gap-2">
+  
+  
+
+  
+  
+  
+  
+  
+    <a class="group inline-flex items-center p-2 rounded-full cursor-pointer hover:bg-primary"
+      href="https://x.com/intent/post?text=0xOPOSEC%20Summer%20Challenge%202018&amp;url=http://localhost:1313/posts/2018-08-21-0xoposec/" target="_blank" rel="noopener noreferrer"
+      title="Share on X">
+      <ion-icon class="group-hover:text-primary-content" name="logo-x"></ion-icon>
+    </a>
+  
+    <a class="group inline-flex items-center p-2 rounded-full cursor-pointer hover:bg-primary"
+      href="https://facebook.com/sharer/sharer.php?u=http://localhost:1313/posts/2018-08-21-0xoposec/" target="_blank" rel="noopener noreferrer"
+      title="Share on Facebook">
+      <ion-icon class="group-hover:text-primary-content" name="logo-facebook"></ion-icon>
+    </a>
+  
+    <a class="group inline-flex items-center p-2 rounded-full cursor-pointer hover:bg-primary"
+      href="https://wa.me/?text=0xOPOSEC%20Summer%20Challenge%202018%20http://localhost:1313/posts/2018-08-21-0xoposec/" target="_blank" rel="noopener noreferrer"
+      title="Share on WhatsApp">
+      <ion-icon class="group-hover:text-primary-content" name="logo-whatsapp"></ion-icon>
+    </a>
+  
+
+  
+  
 </div>
-  </header> 
-  <div class="post-content"><p>&ldquo;Based in Porto, the 0xOPOSEC group was started by g33ks who are passionate about security. The meetup primary mission is to discuss and tackle upsurging security issues by leveraging the expertise and know-how of members of the group.&rdquo;</p>
-<h2 id="index">Index<a hidden class="anchor" aria-hidden="true" href="#index">#</a></h2>
-<ul>
-<li><a href="#recon">Have a l00k {RECON}</a></li>
-<li><a href="#misc">Lost in Translation {MISC}</a></li>
-<li><a href="#reverse">Crack me if you can! {REVERSE}</a></li>
-<li><a href="#web">We love web 2.0 {WEB}</a></li>
-</ul>
-<br>
-<h2 id="recon">Recon<a hidden class="anchor" aria-hidden="true" href="#recon">#</a></h2>
-<h3 id="have_a_l00k">Have_a_l00k<a hidden class="anchor" aria-hidden="true" href="#have_a_l00k">#</a></h3>
+
+        </div>
+      </header>
+
+      <section id="dream-single-post-content" itemprop="articleBody">
+        
+
+        <p>&ldquo;Based in Porto, the 0xOPOSEC group was started by g33ks who are passionate about security. The meetup primary mission is to discuss and tackle upsurging security issues by leveraging the expertise and know-how of members of the group.&rdquo;</p>
+<h2 id="recon">Recon</h2>
+<h3 id="have_a_l00k">Have_a_l00k</h3>
 <p>This first challenge was all about having a l00k(literally).
 They gave an URL to work with. When I opened the page I saw a video and a button.</p>
-<figure class="post-image">
-    <img loading="lazy" src="/oposec_2018/saw1.png"/> 
+<figure class="post-image"><img src="/oposec_2018/saw1.png">
 </figure>
 
 <p>I pressed the button and the website redirected me to another page as shown below.The new page contained a video and nothing more. I noticed that the URL was diferent so maybe that would mean something.</p>
-<figure class="post-center-image">
-    <img loading="lazy" src="/oposec_2018/saw2.png"/> 
+<figure class="post-center-image"><img src="/oposec_2018/saw2.png">
 </figure>
 
 <p>I decided to run dirsearch and I found a git repo with some interesting content such has index. I checked all the files, but the index was the file that caught my attention.</p>
-<figure class="post-image">
-    <img loading="lazy" src="/oposec_2018/gitcmd.png"/> 
+<figure class="post-image"><img src="/oposec_2018/gitcmd.png">
 </figure>
 
-<figure class="post-image">
-    <img loading="lazy" src="/oposec_2018/git.png"/> 
+<figure class="post-image"><img src="/oposec_2018/git.png">
 </figure>
 
 <p>Next thing I did was to download index file to my Desktop. After that I used &ldquo;strings&rdquo; to see if there was anything useful for me. The result from &ldquo;strings&rdquo; is down below and shows us one page(8JUCv3fZ44.html).</p>
-<figure class="post-image">
-    <img loading="lazy" src="/oposec_2018/link.png"/> 
+<figure class="post-image"><img src="/oposec_2018/link.png">
 </figure>
 
 <p>Copied and pasted the output link and then another page with a video of Jigsaw is shown. Hmmmm but how about the flag? Well, I tried to see if there was anything in the source code, and we got our flag.</p>
-<figure class="post-image">
-    <img loading="lazy" src="/oposec_2018/flag1.png"/> 
+<figure class="post-image"><img src="/oposec_2018/flag1.png">
 </figure>
 
 <br>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#719e07">{</span>Bro_Do_you_even_git?<span style="color:#719e07">}</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#f92672">{</span>Bro_Do_you_even_git?<span style="color:#f92672">}</span>
 </span></span></code></pre></div><br>
-<h2 id="misc">Misc<a hidden class="anchor" aria-hidden="true" href="#misc">#</a></h2>
-<h3 id="lost-in-translation">Lost in Translation<a hidden class="anchor" aria-hidden="true" href="#lost-in-translation">#</a></h3>
+<h2 id="misc">Misc</h2>
+<h3 id="lost-in-translation">Lost in Translation</h3>
 <p>The second challenge was called &ldquo;Lost in Translation&rdquo;. I noticed why the title was called that way since i couldnt understand anything that was displayed in the challenge page. I see another video and some &ldquo;random&rdquo; chars.</p>
-<figure class="post-image">
-    <img loading="lazy" src="/oposec_2018/lostsaw.png"/> 
+<figure class="post-image"><img src="/oposec_2018/lostsaw.png">
 </figure>
 
 <p>I was confused, I looked everywhere and nothing &hellip; then I asked for some hints in Slack and they said &ldquo;Programming with 8 instructions can fuck your brain up&rdquo;. Copy and pasted that hint to google and the first result was &ldquo;BrainFuck&rdquo;.</p>
-<figure class="post-image">
-    <img loading="lazy" src="/oposec_2018/brainfuck.png"/> 
+<figure class="post-image"><img src="/oposec_2018/brainfuck.png">
 </figure>
 
-<p>Tricky uh? After reading about <a href="https://en.wikipedia.org/wiki/Brainfuck">BrainFuck</a> and understanding the problem, I simply used an <a href="https://www.splitbrain.org/_static/ook/">online decoder</a> and i got another flag!!!</p>
+<p>Tricky uh? After reading about <a href="https://en.wikipedia.org/wiki/Brainfuck" target="_blank">BrainFuck</a>
+ and understanding the problem, I simply used an <a href="https://www.splitbrain.org/_static/ook/" target="_blank">online decoder</a>
+ and i got another flag!!!</p>
 <br>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#719e07">{</span>Brain_F*ck_is_Beautiful<span style="color:#719e07">}</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#f92672">{</span>Brain_F*ck_is_Beautiful<span style="color:#f92672">}</span>
 </span></span></code></pre></div><br>
-<h2 id="reverse">Reverse<a hidden class="anchor" aria-hidden="true" href="#reverse">#</a></h2>
-<h3 id="crack-me-if-you-can">Crack me if you Can<a hidden class="anchor" aria-hidden="true" href="#crack-me-if-you-can">#</a></h3>
+<h2 id="reverse">Reverse</h2>
+<h3 id="crack-me-if-you-can">Crack me if you Can</h3>
 <p>Next challenge was pretty straight forward and not that hard. The page had a video, a message (threatening) and a file to crack.</p>
-<figure class="post-image">
-    <img loading="lazy" src="/oposec_2018/crackmesaw.png"/> 
+<figure class="post-image"><img src="/oposec_2018/crackmesaw.png">
 </figure>
 
-<p>I downloaded the file and checked what kind of file I was going to work on. With <a href="https://en.wikipedia.org/wiki/File_%28command%29">file</a> command i was able to see his format.</p>
-<blockquote>
-<p>file crackmeifucan</p></blockquote>
-<figure class="post-image">
-    <img loading="lazy" src="/oposec_2018/file.png"/> 
+<p>I downloaded the file and checked what kind of file I was going to work on. With <a href="https://en.wikipedia.org/wiki/File_%28command%29" target="_blank">file</a>
+ command i was able to see his format.</p>
+
+
+
+  <blockquote>
+    <p>file crackmeifucan</p>
+  </blockquote>
+
+<figure class="post-image"><img src="/oposec_2018/file.png">
 </figure>
 
 <p>I assigned runing permissions on the executable <code>(sudo chmod +x crackmeifucan)</code> to run it. The program asked a password, but I didnt knew what was that password so I just randomly typed <em>qwerty</em>. LOGIN FAILED!!! I decided to use strings command.</p>
-<blockquote>
-<p>strings crackmeifucan</p></blockquote>
-<figure class="post-image">
-    <img loading="lazy" src="/oposec_2018/executable.png"/> 
+
+
+
+  <blockquote>
+    <p>strings crackmeifucan</p>
+  </blockquote>
+
+<figure class="post-image"><img src="/oposec_2018/executable.png">
 </figure>
 
-<figure class="post-image">
-    <img loading="lazy" src="/oposec_2018/file1.png"/> 
+<figure class="post-image"><img src="/oposec_2018/file1.png">
 </figure>
 
 <p>Then I cleaned that string and the final result was <code>Rev3ngineering1sc00l</code>. I double checked the program once again and I even used bless to see if I was right. And finally another flag!!!</p>
 <br>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#719e07">{</span>RevEng_FTW<span style="color:#719e07">}</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#f92672">{</span>RevEng_FTW<span style="color:#f92672">}</span>
 </span></span></code></pre></div><br>
-<h2 id="web">Web<a hidden class="anchor" aria-hidden="true" href="#web">#</a></h2>
-<h3 id="we-love-web-20">We love Web 2.0<a hidden class="anchor" aria-hidden="true" href="#we-love-web-20">#</a></h3>
+<h2 id="web">Web</h2>
+<h3 id="we-love-web-20">We love Web 2.0</h3>
 <p>The next challenge was a Web-type challenge. They gave us a wordpress site and we had to find a way to exploit it. The site had some posts and some pictures.</p>
-<figure class="post-image">
-    <img loading="lazy" src="/oposec_2018/wordpress1.png"/> 
+<figure class="post-image"><img src="/oposec_2018/wordpress1.png">
 </figure>
 
-<p>I used dirsearch and i&rsquo;ve found some cool stuff like a directory list but it was useless because I couldn&rsquo;t extract any information from those files. Then I looked for installed plugins (since many plugins from wordpress are vulnerable) and I found <a href="https://akismet.com/wordpress/">akismet plugin</a>. I tried to exploit akismet with some XSS payloads but nothing worked. Another thing I knew was that the user for the admin was &ldquo;admin&rdquo; since I only got the <code>wrong password</code> error. Next step was to use <code>wpscan</code> and I found a <a href="https://www.exploit-db.com/exploits/4721">WordPress 2.3.1 - Charset SQL Injection Vuln (CVE-2007-6318)</a>.</p>
-<blockquote>
-<p>Most database query in WordPress uses escape() method to sanitize SQL
+<p>I used dirsearch and i&rsquo;ve found some cool stuff like a directory list but it was useless because I couldn&rsquo;t extract any information from those files. Then I looked for installed plugins (since many plugins from wordpress are vulnerable) and I found <a href="https://akismet.com/wordpress/" target="_blank">akismet plugin</a>
+. I tried to exploit akismet with some XSS payloads but nothing worked. Another thing I knew was that the user for the admin was &ldquo;admin&rdquo; since I only got the <code>wrong password</code> error. Next step was to use <code>wpscan</code> and I found a <a href="https://www.exploit-db.com/exploits/4721" target="_blank">WordPress 2.3.1 - Charset SQL Injection Vuln (CVE-2007-6318)</a>
+.</p>
+
+
+
+  <blockquote>
+    <p>Most database query in WordPress uses escape() method to sanitize SQL
 string, which is essentially filtering input via addslashes() function.
 However addslashes() fails to consider character set used in SQL string,
 and blindly inserts backslash before any single quote, regardless of
-whether such backslashes will form another valid character or not.</p></blockquote>
+whether such backslashes will form another valid character or not.</p>
+  </blockquote>
+
 <p>After that I injected the payload in the search field and the output looked like a md5 hash. Decoding the hash gave me the result: <code>P@ssw0rd123</code>. So i could finally login.</p>
-<figure class="post-image">
-    <img loading="lazy" src="/oposec_2018/payloadsql.png"/> 
+<figure class="post-image"><img src="/oposec_2018/payloadsql.png">
 </figure>
 
-<figure class="post-image">
-    <img loading="lazy" src="/oposec_2018/md5sql.png"/> 
+<figure class="post-image"><img src="/oposec_2018/md5sql.png">
 </figure>
 
 <p>Next step was to find the flag. I looked in the backoffice but I was looking in the wrong place. After googling a bit I decided that I should upload a shell. To locate the flag I used a locate comand to find any txt file in the root dir.</p>
 <p>I noticed that the first result was the flag so the next thing I did was use cat to see the content of that text file and move to another challenge.</p>
-<figure class="post-image">
-    <img loading="lazy" src="/oposec_2018/locateflag.png"/> 
+<figure class="post-image"><img src="/oposec_2018/locateflag.png">
 </figure>
 
-<figure class="post-image">
-    <img loading="lazy" src="/oposec_2018/flagwordpress.png"/> 
+<figure class="post-image"><img src="/oposec_2018/flagwordpress.png">
 </figure>
 
 <br>
-<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#719e07">{</span>AinT_Wordpress_Secure?<span style="color:#719e07">}</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#f92672">{</span>AinT_Wordpress_Secure?<span style="color:#f92672">}</span>
 </span></span></code></pre></div>
 
+        
+      </section>
+
+      
+      <div class="divider"></div>
+      <div class="flex flex-col md:flex-row justify-between gap-4 py-4">
+        
+        <a role="button" class="btn btn-outline h-12" href="/posts/2021-07-22-my-esxi-server/" title="My ESXi Server">
+          <ion-icon name="chevron-back"></ion-icon>
+          <div class="inline-flex flex-col items-start">
+            <span class="text-base-content/60 text-xs font-normal">Previous page</span>
+            <span class="max-w-48 truncate">My ESXi Server</span>
+          </div>
+        </a>
+        
+
+        
+        <div></div>
+        
+      </div>
+      
+
+      
+    </article>
   </div>
 
-  <footer class="post-footer">
-    <ul class="post-tags">
-      <li><a href="http://localhost:1313/tags/ctf/">CTF</a></li>
-    </ul>
-  </footer>
-</article>
-    </main>
+  <div
+    x-data="tocHighlighter()"
+    @scroll.window="debouncedScroll"
+    class="hidden lg:flex lg:flex-col lg:items-end">
     
-<footer class="footer">
-        <span>&copy; 2025 <a href="http://localhost:1313/">Bruno Blog</a></span> · 
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#recon">Recon</a>
+      <ul>
+        <li><a href="#have_a_l00k">Have_a_l00k</a></li>
+      </ul>
+    </li>
+    <li><a href="#misc">Misc</a>
+      <ul>
+        <li><a href="#lost-in-translation">Lost in Translation</a></li>
+      </ul>
+    </li>
+    <li><a href="#reverse">Reverse</a>
+      <ul>
+        <li><a href="#crack-me-if-you-can">Crack me if you Can</a></li>
+      </ul>
+    </li>
+    <li><a href="#web">Web</a>
+      <ul>
+        <li><a href="#we-love-web-20">We love Web 2.0</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    
+  </div>
+</div>
 
-    <span>
-        Powered by
-        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
-        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
-    </span>
+
+            
+<footer class="flex justify-between items-center gap-2 max-w-[65ch] mx-auto px-4 md:px-0 py-12">
+
+  <div>
+  
+  <p>
+    © 2018 - 2025 Bruno Blog
+  </p>
+  
+
+  
+  <p class="text-sm">
+    🌱
+    <span class="text-base-content/60">
+      Powered by <a class="hover:underline" href="https://gohugo.io/" target="_blank">Hugo</a> with theme
+      <a class="hover:underline" href="https://github.com/g1eny0ung/hugo-theme-dream" target="_blank">Dream</a>.</span
+    >
+  </p>
+  
+</div>
+
+  <div
+  x-data="{ icons: [
+    { name: 'sunny', status: 'n' },
+    { name: 'moon', status: 'y' },
+    { name: 'desktop', status: 'auto' }
+  ] }"
+  class="flex items-center gap-2 h-[32px] px-2 bg-base-100 border border-base-content/30 rounded-full"
+>
+  <template x-for="icon in icons">
+    <div
+      role="button"
+      tabindex="0"
+      :aria-label="'Select ' + icon.name + ' mode'"
+      class="group inline-flex justify-center items-center p-1 rounded-full cursor-pointer hover:bg-primary"
+      :class="$store.darkMode.icon() === icon.name && 'bg-primary'"
+      @click="$store.darkMode.toggle(icon.status)"
+    >
+      <ion-icon
+        :name="`${icon.name}-outline`"
+        class="group-hover:text-primary-content"
+        :class="$store.darkMode.icon() === icon.name && 'text-primary-content'"
+      >
+      </ion-icon>
+    </div>
+  </template>
+</div>
+
 </footer>
-<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
-        <path d="M12 6H0l6-6z" />
-    </svg>
-</a>
 
-<script>
-    let menu = document.getElementById('menu')
-    if (menu) {
-        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
-        menu.onscroll = function () {
-            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
-        }
-    }
+          </div>
+        </div>
+        <div class="back">
+          <div class="container">
+            
+            <div class="max-w-[65ch] mt-8 mx-auto px-4">
+  
+  
+  
+  <div>
+    <div class="mb-4 text-lg font-medium"></div>
 
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener("click", function (e) {
-            e.preventDefault();
-            var id = this.getAttribute("href").substr(1);
-            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
-                    behavior: "smooth"
-                });
-            } else {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
-            }
-            if (id === "top") {
-                history.replaceState(null, null, " ");
-            } else {
-                history.pushState(null, null, `#${id}`);
-            }
-        });
-    });
+    <div class="prose dark:prose-invert">
+      <h1 id="about-me">About me</h1>
+<p><em>My name is Bruno Teixeira and I am an Offensive Cyber Security Analyst. Focused on learning Information Security and Systems Administration. Always doing some side projects to improve my coding skills and learn new technologies on the way.</em></p>
+<h2 id="work-experience">Work Experience</h2>
+<ul>
+<li>Pentester @ <a href="https://www.pt.logicalis.com/pt-pt" target="_blank">Logicalis PT</a>
+ (Current)</li>
+<li>Pentester @ <a href="https://www.layer8.pt" target="_blank">Layer8</a>
+</li>
+<li>Offensive Cyber Security Analyst @ <a href="https://artresilia.com/" target="_blank">ArtResilia</a>
+</li>
+<li>Technical Support / Service Desk @ <a href="https://www.cgi.com/en" target="_blank">CGI</a>
+</li>
+<li>Military @ <a href="https://www.exercito.pt/pt" target="_blank">Exército Português</a>
+</li>
+</ul>
+<h2 id="education">Education</h2>
+<ul>
+<li>BsC Computer Engineering @ <a href="https://www.isec.pt" target="_blank">ISEC Coimbra</a>
+</li>
+<li>CET Network and Systems @ <a href="https://www.cinel.pt" target="_blank">CINEL Porto</a>
+</li>
+<li>IT &amp; Programming @ <a href="https://eisnt.com/" target="_blank">EISnt, High School</a>
+</li>
+</ul>
+<h2 id="work-experience-as-a-trainee">Work Experience as a Trainee</h2>
+<ul>
+<li>IT and Network department @ <a href="https://www.islagaia.pt/pt/" target="_blank">ISLA Gaia</a>
+</li>
+<li>Hardware &amp; Software Maintenance @ <a href="http://assistencia35.com/" target="_blank">Assistência 35 LDA</a>
+</li>
+<li>Hardware Maintenance @ <a href="https://www.lojasehorarios.com.pt/dotcenter-informatica-soc-unip-lda/porto/c-58637a1332cff589d8187aa3" target="_blank">DOTcenter</a>
+</li>
+</ul>
 
+    </div>
+  </div>
+  <div class="divider divider-vertical"></div>
+  
+  
+
+  
+  
+  <div class="pb-4">
+  
+    <div class="mb-4 text-lg font-medium">Social Links</div>
+
+    <ul class="menu menu-horizontal flex-wrap w-full px-0 [&_ion-icon]:text-lg">
+  
+  <li>
+    <a href="mailto:brunoalexandre3@hotmail.com" title="Email">
+      <ion-icon name="mail"></ion-icon>
+    </a>
+  </li>
+  
+
+  
+  <li>
+    <a href="https://github.com/BrunoTeixeira1996" target="_blank" title="GitHub">
+      <ion-icon name="logo-github"></ion-icon>
+    </a>
+  </li>
+  
+  <li>
+    <a href="https://x.com/zebisnaga3" target="_blank" title="X">
+      <ion-icon name="logo-x"></ion-icon>
+    </a>
+  </li>
+  
+  <li>
+    <a href="https://www.linkedin.com/in/bruno-teixeira-1553b4a1/" target="_blank" title="Linkedin">
+      <ion-icon name="logo-linkedin"></ion-icon>
+    </a>
+  </li>
+  
+</ul>
+
+  </div>
+  
+
+  
+</div>
+
+            
+
+            
+<footer class="flex justify-between items-center gap-2 max-w-[65ch] mx-auto px-4 md:px-0 py-12">
+
+  <div>
+  
+  <p>
+    © 2018 - 2025 Bruno Blog
+  </p>
+  
+
+  
+  <p class="text-sm">
+    🌱
+    <span class="text-base-content/60">
+      Powered by <a class="hover:underline" href="https://gohugo.io/" target="_blank">Hugo</a> with theme
+      <a class="hover:underline" href="https://github.com/g1eny0ung/hugo-theme-dream" target="_blank">Dream</a>.</span
+    >
+  </p>
+  
+</div>
+
+  <div
+  x-data="{ icons: [
+    { name: 'sunny', status: 'n' },
+    { name: 'moon', status: 'y' },
+    { name: 'desktop', status: 'auto' }
+  ] }"
+  class="flex items-center gap-2 h-[32px] px-2 bg-base-100 border border-base-content/30 rounded-full"
+>
+  <template x-for="icon in icons">
+    <div
+      role="button"
+      tabindex="0"
+      :aria-label="'Select ' + icon.name + ' mode'"
+      class="group inline-flex justify-center items-center p-1 rounded-full cursor-pointer hover:bg-primary"
+      :class="$store.darkMode.icon() === icon.name && 'bg-primary'"
+      @click="$store.darkMode.toggle(icon.status)"
+    >
+      <ion-icon
+        :name="`${icon.name}-outline`"
+        class="group-hover:text-primary-content"
+        :class="$store.darkMode.icon() === icon.name && 'text-primary-content'"
+      >
+      </ion-icon>
+    </div>
+  </template>
+</div>
+
+</footer>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+  window.lightTheme = "emerald"
+  window.darkTheme = "forest"
 </script>
-<script>
-    var mybutton = document.getElementById("top-link");
-    window.onscroll = function () {
-        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
-            mybutton.style.visibility = "visible";
-            mybutton.style.opacity = "1";
-        } else {
-            mybutton.style.visibility = "hidden";
-            mybutton.style.opacity = "0";
-        }
-    };
 
-</script>
-<script>
-    document.getElementById("theme-toggle").addEventListener("click", () => {
-        if (document.body.className.includes("dark")) {
-            document.body.classList.remove('dark');
-            localStorage.setItem("pref-theme", 'light');
-        } else {
-            document.body.classList.add('dark');
-            localStorage.setItem("pref-theme", 'dark');
-        }
-    })
 
-</script>
-</body>
 
+
+
+<script src="/js/main.js"></script>
+
+    
+
+
+
+
+
+
+
+<script src="/js/toc.js"></script>
+
+
+  
+    <script type="module">
+      import mediumZoom from 'https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/+esm';
+      mediumZoom('#dream-single-post-content img', {
+        background: 'oklch(var(--b1))',
+        margin: 24,
+      })
+    </script>
+  
+
+
+
+
+
+
+    
+
+    
+
+    
+
+    
+
+    <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@7.4.0/dist/ionicons/ionicons.esm.js" integrity="sha256-/IFmi82bIhdYWctu0UddSlJqpnzWm7Vh2C4CM32wF/k=" crossorigin="anonymous"></script>
+    <script nomodule src="https://cdn.jsdelivr.net/npm/ionicons@7.4.0/dist/ionicons/ionicons.js" integrity="sha256-mr7eJMX3VC3F7G32mk4oWp1C6a2tlMYxUdptfT7uKI8=" crossorigin="anonymous"></script>
+  </body>
 </html>
