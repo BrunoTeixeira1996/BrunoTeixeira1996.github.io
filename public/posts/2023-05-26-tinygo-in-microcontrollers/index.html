@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>TinyGo in Microcontrollers | Bruno Blog</title>
+<meta name="keywords" content="Golang">
+<meta name="description" content="Index
+
+Introduction
+TinyGo
+XIAO
+Flashing
+Reset
+Resources
+
+Introduction
+Recently (at work) I had to flash a microcontroller to simulate a keyboard. The problem was that I didn&rsquo;t knew anything about microcontrollers (still don&rsquo;t) or even how could I flash those.
+At the time I was using the Digispark microcontroller since it was cheap and it was user friendly (with an external case, the device looks like a normal usb). Then a co-worker helped me on the flashing process and for that we used Arduino IDE.">
+<meta name="author" content="">
+<link rel="canonical" href="http://localhost:1313/posts/2023-05-26-tinygo-in-microcontrollers/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.8fe10233a706bc87f2e08b3cf97b8bd4c0a80f10675a143675d59212121037c0.css" integrity="sha256-j&#43;ECM6cGvIfy4Is8&#43;XuL1MCoDxBnWhQ2ddWSEhIQN8A=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/2023-05-26-tinygo-in-microcontrollers/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="Bruno Blog (Alt + H)">Bruno Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://localhost:1313/posts/" title="Posts">
+                    <span>Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/about/" title="About">
+                    <span>About</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      TinyGo in Microcontrollers
+    </h1>
+    <div class="post-meta"><span title='2023-05-26 00:00:00 +0000 UTC'>May 26, 2023</span>&nbsp;·&nbsp;4 min
+
+</div>
+  </header> 
+  <div class="post-content"><h2 id="index">Index<a hidden class="anchor" aria-hidden="true" href="#index">#</a></h2>
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#tinygo">TinyGo</a></li>
+<li><a href="#xiao">XIAO</a></li>
+<li><a href="#flashing">Flashing</a></li>
+<li><a href="#reset">Reset</a></li>
+<li><a href="#resources">Resources</a></li>
+</ul>
+<h2 id="introduction">Introduction<a hidden class="anchor" aria-hidden="true" href="#introduction">#</a></h2>
+<p>Recently (at work) I had to flash a microcontroller to simulate a keyboard. The problem was that I didn&rsquo;t knew anything about microcontrollers (still don&rsquo;t) or even how could I flash those.</p>
+<p>At the time I was using the <a href="http://digistump.com/products/1">Digispark</a> microcontroller since it was cheap and it was user friendly (with an external case, the device looks like a normal usb). Then a co-worker helped me on the flashing process and for that we used <a href="https://www.arduino.cc/en/software">Arduino IDE</a>.</p>
+<p>This process was a bit overwhelm because I had to run multiple scripts in order to convert keyboard presses into arduino language (because I wanted to run Rubber Ducky scripts), <a href="https://null-byte.wonderhowto.com/how-to/run-usb-rubber-ducky-scripts-super-inexpensive-digispark-board-0198484/">however, the way this can be done is well documented on the internet</a>.</p>
+<p>After this, I decided to take a look at other alternatives since Arduino IDE was sometimes buggy and not user friendly at all. And with that I&rsquo;ve found <a href="https://tinygo.org/">TinyGo</a>.</p>
+<h2 id="tinygo">TinyGo<a hidden class="anchor" aria-hidden="true" href="#tinygo">#</a></h2>
+<p>Looking at the TinyGo website: <em>TinyGo brings the Go programming language to embedded systems and to the modern web by creating a new compiler based on LLVM</em>.
+Basically, you can compile and run Go code inside microcontrollers by using Tinygo.</p>
+<p>After some hours of digging in the documentation I&rsquo;ve found that <a href="https://github.com/tinygo-org/tinygo/issues/1118">they support the USB HID for some devices</a> and in order to simulate keyboard presses I needed the <a href="https://en.wikipedia.org/wiki/USB_human_interface_device_class">USB HID</a>.</p>
+<p>However, the device I had was a Digispark and according to one of the TinyGo maintainers, this device does not have USB hardware so it needs to be <a href="https://en.wikipedia.org/wiki/Bit_banging">bit-banged</a>.</p>
+<p><img alt="image" loading="lazy" src="https://github.com/BrunoTeixeira1996/go-microcontrollers/assets/12052283/a5684a13-6004-4fc7-bb5c-5f83ce42ed57"></p>
+<p>After this, I realised that I needed to choose another microcontroller (until they don&rsquo;t support Digispark).</p>
+<p>Looking at the <a href="https://github.com/tinygo-org/tinygo/releases">release notes</a> for TinyGo I&rsquo;ve found what devices they support for USB HID.</p>
+<p><img alt="image" loading="lazy" src="https://github.com/BrunoTeixeira1996/go-microcontrollers/assets/12052283/5f4a822c-2d93-43df-b21e-acf522e922f7"></p>
+<p><code>samd21</code> looked promising, so I went out and bought a <a href="https://www.seeedstudio.com/Seeeduino-XIAO-Arduino-Microcontroller-SAMD21-Cortex-M0+-p-4426.html">Seeed XIAO samd21</a>.</p>
+<h2 id="xiao">XIAO<a hidden class="anchor" aria-hidden="true" href="#xiao">#</a></h2>
+<p>XIAO SAMD21 is an ultra-small universal development board, supporting Arduino / Micropython / CircuitPython and much more.</p>
+<p>It operates up until 48MHz and it has 32KB of SRAM and 256KB of onboard flash memory.</p>
+<p>In terms of development interfaces:</p>
+<ul>
+<li>11x analog / 11x digital Pins</li>
+<li>1x I2C interface</li>
+<li>1x UART port</li>
+<li>1 SPI port</li>
+</ul>
+<p><img alt="image" loading="lazy" src="https://github.com/BrunoTeixeira1996/go-microcontrollers/assets/12052283/149517f2-9bfd-452e-bb16-645491ddd6ed"></p>
+<h2 id="flashing">Flashing<a hidden class="anchor" aria-hidden="true" href="#flashing">#</a></h2>
+<h3 id="xiao-1">XIAO<a hidden class="anchor" aria-hidden="true" href="#xiao-1">#</a></h3>
+<p>Looking at this <a href="https://github.com/tinygo-org/tinygo/issues/3639">issue</a> we can see that TinyGo flash does not work on Seeed XIAO because as recently as Dec 2022, the Seeed Studio XIAO M0 dev boards shipped with a bootloader from Nov 2019: UF2 Bootloader v3.7.0-33-g90ff611-dirty SFHWRO.</p>
+<p>Knowing this, I had to find the new MSD (Mass Storage Device). For that, I plugged the device into my computer, opened the device in my file manager and checked the files present in it.
+After getting the new MSD name, I&rsquo;ve created a new target (in <code>/usr/local/lib/tinygo/targets/xiao-new.json</code>) as shown below.</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    &#34;inherits&#34;: [&#34;atsamd21g18a&#34;],
+</span></span><span style="display:flex;"><span>    &#34;build-tags&#34;: [&#34;xiao&#34;],
+</span></span><span style="display:flex;"><span>    &#34;serial&#34;: &#34;usb&#34;,
+</span></span><span style="display:flex;"><span>    &#34;serial-port&#34;: [&#34;2886:802f&#34;],
+</span></span><span style="display:flex;"><span>    &#34;flash-1200-bps-reset&#34;: &#34;true&#34;,
+</span></span><span style="display:flex;"><span>    &#34;flash-method&#34;: &#34;msd&#34;,
+</span></span><span style="display:flex;"><span>    &#34;msd-volume-name&#34;: &#34;Seeed XIAO&#34;,
+</span></span><span style="display:flex;"><span>    &#34;msd-firmware-name&#34;: &#34;firmware.uf2&#34;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>After this, the flash command still didn&rsquo;t worked (at least for me) so in order to fix this, everytime I wanted to upload the new firmware to the microcontroller I had to compile the program and move the <code>.uf2</code> to the XIAO device</p>
+<p>The following shows an example to emulate a keyboard by opening xcalc on my device (using i3wm with dmenu).</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#719e07">package</span> main
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#719e07">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#2aa198">&#34;machine/usb/hid/keyboard&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#586e75">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#586e75">WINDOWS KEY + ENTER (opens dmenu)
+</span></span></span><span style="display:flex;"><span><span style="color:#586e75">WRITE xcalc
+</span></span></span><span style="display:flex;"><span><span style="color:#586e75">ENTER
+</span></span></span><span style="display:flex;"><span><span style="color:#586e75">*/</span>
+</span></span><span style="display:flex;"><span><span style="color:#268bd2">func</span> <span style="color:#268bd2">Openxcalc</span>() {	
+</span></span><span style="display:flex;"><span>	kb <span style="color:#719e07">:=</span> keyboard.<span style="color:#268bd2">Port</span>()
+</span></span><span style="display:flex;"><span>	runs <span style="color:#719e07">:=</span> <span style="color:#2aa198">1</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#719e07">for</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#719e07">if</span> runs <span style="color:#719e07">==</span> <span style="color:#2aa198">2</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#719e07">break</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		runs <span style="color:#719e07">+=</span><span style="color:#2aa198">1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		time.<span style="color:#268bd2">Sleep</span>(<span style="color:#2aa198">1000</span> <span style="color:#719e07">*</span> time.Millisecond)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		kb.<span style="color:#268bd2">Down</span>(keyboard.KeyModifierGUI)
+</span></span><span style="display:flex;"><span>		kb.<span style="color:#268bd2">Down</span>(keyboard.KeyEnter)
+</span></span><span style="display:flex;"><span>		kb.<span style="color:#268bd2">Release</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		time.<span style="color:#268bd2">Sleep</span>(<span style="color:#2aa198">1000</span> <span style="color:#719e07">*</span> time.Millisecond)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		kb.<span style="color:#268bd2">Write</span>([]<span style="color:#b58900">byte</span>(<span style="color:#2aa198">&#34;xcalc&#34;</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		time.<span style="color:#268bd2">Sleep</span>(<span style="color:#2aa198">1000</span> <span style="color:#719e07">*</span> time.Millisecond)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		kb.<span style="color:#268bd2">Press</span>(keyboard.KeyEnter)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ tinygo build -o firmware.uf2 -target<span style="color:#719e07">=</span>xiao-new main.go <span style="color:#719e07">&amp;&amp;</span> sudo mkdir -p /media/xiao <span style="color:#719e07">&amp;&amp;</span> sudo mount /dev/sda /media/xiao <span style="color:#719e07">&amp;&amp;</span> sudo cp firmware.uf2 /media/xiao
+</span></span></code></pre></div><p><video src="https://github.com/BrunoTeixeira1996/go-microcontrollers/assets/12052283/5649e74e-2488-4e40-81b3-76c5548bc391" controls="controls" style="max-width: 730px;"> </video></p>
+<h3 id="digispark">Digispark<a hidden class="anchor" aria-hidden="true" href="#digispark">#</a></h3>
+<p>In order to show how TinyGo works in Digispark, Ill demonstrate a flashing led in the Digispark device.</p>
+<p>For that, download the latest release of micronucleus (<a href="https://github.com/micronucleus/micronucleus/releases">https://github.com/micronucleus/micronucleus/releases</a>) and perform the following steps:</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ unzip ~/Downloads/micronucleus-cli-master-882e7b4a
+</span></span><span style="display:flex;"><span>$ sudo cp micronucleus-cli-master-882e7b4a/micronucleus /usr/local/bin/micronucleus
+</span></span><span style="display:flex;"><span>$ <span style="color:#b58900">export</span> <span style="color:#268bd2">PATH</span><span style="color:#719e07">=</span><span style="color:#268bd2">$PATH</span>:/usr/local/bin/micronucleus
+</span></span><span style="display:flex;"><span>$ tinygo flash -target<span style="color:#719e07">=</span>digispark digispark/digispark.go
+</span></span><span style="display:flex;"><span>INSERT USB STICK
+</span></span></code></pre></div><p>The following code is the flashing led provided by TinyGo.</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#719e07">package</span> main
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#719e07">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#2aa198">&#34;machine&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#586e75">// Blinking LEDs</span>
+</span></span><span style="display:flex;"><span><span style="color:#268bd2">func</span> <span style="color:#268bd2">BlinkingLEDs</span>() {
+</span></span><span style="display:flex;"><span>	led <span style="color:#719e07">:=</span> machine.LED
+</span></span><span style="display:flex;"><span>	led.<span style="color:#268bd2">Configure</span>(machine.PinConfig{Mode: machine.PinOutput})
+</span></span><span style="display:flex;"><span>	<span style="color:#719e07">for</span> {
+</span></span><span style="display:flex;"><span>		led.<span style="color:#268bd2">Low</span>()
+</span></span><span style="display:flex;"><span>	    time.<span style="color:#268bd2">Sleep</span>(<span style="color:#2aa198">1000</span> <span style="color:#719e07">*</span> time.Millisecond)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		led.<span style="color:#268bd2">High</span>()
+</span></span><span style="display:flex;"><span>	    time.<span style="color:#268bd2">Sleep</span>(<span style="color:#2aa198">1000</span> <span style="color:#719e07">*</span> time.Millisecond)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><video src="https://github.com/BrunoTeixeira1996/go-microcontrollers/assets/12052283/8eb0e0e1-4bf9-480c-a5b0-bdf5de32eda0" controls="controls" style="max-width: 730px;"> </video></p>
+<h2 id="reset">Reset<a hidden class="anchor" aria-hidden="true" href="#reset">#</a></h2>
+<p>There are two simple techniques to reset the devices, after flashing them.</p>
+<p>The first works in XIAO and the goal is to double tap the RST pins like is shown <a href="https://wiki.seeedstudio.com/Seeeduino-XIAO/#enter-bootloader-mode">here</a>.</p>
+<p>To reset the Digispark board, we can use the same <code>flash</code> command but now with an empty <code>for loop</code>.</p>
+<h2 id="resources">Resources<a hidden class="anchor" aria-hidden="true" href="#resources">#</a></h2>
+<ul>
+<li><a href="https://tinygo.org/">https://tinygo.org/</a></li>
+<li><a href="https://circuitdigest.com/article/introduction-to-bit-banging-spi-communication-in-arduino-via-bit-banging">https://circuitdigest.com/article/introduction-to-bit-banging-spi-communication-in-arduino-via-bit-banging</a></li>
+<li><a href="https://wiki.seeedstudio.com/Seeeduino-XIAO/">https://wiki.seeedstudio.com/Seeeduino-XIAO/</a></li>
+<li><a href="https://github.com/BrunoTeixeira1996/go-microcontrollers/tree/main/programs">https://github.com/BrunoTeixeira1996/go-microcontrollers/tree/main/programs</a></li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/golang/">Golang</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2025 <a href="http://localhost:1313/">Bruno Blog</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

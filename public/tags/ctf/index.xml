@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>CTF on Bruno Blog</title>
+    <link>http://localhost:1313/tags/ctf/</link>
+    <description>Recent content in CTF on Bruno Blog</description>
+    <generator>Hugo -- 0.147.8</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 21 Aug 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/ctf/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>0xOPOSEC Summer Challenge 2023</title>
+      <link>http://localhost:1313/posts/2023-08-21-0xoposec/</link>
+      <pubDate>Mon, 21 Aug 2023 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/2023-08-21-0xoposec/</guid>
+      <description>&lt;p&gt;&amp;ldquo;Based in Porto, the 0xOPOSEC group was started by g33ks who are passionate about security. The meetup primary mission is to discuss and tackle upsurging security issues by leveraging the expertise and know-how of members of the group.&amp;rdquo;&lt;/p&gt;
+&lt;h2 id=&#34;index&#34;&gt;Index&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#the-flag-dispenser&#34;&gt;The Flag Dispenser {WEB}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#recon-all-the-things&#34;&gt;Recon All The Things {WEB}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#the-poor-man-proxy&#34;&gt;The Poor Man Proxy {WEB}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#whois&#34;&gt;Whois? {WEB}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#this-looks-familiar&#34;&gt;This Looks Familiar {WEB}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#healthy&#34;&gt;Healthy {CRYPTO}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#kadabra-used-substitute&#34;&gt;Kadabra used Substitute! {CRYPTO}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#it-is-all-about-magic&#34;&gt;It Is All About Magic {CRYPTO}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#i-forgot-my-phone-number&#34;&gt;I Forgot My Phone Number {CRYPTO}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#a-different-kind-of-flag&#34;&gt;A Different Kind of Flag {MISC}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#no-one-can-read-this&#34;&gt;No One Can Read This! {MISC}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#are-you-a-good-scientist&#34;&gt;Are You a Good Scientist? {MISC}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#thirty-two&#34;&gt;Thirty-Two {TRIVIA}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#no-google&#34;&gt;No Google {TRIVIA}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#the-most-beautiful-woman-in-film&#34;&gt;The Most Beautiful Woman in Film {TRIVIA}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#java-nightmare&#34;&gt;Java Nightmare! {TRIVIA}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#conclusion&#34;&gt;Conclusion&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;br&gt;
+&lt;h2 id=&#34;web&#34;&gt;Web&lt;/h2&gt;
+&lt;h3 id=&#34;the-flag-dispenser&#34;&gt;The Flag Dispenser&lt;/h3&gt;
+&lt;p&gt;&lt;em&gt;&amp;ldquo;Your first step is to fool our Flag Dispenser into thinking you&amp;rsquo;re an admin. &lt;a href=&#34;http://flagdispenser.0d.al/&#34;&gt;http://flagdispenser.0d.al/&lt;/a&gt;
+Good luck!&amp;rdquo;&lt;/em&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>0xOPOSEC Christmas Challenge 2022</title>
+      <link>http://localhost:1313/posts/2022-12-31-0xoposec/</link>
+      <pubDate>Sat, 31 Dec 2022 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/2022-12-31-0xoposec/</guid>
+      <description>&lt;p&gt;&amp;ldquo;Based in Porto, the 0xOPOSEC group was started by g33ks who are passionate about security. The meetup primary mission is to discuss and tackle upsurging security issues by leveraging the expertise and know-how of members of the group.&amp;rdquo;&lt;/p&gt;
+&lt;h2 id=&#34;index&#34;&gt;Index&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#black-hole&#34;&gt;Black Hole {MISC}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#a-programming-language&#34;&gt;A Programming Language {MISC}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#find-the-typo&#34;&gt;Find The Typo {MISC}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#back-me-up&#34;&gt;Back Me Up! {MISC}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#867-cfr&#34;&gt;867 CFR {NETWORK}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#who-there&#34;&gt;Who&amp;rsquo;s There {NETWORK}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#my-network-is-secure&#34;&gt;My Network Is Secure! {NETWORK}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#mmm-donuts&#34;&gt;Mmmm&amp;hellip;Donuts&amp;hellip; {CRYPTO}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#lets-share&#34;&gt;Lets Share! {CRYPTO}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#the-folt&#34;&gt;The Folt {WEB}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#in-passwords-we-trust-and-in-php-we-believe&#34;&gt;In Passwords, We Trust, and in PHP, We Believe! {WEB}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#who&#34;&gt;Who? {TRIVIA}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#the-great-hack&#34;&gt;The Great Hack {TRIVIA}&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;br&gt;
+&lt;h2 id=&#34;misc&#34;&gt;Misc&lt;/h2&gt;
+&lt;h3 id=&#34;black-hole&#34;&gt;Black Hole&lt;/h3&gt;
+&lt;p&gt;&lt;em&gt;&amp;ldquo;An exception is an abnormal event or error that occurs during the execution of a program. Exceptions are typically used to handle unexpected or exceptional co
+nditions, such as runtime errors or input-output errors. When an exception occurs, it is typically represented as an object that is thrown, and it can be caug
+ht and handled by the program using a try-catch block.&amp;rdquo;&lt;/em&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>0xOPOSEC Summer Challenge 2022</title>
+      <link>http://localhost:1313/posts/2022-08-21-0xoposec/</link>
+      <pubDate>Sun, 21 Aug 2022 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/2022-08-21-0xoposec/</guid>
+      <description>&lt;p&gt;&amp;ldquo;Based in Porto, the 0xOPOSEC group was started by g33ks who are passionate about security. The meetup primary mission is to discuss and tackle upsurging security issues by leveraging the expertise and know-how of members of the group.&amp;rdquo;&lt;/p&gt;
+&lt;h2 id=&#34;index&#34;&gt;Index&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#first-recon&#34;&gt;Larapios Group Access {RECON}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#second-recon&#34;&gt;Spread Your Hacks {RECON}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#first-windows-priv-esc&#34;&gt;Big Dollar Spender {WINDOWS}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#third-recon&#34;&gt;Other Os Are People 2 {RECON}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#first-linux-priv-esc&#34;&gt;CAPtain Pwn! {LINUX}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#second-linux-priv-esc&#34;&gt;SO Cute! {LINUX}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#second-windows-priv-esc&#34;&gt;Stairway To Heaven {WINDOWS}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#conclusion&#34;&gt;Conclusion&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;br&gt;
+&lt;h2 id=&#34;first-recon&#34;&gt;First recon&lt;/h2&gt;
+&lt;h3 id=&#34;larapios-group-access&#34;&gt;Larapios Group Access&lt;/h3&gt;
+&lt;p&gt;&lt;em&gt;&amp;ldquo;Larapios Group states that they access to our core infrastructure!
+They claim that our security is lacking and have credentials to access our systems.
+Quickly, grab the access and gain access to one of the internal machines!&amp;rdquo;&lt;/em&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>0xOPOSEC 24/02/2022 Challenge</title>
+      <link>http://localhost:1313/posts/2022-02-24-0xoposec/</link>
+      <pubDate>Thu, 24 Feb 2022 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/2022-02-24-0xoposec/</guid>
+      <description>&lt;h2 id=&#34;index&#34;&gt;Index&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#description&#34;&gt;Challenge Description&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#solving&#34;&gt;Solving Challenge&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#references&#34;&gt;References&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;description&#34;&gt;Description&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;&amp;ldquo;I just got this new keyboard from Vodaphone Portugal, but it looks like something fishy is going on. Could you help me?&amp;rdquo;&lt;/em&gt;&lt;/p&gt;
+&lt;h2 id=&#34;solving&#34;&gt;Solving&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Opening the pcap file It turns out to be a USB communication capture&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img alt=&#34;image&#34; loading=&#34;lazy&#34; src=&#34;https://user-images.githubusercontent.com/12052283/154855128-2786e0c5-58ee-4db9-8d0f-c5d780989a0e.png&#34;&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;The file was small and had USB_INTERRUPT events that encode key presses&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;After a little bit of google fu, I found that the &lt;code&gt;Leftover Capture Data&lt;/code&gt; field has a series of 8 bytes strung together (the third byte is the &lt;code&gt;Usage ID for the key pressed&lt;/code&gt;)&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>0xOPOSEC Summer Challenge 2018</title>
+      <link>http://localhost:1313/posts/2018-08-21-0xoposec/</link>
+      <pubDate>Tue, 21 Aug 2018 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/2018-08-21-0xoposec/</guid>
+      <description>&lt;p&gt;&amp;ldquo;Based in Porto, the 0xOPOSEC group was started by g33ks who are passionate about security. The meetup primary mission is to discuss and tackle upsurging security issues by leveraging the expertise and know-how of members of the group.&amp;rdquo;&lt;/p&gt;
+&lt;h2 id=&#34;index&#34;&gt;Index&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#recon&#34;&gt;Have a l00k {RECON}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#misc&#34;&gt;Lost in Translation {MISC}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#reverse&#34;&gt;Crack me if you can! {REVERSE}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#web&#34;&gt;We love web 2.0 {WEB}&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;br&gt;
+&lt;h2 id=&#34;recon&#34;&gt;Recon&lt;/h2&gt;
+&lt;h3 id=&#34;have_a_l00k&#34;&gt;Have_a_l00k&lt;/h3&gt;
+&lt;p&gt;This first challenge was all about having a l00k(literally).
+They gave an URL to work with. When I opened the page I saw a video and a button.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

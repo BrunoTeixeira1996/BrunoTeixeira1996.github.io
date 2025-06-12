@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Bruno Blog</title>
+    <link>http://localhost:1313/</link>
+    <description>Recent content on Bruno Blog</description>
+    <generator>Hugo -- 0.147.8</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 12 Jun 2025 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hash Cracking in The Cloud</title>
+      <link>http://localhost:1313/posts/2025-06-12-hash-cracking-in-the-cloud/</link>
+      <pubDate>Thu, 12 Jun 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/2025-06-12-hash-cracking-in-the-cloud/</guid>
+      <description>&lt;h2 id=&#34;index&#34;&gt;Index&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#introduction&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#the-initial-approach-simple-but-risky&#34;&gt;The Initial Approach: Simple, but risky&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#why-it-fell-short-security-concerns&#34;&gt;Why It Fell Short: Security Concerns&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#the-improved-architecture-securing-the-setup&#34;&gt;The Improved Architecture: Securing the Setup&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#hands-on-building-the-secure-hashtopolis-cloud-setup&#34;&gt;Hands-On: Building the Secure Hashtopolis Cloud Setup&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#installing-hashtopolis-in-docker&#34;&gt;Installing Hashtopolis in Docker&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#configuring-a-secure-cloudflare-tunnel&#34;&gt;Configuring a Secure Cloudflare Tunnel&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#customizing-the-hashtopolis-agent-for-secure-headers&#34;&gt;Customizing the Hashtopolis Agent for Secure Headers&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#publishing-a-custom-docker-image&#34;&gt;Publishing a Custom Docker image&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#deploying-scalable-agents-on-vastai&#34;&gt;Deploying Scalable Agents on Vast.ai&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#starting-the-crack&#34;&gt;Starting the crack&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#conclusion&#34;&gt;Conclusion&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;Cracking passwords at scale requires serious GPU power — and serious money. I quickly realized that building a dedicated machine with multiple GPUs wasn&amp;rsquo;t just expensive upfront (thanks to hardware and GPU prices), but also a constant drain due to electricity costs. Worst of all, the rig would sit idle most of the time, wasting its potential. So I started looking for a smarter, more flexible setup. That led me to &lt;a href=&#34;https://github.com/hashtopolis&#34;&gt;Hashtopolis&lt;/a&gt;, a powerful tool for distributed hash cracking; &lt;a href=&#34;https://vast.ai/&#34;&gt;Vast.ai&lt;/a&gt;, a platform offering affordable on-demand GPU instances; and &lt;a href=&#34;https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/&#34;&gt;Cloudflare Tunnel&lt;/a&gt;, which lets me expose my Hashtopolis server securely to the internet — no public IP or port forwarding needed.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Automating My UPS</title>
+      <link>http://localhost:1313/posts/2024-10-29-automating-my-ups/</link>
+      <pubDate>Tue, 29 Oct 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/2024-10-29-automating-my-ups/</guid>
+      <description>&lt;h2 id=&#34;index&#34;&gt;Index&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#introduction&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#why&#34;&gt;Why&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#nut&#34;&gt;Nut&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#prometheus-nut-exporter&#34;&gt;Prometheus Nut exporter&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#alert-manager&#34;&gt;Alert Manager&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#nutgmonitor&#34;&gt;NutGMonitor&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#conclusion&#34;&gt;Conclusion&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;In an era where every second of downtime can have serious repercussions, maintaining a reliable power supply for your essential devices is crucial. Automating your UPS management not only enhances reliability but also optimizes battery usage during unexpected outages. In this post, we’ll delve into how to automate your UPS using the NUT (Network UPS Tools) framework alongside a custom Go program. This approach not only streamlines power management but also ensures your UPS batteries are used efficiently during limited power situations, safeguarding your equipment when it matters most.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>My Custom NAS</title>
+      <link>http://localhost:1313/posts/2024-10-08-my-custom-nas/</link>
+      <pubDate>Tue, 08 Oct 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/2024-10-08-my-custom-nas/</guid>
+      <description>&lt;h2 id=&#34;index&#34;&gt;Index&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#introduction&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#why&#34;&gt;Why&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#nas-components&#34;&gt;NAS Components&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#nas-configuration&#34;&gt;NAS Configuration&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#gbackupv2&#34;&gt;Gbackupv2&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#disaster-recovery&#34;&gt;Disaster recovery&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;In my last post, I began discussing the importance of having a robust and cost-effective backup solution. With data becoming more valuable than ever, finding the right balance between efficiency, reliability, and affordability is crucial. Now, it&amp;rsquo;s time to dive deeper into my thought process and the specific steps I took to build a refined backup system that ticks all these boxes.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Replace Proxmox Server</title>
+      <link>http://localhost:1313/posts/2024-08-26-replace-proxmox-server/</link>
+      <pubDate>Mon, 26 Aug 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/2024-08-26-replace-proxmox-server/</guid>
+      <description>&lt;h2 id=&#34;index&#34;&gt;Index&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#introduction&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#the-problem&#34;&gt;The problem&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#new-server&#34;&gt;New server&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#proxmox-configuration&#34;&gt;Proxmox configuration&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#Troubleshooting&#34;&gt;Troubleshooting&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#restoring&#34;&gt;Restoring&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#Future&#34;&gt;Future&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;During college, I used &lt;a href=&#34;https://brunoteixeira1996.github.io/posts/2021-07-22-my-esxi-server/&#34;&gt;ESXi&lt;/a&gt; to host some virtual machines (VMs). After graduating, I transitioned to &lt;a href=&#34;https://brunoteixeira1996.github.io/posts/2023-04-28-migrating-to-proxmox/&#34;&gt;Proxmox&lt;/a&gt;, using the same server—an old HP Z620.&lt;/p&gt;
+&lt;p&gt;I was really pleased with that setup. It had everything I needed: VMs for my pentesting lab, LXC containers for personal projects, and a fully functional backup solution.&lt;/p&gt;
+&lt;h2 id=&#34;the-problem&#34;&gt;The problem&lt;/h2&gt;
+&lt;p&gt;However, the server started failing, and by that, I mean it would shut down for no apparent reason. I tried troubleshooting everything, but the server would only run for a day before shutting down again, until eventually, it wouldn&amp;rsquo;t boot at all.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Spying on my dog without a SD Card</title>
+      <link>http://localhost:1313/posts/2024-06-30-spying-on-my-dog-without-sd-card/</link>
+      <pubDate>Tue, 11 Jun 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/2024-06-30-spying-on-my-dog-without-sd-card/</guid>
+      <description>&lt;h2 id=&#34;index&#34;&gt;Index&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#introduction&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#how&#34;&gt;How&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#the-tool&#34;&gt;The Tool&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;
+&lt;p&gt;Recently, I bought a camera to record Alex (my dog) when he is alone at home. However, after some initial research, I found that this camera only allows recording with an SD card. Additionally, when the SD card is being used for recording, I can&amp;rsquo;t use the RTSP (Real-Time Streaming Protocol).&lt;/p&gt;
+&lt;p&gt;Since I don&amp;rsquo;t want to buy multiple SD cards for the several cameras I plan to have in the future, the best solution would be to have a program that records and saves the footage to a specific location, such as an HDD, without needing an SD card.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>How I Perform Backups</title>
+      <link>http://localhost:1313/posts/2024-04-12-how-i-perform-backups/</link>
+      <pubDate>Fri, 12 Apr 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/2024-04-12-how-i-perform-backups/</guid>
+      <description>&lt;h2 id=&#34;index&#34;&gt;Index&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#introduction&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#targets-&amp;amp;-destinations&#34;&gt;Targets &amp;amp; Destinations&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#rsync&#34;&gt;Rsync&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#prometheus-&amp;amp;-grafana&#34;&gt;Prometheus &amp;amp; Grafana&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#golang&#34;&gt;Golang&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#the-tool&#34;&gt;The Tool&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;
+&lt;p&gt;Backups are like insurance policies for your digital life. They&amp;rsquo;re copies of your important files, stored in a safe place separate from your original data. Just as you wouldn&amp;rsquo;t want to risk losing everything in a fire without insurance, you don&amp;rsquo;t want to risk losing your precious photos, documents, or other files without backups.&lt;/p&gt;
+&lt;p&gt;In this blog post, I&amp;rsquo;ll share my personal insights and strategies for maintaining comprehensive backups, ensuring that no vital information slips through the cracks while also staying organized amidst the constant flux of data changes.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Red Teaming EP1: C2 and Phishing Simulation</title>
+      <link>http://localhost:1313/posts/2023-11-06-redteaming-ep1/</link>
+      <pubDate>Mon, 06 Nov 2023 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/2023-11-06-redteaming-ep1/</guid>
+      <description>&lt;p&gt;This is the first of three articles that will be published concerning social engineering campaigns during red teaming exercises (while I was working at ArtResilia).
+Follow this &lt;a href=&#34;https://www.artresilia.com/red-teaming-ep1-c2-and-phishing-simulation/&#34;&gt;link&lt;/a&gt; for the original blog post.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>0xOPOSEC Summer Challenge 2023</title>
+      <link>http://localhost:1313/posts/2023-08-21-0xoposec/</link>
+      <pubDate>Mon, 21 Aug 2023 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/2023-08-21-0xoposec/</guid>
+      <description>&lt;p&gt;&amp;ldquo;Based in Porto, the 0xOPOSEC group was started by g33ks who are passionate about security. The meetup primary mission is to discuss and tackle upsurging security issues by leveraging the expertise and know-how of members of the group.&amp;rdquo;&lt;/p&gt;
+&lt;h2 id=&#34;index&#34;&gt;Index&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#the-flag-dispenser&#34;&gt;The Flag Dispenser {WEB}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#recon-all-the-things&#34;&gt;Recon All The Things {WEB}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#the-poor-man-proxy&#34;&gt;The Poor Man Proxy {WEB}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#whois&#34;&gt;Whois? {WEB}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#this-looks-familiar&#34;&gt;This Looks Familiar {WEB}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#healthy&#34;&gt;Healthy {CRYPTO}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#kadabra-used-substitute&#34;&gt;Kadabra used Substitute! {CRYPTO}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#it-is-all-about-magic&#34;&gt;It Is All About Magic {CRYPTO}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#i-forgot-my-phone-number&#34;&gt;I Forgot My Phone Number {CRYPTO}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#a-different-kind-of-flag&#34;&gt;A Different Kind of Flag {MISC}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#no-one-can-read-this&#34;&gt;No One Can Read This! {MISC}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#are-you-a-good-scientist&#34;&gt;Are You a Good Scientist? {MISC}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#thirty-two&#34;&gt;Thirty-Two {TRIVIA}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#no-google&#34;&gt;No Google {TRIVIA}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#the-most-beautiful-woman-in-film&#34;&gt;The Most Beautiful Woman in Film {TRIVIA}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#java-nightmare&#34;&gt;Java Nightmare! {TRIVIA}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#conclusion&#34;&gt;Conclusion&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;br&gt;
+&lt;h2 id=&#34;web&#34;&gt;Web&lt;/h2&gt;
+&lt;h3 id=&#34;the-flag-dispenser&#34;&gt;The Flag Dispenser&lt;/h3&gt;
+&lt;p&gt;&lt;em&gt;&amp;ldquo;Your first step is to fool our Flag Dispenser into thinking you&amp;rsquo;re an admin. &lt;a href=&#34;http://flagdispenser.0d.al/&#34;&gt;http://flagdispenser.0d.al/&lt;/a&gt;
+Good luck!&amp;rdquo;&lt;/em&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>TinyGo in Microcontrollers</title>
+      <link>http://localhost:1313/posts/2023-05-26-tinygo-in-microcontrollers/</link>
+      <pubDate>Fri, 26 May 2023 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/2023-05-26-tinygo-in-microcontrollers/</guid>
+      <description>&lt;h2 id=&#34;index&#34;&gt;Index&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#introduction&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#tinygo&#34;&gt;TinyGo&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#xiao&#34;&gt;XIAO&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#flashing&#34;&gt;Flashing&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#reset&#34;&gt;Reset&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#resources&#34;&gt;Resources&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;Recently (at work) I had to flash a microcontroller to simulate a keyboard. The problem was that I didn&amp;rsquo;t knew anything about microcontrollers (still don&amp;rsquo;t) or even how could I flash those.&lt;/p&gt;
+&lt;p&gt;At the time I was using the &lt;a href=&#34;http://digistump.com/products/1&#34;&gt;Digispark&lt;/a&gt; microcontroller since it was cheap and it was user friendly (with an external case, the device looks like a normal usb). Then a co-worker helped me on the flashing process and for that we used &lt;a href=&#34;https://www.arduino.cc/en/software&#34;&gt;Arduino IDE&lt;/a&gt;.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>About</title>
+      <link>http://localhost:1313/about/</link>
+      <pubDate>Fri, 28 Apr 2023 16:02:39 +0100</pubDate>
+      <guid>http://localhost:1313/about/</guid>
+      <description>&lt;h1 id=&#34;about-me&#34;&gt;About me&lt;/h1&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;p&gt;&lt;em&gt;My name is Bruno Teixeira and I am an Offensive Cyber Security Analyst. Focused on learning Information Security and Systems Administration. Always doing some side projects to improve my coding skills and learn new technologies on the way.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;h2 id=&#34;work-experience&#34;&gt;Work Experience&lt;/h2&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Pentester @ &lt;a href=&#34;https://www.layer8.pt&#34;&gt;Layer8&lt;/a&gt; (Current)&lt;/li&gt;
+&lt;li&gt;Offensive Cyber Security Analyst @ &lt;a href=&#34;https://artresilia.com/&#34;&gt;ArtResilia&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Technical Support / Service Desk @ &lt;a href=&#34;https://www.cgi.com/en&#34;&gt;CGI&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Military @ &lt;a href=&#34;https://www.exercito.pt/pt&#34;&gt;Exército Português&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;h2 id=&#34;education&#34;&gt;Education&lt;/h2&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;BsC Computer Engineering @ &lt;a href=&#34;https://www.isec.pt&#34;&gt;ISEC Coimbra&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;CET Network and Systems @ &lt;a href=&#34;https://www.cinel.pt&#34;&gt;CINEL Porto&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;IT &amp;amp; Programming @ &lt;a href=&#34;https://eisnt.com/&#34;&gt;EISnt, High School&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt; &lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Migrating from ESXi to Proxmox</title>
+      <link>http://localhost:1313/posts/2023-04-28-migrating-to-proxmox/</link>
+      <pubDate>Fri, 28 Apr 2023 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/2023-04-28-migrating-to-proxmox/</guid>
+      <description>&lt;h2 id=&#34;index&#34;&gt;Index&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#introduction&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#zfs-pool&#34;&gt;ZFS Pool&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#content&#34;&gt;Content&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#resources&#34;&gt;Resources&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://brunoteixeira1996.github.io/posts/2021-07-22-my-esxi-server/&#34;&gt;During college I used ESXi to host a few VM&amp;rsquo;s&lt;/a&gt; because I had a low end laptop that was not able to handle multiple VM&amp;rsquo;s turned on.
+After finishing college I decided to move to Proxmox as I wanted to persue the open source route.&lt;/p&gt;
+&lt;p&gt;To be able to acomplish this I gathered two HDD drives (500 GB each) and two SSD (250 GB each).
+The plan was simple, I would use a ZFS pool (Raid 1) for the two HDD drives and another ZFS pool (Raid 1) for the SSDs using HDDs as data storage and SSDs to run the VMs&amp;rsquo; operating systems.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>0xOPOSEC Christmas Challenge 2022</title>
+      <link>http://localhost:1313/posts/2022-12-31-0xoposec/</link>
+      <pubDate>Sat, 31 Dec 2022 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/2022-12-31-0xoposec/</guid>
+      <description>&lt;p&gt;&amp;ldquo;Based in Porto, the 0xOPOSEC group was started by g33ks who are passionate about security. The meetup primary mission is to discuss and tackle upsurging security issues by leveraging the expertise and know-how of members of the group.&amp;rdquo;&lt;/p&gt;
+&lt;h2 id=&#34;index&#34;&gt;Index&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#black-hole&#34;&gt;Black Hole {MISC}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#a-programming-language&#34;&gt;A Programming Language {MISC}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#find-the-typo&#34;&gt;Find The Typo {MISC}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#back-me-up&#34;&gt;Back Me Up! {MISC}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#867-cfr&#34;&gt;867 CFR {NETWORK}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#who-there&#34;&gt;Who&amp;rsquo;s There {NETWORK}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#my-network-is-secure&#34;&gt;My Network Is Secure! {NETWORK}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#mmm-donuts&#34;&gt;Mmmm&amp;hellip;Donuts&amp;hellip; {CRYPTO}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#lets-share&#34;&gt;Lets Share! {CRYPTO}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#the-folt&#34;&gt;The Folt {WEB}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#in-passwords-we-trust-and-in-php-we-believe&#34;&gt;In Passwords, We Trust, and in PHP, We Believe! {WEB}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#who&#34;&gt;Who? {TRIVIA}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#the-great-hack&#34;&gt;The Great Hack {TRIVIA}&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;br&gt;
+&lt;h2 id=&#34;misc&#34;&gt;Misc&lt;/h2&gt;
+&lt;h3 id=&#34;black-hole&#34;&gt;Black Hole&lt;/h3&gt;
+&lt;p&gt;&lt;em&gt;&amp;ldquo;An exception is an abnormal event or error that occurs during the execution of a program. Exceptions are typically used to handle unexpected or exceptional co
+nditions, such as runtime errors or input-output errors. When an exception occurs, it is typically represented as an object that is thrown, and it can be caug
+ht and handled by the program using a try-catch block.&amp;rdquo;&lt;/em&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Load Balancing On Webservers with HAProxy and KeepAlived</title>
+      <link>http://localhost:1313/posts/2022-01-01-loadbalancing-on-webservers-with-haproxy-and-keepalived/</link>
+      <pubDate>Fri, 21 Oct 2022 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/2022-01-01-loadbalancing-on-webservers-with-haproxy-and-keepalived/</guid>
+      <description>&lt;h2 id=&#34;index&#34;&gt;Index&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#introduction&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#presentation&#34;&gt;Presentation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#resources&#34;&gt;Resources&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;This presentation is about load balancers and how they are important to new infrastructures. The aim here is to learn more about some network protocols (like VRRP) and how can we maximize the uptime when dealing with webservers. Note that this presentation is in Portuguese.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;presentation&#34;&gt;Presentation&lt;/h2&gt;
+&lt;style&gt;
+.responsive-wrap iframe{ max-width: 100%;}
+&lt;/style&gt;
+&lt;div class=&#34;responsive-wrap&#34;&gt;
+&lt;iframe src=&#34;https://docs.google.com/presentation/d/e/2PACX-1vR6AtBQHBWOoPTlr4cG39Av3VwRF9ozMdTb0MeSUe01BuyvW93ejajwG6gMgDcAyA/embed?start=false&amp;loop=false&amp;delayms=3000&#34; frameborder=&#34;0&#34; width=&#34;960&#34; height=&#34;569&#34; allowfullscreen=&#34;true&#34; mozallowfullscreen=&#34;true&#34; webkitallowfullscreen=&#34;true&#34;&gt;&lt;/iframe&gt;
+&lt;/div&gt;
+&lt;h2 id=&#34;resources&#34;&gt;Resources&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;Note that these resources are in portuguese&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/BrunoTeixeira1996/Apontamentos-ISEC/tree/master/3%C2%BAAno/DD/TP/DD-2122-BrunoTeixeira-2019100036/ListaDeComprasApp&#34;&gt;Web application&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/BrunoTeixeira1996/Apontamentos-ISEC/tree/master/3%C2%BAAno/DD/TP/DD-2122-BrunoTeixeira-2019100036/base_de_dados&#34;&gt;DB&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/BrunoTeixeira1996/Apontamentos-ISEC/blob/master/3%C2%BAAno/DD/TP/DD-2122-BrunoTeixeira-2019100036/relatorio.pdf&#34;&gt;Report&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</description>
+    </item>
+    <item>
+      <title>0xOPOSEC Summer Challenge 2022</title>
+      <link>http://localhost:1313/posts/2022-08-21-0xoposec/</link>
+      <pubDate>Sun, 21 Aug 2022 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/2022-08-21-0xoposec/</guid>
+      <description>&lt;p&gt;&amp;ldquo;Based in Porto, the 0xOPOSEC group was started by g33ks who are passionate about security. The meetup primary mission is to discuss and tackle upsurging security issues by leveraging the expertise and know-how of members of the group.&amp;rdquo;&lt;/p&gt;
+&lt;h2 id=&#34;index&#34;&gt;Index&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#first-recon&#34;&gt;Larapios Group Access {RECON}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#second-recon&#34;&gt;Spread Your Hacks {RECON}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#first-windows-priv-esc&#34;&gt;Big Dollar Spender {WINDOWS}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#third-recon&#34;&gt;Other Os Are People 2 {RECON}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#first-linux-priv-esc&#34;&gt;CAPtain Pwn! {LINUX}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#second-linux-priv-esc&#34;&gt;SO Cute! {LINUX}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#second-windows-priv-esc&#34;&gt;Stairway To Heaven {WINDOWS}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#conclusion&#34;&gt;Conclusion&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;br&gt;
+&lt;h2 id=&#34;first-recon&#34;&gt;First recon&lt;/h2&gt;
+&lt;h3 id=&#34;larapios-group-access&#34;&gt;Larapios Group Access&lt;/h3&gt;
+&lt;p&gt;&lt;em&gt;&amp;ldquo;Larapios Group states that they access to our core infrastructure!
+They claim that our security is lacking and have credentials to access our systems.
+Quickly, grab the access and gain access to one of the internal machines!&amp;rdquo;&lt;/em&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>0xOPOSEC 24/02/2022 Challenge</title>
+      <link>http://localhost:1313/posts/2022-02-24-0xoposec/</link>
+      <pubDate>Thu, 24 Feb 2022 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/2022-02-24-0xoposec/</guid>
+      <description>&lt;h2 id=&#34;index&#34;&gt;Index&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#description&#34;&gt;Challenge Description&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#solving&#34;&gt;Solving Challenge&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#references&#34;&gt;References&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;description&#34;&gt;Description&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;&amp;ldquo;I just got this new keyboard from Vodaphone Portugal, but it looks like something fishy is going on. Could you help me?&amp;rdquo;&lt;/em&gt;&lt;/p&gt;
+&lt;h2 id=&#34;solving&#34;&gt;Solving&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Opening the pcap file It turns out to be a USB communication capture&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img alt=&#34;image&#34; loading=&#34;lazy&#34; src=&#34;https://user-images.githubusercontent.com/12052283/154855128-2786e0c5-58ee-4db9-8d0f-c5d780989a0e.png&#34;&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;The file was small and had USB_INTERRUPT events that encode key presses&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;After a little bit of google fu, I found that the &lt;code&gt;Leftover Capture Data&lt;/code&gt; field has a series of 8 bytes strung together (the third byte is the &lt;code&gt;Usage ID for the key pressed&lt;/code&gt;)&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Using Ansible To Deploy a VM In ESXi</title>
+      <link>http://localhost:1313/posts/2021-07-29-using-ansible-to-deploy-vm-in-esxi/</link>
+      <pubDate>Thu, 21 Oct 2021 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/2021-07-29-using-ansible-to-deploy-vm-in-esxi/</guid>
+      <description>&lt;h2 id=&#34;index&#34;&gt;Index&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#introduction&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#configuration&#34;&gt;Configuration&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#create-the-playbook&#34;&gt;Create The Playbook&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#final-result&#34;&gt;Final Result&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;After &lt;a href=&#34;https://brunoteixeira1996.github.io/publications/2021-07-22-My-ESXi-Server.html&#34;&gt;configuring ESXi&lt;/a&gt; and deploying some virtual machines, I felt the need to automate the process of creating VMs since most of the times I need to spin up a clean machine just for testing some stuff and making the same process over and over again is time consuming and boring.&lt;/p&gt;
+&lt;p&gt;This is why I took some time to learn &lt;a href=&#34;https://www.ansible.com/&#34;&gt;Ansible&lt;/a&gt;, so I could just create a &lt;a href=&#34;https://docs.ansible.com/ansible/latest/user_guide/playbooks.html&#34;&gt;playbook&lt;/a&gt; and the VM would be up and running.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>My ESXi Server</title>
+      <link>http://localhost:1313/posts/2021-07-22-my-esxi-server/</link>
+      <pubDate>Sat, 21 Aug 2021 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/2021-07-22-my-esxi-server/</guid>
+      <description>&lt;h2 id=&#34;index&#34;&gt;Index&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#introduction&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#hp-z620-specifications&#34;&gt;Server Specifications&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#backup-esxi-host&#34;&gt;Backup ESXi Host&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#monitoring-esxi&#34;&gt;Monitoring ESXi&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;Since I joined college I had a need to have more than one operating system available for some classes so I had a few options.&lt;/p&gt;
+&lt;p&gt;First I could simply run &lt;a href=&#34;https://www.virtualbox.org/&#34;&gt;Oracle VM VirtualBox&lt;/a&gt; or &lt;a href=&#34;https://www.vmware.com/products/workstation-player.html&#34;&gt;VMware Workstation Player&lt;/a&gt;.
+This would work but since I have a ThinkPad X1 Carbon Gen5, it wouldn&amp;rsquo;t handle every ram and cpu usage from the VMs.&lt;/p&gt;
+&lt;p&gt;The second option would be to buy a new laptop but i didn&amp;rsquo;t want to overuse it.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>0xOPOSEC Summer Challenge 2018</title>
+      <link>http://localhost:1313/posts/2018-08-21-0xoposec/</link>
+      <pubDate>Tue, 21 Aug 2018 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/2018-08-21-0xoposec/</guid>
+      <description>&lt;p&gt;&amp;ldquo;Based in Porto, the 0xOPOSEC group was started by g33ks who are passionate about security. The meetup primary mission is to discuss and tackle upsurging security issues by leveraging the expertise and know-how of members of the group.&amp;rdquo;&lt;/p&gt;
+&lt;h2 id=&#34;index&#34;&gt;Index&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#recon&#34;&gt;Have a l00k {RECON}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#misc&#34;&gt;Lost in Translation {MISC}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#reverse&#34;&gt;Crack me if you can! {REVERSE}&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#web&#34;&gt;We love web 2.0 {WEB}&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;br&gt;
+&lt;h2 id=&#34;recon&#34;&gt;Recon&lt;/h2&gt;
+&lt;h3 id=&#34;have_a_l00k&#34;&gt;Have_a_l00k&lt;/h3&gt;
+&lt;p&gt;This first challenge was all about having a l00k(literally).
+They gave an URL to work with. When I opened the page I saw a video and a button.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

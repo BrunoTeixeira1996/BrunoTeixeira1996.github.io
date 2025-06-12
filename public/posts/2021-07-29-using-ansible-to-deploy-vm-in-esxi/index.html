@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>Using Ansible To Deploy a VM In ESXi | Bruno Blog</title>
+<meta name="keywords" content="Homelab">
+<meta name="description" content="Index
+
+Introduction
+Configuration
+Create The Playbook
+Final Result
+
+Introduction
+After configuring ESXi and deploying some virtual machines, I felt the need to automate the process of creating VMs since most of the times I need to spin up a clean machine just for testing some stuff and making the same process over and over again is time consuming and boring.
+This is why I took some time to learn Ansible, so I could just create a playbook and the VM would be up and running.">
+<meta name="author" content="">
+<link rel="canonical" href="http://localhost:1313/posts/2021-07-29-using-ansible-to-deploy-vm-in-esxi/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.8fe10233a706bc87f2e08b3cf97b8bd4c0a80f10675a143675d59212121037c0.css" integrity="sha256-j&#43;ECM6cGvIfy4Is8&#43;XuL1MCoDxBnWhQ2ddWSEhIQN8A=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/2021-07-29-using-ansible-to-deploy-vm-in-esxi/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="Bruno Blog (Alt + H)">Bruno Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://localhost:1313/posts/" title="Posts">
+                    <span>Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/about/" title="About">
+                    <span>About</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      Using Ansible To Deploy a VM In ESXi
+    </h1>
+    <div class="post-meta"><span title='2021-10-21 00:00:00 +0000 UTC'>October 21, 2021</span>&nbsp;·&nbsp;4 min
+
+</div>
+  </header> 
+  <div class="post-content"><h2 id="index">Index<a hidden class="anchor" aria-hidden="true" href="#index">#</a></h2>
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#configuration">Configuration</a></li>
+<li><a href="#create-the-playbook">Create The Playbook</a></li>
+<li><a href="#final-result">Final Result</a></li>
+</ul>
+<h2 id="introduction">Introduction<a hidden class="anchor" aria-hidden="true" href="#introduction">#</a></h2>
+<p>After <a href="https://brunoteixeira1996.github.io/publications/2021-07-22-My-ESXi-Server.html">configuring ESXi</a> and deploying some virtual machines, I felt the need to automate the process of creating VMs since most of the times I need to spin up a clean machine just for testing some stuff and making the same process over and over again is time consuming and boring.</p>
+<p>This is why I took some time to learn <a href="https://www.ansible.com/">Ansible</a>, so I could just create a <a href="https://docs.ansible.com/ansible/latest/user_guide/playbooks.html">playbook</a> and the VM would be up and running.</p>
+<p>After some time and a lot of googling I found that since I am using ESXi free version I had to use an <a href="https://www.lifewire.com/iso-file-2625923">iso</a> file instead of a <a href="https://geek-university.com/vmware-esxi/what-is-a-virtual-machine-template/">template</a> for the VM creation. This minor detail was really important because using the template would never work without a <a href="https://www.vmware.com/products/vcenter-server.html">vCenter</a> instance.</p>
+<p>So the plan was to have an iso file in a <a href="https://geek-university.com/vmware-esxi/what-is-a-datastore/">datastore</a> (in this example I will be using Ubuntu OS), configure ESXi host and a VM that runs Ansible.</p>
+<p>For this to work the VM has to be running Ansible &gt; 2.10 since previous versions don&rsquo;t support SATA.</p>
+<h2 id="configuration">Configuration<a hidden class="anchor" aria-hidden="true" href="#configuration">#</a></h2>
+<h3 id="configure-esxi">Configure ESXi<a hidden class="anchor" aria-hidden="true" href="#configure-esxi">#</a></h3>
+<p>In the ESXi server the only thing I did was, reconfigure ssh to be able to root login, authenticate with a public key and disable the password authentication method. For that I edited the <strong>/etc/ssh/sshd_config</strong> file by adding the following commands:</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>PermitRootLogin yes
+</span></span><span style="display:flex;"><span>PubkeyAuthentication yes
+</span></span><span style="display:flex;"><span>PasswordAuthentication no
+</span></span></code></pre></div><h3 id="configure-host-machine">Configure Host Machine<a hidden class="anchor" aria-hidden="true" href="#configure-host-machine">#</a></h3>
+<p>The host machine used (this is where Ansible is running) was Ubuntu 20.04.2 LTS for the sake of simplicity.</p>
+<p>Here I created a ssh key to authenticate in ESXI without the need of a password in the ssh connection.</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh-keygen -t rsa
+</span></span><span style="display:flex;"><span>cat ~/.ssh/id_rsa.pub | ssh ESXI_USER@ESXI_IP <span style="color:#2aa198">&#39;cat &gt;&gt; /etc/ssh/keys-root/authorized_keys&#39;</span>
+</span></span></code></pre></div><p>Next step was to install Ansible and make sure the version was &gt; 2.10.</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pip3 install ansible-core
+</span></span><span style="display:flex;"><span>ansible --version
+</span></span></code></pre></div><p>Before creating the playbook I had to configure some values in an <strong>hosts</strong> file. In this way Ansible knows what is the host used for the playbook and what configurations needs in run time. For that I had to create the <strong>hosts</strong> file inside <strong>/etc/ansible/</strong> directory with the following content:</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#719e07">[</span>esxi<span style="color:#719e07">]</span>
+</span></span><span style="display:flex;"><span>&lt;ip of the esxi host&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#719e07">[</span>esxi:vars<span style="color:#719e07">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#268bd2">ansible_python_interpreter</span><span style="color:#719e07">=</span>/usr/bin/python3
+</span></span><span style="display:flex;"><span><span style="color:#268bd2">ansible_connection</span><span style="color:#719e07">=</span>ssh
+</span></span><span style="display:flex;"><span><span style="color:#268bd2">ansible_user</span><span style="color:#719e07">=</span>root
+</span></span><span style="display:flex;"><span><span style="color:#268bd2">ansible_ssh_private_key_file</span><span style="color:#719e07">=</span>~/.ssh/id_rsa
+</span></span></code></pre></div><h2 id="create-the-playbook">Create The Playbook<a hidden class="anchor" aria-hidden="true" href="#create-the-playbook">#</a></h2>
+<p><em>&ldquo;Playbooks are expressed in YAML format with a minimum of syntax. A playbook is composed of one or more ‘plays’ in an ordered list. The terms ‘playbook’ and ‘play’ are sports analogies. Each play executes part of the overall goal of the playbook, running one or more tasks. Each task calls an Ansible module.&rdquo;</em></p>
+<p>To interact with an ESXi instance I used the <a href="https://docs.ansible.com/ansible/latest/collections/community/vmware/vmware_guest_module.html"><code>community.vmware.vmware_guest</code></a> module that is used to manage virtual machines in vCenter. Reading the documentation is pretty straight forward how the module works.</p>
+<p>First I specified the host (<strong>localhost</strong> because it&rsquo;s already specified in the <strong>hosts</strong> file), then I needed to say what task I was going to run (<strong>vmware_guest</strong> module). Inside that task I identified every attribute I wanted to be present in the virtual machine. Finally I <strong>delegated</strong> the task to localhost and <strong>registered</strong> as <strong>deploy_vm</strong>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span>- <span style="color:#268bd2">hosts</span>: localhost
+</span></span><span style="display:flex;"><span>  <span style="color:#268bd2">gather_facts</span>: <span style="color:#cb4b16">False</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#268bd2">tasks</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#268bd2">name</span>: Create a VM in ESXi 
+</span></span><span style="display:flex;"><span>    <span style="color:#268bd2">vmware_guest</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#268bd2">hostname</span>: &lt;ip of ESXi&gt;
+</span></span><span style="display:flex;"><span>      <span style="color:#268bd2">username</span>: &lt;username of ESXi&gt;
+</span></span><span style="display:flex;"><span>      <span style="color:#268bd2">password</span>: &lt;password of ESXi&gt;
+</span></span><span style="display:flex;"><span>      <span style="color:#268bd2">validate_certs</span>: <span style="color:#cb4b16">False</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#268bd2">folder</span>: /ha-datacenter/vm
+</span></span><span style="display:flex;"><span>      <span style="color:#268bd2">name</span>: &lt;vm-name&gt;
+</span></span><span style="display:flex;"><span>      <span style="color:#268bd2">state</span>: present
+</span></span><span style="display:flex;"><span>      <span style="color:#268bd2">guest_id</span>: ubuntu64Guest
+</span></span><span style="display:flex;"><span>      <span style="color:#268bd2">esxi_hostname</span>: &lt;hostname of ESXi&gt;
+</span></span><span style="display:flex;"><span>      <span style="color:#268bd2">disk</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#268bd2">size_gb</span>: <span style="color:#2aa198">100</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#268bd2">type</span>: thin
+</span></span><span style="display:flex;"><span>        <span style="color:#268bd2">datastore</span>: &lt;relative path of datastore, like &#34;[HDD1]&#34;&gt;
+</span></span><span style="display:flex;"><span>      <span style="color:#268bd2">hardware</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#268bd2">memory_mb</span>: <span style="color:#2aa198">8192</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#268bd2">num_cpus</span>: <span style="color:#2aa198">4</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#268bd2">scsi</span>: lsilogicsas
+</span></span><span style="display:flex;"><span>      <span style="color:#268bd2">cdrom</span>:
+</span></span><span style="display:flex;"><span>        - <span style="color:#268bd2">controller_number</span>: <span style="color:#2aa198">0</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#268bd2">unit_number</span>: <span style="color:#2aa198">0</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#268bd2">state</span>: present
+</span></span><span style="display:flex;"><span>          <span style="color:#268bd2">type</span>: iso
+</span></span><span style="display:flex;"><span>          <span style="color:#268bd2">iso_path</span>: &lt;relative path + iso name, like &#34;[HDD1] debian-10.5.0-amd64-DVD-1.iso&#34;&gt;
+</span></span><span style="display:flex;"><span>      <span style="color:#268bd2">networks</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#268bd2">name</span>: VM Network
+</span></span><span style="display:flex;"><span>        <span style="color:#268bd2">type</span>: static
+</span></span><span style="display:flex;"><span>        <span style="color:#268bd2">start_connected</span>: <span style="color:#cb4b16">true</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#268bd2">ip</span>: &lt;ip&gt;
+</span></span><span style="display:flex;"><span>        <span style="color:#268bd2">netmask</span>: &lt;netmask&gt;
+</span></span><span style="display:flex;"><span>        <span style="color:#268bd2">gateway</span>: &lt;gateway&gt;
+</span></span><span style="display:flex;"><span>      <span style="color:#268bd2">customization</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#268bd2">hostname</span>: &lt;vm-name&gt;
+</span></span><span style="display:flex;"><span>        <span style="color:#268bd2">dns_servers</span>:
+</span></span><span style="display:flex;"><span>          - <span style="color:#2aa198">8.8.8.8</span>
+</span></span><span style="display:flex;"><span>          - <span style="color:#2aa198">8.8.4.4</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#268bd2">delegate_to</span>: localhost
+</span></span><span style="display:flex;"><span>    <span style="color:#268bd2">register</span>: deploy_vm
+</span></span></code></pre></div><h2 id="final-result">Final Result<a hidden class="anchor" aria-hidden="true" href="#final-result">#</a></h2>
+<p>Finally the last thing was to execute the playbook using <code>ansible-playbook &lt;playbook name&gt;</code>.</p>
+<div style="text-align:center">
+    <img style="width:900px" src="/deploy_vm_ansible_esxi/run_playbook_ansible.png">
+</div>
+<p>Doing this was extremely helpful because now I can spin up virtual machines (either Windows or Linux) in a faster and easier way.</p>
+<h2 id="references">References<a hidden class="anchor" aria-hidden="true" href="#references">#</a></h2>
+<ul>
+<li><a href="https://www.ansible.com/">https://www.ansible.com/</a></li>
+<li><a href="https://www.redhat.com/en/blog/ansible-101-ansible-beginners">https://www.redhat.com/en/blog/ansible-101-ansible-beginners</a></li>
+<li><a href="https://www.ansible.com/integrations/infrastructure/vmware">https://www.ansible.com/integrations/infrastructure/vmware</a></li>
+<li><a href="https://docs.ansible.com/ansible/latest/collections/community/vmware/vmware_guest_module.html">https://docs.ansible.com/ansible/latest/collections/community/vmware/vmware_guest_module.html</a></li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/homelab/">Homelab</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2025 <a href="http://localhost:1313/">Bruno Blog</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

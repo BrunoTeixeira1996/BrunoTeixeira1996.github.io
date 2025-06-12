@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>My Custom NAS | Bruno Blog</title>
+<meta name="keywords" content="Homelab">
+<meta name="description" content="Index
+
+Introduction
+Why
+NAS Components
+NAS Configuration
+Gbackupv2
+Disaster recovery
+
+Introduction
+In my last post, I began discussing the importance of having a robust and cost-effective backup solution. With data becoming more valuable than ever, finding the right balance between efficiency, reliability, and affordability is crucial. Now, it&rsquo;s time to dive deeper into my thought process and the specific steps I took to build a refined backup system that ticks all these boxes.">
+<meta name="author" content="">
+<link rel="canonical" href="http://localhost:1313/posts/2024-10-08-my-custom-nas/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.8fe10233a706bc87f2e08b3cf97b8bd4c0a80f10675a143675d59212121037c0.css" integrity="sha256-j&#43;ECM6cGvIfy4Is8&#43;XuL1MCoDxBnWhQ2ddWSEhIQN8A=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/2024-10-08-my-custom-nas/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="Bruno Blog (Alt + H)">Bruno Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://localhost:1313/posts/" title="Posts">
+                    <span>Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/about/" title="About">
+                    <span>About</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      My Custom NAS
+    </h1>
+    <div class="post-meta"><span title='2024-10-08 00:00:00 +0000 UTC'>October 8, 2024</span>&nbsp;·&nbsp;6 min
+
+</div>
+  </header> 
+  <div class="post-content"><h2 id="index">Index<a hidden class="anchor" aria-hidden="true" href="#index">#</a></h2>
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#why">Why</a></li>
+<li><a href="#nas-components">NAS Components</a></li>
+<li><a href="#nas-configuration">NAS Configuration</a></li>
+<li><a href="#gbackupv2">Gbackupv2</a></li>
+<li><a href="#disaster-recovery">Disaster recovery</a></li>
+</ul>
+<h2 id="introduction">Introduction<a hidden class="anchor" aria-hidden="true" href="#introduction">#</a></h2>
+<p>In my last post, I began discussing the importance of having a robust and cost-effective backup solution. With data becoming more valuable than ever, finding the right balance between efficiency, reliability, and affordability is crucial. Now, it&rsquo;s time to dive deeper into my thought process and the specific steps I took to build a refined backup system that ticks all these boxes.</p>
+<p>In this post, I&rsquo;ll walk you through the development of my new backup plan, which includes leveraging a pre-built NAS and affordable hardware to create an efficient, space-conscious solution. I’ll also introduce an upgraded version of the gbackup utility, designed to make backing up and restoring data effortless. Let&rsquo;s get started!</p>
+<h2 id="why">Why<a hidden class="anchor" aria-hidden="true" href="#why">#</a></h2>
+<p>Before deciding to build my own NAS from individual PC components, I considered purchasing a pre-built NAS from a third-party provider. However, several factors made me reconsider.</p>
+<ul>
+<li>
+<p>First, I didn’t want to be confined to a proprietary environment — I wanted full control to install whatever I needed on my system.</p>
+</li>
+<li>
+<p>Second, most pre-built NAS solutions come with a host of unnecessary features that I simply don’t need, all at a hefty price tag.</p>
+</li>
+<li>
+<p>Lastly, where&rsquo;s the fun in just buying a box and calling it a day? So, I opted for the DIY route, building and configuring my own NAS from the ground up.</p>
+</li>
+</ul>
+<p>So the main goal of the NAS is to:</p>
+<ul>
+<li>Backup everything inside Proxmox</li>
+<li>Backup my worklatop</li>
+<li>Backup my two Pi&rsquo;s</li>
+<li>Be able to backup more stuff in the future</li>
+</ul>
+<h2 id="nas-components">NAS Components<a hidden class="anchor" aria-hidden="true" href="#nas-components">#</a></h2>
+<p>Inspired by Michael Stapelberg’s <a href="https://michael.stapelberg.ch/posts/2023-10-25-my-all-flash-zfs-network-storage-build/">blog post</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Type</th>
+          <th>Name</th>
+          <th>Link</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Case</td>
+          <td>PC SilverStone SG05BB LITE</td>
+          <td><a href="https://www.codi-tek.com/Caixa-Pc-Silverstone-Sg05bb-Lite-Desktop-Housing-Preto-Installation--P335305.html?campanha_track=comparadorgg">https://www.codi-tek.com/Caixa-Pc-Silverstone-Sg05bb-Lite-Desktop-Housing-Preto-Installation--P335305.html?campanha_track=comparadorgg</a></td>
+      </tr>
+      <tr>
+          <td>Motherboard</td>
+          <td>AsRock B450 Gaming ITX/ac</td>
+          <td><a href="https://www.aquario.pt/pt/product/asrock-motherboard-mini-itx-asrock-fatal1ty-b450-90-mxb870-a0uayz?srsltid=AfmBOoppr6E_38Yj8UEVSH9knuz-ow3_4jxVs2yKpyuWN08b1TcgCPKM">https://www.aquario.pt/pt/product/asrock-motherboard-mini-itx-asrock-fatal1ty-b450-90-mxb870-a0uayz?srsltid=AfmBOoppr6E_38Yj8UEVSH9knuz-ow3_4jxVs2yKpyuWN08b1TcgCPKM</a></td>
+      </tr>
+      <tr>
+          <td>CPU Cooler</td>
+          <td>Cooler CPU Noctua NH-L12S</td>
+          <td><a href="https://www.pcdiga.com/componentes/coolers-cpu/air-cooling-cpu/cooler-cpu-noctua-nh-l12s-nh-l12s-9010018000054">https://www.pcdiga.com/componentes/coolers-cpu/air-cooling-cpu/cooler-cpu-noctua-nh-l12s-nh-l12s-9010018000054</a></td>
+      </tr>
+      <tr>
+          <td>Power Supply</td>
+          <td>Silverstone ST30SF V2 SFX 300W</td>
+          <td><a href="https://www.pccomponentes.pt/silverstone-st30sf-v2-sfx-300w?srsltid=AfmBOopQ37FC8LHGhw0uuC90dXVXAfWZ-ErGi8MvB8bQvW0NrBwHZ5NU">https://www.pccomponentes.pt/silverstone-st30sf-v2-sfx-300w?srsltid=AfmBOopQ37FC8LHGhw0uuC90dXVXAfWZ-ErGi8MvB8bQvW0NrBwHZ5NU</a></td>
+      </tr>
+      <tr>
+          <td>System Disk</td>
+          <td>Intenso NVMe 250 GB</td>
+          <td><a href="https://www.worten.pt/produtos/intenso-ssd-250gb-premium-m-2-pcie-pci-express-3-0-nvme-mrkean-4034303031146">https://www.worten.pt/produtos/intenso-ssd-250gb-premium-m-2-pcie-pci-express-3-0-nvme-mrkean-4034303031146</a></td>
+      </tr>
+      <tr>
+          <td>Data Disks</td>
+          <td>2 SSDs 250 GB Samsung</td>
+          <td>Already had these two</td>
+      </tr>
+      <tr>
+          <td>Case Fan</td>
+          <td>Noctua NF-S12A ULN</td>
+          <td><a href="https://www.fnac.pt/mp1544968/Noctua-NF-S12A-ULN-Pasta-de-computador-Ventoinha">https://www.fnac.pt/mp1544968/Noctua-NF-S12A-ULN-Pasta-de-computador-Ventoinha</a></td>
+      </tr>
+      <tr>
+          <td>RAM</td>
+          <td>8GB DDR4 2400 RAM DIMM (1x8GB) CL15 1.2V G.SKILL AEGIS</td>
+          <td><a href="https://chip7.pt/componentes-hardware/memoria-ram/memoria-ram-ddr4/gskill/8gb-ddr4-2400-memoria-ram-dimm-1x8gb-cl15-12v-gskill-aegis-f4-2400c15s?srsltid=AfmBOoqkPL_0bXIdGCiWWybDX4jiGiduBAJU8pndqjOD2OCEX_MdQ32Z">https://chip7.pt/componentes-hardware/memoria-ram/memoria-ram-ddr4/gskill/8gb-ddr4-2400-memoria-ram-dimm-1x8gb-cl15-12v-gskill-aegis-f4-2400c15s?srsltid=AfmBOoqkPL_0bXIdGCiWWybDX4jiGiduBAJU8pndqjOD2OCEX_MdQ32Z</a></td>
+      </tr>
+      <tr>
+          <td>CPU</td>
+          <td>AMD Ryzen 3 4300G 8-Core 3.8GHz 4MB Skt AM4</td>
+          <td><a href="https://www.onbit.pt/processador-amd-ryzen-3-4300g-8-core-3-8ghz-4mb-skt-am4.html">https://www.onbit.pt/processador-amd-ryzen-3-4300g-8-core-3-8ghz-4mb-skt-am4.html</a></td>
+      </tr>
+  </tbody>
+</table>
+<p>It’s worth mentioning that there are a few optional components to consider, such as:</p>
+<ul>
+<li>CPU Cooler</li>
+<li>Case Fan</li>
+</ul>
+<p>I chose to invest in these optional components to ensure a longer-lasting and more efficient system. By prioritizing longevity, I can enhance performance and reduce the risk of overheating, ultimately contributing to the overall reliability of my NAS.</p>
+<h2 id="nas-configuration">NAS Configuration<a hidden class="anchor" aria-hidden="true" href="#nas-configuration">#</a></h2>
+<p>To configure my NAS, I followed these steps:</p>
+<ol>
+<li>Installed Debian 12 (No Desktop Environment)</li>
+</ol>
+<ul>
+<li>I opted for a minimal installation without a Desktop Environment (DE) to keep the system lightweight and focused on performance</li>
+</ul>
+<ol start="2">
+<li>Set Up Static IP Address</li>
+</ol>
+<ul>
+<li>To ensure consistent network access, I configured a static IP address by editing the <code>/etc/network/interfaces</code> file</li>
+</ul>
+<ol start="3">
+<li>Setup Wake on Lan</li>
+</ol>
+<ul>
+<li>Enter BIOS -&gt; Advanced -&gt; ACPI Configuration -&gt; PCI Devices Power On -&gt; Enable</li>
+<li>Enter BIOS -&gt; Advanced -&gt; Onboard Devices Configuration -&gt; Restore on AC/Power Loss</li>
+<li>This setting ensures the machine turns back on after a power loss. Without it, WOL might not work after a power loss</li>
+<li>Verify if interface has WoL Onboard</li>
+<li><code>sudo ethtool &lt;interface&gt; | grep -i wake</code></li>
+<li>Test the WoL from another computer in the LAN
+<ul>
+<li><code>wakeonlan &lt;mac of NAS&gt;</code></li>
+</ul>
+</li>
+</ul>
+<ol start="4">
+<li>Configure ZFS</li>
+</ol>
+<ul>
+<li>Install zfs tools</li>
+<li>Create zfs Pool</li>
+</ul>
+<pre tabindex="0"><code>sudo zpool create -f -o ashift=12 brun0nas1 /dev/disk/by-id/ata-KINGSTON_SA400S37240G_50026B76861689C2 /dev/disk/by-id/ata-KINGSTON_SV300S37A240G_50026B766A04AC5E
+</code></pre><ul>
+<li>Create two datasets</li>
+</ul>
+<pre tabindex="0"><code>sudo zfs create brun0nas1/backupExternal &amp;&amp; sudo zfs create brun0nas1/backupProxmox
+</code></pre><ul>
+<li>Activate autotrim</li>
+</ul>
+<pre tabindex="0"><code>sudo zpool set autotrim=on brun0nas1
+</code></pre><ul>
+<li>Activate <a href="https://wiki.archlinux.org/title/ZFS#Scrubbing">zfs scrub</a></li>
+</ul>
+<pre tabindex="0"><code>sudo systemctl enable --now zfs-scrub@brun0nas1.timer
+</code></pre><pre tabindex="0"><code>\# /etc/systemd/system/zfs-scrub@brun0nas1.timer
+
+[Unit]
+Description=Monthly zpool scrub on brun0nas1
+
+[Timer]
+OnCalendar=monthly
+AccuracySec=1h
+Persistent=true
+
+[Service]
+ExecStart=/usr/bin/zpool scrub brun0nas1
+
+[Install]
+WantedBy=multi-user.target
+</code></pre><ol start="5">
+<li>Configure Proxmox Backup Server (PBS)</li>
+</ol>
+<ul>
+<li><a href="https://pbs.proxmox.com/docs/installation.html">Install PBS in debian</a></li>
+</ul>
+<pre tabindex="0"><code>wget https://enterprise.proxmox.com/debian/proxmox-release-bookworm.gpg -O /etc/apt/trusted.gpg.d/proxmox-release-bookworm.gpg
+
+\# added this to /etc/apt/sources.list
+deb http://download.proxmox.com/debian/pbs bookworm pbs-no-subscription
+
+s apt update
+s apt install proxmox-backup-server
+</code></pre><ul>
+<li>Configure mount point (backupExternal was optional here, I added but it is not used in PBS)</li>
+</ul>
+<pre tabindex="0"><code>mkdir -p /mnt/datastore/backupExternal
+mkdir -p /mnt/datastore/backupProxmox
+
+s zfs set mountpoint=/mnt/datastore/backupProxmox brun0nas1/backupProxmox
+s zfs set mountpoint=/mnt/datastore/backupProxmox brun0nas1/backupExternal
+</code></pre><ul>
+<li>Verify mount point</li>
+</ul>
+<pre tabindex="0"><code>zfs list
+
+NAME                       USED  AVAIL  REFER  MOUNTPOINT
+brun0nas1                 1.02M   430G    96K  /brun0nas1
+brun0nas1/backupExternal    96K   430G    96K  /mnt/datastore/backupExternal
+brun0nas1/backupProxmox     96K   430G    96K  /mnt/datastore/backupProxmox
+</code></pre><ul>
+<li>Add mount points into PBS Datastore</li>
+</ul>
+<figure class="post-image">
+    <img loading="lazy" src="/new_nas/addmounts.png"/> 
+</figure>
+
+<ul>
+<li>Add PBS to Proxmox
+<ul>
+<li>Go to Proxmox and Datacenter -&gt; Storage -&gt; Add Proxmox Backup Server</li>
+<li>The Fingerprint needs to be from PBS so go to Dashboard and chose <code>Show Fingerprint</code></li>
+</ul>
+</li>
+</ul>
+<figure class="post-image">
+    <img loading="lazy" src="/new_nas/finger.png"/> 
+</figure>
+
+<ul>
+<li>Create the backup format
+<ul>
+<li>I choosed to perform one backup every friday at 13 and keep the last 2</li>
+</ul>
+</li>
+</ul>
+<figure class="post-image">
+    <img loading="lazy" src="/new_nas/backup.png"/> 
+</figure>
+
+<h2 id="gbackupv2">Gbackupv2<a hidden class="anchor" aria-hidden="true" href="#gbackupv2">#</a></h2>
+<h3 id="backup-information">Backup Information<a hidden class="anchor" aria-hidden="true" href="#backup-information">#</a></h3>
+<ol>
+<li>External Hard Drive Setup</li>
+</ol>
+<ul>
+<li>The external hard drive, mounted at <code>/mnt/external</code>, is plugged into Proxmox.</li>
+<li>Proxmox shares this drive across the local network using Samba, making it accessible to other devices.</li>
+</ul>
+<ol start="2">
+<li>Gbackup Configuration</li>
+</ol>
+<ul>
+<li>Gbackup, running on <code>pinute</code> (a Raspberry Pi dedicated to this task), has SSH access to the NAS and can also access the <code>/mnt/external</code> Samba share.</li>
+</ul>
+<h3 id="backup-workflow">Backup workflow<a hidden class="anchor" aria-hidden="true" href="#backup-workflow">#</a></h3>
+<ol>
+<li>Scheduled Incremental Backup (Every Friday at 1 PM)</li>
+</ol>
+<p>The following steps outline how the incremental backup process occurs each Friday:</p>
+<pre tabindex="0"><code>12:50 PM:
+Gbackup sends a Wake-on-LAN (WoL) signal to power on the NAS
+
+1:00 PM:
+Proxmox Backup Server (PBS) performs an incremental backup of Proxmox virtual machines (VMs) and containers, saving the data to /backupProxmox
+Gbackup uses the Proxmox API to check the status and results of the Proxmox backups for the current day
+	
+After PBS Backup Completion:
+Gbackup backs up important directories from gokrazy, worklatop, pinute, ...
+These are backed up to the external hard drive mounted at /mnt/external
+
+Mirror Backup to NAS:
+Gbackup then copies the contents of /mnt/external (which includes the aforementioned directories) to the NAS under /backupExternal
+
+Shutdown NAS:
+Once the backup process is complete, Gbackup powers off the NAS to conserve energy
+</code></pre><h3 id="final-backup-structure">Final backup structure<a hidden class="anchor" aria-hidden="true" href="#final-backup-structure">#</a></h3>
+<ul>
+<li>
+<p>External Drive (<code>/mnt/external</code>) contains backups of:</p>
+<ul>
+<li>Gokrazy perm partition</li>
+<li>Work laptop files</li>
+<li>Pinute-specific files</li>
+</ul>
+</li>
+<li>
+<p>Proxmox Backup Server (<code>/backupProxmox</code>):</p>
+<ul>
+<li>Stores incremental backups of VMs and LXC containers</li>
+</ul>
+</li>
+<li>
+<p>NAS:</p>
+<ul>
+<li>Contains both the Proxmox backups (<code>/backupProxmox</code>) and the external hard drive&rsquo;s backup (<code>/backupExternal</code>)</li>
+</ul>
+</li>
+</ul>
+<p>Obs: In the future, a second external hard drive will be connected to Pinute. Once a month, Gbackup will create a tarball of the <code>backupProxmox</code> and <code>backupExternal</code> folders on the NAS.
+These compressed backups will be saved to the secondary hard drive as an additional layer of redundancy.</p>
+<figure class="post-image">
+    <img loading="lazy" src="/new_nas/gbackup.svg"/> 
+</figure>
+
+<h2 id="disaster-recovery">Disaster Recovery<a hidden class="anchor" aria-hidden="true" href="#disaster-recovery">#</a></h2>
+<ul>
+<li>
+<p>If <code>/mnt/external</code> fails - info resides inside <code>NAS</code> &amp; <code>Second external hard drive</code></p>
+<ul>
+<li>Buy a new external HDD, plugg into Proxmox, rsync backup from <code>NAS</code> or <code>Second external hard drive</code></li>
+</ul>
+</li>
+<li>
+<p>If <code>NAS</code> fails - VMs and LXC resides inside <code>Second external hard drive</code></p>
+<ul>
+<li>Reinstall Debian and PBS, setup PBS with same storage as before, import backup into that storage</li>
+<li>OR</li>
+<li>Reinstall Debian and PBS, setup PBS with the same storage as before and perform a <a href="https://www.youtube.com/watch?v=qf49bTDDHMM">VM/LXC backup</a></li>
+</ul>
+</li>
+<li>
+<p>If <code>Proxmox</code> fails - info resides inside <code>NAS</code>, <code>/mnt/external</code> &amp; <code>Second external hard drive</code></p>
+<ul>
+<li>Reinstall Proxmox, import <code>/mnt/external</code>, add PBS, restore VM&rsquo;s/LXC</li>
+</ul>
+</li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/homelab/">Homelab</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2025 <a href="http://localhost:1313/">Bruno Blog</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

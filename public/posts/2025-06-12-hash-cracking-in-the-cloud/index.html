@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>Hash Cracking in The Cloud | Bruno Blog</title>
+<meta name="keywords" content="Red Teaming">
+<meta name="description" content="Index
+
+Introduction
+The Initial Approach: Simple, but risky
+Why It Fell Short: Security Concerns
+The Improved Architecture: Securing the Setup
+Hands-On: Building the Secure Hashtopolis Cloud Setup
+Installing Hashtopolis in Docker
+Configuring a Secure Cloudflare Tunnel
+Customizing the Hashtopolis Agent for Secure Headers
+Publishing a Custom Docker image
+Deploying Scalable Agents on Vast.ai
+Starting the crack
+Conclusion
+
+Introduction
+Cracking passwords at scale requires serious GPU power — and serious money. I quickly realized that building a dedicated machine with multiple GPUs wasn&rsquo;t just expensive upfront (thanks to hardware and GPU prices), but also a constant drain due to electricity costs. Worst of all, the rig would sit idle most of the time, wasting its potential. So I started looking for a smarter, more flexible setup. That led me to Hashtopolis, a powerful tool for distributed hash cracking; Vast.ai, a platform offering affordable on-demand GPU instances; and Cloudflare Tunnel, which lets me expose my Hashtopolis server securely to the internet — no public IP or port forwarding needed.">
+<meta name="author" content="">
+<link rel="canonical" href="http://localhost:1313/posts/2025-06-12-hash-cracking-in-the-cloud/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.8fe10233a706bc87f2e08b3cf97b8bd4c0a80f10675a143675d59212121037c0.css" integrity="sha256-j&#43;ECM6cGvIfy4Is8&#43;XuL1MCoDxBnWhQ2ddWSEhIQN8A=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/2025-06-12-hash-cracking-in-the-cloud/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="Bruno Blog (Alt + H)">Bruno Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://localhost:1313/posts/" title="Posts">
+                    <span>Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/about/" title="About">
+                    <span>About</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      Hash Cracking in The Cloud
+    </h1>
+    <div class="post-meta"><span title='2025-06-12 00:00:00 +0000 UTC'>June 12, 2025</span>&nbsp;·&nbsp;10 min
+
+</div>
+  </header> 
+  <div class="post-content"><h2 id="index">Index<a hidden class="anchor" aria-hidden="true" href="#index">#</a></h2>
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#the-initial-approach-simple-but-risky">The Initial Approach: Simple, but risky</a></li>
+<li><a href="#why-it-fell-short-security-concerns">Why It Fell Short: Security Concerns</a></li>
+<li><a href="#the-improved-architecture-securing-the-setup">The Improved Architecture: Securing the Setup</a></li>
+<li><a href="#hands-on-building-the-secure-hashtopolis-cloud-setup">Hands-On: Building the Secure Hashtopolis Cloud Setup</a></li>
+<li><a href="#installing-hashtopolis-in-docker">Installing Hashtopolis in Docker</a></li>
+<li><a href="#configuring-a-secure-cloudflare-tunnel">Configuring a Secure Cloudflare Tunnel</a></li>
+<li><a href="#customizing-the-hashtopolis-agent-for-secure-headers">Customizing the Hashtopolis Agent for Secure Headers</a></li>
+<li><a href="#publishing-a-custom-docker-image">Publishing a Custom Docker image</a></li>
+<li><a href="#deploying-scalable-agents-on-vastai">Deploying Scalable Agents on Vast.ai</a></li>
+<li><a href="#starting-the-crack">Starting the crack</a></li>
+<li><a href="#conclusion">Conclusion</a></li>
+</ul>
+<h2 id="introduction">Introduction<a hidden class="anchor" aria-hidden="true" href="#introduction">#</a></h2>
+<p>Cracking passwords at scale requires serious GPU power — and serious money. I quickly realized that building a dedicated machine with multiple GPUs wasn&rsquo;t just expensive upfront (thanks to hardware and GPU prices), but also a constant drain due to electricity costs. Worst of all, the rig would sit idle most of the time, wasting its potential. So I started looking for a smarter, more flexible setup. That led me to <a href="https://github.com/hashtopolis">Hashtopolis</a>, a powerful tool for distributed hash cracking; <a href="https://vast.ai/">Vast.ai</a>, a platform offering affordable on-demand GPU instances; and <a href="https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/">Cloudflare Tunnel</a>, which lets me expose my Hashtopolis server securely to the internet — no public IP or port forwarding needed.</p>
+<p>In this post, we’ll show you how I integrated all three into a scalable, budget-friendly cracking setup.</p>
+<h2 id="the-initial-approach-simple-but-risky">The Initial Approach: Simple, but risky<a hidden class="anchor" aria-hidden="true" href="#the-initial-approach-simple-but-risky">#</a></h2>
+<p>The first plan was to have the Hashtopolis server running inside a Docker container on a VPS, and then use Vast.ai to spawn GPU-powered instances that run the Hashtopolis Python agent.</p>
+<p>These agents will connect back to the Hashtopolis server to receive tasks and report results. To enable this connection, we had to expose the Hashtopolis server to the internet - but that brings some security concerns.</p>
+<h3 id="why-it-fell-short-security-concerns">Why It Fell Short: Security Concerns<a hidden class="anchor" aria-hidden="true" href="#why-it-fell-short-security-concerns">#</a></h3>
+<p><strong>Our initial setup was simple and functional:</strong> we had the Hashtopolis server running inside a Docker container on a VPS, and it was accessible via the VPS’s public IP on port 8080. On the Vast.ai side, we configured it to run Hashtopolis Python agents on demand using <a href="https://github.com/Milz0/hashtopolis-hashcat-vast">this prebuilt Docker image</a>, which includes both Hashcat and the agent. This setup worked like a charm — we could spin up agents on Vast.ai and have them instantly connect to the Hashtopolis server, ready to start cracking.</p>
+<p>However, there was one major downside: <strong>the Hashtopolis web interface was directly exposed to the internet</strong>. Yes, it does have a login form, is password-protected, and even supports multi-factor authentication, but that still left the door partially open. For us, that wasn’t ideal — especially when dealing with a potentially sensitive cracking infrastructure. We wanted an <strong>extra layer of protection</strong> to hide the service completely from public view unless explicitly accessed through a secure channel.</p>
+<p>That’s where <strong>Cloudflare Tunnel</strong> came into play.</p>
+<h2 id="the-improved-architecture-securing-the-setup">The Improved Architecture: Securing the Setup<a hidden class="anchor" aria-hidden="true" href="#the-improved-architecture-securing-the-setup">#</a></h2>
+<p><strong>Knowing the risks of exposing the Hashtopolis server directly to the internet, we started looking into more secure alternatives — and that’s where Cloudflare Tunnel came in.</strong> With Cloudflare Tunnel, we can expose our locally running Hashtopolis (inside a Docker container on the VPS) to the internet <strong>without opening any ports or exposing the server’s public IP.</strong> Instead, all traffic is routed through Cloudflare’s secure edge network.</p>
+<p>To add an extra layer of protection, we configured the tunnel to require <strong>two custom HTTP headers</strong> for any incoming request. This means that even if someone discovers the tunnel URL, they won’t be able to interact with the Hashtopolis server unless they include the correct headers — effectively acting as an API key-style authentication layer before the app’s own login and MFA even come into play. This setup allows <strong>only authorized agents</strong> to connect to the server securely, giving us the privacy and control we were missing before.</p>
+<h2 id="hands-on-building-the-secure-hashtopolis-cloud-setup">Hands-On: Building the Secure Hashtopolis Cloud Setup<a hidden class="anchor" aria-hidden="true" href="#hands-on-building-the-secure-hashtopolis-cloud-setup">#</a></h2>
+<p><strong>Note:</strong> This guide does not cover detailed Hashtopolis installation steps. It assumes you already have a running and functional Hashtopolis server ready to go.</p>
+<p><strong>To put our second - and more secure - plan into action, we needed to go through a few setup steps.</strong></p>
+<h3 id="installing-hashtopolis-in-docker">Installing Hashtopolis in Docker<a hidden class="anchor" aria-hidden="true" href="#installing-hashtopolis-in-docker">#</a></h3>
+<p><strong>To install Hashtopolis inside a Docker container,</strong> simply follow the official installation guide here: <a href="https://github.com/hashtopolis/server/wiki/Installation">https://github.com/hashtopolis/server/wiki/Installation</a>. Once the server is up and running, be sure to <strong>create a voucher</strong> through the Hashtopolis web interface - this voucher will later allow your agents to authenticate and register automatically via the Hashtopolis API.<br>
+<strong>Also, don’t forget to keep the Docker container running locally on your VPS</strong>, as this is the instance that will be exposed through the Cloudflare Tunnel and serve as the central coordinator for all agent activity.</p>
+<p>The following is a sample <code>docker-compose.yml</code> file to run the Hashtopolis server locally:</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#268bd2">version</span>: <span style="color:#2aa198">&#39;3.7&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#268bd2">services</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#268bd2">hashtopolis-backend</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#268bd2">container_name</span>: hashtopolis-backend
+</span></span><span style="display:flex;"><span>    <span style="color:#268bd2">image</span>: hashtopolis/backend:latest
+</span></span><span style="display:flex;"><span>    <span style="color:#268bd2">restart</span>: always
+</span></span><span style="display:flex;"><span>    <span style="color:#268bd2">volumes</span>:
+</span></span><span style="display:flex;"><span>      - hashtopolis:/usr/local/share/hashtopolis:Z
+</span></span><span style="display:flex;"><span>    <span style="color:#268bd2">environment</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#268bd2">HASHTOPOLIS_DB_USER</span>: $MYSQL_USER
+</span></span><span style="display:flex;"><span>      <span style="color:#268bd2">HASHTOPOLIS_DB_PASS</span>: $MYSQL_PASSWORD
+</span></span><span style="display:flex;"><span>      <span style="color:#268bd2">HASHTOPOLIS_DB_HOST</span>: $HASHTOPOLIS_DB_HOST
+</span></span><span style="display:flex;"><span>      <span style="color:#268bd2">HASHTOPOLIS_DB_DATABASE</span>: $MYSQL_DATABASE
+</span></span><span style="display:flex;"><span>      <span style="color:#268bd2">HASHTOPOLIS_ADMIN_USER</span>: $HASHTOPOLIS_ADMIN_USER
+</span></span><span style="display:flex;"><span>      <span style="color:#268bd2">HASHTOPOLIS_ADMIN_PASSWORD</span>: $HASHTOPOLIS_ADMIN_PASSWORD
+</span></span><span style="display:flex;"><span>      <span style="color:#268bd2">HASHTOPOLIS_APIV2_ENABLE</span>: $HASHTOPOLIS_APIV2_ENABLE
+</span></span><span style="display:flex;"><span>    <span style="color:#268bd2">depends_on</span>:
+</span></span><span style="display:flex;"><span>      - db
+</span></span><span style="display:flex;"><span>    <span style="color:#268bd2">ports</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#2aa198">&#34;127.0.0.1:8080:80&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#268bd2">db</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#268bd2">container_name</span>: db
+</span></span><span style="display:flex;"><span>    <span style="color:#268bd2">image</span>: mysql:8.0
+</span></span><span style="display:flex;"><span>    <span style="color:#268bd2">restart</span>: always
+</span></span><span style="display:flex;"><span>    <span style="color:#268bd2">volumes</span>:
+</span></span><span style="display:flex;"><span>      - db:/var/lib/mysql
+</span></span><span style="display:flex;"><span>    <span style="color:#268bd2">environment</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#268bd2">MYSQL_ROOT_PASSWORD</span>: $MYSQL_ROOT_PASS
+</span></span><span style="display:flex;"><span>      <span style="color:#268bd2">MYSQL_DATABASE</span>: $MYSQL_DATABASE
+</span></span><span style="display:flex;"><span>      <span style="color:#268bd2">MYSQL_USER</span>: $MYSQL_USER
+</span></span><span style="display:flex;"><span>      <span style="color:#268bd2">MYSQL_PASSWORD</span>: $MYSQL_PASSWORD
+</span></span><span style="display:flex;"><span>  <span style="color:#268bd2">hashtopolis-frontend</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#268bd2">container_name</span>: hashtopolis-frontend
+</span></span><span style="display:flex;"><span>    <span style="color:#268bd2">image</span>: hashtopolis/frontend:latest
+</span></span><span style="display:flex;"><span>    <span style="color:#268bd2">environment</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#268bd2">HASHTOPOLIS_BACKEND_URL</span>: $HASHTOPOLIS_BACKEND_URL
+</span></span><span style="display:flex;"><span>    <span style="color:#268bd2">restart</span>: always
+</span></span><span style="display:flex;"><span>    <span style="color:#268bd2">depends_on</span>:
+</span></span><span style="display:flex;"><span>      - hashtopolis-backend
+</span></span><span style="display:flex;"><span>    <span style="color:#268bd2">ports</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#2aa198">&#34;127.0.0.1:4200:80&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#268bd2">volumes</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#268bd2">db</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#268bd2">hashtopolis</span>:
+</span></span></code></pre></div><h3 id="configuring-a-secure-cloudflare-tunnel">Configuring a Secure Cloudflare Tunnel<a hidden class="anchor" aria-hidden="true" href="#configuring-a-secure-cloudflare-tunnel">#</a></h3>
+<p>First, we need to purchase a domain and add it to our Cloudflare account. This is essential because Cloudflare Tunnel works by associating your tunnel with a domain or subdomain, which will serve as the public endpoint for accessing your Hashtopolis server securely.</p>
+<p>Simply press the &ldquo;Add domain&rdquo; button in the Cloudflare Account Home menu and follow the setup wizard to configure your new domain.</p>
+<figure class="post-image">
+    <img loading="lazy" src="/hash_cracking/1.png"/> 
+</figure>
+
+<p>Second, we need to configure the Application. To do this, first activate the <strong>free Zero Trust plan</strong> from the Cloudflare dashboard. Then, navigate to <strong>Access &gt; Applications</strong>, and add a new <strong>Self-Hosted Application</strong>.</p>
+<p>Next, type a name for your application, enter your domain, and choose a subdomain — this can be anything you like. The full address (subdomain + domain) will be the URL used to access your Hashtopolis server through the tunnel.</p>
+<figure class="post-image">
+    <img loading="lazy" src="/hash_cracking/2.png"/> 
+</figure>
+
+<p>Next, we set up a service token to use in our access policies. To do this, go to <strong>Access &gt; Service Auth</strong> in the Cloudflare dashboard. Generate the token and make sure to securely save the two important HTTP headers: <code>CF-Access-Client-Id</code> and <code>CF-Access-Client-Secret</code>. These headers will be required to authenticate any requests sent through the tunnel, ensuring only authorized agents can communicate with the Hashtopolis server.</p>
+<p>After that, move to the Policies tab and create a new policy. Give your policy a descriptive name, and set the <strong>Action</strong> to <strong>Service Auth</strong>. Then, under <strong>Rules</strong>, add an <strong>Include</strong> rule with the selector set to <strong>Any Access Service Token</strong>. Finally, save the policy. This setup ensures that only requests with valid service tokens can access your Hashtopolis server through the tunnel.</p>
+<figure class="post-image">
+    <img loading="lazy" src="/hash_cracking/3.png"/> 
+</figure>
+
+<p>With our application set up and the policy applied, it’s time to create the tunnel. To do this, navigate to <strong>Networks &gt; Tunnel</strong> in the Cloudflare dashboard.</p>
+<p>Give your tunnel a name and follow the installation options provided. In our case, we selected the <strong>Debian environment</strong>, since we installed the <code>cloudflared</code> binary directly on the VPS where the Hashtopolis Docker container is running.</p>
+<p>Next, go to the Public Hostnames tab and add your subdomain plus domain name. Choose the <strong>HTTP</strong> service type and set it to forward to <strong>localhost on port 8080</strong>, which is where your Hashtopolis Docker container is running.</p>
+<figure class="post-image">
+    <img loading="lazy" src="/hash_cracking/4.png"/> 
+</figure>
+
+<p>With this setup, the Cloudflare Tunnel should be up and running as intended. You can test it by navigating to your subdomain in a browser, where you should see the following:</p>
+<figure class="post-image">
+    <img loading="lazy" src="/hash_cracking/5.png"/> 
+</figure>
+
+<p>Seeing the &ldquo;Forbidden&rdquo; page is exactly what we want - it means our access policy is working. If you modify the request to include the special HTTP headers (<code>CF-Access-Client-Id</code> and <code>CF-Access-Client-Secret</code>), the tunnel authenticates you and lets you reach the Hashtopolis login form. This confirms that only requests with valid service tokens can access the server.</p>
+<figure class="post-image">
+    <img loading="lazy" src="/hash_cracking/6.png"/> 
+</figure>
+
+<h3 id="customizing-the-hashtopolis-agent-for-secure-headers">Customizing the Hashtopolis Agent for Secure Headers<a hidden class="anchor" aria-hidden="true" href="#customizing-the-hashtopolis-agent-for-secure-headers">#</a></h3>
+<p>Now that the Cloudflare Tunnel is configured and verified working, we needed to adapt the Hashtopolis Python agent to support custom HTTP headers. This change allows the Vast.ai agents to include the required <code>CF-Access-Client-Id</code> and <code>CF-Access-Client-Secret</code> headers when communicating with our Hashtopolis server through the Cloudflare Tunnel, ensuring secure and authenticated connections.</p>
+<p>To meet this requirement, I forked the <a href="https://github.com/hashtopolis/agent-python">original Hashtopolis Python agent</a> and modified it to support custom HTTP headers. I didn’t want to hardcode the Cloudflare-specific headers (<code>CF-Access-Client-Id</code> and <code>CF-Access-Client-Secret</code>), since other users might use different names or services. Instead, I implemented a <strong>command-line argument</strong> that allows users to define multiple custom HTTP headers. These headers are then automatically included in <strong>all outgoing requests</strong> from the agent, ensuring compatibility with secured endpoints like the one behind our Cloudflare Tunnel.</p>
+<p>As a result, a <a href="https://github.com/BrunoTeixeira1996/agent-python">new version of the Hashtopolis Python agent was created</a></p>
+<h3 id="publishing-a-custom-docker-image">Publishing a Custom Docker Image<a hidden class="anchor" aria-hidden="true" href="#publishing-a-custom-docker-image">#</a></h3>
+<p>In Vast.ai, we can create instances based on Docker containers. In the initial setup, I used <a href="https://github.com/Milz0/hashtopolis-hashcat-vast">this image</a>, which includes the original Hashtopolis Python agent. However, since I needed support for custom HTTP headers, I decided not to use that version anymore. Instead, I created a <strong>new Docker image</strong> that uses my modified agent. You can find it here on Docker Hub: <a href="https://hub.docker.com/repository/docker/brunoteixeira1996/hashtopolis-hashcat-vast/general">https://hub.docker.com/repository/docker/brunoteixeira1996/hashtopolis-hashcat-vast/general</a>. This image is ready to run on Vast.ai and fully supports secure communication with the Hashtopolis server via Cloudflare Tunnel.</p>
+<h3 id="deploying-scalable-agents-on-vastai">Deploying Scalable Agents on Vast.ai<a hidden class="anchor" aria-hidden="true" href="#deploying-scalable-agents-on-vastai">#</a></h3>
+<p>To create a Vast.ai instance using our modified Hashtopolis agent, go to the <strong>Templates</strong> section and click <strong>New</strong>. Choose a name for your template, and in the <strong>Image Path</strong>, enter <code>brunoteixeira1996/hashtopolis-hashcat-vast:latest</code>. Set the <strong>Version Tag</strong> to <code>latest</code>.</p>
+<p>For the <strong>Launch Mode</strong>, select <strong>Interactive shell server, SSH</strong>, which gives you control over the container once it starts.</p>
+<p>Then, in the <strong>On-start script</strong>, enter the following to launch the agent with the required HTTP headers and connect it to your Hashtopolis server securely:</p>
+<pre tabindex="0"><code>cd htpclient
+python3 hashtopolis.zip --url  https://&lt;YOUR DOMAIN&gt;/api/server.php --voucher &lt;YOUR VOUCHER&gt; --http-headers &#39;CF-Access-Client-Id: REDACTED, CF-Access-Client-Secret: REDACTED&#39;
+</code></pre><h3 id="starting-the-crack">Starting the crack<a hidden class="anchor" aria-hidden="true" href="#starting-the-crack">#</a></h3>
+<p>Now that everything is set up, it’s time to start the cracking process.<br>
+<strong>Note:</strong> This blog post won’t cover how to upload wordlists or use Hashtopolis in depth, as it assumes you’re already familiar with those basics.</p>
+<p>First, access your Hashtopolis server (you can SSH tunnel your VPS to access it locally via <code>localhost</code>). Then, navigate to <strong>Lists &gt; New Hashlist</strong>. Here, enter a name for your hashlist, select the appropriate hash type, and upload your hashes.</p>
+<figure class="post-image">
+    <img loading="lazy" src="/hash_cracking/7.png"/> 
+</figure>
+
+<p>Next, head over to <strong>Tasks &gt; New Task</strong>. Enter a name for your task, select the hashlist you just created, and choose a dictionary (wordlist) of your choice to use for cracking.</p>
+<figure class="post-image">
+    <img loading="lazy" src="/hash_cracking/8.png"/> 
+</figure>
+
+<p>Now, navigate to <strong>Vast.ai &gt; Instances</strong> and select from your available options. For this example, we’ll choose three RTX 4090 instances to maximize cracking power.</p>
+<figure class="post-image">
+    <img loading="lazy" src="/hash_cracking/9.png"/> 
+</figure>
+
+<p>The startup and initialization process may take a few minutes—expect to wait at least 5 minutes. After that, check the <strong>Instances</strong> menu to confirm that all three instances are marked as ready to use.</p>
+<figure class="post-image">
+    <img loading="lazy" src="/hash_cracking/10.png"/> 
+</figure>
+
+<p>Next, go to your Hashtopolis dashboard and navigate to <strong>Agents &gt; Show Agents</strong>. You should see all three agents listed and waiting to be assigned a task.</p>
+<figure class="post-image">
+    <img loading="lazy" src="/hash_cracking/11.png"/> 
+</figure>
+
+<p>Select all agents, enable <strong>Trust agent with secret data</strong>, and assign them to the task you created earlier.</p>
+<p>After a few minutes, you should see that the task has successfully completed and all the hashes have been cracked.</p>
+<figure class="post-image">
+    <img loading="lazy" src="/hash_cracking/12.png"/> 
+</figure>
+
+<p>Once the task is complete, you no longer need the Vast.ai instances. Simply go to the Vast.ai console and manually delete the instances to avoid unnecessary charges.</p>
+<figure class="post-image">
+    <img loading="lazy" src="/hash_cracking/13.png"/> 
+</figure>
+
+<p><strong>Also don&rsquo;t forget to remove the agents in the Hashtopolis server.</strong></p>
+<h2 id="conclusion">Conclusion<a hidden class="anchor" aria-hidden="true" href="#conclusion">#</a></h2>
+<p>In this post, we walked through the evolution of a cost-effective and secure distributed cracking setup using Hashtopolis, Vast.ai, and Cloudflare Tunnel.</p>
+<p>Starting from a simple but insecure public-facing deployment, we improved the architecture by introducing service token-based authentication and custom HTTP headers to lock down access. By adapting the Hashtopolis Python agent and containerizing it for Vast.ai, we achieved a scalable system where agents can be spun up on demand — all while keeping the Hashtopolis server protected behind a Cloudflare Zero Trust tunnel.</p>
+<p>This approach not only reduces cost by avoiding idle GPU hardware but also improves flexibility and security, making it a solid foundation for similar distributed cracking or compute-heavy workloads.</p>
+<p>That said, this entire process is currently manual: to start a new cracking job, you need to log into Vast.ai, rent a few instances, then create and assign tasks in Hashtopolis before kicking off the attack. However, this setup can be fully automated. For example, you could build a bot - like a Telegram bot - that receives a hash file, creates the corresponding task in Hashtopolis, provisions Vast.ai instances with predefined parameters, and launches the attack. This is just one example of the powerful automation opportunities enabled by this architecture.</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/red-teaming/">Red Teaming</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2025 <a href="http://localhost:1313/">Bruno Blog</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

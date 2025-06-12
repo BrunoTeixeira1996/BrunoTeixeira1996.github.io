@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>Automating My UPS | Bruno Blog</title>
+<meta name="keywords" content="Homelab">
+<meta name="description" content="Index
+
+Introduction
+Why
+Nut
+Prometheus Nut exporter
+Alert Manager
+NutGMonitor
+Conclusion
+
+Introduction
+In an era where every second of downtime can have serious repercussions, maintaining a reliable power supply for your essential devices is crucial. Automating your UPS management not only enhances reliability but also optimizes battery usage during unexpected outages. In this post, we’ll delve into how to automate your UPS using the NUT (Network UPS Tools) framework alongside a custom Go program. This approach not only streamlines power management but also ensures your UPS batteries are used efficiently during limited power situations, safeguarding your equipment when it matters most.">
+<meta name="author" content="">
+<link rel="canonical" href="http://localhost:1313/posts/2024-10-29-automating-my-ups/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.8fe10233a706bc87f2e08b3cf97b8bd4c0a80f10675a143675d59212121037c0.css" integrity="sha256-j&#43;ECM6cGvIfy4Is8&#43;XuL1MCoDxBnWhQ2ddWSEhIQN8A=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/2024-10-29-automating-my-ups/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="Bruno Blog (Alt + H)">Bruno Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://localhost:1313/posts/" title="Posts">
+                    <span>Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/about/" title="About">
+                    <span>About</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      Automating My UPS
+    </h1>
+    <div class="post-meta"><span title='2024-10-29 00:00:00 +0000 UTC'>October 29, 2024</span>&nbsp;·&nbsp;6 min
+
+</div>
+  </header> 
+  <div class="post-content"><h2 id="index">Index<a hidden class="anchor" aria-hidden="true" href="#index">#</a></h2>
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#why">Why</a></li>
+<li><a href="#nut">Nut</a></li>
+<li><a href="#prometheus-nut-exporter">Prometheus Nut exporter</a></li>
+<li><a href="#alert-manager">Alert Manager</a></li>
+<li><a href="#nutgmonitor">NutGMonitor</a></li>
+<li><a href="#conclusion">Conclusion</a></li>
+</ul>
+<h2 id="introduction">Introduction<a hidden class="anchor" aria-hidden="true" href="#introduction">#</a></h2>
+<p>In an era where every second of downtime can have serious repercussions, maintaining a reliable power supply for your essential devices is crucial. Automating your UPS management not only enhances reliability but also optimizes battery usage during unexpected outages. In this post, we’ll delve into how to automate your UPS using the NUT (Network UPS Tools) framework alongside a custom Go program. This approach not only streamlines power management but also ensures your UPS batteries are used efficiently during limited power situations, safeguarding your equipment when it matters most.</p>
+<p>The current UPS I am using is a <a href="https://www.niloxtech.com/datasheet/nxgcli12001x7v2">Nilox UPS PREMIUM LINE</a>.</p>
+<h2 id="why">Why<a hidden class="anchor" aria-hidden="true" href="#why">#</a></h2>
+<p>So, why not dive into this project? Building systems like these is not only enjoyable, but it also allows me to explore a variety of technologies and fields that I&rsquo;m less familiar with, ultimately broadening my knowledge and research horizons. Moreover, commercial UPS systems with automatic shutdown capabilities can be quite costly. By combining an affordable UPS with some programming skills, we can create a smart UPS solution that provides valuable insights into our home’s power usage and ensures a safe shutdown of connected devices, even when I&rsquo;m not around.</p>
+<h2 id="nut">Nut<a hidden class="anchor" aria-hidden="true" href="#nut">#</a></h2>
+<p>To work with the UPS I am using the <a href="https://networkupstools.org/">Nut</a> (Network UPS Tools), running it in a <a href="https://github.com/instantlinux/docker-tools/tree/main/images/nut-upsd">Docker container</a>.</p>
+<p>I first found what was my <code>VENDORID</code> by using <code>docker run --rm --entrypoint /bin/ls instantlinux/nut-upsd /usr/lib/nut</code></p>
+<pre tabindex="0"><code>[nutdev1]
+  driver = &#34;nutdrv_qx&#34;
+    port = &#34;auto&#34;
+    vendorid = &#34;0665&#34;
+    productid = &#34;5161&#34;
+    product = &#34;USB to Serial&#34;
+    vendor = &#34;INNO TECH&#34;
+    bus = &#34;001&#34;
+</code></pre><p>With this in mind, I&rsquo;ve followed the README.md from the github repo and configured the <code>Dockerfile</code> as shown below:</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span>FROM alpine:3.20
+</span></span><span style="display:flex;"><span>MAINTAINER Rich Braun &#34;docker@instantlinux.net&#34;
+</span></span><span style="display:flex;"><span>ARG BUILD_DATE
+</span></span><span style="display:flex;"><span>ARG VCS_REF
+</span></span><span style="display:flex;"><span>LABEL org.label-schema.build-date=$BUILD_DATE \
+</span></span><span style="display:flex;"><span>    org.label-schema.license=GPL-2.0 \
+</span></span><span style="display:flex;"><span>    org.label-schema.name=nut-upsd \
+</span></span><span style="display:flex;"><span>    org.label-schema.vcs-ref=$VCS_REF \
+</span></span><span style="display:flex;"><span>    org.label-schema.vcs-url=https://github.com/instantlinux/docker-tools
+</span></span><span style="display:flex;"><span>ARG NUT_VERSION=2.8.2-r0
+</span></span><span style="display:flex;"><span>ENV API_USER=upsmon \
+</span></span><span style="display:flex;"><span>    API_PASSWORD=CHANGETHIS \
+</span></span><span style="display:flex;"><span>    DESCRIPTION=UPS_Brun0x \
+</span></span><span style="display:flex;"><span>    DRIVER=nutdrv_qx \
+</span></span><span style="display:flex;"><span>    GROUP=nut \
+</span></span><span style="display:flex;"><span>    MAXAGE=15 \
+</span></span><span style="display:flex;"><span>    NAME=ups \
+</span></span><span style="display:flex;"><span>    POLLINTERVAL= \
+</span></span><span style="display:flex;"><span>    PORT=auto \
+</span></span><span style="display:flex;"><span>    SDORDER= \
+</span></span><span style="display:flex;"><span>    SECRET=CHANGETHIS \
+</span></span><span style="display:flex;"><span>    SERIAL= \
+</span></span><span style="display:flex;"><span>    SERVER=master \
+</span></span><span style="display:flex;"><span>    USER=nut \
+</span></span><span style="display:flex;"><span>    VENDORID=0665
+</span></span><span style="display:flex;"><span>HEALTHCHECK CMD upsc $NAME@localhost:3493 2&gt;&amp;1|grep -q stale &amp;&amp; \
+</span></span><span style="display:flex;"><span>    kill -SIGTERM -1 || true
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>RUN echo &#39;@edge http://dl-cdn.alpinelinux.org/alpine/edge/community&#39; \
+</span></span><span style="display:flex;"><span>      &gt;&gt;/etc/apk/repositories &amp;&amp; \
+</span></span><span style="display:flex;"><span>    echo &#39;@edgemain http://dl-cdn.alpinelinux.org/alpine/edge/main&#39; \
+</span></span><span style="display:flex;"><span>      &gt;&gt;/etc/apk/repositories &amp;&amp; \
+</span></span><span style="display:flex;"><span>    apk add --no-cache dash@edgemain &amp;&amp; \
+</span></span><span style="display:flex;"><span>    apk add --update --no-cache nut@edge=$NUT_VERSION \
+</span></span><span style="display:flex;"><span>      busybox@edgemain linux-pam@edgemain \
+</span></span><span style="display:flex;"><span>      libcrypto3@edgemain libssl3@edgemain \
+</span></span><span style="display:flex;"><span>      libusb musl net-snmp-libs util-linux
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>RUN apk add --no-cache tzdata
+</span></span><span style="display:flex;"><span>ENV TZ=Europe/Lisbon
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>EXPOSE 3493
+</span></span><span style="display:flex;"><span>COPY entrypoint.sh /usr/local/bin/
+</span></span><span style="display:flex;"><span>ENTRYPOINT /usr/local/bin/entrypoint.sh
+</span></span></code></pre></div><p>To be able to grab logs from ups I had to edit the <code>entrypoint.sh</code> and add the following line:</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/usr/bin/upslog -u <span style="color:#268bd2">$USER</span> -s ups -i <span style="color:#2aa198">2</span> -l /var/log/upslog.txt -f <span style="color:#2aa198">&#34;%TIME @Y-@m-@d @H:@M:@S% %VAR battery.charge% %VAR input.voltage% %VAR ups.load% [%VAR ups.status%]&#34;</span>
+</span></span></code></pre></div><p>Then I created a <code>docker-compose.yml</code> as shown below:</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#268bd2">services</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#268bd2">nut-upsd</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#268bd2">build</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#268bd2">context</span>: .
+</span></span><span style="display:flex;"><span>    <span style="color:#268bd2">container_name</span>: nut-upsd-new-brun0
+</span></span><span style="display:flex;"><span>    <span style="color:#268bd2">environment</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#2aa198">&#34;API_USER=upsmon&#34;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#2aa198">&#34;API_PASSWORD=CHANGETHIS&#34;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#2aa198">&#34;DESCRIPTION=UPS_Brun0x&#34;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#2aa198">&#34;DRIVER=nutdrv_qx&#34;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#2aa198">&#34;GROUP=nut&#34;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#2aa198">&#34;NAME=ups&#34;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#2aa198">&#34;PORT=auto&#34;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#2aa198">&#34;SECRET=CHANGETHIS&#34;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#2aa198">&#34;USER=nut&#34;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#2aa198">&#34;VENDORID=0665&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#268bd2">privileged</span>: <span style="color:#cb4b16">true</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#268bd2">restart</span>: always
+</span></span><span style="display:flex;"><span>    <span style="color:#268bd2">ports</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#2aa198">3493</span>:<span style="color:#2aa198">3493</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#268bd2">volumes</span>:
+</span></span><span style="display:flex;"><span>      - /home/brun0/nut/nut/upslog.txt:/var/log/upslog.txt
+</span></span></code></pre></div><p>After completing these steps, I successfully created the Docker container:</p>
+<ul>
+<li>Starting
+<ul>
+<li><code>docker compose up -d --build --force-recreate</code></li>
+</ul>
+</li>
+<li>View logs
+<ul>
+<li><code>docker compose logs -f</code></li>
+</ul>
+</li>
+<li>Stoping
+<ul>
+<li><code>docker compose down</code></li>
+</ul>
+</li>
+</ul>
+<figure class="post-image">
+    <img loading="lazy" src="/ups/nut-docker-logs.png"/> 
+</figure>
+
+<h2 id="prometheus-nut-exporter">Prometheus Nut exporter<a hidden class="anchor" aria-hidden="true" href="#prometheus-nut-exporter">#</a></h2>
+<p>To view the UPS logs more effectively, I utilized the <a href="https://github.com/HON95/prometheus-nut-exporter">Prometheus exporter for NUT</a> with the following <code>docker-compose.yml</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#268bd2">services</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#268bd2">nut-exporter</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#586e75"># Stable v1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#268bd2">image</span>: hon95/prometheus-nut-exporter:1
+</span></span><span style="display:flex;"><span>    <span style="color:#268bd2">environment</span>:
+</span></span><span style="display:flex;"><span>      - TZ=Europe/Lisbon
+</span></span><span style="display:flex;"><span>      - HTTP_PATH=/metrics
+</span></span><span style="display:flex;"><span>    <span style="color:#268bd2">restart</span>: always
+</span></span><span style="display:flex;"><span>    <span style="color:#268bd2">ports</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#2aa198">&#34;9995:9995/tcp&#34;</span>
+</span></span></code></pre></div><figure class="post-image">
+    <img loading="lazy" src="/ups/nut-prometheus.png"/> 
+</figure>
+
+<h2 id="alertmanager">AlertManager<a hidden class="anchor" aria-hidden="true" href="#alertmanager">#</a></h2>
+<p>The alerting aspect is crucial, as I want to receive notifications during power outages and keep a record of those alerts. Since I was already using Prometheus for other projects, I decided to implement a new rule in Prometheus Alertmanager to monitor the UPS status and alert me in case of power loss.</p>
+<p>For this I created a ruled (<code>ups.rules.yml</code>) in <code>/etc/prometheus</code> with the following:</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#268bd2">groups</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#268bd2">name</span>: ups-alerts
+</span></span><span style="display:flex;"><span>    <span style="color:#268bd2">rules</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#268bd2">alert</span>: UPSStatusCritical
+</span></span><span style="display:flex;"><span>        <span style="color:#268bd2">expr</span>: nut_status{ups=&#34;ups&#34;} == 2
+</span></span><span style="display:flex;"><span>        <span style="color:#268bd2">for</span>: 3m
+</span></span><span style="display:flex;"><span>        <span style="color:#268bd2">labels</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#268bd2">severity</span>: critical
+</span></span><span style="display:flex;"><span>        <span style="color:#268bd2">annotations</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#268bd2">summary</span>: <span style="color:#2aa198">&#34;UPS status is critical and its running on battery&#34;</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#268bd2">description</span>: <span style="color:#2aa198">&#34;The UPS status is currently critical (status = 2).&#34;</span>
+</span></span></code></pre></div><p>This rule will monitor the NUT Prometheus exporter statistics page and trigger an alert in Prometheus if the <code>nut_status</code> equals 2 (indicating a power loss).</p>
+<p>Then added the rule to the <code>prometheus.yml</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#586e75"># Load rules once and periodically evaluate them according to the global &#39;evaluation_interval&#39;.</span>
+</span></span><span style="display:flex;"><span><span style="color:#268bd2">rule_files</span>:
+</span></span><span style="display:flex;"><span>   - <span style="color:#2aa198">&#34;ups.rules.yml&#34;</span>
+</span></span></code></pre></div><p>And finaly configured Alertmanager to make a web call to <code>NutGMonitor</code> (running on 192.168.30.13:9999) whenever a new alert is triggered (explained in the next section):</p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#268bd2">route</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#268bd2">group_by</span>: [<span style="color:#2aa198">&#39;ups-alerts&#39;</span>]
+</span></span><span style="display:flex;"><span>  <span style="color:#268bd2">receiver</span>: <span style="color:#2aa198">&#39;webhook&#39;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#268bd2">group_wait</span>: 30s
+</span></span><span style="display:flex;"><span>  <span style="color:#268bd2">group_interval</span>: 1m
+</span></span><span style="display:flex;"><span>  <span style="color:#268bd2">repeat_interval</span>: 1m
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#268bd2">receivers</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#268bd2">name</span>: <span style="color:#2aa198">&#39;webhook&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#268bd2">webhook_configs</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#268bd2">url</span>: <span style="color:#2aa198">&#39;http://192.168.30.13:9999/alertmanager&#39;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#268bd2">send_resolved</span>: <span style="color:#cb4b16">true</span>
+</span></span></code></pre></div><h2 id="nutgmonitor">NutGMonitor<a hidden class="anchor" aria-hidden="true" href="#nutgmonitor">#</a></h2>
+<p>Following the initial setup of the UPS, the goal is to continuously monitor its performance and automatically shut down connected devices when needed.</p>
+<p><a href="https://github.com/BrunoTeixeira1996/NutGMonitor/">NutGMonitor</a> is a Go program designed to perform specific actions on the UPS whenever an event occurs.</p>
+<p>When the UPS stops receiving power, it triggers a warning to the Prometheus Alert Manager after 2 minutes. The Alert Manager then forwards this information to NutGMonitor.</p>
+<p>If the power loss continues for approximately 5 minutes, NutGMonitor initiates the shutdown of devices connected to the UPS.</p>
+<p>The power-off mechanism used in NutGMonitor is customized for the target system. For example, when working with a Linux machine, I create an <code>off</code> bash script containing <code>halt -f -f -p</code>. I then generate an SSH key for connecting from the NutGMonitor instance to the target. To restrict access, I add this key to the target&rsquo;s <code>authorized_keys</code> with the options <code>no-pty,no-X11-forwarding,command=&quot;sudo /root/off&quot;</code>, ensuring it can only execute the off script.</p>
+<p>Once all targets are powered down, NutGMonitor makes sure to shutdown itself, effectively disconnecting it from the UPS.</p>
+<p>NutGMonitor also accounts for brief power losses followed by quick restorations that can occur before the 2-minute threshold is reached, potentially preventing Alertmanager from receiving updates. To tackle this issue, I monitor these power off/on events using upslog within the NUT Docker container, as shown previously.</p>
+<h2 id="conclusion">Conclusion<a hidden class="anchor" aria-hidden="true" href="#conclusion">#</a></h2>
+<p>I&rsquo;ve set up a reliable system that keeps me safe during unexpected power outages (it works for me :)), even when I&rsquo;m away from home. With the integration of a Prometheus exporter, I can monitor my UPS in real-time, allowing me to define new metrics and visualize them whenever I want.</p>
+<p>While I can safely shut down all devices when I&rsquo;m at home, I can&rsquo;t always be there when the power goes out. That&rsquo;s where NutGMonitor comes in; it helps me manage and gracefully shut down every device connected to my UPS. This not only eases my mind during outages but also protects my equipment from potential damage caused by abrupt shutdowns. Overall, this setup gives me peace of mind, knowing that I’m prepared for any power interruptions, whether I&rsquo;m home or away.</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/homelab/">Homelab</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2025 <a href="http://localhost:1313/">Bruno Blog</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

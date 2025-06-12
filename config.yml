@@ -2,7 +2,8 @@ baseURL: http://example.org/
 languageCode: en-us
 title: Bruno Blog
 theme: PaperMod
-paginate: 5
+pagination:
+  pagerSize: 5
 
 params:
   disableReadOtherPosts: false
@@ -10,7 +11,15 @@ params:
   showPostNavLinks: true
   assets:
     disableHLJS: true
-  
+
+outputs:
+  home:
+    - HTML
+    - RSS
+    - JSON # necessary for search
+
+Params:
+  ShowReadingTime: true
 
 
 menu:
@@ -23,6 +32,9 @@ menu:
       name : Tags
       url: /tags/
       weight: 20
+    - name: Search
+      url: /search/
+      weight: 25
     - name: About
       url: /about/
       weight: 30
