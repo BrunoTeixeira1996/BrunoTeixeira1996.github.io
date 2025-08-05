@@ -3,18 +3,24 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>http://localhost:1313/</loc>
-    <lastmod>2025-06-12T00:00:00+00:00</lastmod>
+    <lastmod>2025-08-05T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/2025-06-12-hash-cracking-in-the-cloud/</loc>
-    <lastmod>2025-06-12T00:00:00+00:00</lastmod>
+    <loc>http://localhost:1313/posts/2025-08-05-frontend-lies-backend-spies/</loc>
+    <lastmod>2025-08-05T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/posts/</loc>
-    <lastmod>2025-06-12T00:00:00+00:00</lastmod>
+    <lastmod>2025-08-05T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/red-teaming/</loc>
-    <lastmod>2025-06-12T00:00:00+00:00</lastmod>
+    <lastmod>2025-08-05T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/</loc>
+    <lastmod>2025-08-05T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/2025-07-18-redteaming-ep2e3/</loc>
+    <lastmod>2025-07-18T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/2025-06-12-hash-cracking-in-the-cloud/</loc>
     <lastmod>2025-06-12T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/posts/2024-10-29-automating-my-ups/</loc>
