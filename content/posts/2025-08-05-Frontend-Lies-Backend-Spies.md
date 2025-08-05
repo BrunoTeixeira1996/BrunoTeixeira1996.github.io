@@ -255,7 +255,7 @@ sudo nginx -t
 Create a symlink to enable the configuration:
 
 ```bash
-sudo ln -s /etc/nginx/sites-available/recipes.conf /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/travel.conf /etc/nginx/sites-enabled/
 ```
 
 Restart the Nginx service:
