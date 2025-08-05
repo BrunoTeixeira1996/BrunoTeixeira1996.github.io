@@ -16,10 +16,10 @@ In this post, we’ll walk through a possible architecture for setting up a C2 r
 
 ## Architecture
 
-{{< figure src="/c2redirector/normal-user.svg" class="post-image" >}}
+{{< figure src="/c2redirector/normaluser.png" class="post-image" >}}
 
 
-{{< figure src="/c2redirector/infected-user.svg" class="post-image" >}}
+{{< figure src="/c2redirector/infecteduser.png" class="post-image" >}}
 
 
 The flow is quite straightforward. An infected user with the Mythic agent on their machine sends a request to Server 1 using a specific path and a particular User-Agent. Server 1 receives the request, and Nginx checks that it is coming from the Mythic agent, so it redirects the request to Server 2. Server 2 then receives the request, Nginx verifies it again as coming from the Mythic agent, and redirects it to the HTTP profile that is in listening mode inside the Mythic Docker container.
@@ -144,7 +144,7 @@ For payload hosting, the specific path `/assets/fonts/montserrat.ttf` appears to
 
 All traffic is automatically redirected to HTTPS, maintaining a legitimate appearance while encrypting all C2 traffic flowing through the infrastructure.
 
-#### Server 1  {The Face}
+#### Server 1  - The Face
 
 After creating the SSL certificates, it’s time to deploy the decoy website.
 
@@ -265,7 +265,7 @@ sudo systemctl restart nginx
 ```
 
 
-#### Server 2 {The Whisperer}
+#### Server 2 - The Whisperer
 
 Typically, you would use a registered domain to obtain a trusted SSL certificate for Nginx. However, to keep things simple for this setup, we won’t be using a domain right now. Since no domains will be pointing to this server, we’ll create a self-signed SSL certificate to enable HTTPS.
 
