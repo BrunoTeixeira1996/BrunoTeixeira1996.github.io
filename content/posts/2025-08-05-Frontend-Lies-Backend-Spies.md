@@ -162,7 +162,7 @@ This will build the website, set the correct ownership, and apply proper permiss
 
 Next, we need to edit the Nginx configuration file responsible for implementing the rules we described above.
 
-````bash
+```bash
 root@localhost:/etc/nginx/sites-available# cat travel.conf
 # Redirect HTTP to HTTPS
 server {
