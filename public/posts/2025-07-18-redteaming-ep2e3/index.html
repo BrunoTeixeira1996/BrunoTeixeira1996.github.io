@@ -6,7 +6,7 @@
   <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Replace Proxmox Server | Bruno Blog</title>
+    <title>Red Teaming EP2 and 3: C2 and Smishing Simulation &#43; C2 and Usb Implant | Bruno Blog</title>
 
     
   
@@ -14,45 +14,45 @@
   
 
 
-<link rel="canonical" href="http://localhost:1313/posts/2024-08-26-replace-proxmox-server/" />
+<link rel="canonical" href="http://localhost:1313/posts/2025-07-18-redteaming-ep2e3/" />
 
 
 
 <meta name="author" content="" />
-<meta name="description" content="Introduction During college, I used ESXi to host some virtual machines (VMs). After graduating, I transitioned to Proxmox , using the same server—an old HP Z620.
-I was really pleased with that setup. It had everything I needed: VMs for my pentesting lab, LXC containers for personal projects, and a fully functional backup solution.
-The problem However, the server started failing, and by that, I mean it would shut down for no apparent reason. I tried troubleshooting everything, but the server would only run for a day before shutting down again, until eventually, it wouldn&rsquo;t boot at all.
+<meta name="description" content="These are the final pieces on red team engagements that I wrote during my time at ArtResilia. Here, we cover smishing simulations and USB implants.
+Second article - In this article, we talk about C2 and Smishing Simulation — the focus is on the execution of a smishing campaign.
+Third article - In this article, we talk about C2 and USB Implant — the focus is on deploying and using a USB implant.
 " />
 
 
-<meta name="keywords" content="Homelab">
+<meta name="keywords" content="Red Teaming">
 
 
 
 <meta name="generator" content="Hugo 0.147.0">
 
 
-<meta property="og:url" content="http://localhost:1313/posts/2024-08-26-replace-proxmox-server/">
+<meta property="og:url" content="http://localhost:1313/posts/2025-07-18-redteaming-ep2e3/">
   <meta property="og:site_name" content="Bruno Blog">
-  <meta property="og:title" content="Replace Proxmox Server">
-  <meta property="og:description" content="Introduction During college, I used ESXi to host some virtual machines (VMs). After graduating, I transitioned to Proxmox , using the same server—an old HP Z620.
-I was really pleased with that setup. It had everything I needed: VMs for my pentesting lab, LXC containers for personal projects, and a fully functional backup solution.
-The problem However, the server started failing, and by that, I mean it would shut down for no apparent reason. I tried troubleshooting everything, but the server would only run for a day before shutting down again, until eventually, it wouldn’t boot at all.">
+  <meta property="og:title" content="Red Teaming EP2 and 3: C2 and Smishing Simulation &#43; C2 and Usb Implant">
+  <meta property="og:description" content="These are the final pieces on red team engagements that I wrote during my time at ArtResilia. Here, we cover smishing simulations and USB implants.
+Second article - In this article, we talk about C2 and Smishing Simulation — the focus is on the execution of a smishing campaign.
+Third article - In this article, we talk about C2 and USB Implant — the focus is on deploying and using a USB implant.">
   <meta property="og:locale" content="en">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
-    <meta property="article:published_time" content="2024-08-26T00:00:00+00:00">
-    <meta property="article:modified_time" content="2024-08-26T00:00:00+00:00">
-    <meta property="article:tag" content="Homelab">
+    <meta property="article:published_time" content="2025-07-18T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-07-18T00:00:00+00:00">
+    <meta property="article:tag" content="Red Teaming">
 
 
 
 
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Replace Proxmox Server">
-  <meta name="twitter:description" content="Introduction During college, I used ESXi to host some virtual machines (VMs). After graduating, I transitioned to Proxmox , using the same server—an old HP Z620.
-I was really pleased with that setup. It had everything I needed: VMs for my pentesting lab, LXC containers for personal projects, and a fully functional backup solution.
-The problem However, the server started failing, and by that, I mean it would shut down for no apparent reason. I tried troubleshooting everything, but the server would only run for a day before shutting down again, until eventually, it wouldn’t boot at all.">
+  <meta name="twitter:title" content="Red Teaming EP2 and 3: C2 and Smishing Simulation &#43; C2 and Usb Implant">
+  <meta name="twitter:description" content="These are the final pieces on red team engagements that I wrote during my time at ArtResilia. Here, we cover smishing simulations and USB implants.
+Second article - In this article, we talk about C2 and Smishing Simulation — the focus is on the execution of a smishing campaign.
+Third article - In this article, we talk about C2 and USB Implant — the focus is on deploying and using a USB implant.">
 
 
 
@@ -267,28 +267,28 @@ The problem However, the server started failing, and by that, I mean it would sh
   <div class="lg:col-span-2">
     <article class="mx-auto prose prose-quoteless dark:prose-invert" id="dream-single-post-main" itemscope itemtype="http://schema.org/Article">
       
-  <meta itemprop="name" content="Replace Proxmox Server">
-  <meta itemprop="description" content="Introduction During college, I used ESXi to host some virtual machines (VMs). After graduating, I transitioned to Proxmox , using the same server—an old HP Z620.
-I was really pleased with that setup. It had everything I needed: VMs for my pentesting lab, LXC containers for personal projects, and a fully functional backup solution.
-The problem However, the server started failing, and by that, I mean it would shut down for no apparent reason. I tried troubleshooting everything, but the server would only run for a day before shutting down again, until eventually, it wouldn’t boot at all.">
-  <meta itemprop="datePublished" content="2024-08-26T00:00:00+00:00">
-  <meta itemprop="dateModified" content="2024-08-26T00:00:00+00:00">
-  <meta itemprop="wordCount" content="889">
-  <meta itemprop="keywords" content="Homelab">
+  <meta itemprop="name" content="Red Teaming EP2 and 3: C2 and Smishing Simulation &#43; C2 and Usb Implant">
+  <meta itemprop="description" content="These are the final pieces on red team engagements that I wrote during my time at ArtResilia. Here, we cover smishing simulations and USB implants.
+Second article - In this article, we talk about C2 and Smishing Simulation — the focus is on the execution of a smishing campaign.
+Third article - In this article, we talk about C2 and USB Implant — the focus is on deploying and using a USB implant.">
+  <meta itemprop="datePublished" content="2025-07-18T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-07-18T00:00:00+00:00">
+  <meta itemprop="wordCount" content="73">
+  <meta itemprop="keywords" content="Red Teaming">
 
       <header>
-        <h1 itemprop="headline">Replace Proxmox Server</h1>
+        <h1 itemprop="headline">Red Teaming EP2 and 3: C2 and Smishing Simulation &#43; C2 and Usb Implant</h1>
         <p class="text-sm">
           
-            Monday, Aug 26, 2024
+            Friday, Jul 18, 2025
           
 
-          | <span>5 minute read</span>
+          | <span>1 minute read</span>
 
           
           | <span>Updated at
             
-              Monday, Aug 26, 2024
+              Friday, Jul 18, 2025
             </span>
           
         </p>
@@ -307,19 +307,19 @@ The problem However, the server started failing, and by that, I mean it would sh
   
   
     <a class="group inline-flex items-center p-2 rounded-full cursor-pointer hover:bg-primary"
-      href="https://x.com/intent/post?text=Replace%20Proxmox%20Server&amp;url=http://localhost:1313/posts/2024-08-26-replace-proxmox-server/" target="_blank" rel="noopener noreferrer"
+      href="https://x.com/intent/post?text=Red%20Teaming%20EP2%20and%203:%20C2%20and%20Smishing%20Simulation%20&#43;%20C2%20and%20Usb%20Implant&amp;url=http://localhost:1313/posts/2025-07-18-redteaming-ep2e3/" target="_blank" rel="noopener noreferrer"
       title="Share on X">
       <ion-icon class="group-hover:text-primary-content" name="logo-x"></ion-icon>
     </a>
   
     <a class="group inline-flex items-center p-2 rounded-full cursor-pointer hover:bg-primary"
-      href="https://facebook.com/sharer/sharer.php?u=http://localhost:1313/posts/2024-08-26-replace-proxmox-server/" target="_blank" rel="noopener noreferrer"
+      href="https://facebook.com/sharer/sharer.php?u=http://localhost:1313/posts/2025-07-18-redteaming-ep2e3/" target="_blank" rel="noopener noreferrer"
       title="Share on Facebook">
       <ion-icon class="group-hover:text-primary-content" name="logo-facebook"></ion-icon>
     </a>
   
     <a class="group inline-flex items-center p-2 rounded-full cursor-pointer hover:bg-primary"
-      href="https://wa.me/?text=Replace%20Proxmox%20Server%20http://localhost:1313/posts/2024-08-26-replace-proxmox-server/" target="_blank" rel="noopener noreferrer"
+      href="https://wa.me/?text=Red%20Teaming%20EP2%20and%203:%20C2%20and%20Smishing%20Simulation%20&#43;%20C2%20and%20Usb%20Implant%20http://localhost:1313/posts/2025-07-18-redteaming-ep2e3/" target="_blank" rel="noopener noreferrer"
       title="Share on WhatsApp">
       <ion-icon class="group-hover:text-primary-content" name="logo-whatsapp"></ion-icon>
     </a>
@@ -335,105 +335,11 @@ The problem However, the server started failing, and by that, I mean it would sh
       <section id="dream-single-post-content" itemprop="articleBody">
         
 
-        <h2 id="introduction">Introduction</h2>
-<p>During college, I used <a href="https://brunoteixeira1996.github.io/posts/2021-07-22-my-esxi-server/" target="_blank">ESXi</a>
- to host some virtual machines (VMs). After graduating, I transitioned to <a href="https://brunoteixeira1996.github.io/posts/2023-04-28-migrating-to-proxmox/" target="_blank">Proxmox</a>
-, using the same server—an old HP Z620.</p>
-<p>I was really pleased with that setup. It had everything I needed: VMs for my pentesting lab, LXC containers for personal projects, and a fully functional backup solution.</p>
-<h2 id="the-problem">The problem</h2>
-<p>However, the server started failing, and by that, I mean it would shut down for no apparent reason. I tried troubleshooting everything, but the server would only run for a day before shutting down again, until eventually, it wouldn&rsquo;t boot at all.</p>
-<p>Given this situation, I started scratching my head, trying to think of possible solutions. I concluded that the best approach would be to sell the hardware and buy a new server for my Proxmox setup.</p>
-<p>Note: It turned out that the problem was with the power supply. However, replacing the power supply would cost over 400 euros for a refurbished one, which isn&rsquo;t worth it for a server that&rsquo;s about 14 years old.</p>
-<h2 id="new-server">New server</h2>
-<p>After searching for a few weeks, I found some interesting mini computers, like the <a href="https://psref.lenovo.com/syspool/Sys/PDF/ThinkCentre/ThinkCentre_M90q_Gen_4/ThinkCentre_M90q_Gen_4_Spec.pdf" target="_blank">ThinkCentre M90q Gen 4</a>
-.</p>
-<p>I came across an online vendor offering a great deal, plus a 4-year warranty, which was even better.</p>
-<p>After purchasing the new server, I planned the additional hardware I would need to create a setup similar to or even better than the one I had with the HP Z620. I decided to buy 16 GB of RAM and a 1 TB NVMe SSD.</p>
-<p>With these upgrades, the full server specifications are as follows:</p>
-<table>
-  <thead>
-      <tr>
-          <th>Hardware</th>
-          <th>Spec</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>CPU</td>
-          <td>20 x 13th Gen Intel(R) Core(TM) i5-13500T</td>
-      </tr>
-      <tr>
-          <td>RAM</td>
-          <td>2 x 16GB DDR5 5600MHz Fury Impact CL40 SO-DIMM</td>
-      </tr>
-      <tr>
-          <td>STORAGE</td>
-          <td>1 TB 3D M.2 NVMe 2280 (3500/3000MB/s) + 250 GB M.2 NVMe</td>
-      </tr>
-      <tr>
-          <td>GPU</td>
-          <td>Onboard</td>
-      </tr>
-  </tbody>
-</table>
-<p>I planned to use the 1 TB NVMe SSD for my VMs, as they require the most storage (specifically, Windows Server and Windows Pro). The 250 GB drive is where Proxmox is installed.</p>
-<p>In addition to this, I also have a 2 TB external hard drive connected via USB. This drive helps reduce the size of my LXC containers and VMs by storing their larger files. It also serves as a backup destination, so it needs to be accessible via LAN.</p>
-<h2 id="proxmox-configuration">Proxmox configuration</h2>
-<p>Previously, I had chosen the ZFS file system to work with Proxmox. However, this time I decided to use LVM (the default) to compare both setups, and so far, I am satisfied with using LVM.</p>
-<p>After installing the Proxmox OS on the 250 GB NVMe, I added the 1 TB NVMe as shown in the image below. Note that I configured it as an LVM Thin Pool to only occupy actual used space rather than the entire disk. This way, the storage size can grow over time as needed.</p>
-<figure class="post-image"><img src="/replace_proxmox/newdisk.png">
-</figure>
-
-<p>Then, I added the 2 TB external hard drive by mounting it as an additional disk.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ mkdir /mnt/pve/external <span style="color:#75715e"># Create a folder to mount the external hard drive</span>
-</span></span><span style="display:flex;"><span>$ ls -l /dev/disk/by-uuid/* <span style="color:#75715e"># Find disk (external hard drive) by uuid</span>
-</span></span><span style="display:flex;"><span>$ echo <span style="color:#e6db74">&#34;/dev/disk/by-uuid/&lt;uuid&gt; /mnt/pve/external ext4 defaults 0&#34;</span> &gt;&gt; /etc/fstab <span style="color:#75715e"># Write the external hard drive uuid to fstab</span>
-</span></span><span style="display:flex;"><span>$ mount -a <span style="color:#75715e"># Update fstab</span>
-</span></span><span style="display:flex;"><span>$ systemctl daemon-reload <span style="color:#75715e"># Reload systemctl daemon</span>
-</span></span><span style="display:flex;"><span>$ lsblk <span style="color:#75715e"># Verify the mapping</span>
-</span></span></code></pre></div><p>After completing all the configurations, I added the external hard drive as storage in Proxmox, as shown below.</p>
-<figure class="post-image"><img src="/replace_proxmox/externalstorage.png">
-</figure>
-
-<p>The current storage configuration is as follows:</p>
-<ul>
-<li>crucal (pve)
-<ul>
-<li>Storage for VMs</li>
-</ul>
-</li>
-<li>external (pve)
-<ul>
-<li>Storage for backups + misc stuff + ISOs</li>
-</ul>
-</li>
-<li>local (pve)
-<ul>
-<li>Proxmox OS</li>
-</ul>
-</li>
-<li>local-lvm (pve)
-<ul>
-<li>Storage for LXC</li>
-</ul>
-</li>
-</ul>
-<figure class="post-image"><img src="/replace_proxmox/storageconfig.png">
-</figure>
-
-<h2 id="troubleshooting">Troubleshooting</h2>
-<p>When creating LXC containers, I like to set everything up so I don&rsquo;t need to rely on the Proxmox GUI, which is why I always set up SSH keys.</p>
-<p>However, LXCs can be tricky because if you create an unprivileged container, some utilities don’t work well. Additionally, using SSH in an LXC that doesn&rsquo;t have nesting enabled can be very slow. I&rsquo;ve found on some forums that this issue is related to DNS problems.</p>
-<p>To fix this, I create a privileged LXC without nesting and then go to Proxmox and run the command <code>pct set &lt;container id&gt; -features nesting=1</code>. This completely resolves the SSH behavior issues.</p>
-<h2 id="restoring">Restoring</h2>
-<p>The restore process for the LXC went smoothly. I created a new LXC container and used <code>rsync</code> to transfer the backup configuration files, which worked perfectly.</p>
-<p>The situation with the VMs were different, as I hadn&rsquo;t been backing them up due to limited space in my previous setup.</p>
-<p>This experience made me realize that I need to revise my approach with the new setup to better prepare for scenarios similar to those I encountered with the old server.</p>
-<h2 id="future">Future</h2>
-<p>With these considerations in mind, I started developing a new backup plan—one that is more robust yet cost-effective.</p>
-<p>In the next blog post, I&rsquo;ll explain my thought process and outline my new approach for a refined backup mechanism. This new system will back up everything and ensure easy restoration, all while maintaining a reasonable amount of space on a new machine (spoiler alert:)).</p>
-<p>Yes, I plan to use a pre-built NAS with affordable, compact components to back up everything I consider important. This will include a new version of the <a href="https://github.com/BrunoTeixeira1996/gbackup" target="_blank">gbackup</a>
- utility and a new, efficient computer that will serve as the NAS.</p>
+        <p>These are the final pieces on red team engagements that I wrote during my time at ArtResilia. Here, we cover smishing simulations and USB implants.</p>
+<p><a href="https://www.artresilia.com/red-teaming-ep2-c2-and-smishing-simulation/" target="_blank">Second article</a>
+ - In this article, we talk about C2 and Smishing Simulation — the focus is on the execution of a smishing campaign.</p>
+<p><a href="https://www.artresilia.com/red-teaming-ep3-c2-and-usb-implant/" target="_blank">Third article</a>
+ - In this article, we talk about C2 and USB Implant — the focus is on deploying and using a USB implant.</p>
 
 
         
@@ -443,20 +349,20 @@ The problem However, the server started failing, and by that, I mean it would sh
       <div class="divider"></div>
       <div class="flex flex-col md:flex-row justify-between gap-4 py-4">
         
-        <a role="button" class="btn btn-outline h-12" href="/posts/2024-10-08-my-custom-nas/" title="My Custom NAS">
+        <a role="button" class="btn btn-outline h-12" href="/posts/2025-08-05-frontend-lies-backend-spies/" title="Frontend Lies Backend Spies - C2 Redirector">
           <ion-icon name="chevron-back"></ion-icon>
           <div class="inline-flex flex-col items-start">
             <span class="text-base-content/60 text-xs font-normal">Previous page</span>
-            <span class="max-w-48 truncate">My Custom NAS</span>
+            <span class="max-w-48 truncate">Frontend Lies Backend Spies - C2 Redirector</span>
           </div>
         </a>
         
 
         
-        <a role="button" class="btn btn-outline h-12" href="/posts/2024-06-30-spying-on-my-dog-without-sd-card/" title="Spying on my dog without a SD Card">
+        <a role="button" class="btn btn-outline h-12" href="/posts/2025-06-12-hash-cracking-in-the-cloud/" title="Hash Cracking in The Cloud">
           <div class="inline-flex flex-col items-end">
             <span class="text-base-content/60 text-xs font-normal">Next page</span>
-            <span class="max-w-48 truncate">Spying on my dog without a SD Card</span>
+            <span class="max-w-48 truncate">Hash Cracking in The Cloud</span>
           </div>
           <ion-icon name="chevron-forward"></ion-icon>
         </a>
@@ -474,17 +380,7 @@ The problem However, the server started failing, and by that, I mean it would sh
     class="hidden lg:flex lg:flex-col lg:items-end"
   >
     
-      <nav id="TableOfContents">
-  <ul>
-    <li><a href="#introduction">Introduction</a></li>
-    <li><a href="#the-problem">The problem</a></li>
-    <li><a href="#new-server">New server</a></li>
-    <li><a href="#proxmox-configuration">Proxmox configuration</a></li>
-    <li><a href="#troubleshooting">Troubleshooting</a></li>
-    <li><a href="#restoring">Restoring</a></li>
-    <li><a href="#future">Future</a></li>
-  </ul>
-</nav>
+      <nav id="TableOfContents"></nav>
     
   </div>
 </div>

