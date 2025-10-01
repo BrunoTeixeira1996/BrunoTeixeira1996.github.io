@@ -6,10 +6,17 @@
     <description>Recent content on Bruno Blog</description>
     <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 05 Aug 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 01 Oct 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Frontend Lies Backend Spies</title>
+      <title>0xOPOSEC Summer Challenge 2025</title>
+      <link>http://localhost:1313/posts/2025-10-01-0xoposec/</link>
+      <pubDate>Wed, 01 Oct 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/2025-10-01-0xoposec/</guid>
+      <description>&lt;p&gt;&amp;ldquo;Based in Porto, the 0xOPOSEC group was started by g33ks who are passionate about security. The meetup primary mission is to discuss and tackle upsurging security issues by leveraging the expertise and know-how of members of the group.&amp;rdquo;&lt;/p&gt;&#xA;&lt;h2 id=&#34;misc&#34;&gt;Misc&lt;/h2&gt;&#xA;&lt;h3 id=&#34;a-delicious-mess&#34;&gt;A Delicious Mess&lt;/h3&gt;&#xA;&lt;figure class=&#34;post-image&#34;&gt;&lt;img src=&#34;http://localhost:1313/oposec_2025/delicious.png&#34;&gt;&#xA;&lt;/figure&gt;&#xA;&#xA;&lt;p&gt;I downloaded the image and decided to throw it into binwalk to see if it had anything hidden. Good call, because binwalk revealed there was another image tucked inside the original one.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Frontend Lies Backend Spies - C2 Redirector</title>
       <link>http://localhost:1313/posts/2025-08-05-frontend-lies-backend-spies/</link>
       <pubDate>Tue, 05 Aug 2025 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/2025-08-05-frontend-lies-backend-spies/</guid>
