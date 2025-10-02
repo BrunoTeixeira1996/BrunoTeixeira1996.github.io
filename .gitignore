@@ -12,10 +12,7 @@ _site
 tsconfig.json
 jsconfig.json
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 9c01eb5268b5f2debfb498dba87478137857c7a5
 # Created by https://www.toptal.com/developers/gitignore/api/hugo
 # Edit at https://www.toptal.com/developers/gitignore?templates=hugo
 
@@ -33,9 +30,3 @@ hugo.linux
 
 # Temporary lock file while building
 /.hugo_build.lock
-
-<<<<<<< HEAD
-# End of https://www.toptal.com/developers/gitignore/api/hugo
-=======
-# End of https://www.toptal.com/developers/gitignore/api/hugo
->>>>>>> 9c01eb5268b5f2debfb498dba87478137857c7a5
