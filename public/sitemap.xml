@@ -59,6 +59,9 @@
     <loc>http://localhost:1313/posts/2023-05-26-tinygo-in-microcontrollers/</loc>
     <lastmod>2023-05-26T00:00:00+00:00</lastmod>
   </url><url>
+    <loc>http://localhost:1313/about/</loc>
+    <lastmod>2023-04-28T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>http://localhost:1313/posts/2023-04-28-migrating-to-proxmox/</loc>
     <lastmod>2023-04-28T00:00:00+00:00</lastmod>
   </url><url>
@@ -82,8 +85,6 @@
   </url><url>
     <loc>http://localhost:1313/posts/2018-08-21-0xoposec/</loc>
     <lastmod>2018-08-21T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/search/</loc>
   </url><url>
     <loc>http://localhost:1313/categories/</loc>
   </url>

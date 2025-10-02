@@ -1,7 +1,8 @@
 ---
-date: 2023-04-28T16:02:39+01:00
-draft: false
-layout: about
+title: "About"
+date: 2023-04-28
+bold: true
+notitle: true
 ---
 
 # About me
@@ -28,9 +29,8 @@ _My name is Bruno Teixeira and I am an Offensive Cyber Security Analyst. Focused
 - IT & Programming @ [EISnt, High School](https://eisnt.com/)
 
 
-## Work Experience as a Trainee
+## Socials
 
-
-- IT and Network department @ [ISLA Gaia](https://www.islagaia.pt/pt/)
-- Hardware & Software Maintenance @ [Assistência 35 LDA](http://assistencia35.com/)
-- Hardware Maintenance @ [DOTcenter](https://www.lojasehorarios.com.pt/dotcenter-informatica-soc-unip-lda/porto/c-58637a1332cff589d8187aa3)
+- [GitHub](https://github.com/BrunoTeixeira1996)
+- [Twitter](https://x.com/zebisnaga3)
+- [LinkedIn](https://www.linkedin.com/in/bruno-teixeira-1553b4a1/)

@@ -1,7 +1,8 @@
 ---
 title: "Hash Cracking in The Cloud"
 date: 2025-06-12
-draft: false
+toc: true
+next: true
 tags:
   - Red Teaming
 ---
@@ -38,8 +39,9 @@ To add an extra layer of protection, we configured the tunnel to require **two c
 
 ## Hands-On: Building the Secure Hashtopolis Cloud Setup
 
->[!NOTE]
->This guide does not cover detailed Hashtopolis installation steps. It assumes you already have a running and functional Hashtopolis server ready to go.
+{{<  box info  >}}
+This guide does not cover detailed Hashtopolis installation steps. It assumes you already have a running and functional Hashtopolis server ready to go.
+{{<  /box  >}}
 
 
 **To put our second - and more secure - plan into action, we needed to go through a few setup steps.** 
@@ -169,8 +171,8 @@ python3 hashtopolis.zip --url  https://<YOUR DOMAIN>/api/server.php --voucher <Y
 
 Now that everything is set up, it’s time to start the cracking process.
 
->[!NOTE]
->This blog post won’t cover how to upload wordlists or use Hashtopolis in depth, as it assumes you’re already familiar with those basics.
+{{<  box info  >}}
+This blog post won’t cover how to upload wordlists or use Hashtopolis in depth, as it assumes you’re already familiar {{<  /box  >}}
 
 First, access your Hashtopolis server (you can SSH tunnel your VPS to access it locally via `localhost`). Then, navigate to **Lists > New Hashlist**. Here, enter a name for your hashlist, select the appropriate hash type, and upload your hashes.
 

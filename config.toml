@@ -1,28 +1,43 @@
-baseurl = "https://example.com"
-defaultContentLanguage = "en"
+baseURL = "https://example.com"
 languageCode = "en"
 title = "Bruno Blog"
-theme = "dream"
+defaultContentLanguage = "en"
+
+[module]
+  [[module.imports]]
+    path = "github.com/barklan/hugo-dead-simple"
 
 [params]
-zenMode = true
-avatar = "favicon.ico"
-headerTitle = "Bruno Blog"
-lightTheme = "emerald"
-darkTheme = "forest"
-email = "brunoalexandre3@hotmail.com"
-siteStartYear = 2018
-favicon = "favicon.ico"
-flip = false
-stickyNav = true
-noDefaultSummaryCover = true
-showTableOfContents = true
-imageZoomableInPost = true
-showPrevNextPost = true
+  author = "Bruno Teixeira"
+  description = "My personal blog"
+  email = "brunoalexandre3@hotmail.com"
 
+[menu]
 
+  [[menu.main]]
+    name = "<u>H</u>ome"
+    url = "/"
+    weight = 1
+
+  [[menu.main]]
+    name = "<u>T</u>ags"
+    url = "/tags"
+    weight = 2
+
+  [[menu.main]]
+    name = "<u>A</u>bout"
+    url = "/about"
+    weight = 3
 
 [markup]
   [markup.goldmark]
     [markup.goldmark.renderer]
       unsafe = true
+
+enableGitInfo = true
+
+[markup.highlight]
+  codeFences = true
+  style = "monokai"
+  lineNumbersInTable = false
+  noClasses = false #copy does not work with true

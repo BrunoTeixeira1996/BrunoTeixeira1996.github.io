@@ -1,8 +1,8 @@
 ---
 title: "Red Teaming EP2 and 3: C2 and Smishing Simulation + C2 and Usb Implant"
 date: 2025-07-18
-draft: false
 toc: true
+next: true
 tags:
   - Red Teaming
 ---

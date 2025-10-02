@@ -1,7 +1,8 @@
 ---
 title: "How I Perform Backups"
 date: 2024-04-12
-draft: false
+toc: true
+next: true
 tags:
   - Homelab
 ---

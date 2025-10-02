@@ -1,8 +1,8 @@
 ---
 title: "Migrating from ESXi to Proxmox"
 date: 2023-04-28
-draft: false
 toc: true
+next: true
 tags:
   - Homelab
 ---

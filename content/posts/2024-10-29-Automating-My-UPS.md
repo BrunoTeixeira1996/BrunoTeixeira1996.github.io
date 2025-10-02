@@ -1,7 +1,8 @@
 ---
 title: "Automating My UPS"
 date: 2024-10-29
-draft: false
+toc: true
+next: true
 tags:
   - Homelab
 ---

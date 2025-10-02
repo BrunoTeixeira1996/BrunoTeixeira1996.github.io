@@ -1,8 +1,8 @@
 ---
 title: "Frontend Lies Backend Spies - C2 Redirector"
 date: 2025-08-05
-draft: false
 toc: true
+next: true
 tags:
   - Red Teaming
 ---
@@ -11,8 +11,9 @@ tags:
 
 In this post, we’ll walk through a possible architecture for setting up a C2 redirector using Nginx to front and forward traffic to a Mythic C2 server. The goal is to create a stealthy, realistic-looking infrastructure that blends in with normal web traffic — making it harder for defenders to detect or block command-and-control activity. We’ll cover the use of decoy subdomains, SSL certificates, traffic redirection, and how to configure everything to work seamlessly together.
 
->[!NOTE]
->This post will not cover EDR evasion techniques, as the focus here is solely on building the infrastructure. Evasion strategies will be explored in future posts.
+{{<  box info  >}}
+This post will not cover EDR evasion techniques, as the focus here is solely on building the infrastructure. Evasion strategies will be explored in future posts.
+{{<  /box  >}}
 
 ## Architecture
 
@@ -364,9 +365,11 @@ In the Mythic web interface, we create a payload with the following settings:
 
 {{< figure src="/c2redirector/apollo.png" class="post-image" >}}
 
->[!NOTE]
->When configuring Nginx on Server 2, in the line where we use `proxy_pass https://127.0.0.1:7443/direct/download/92ca6c6b-f9b2-4ab4-8114-dce0936f3a0c;` the long string is the agent's ID.
-> You can find this ID in Mythic by navigating to `Payloads` -> `Actions` -> `View Payload Configuration`
+{{<  box info  >}}
+When configuring Nginx on Server 2, in the line where we use **proxy_pass https://127.0.0.1:7443/direct/download/92ca6c6b-f9b2-4ab4-8114-dce0936f3a0c;** the long string is the agent's ID.
+
+You can find this ID in Mythic by navigating to **Payloads** -> **Actions** -> **View Payload Configuration**
+{{<  /box  >}}
 
 {{< figure src="/c2redirector/apollo2.png" class="post-image" >}}
 

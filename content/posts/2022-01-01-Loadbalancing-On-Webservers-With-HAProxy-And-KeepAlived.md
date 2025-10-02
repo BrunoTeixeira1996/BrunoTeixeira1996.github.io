@@ -1,7 +1,8 @@
 ---
 title: "Load Balancing On Webservers with HAProxy and KeepAlived"
 date: 2022-10-21
-draft: false
+toc: true
+next: true
 tags:
   - Homelab
 ---

@@ -1,7 +1,8 @@
 ---
 title: "My ESXi Server"
 date: 2021-08-21
-draft: false
+toc: true
+next: true
 tags:
   - Homelab
 ---

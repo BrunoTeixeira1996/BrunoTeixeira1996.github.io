@@ -1,7 +1,8 @@
 ---
 title: "My Custom NAS"
 date: 2024-10-08
-draft: false
+toc: true
+next: true
 tags:
   - Homelab
 ---

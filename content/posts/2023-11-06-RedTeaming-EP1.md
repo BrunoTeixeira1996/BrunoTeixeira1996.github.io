@@ -1,8 +1,8 @@
 ---
 title: "Red Teaming EP1: C2 and Phishing Simulation"
 date: 2023-11-06
-draft: false
 toc: true
+next: true
 tags:
   - Red Teaming
 ---

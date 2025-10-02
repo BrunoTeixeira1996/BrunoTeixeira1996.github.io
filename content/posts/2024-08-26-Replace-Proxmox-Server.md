@@ -1,7 +1,8 @@
 ---
 title: "Replace Proxmox Server"
 date: 2024-08-26
-draft: false
+toc: true
+next: true
 tags:
   - Homelab
 ---

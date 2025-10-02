@@ -1,7 +1,8 @@
 ---
 title: "TinyGo in Microcontrollers"
 date: 2023-05-26
-draft: false
+toc: true
+next: true
 tags:
   - Golang
 ---
