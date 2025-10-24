@@ -40,4 +40,4 @@ enableGitInfo = true
   codeFences = true
   style = "monokai"
   lineNumbersInTable = false
-  noClasses = false #copy does not work with true
+  noClasses = true
